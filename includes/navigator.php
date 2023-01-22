@@ -2,15 +2,16 @@
   <!-- nav -->
   <nav class="nav-container ">
     <ul class="nav-links text-uppercase">
-      <li><a class="nav-current" href="#">Home</a></li>
-      <li><a href="#">Consultation</a></li>
+      <li><a class="<?php echo $home ?>" href="<?php echo $path ?>homepage/index.php">Home</a></li>
+      <li><a class="<?php echo $consultation ?>"
+          href="<?php echo $path ?>homepage/consultation/consultation.php">Consultation</a></li>
       <li>
-        <a href="#">RND<span class="text-initial">s</span></a>
+        <a class="<?php echo $rnds ?>" href="#">RND<span class="text-initial">s</span></a>
       </li>
-      <li><a href="#">Tools</a></li>
-      <li><a href="#">FAQ</a></li>
-      <li><a href="#">About us</a></li>
-      <li><a href="#">Contact us</a></li>
+      <li><a class="<?php echo $tools ?>" href="#">Tools</a></li>
+      <li><a class="<?php echo $faq ?>" href="#">FAQ</a></li>
+      <li><a class="<?php echo $about ?>" href="#">About us</a></li>
+      <li><a class="<?php echo $contact ?>" href="#">Contact us</a></li>
     </ul>
   </nav>
 

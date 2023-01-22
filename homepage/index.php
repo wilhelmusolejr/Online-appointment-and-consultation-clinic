@@ -7,6 +7,8 @@
 
     require_once '../tools/variables.php';
     $page_title = "Homepage";
+    $home = "nav-current";
+    $path = "../";
 
     require_once '../includes/starterOne.php';
 ?>
@@ -208,13 +210,13 @@
 
   <!-- FLOATERS -->
   <!-- MODAL -->
-  <div class="modal-login-reg overlay-black flex-center hiddens">
+  <div class="modal-login-reg overlay-black flex-center hidden">
 
     <!-- Floating model -->
     <div class="modal-container login-container sizing-secondary">
 
       <!-- login form -->
-      <div class="modal-form-parent login-form-parent flex-center hiddens">
+      <div class="modal-form-parent login-form-parent flex-center hidden">
         <div class="modal-form-container login-form-container sizing-main">
 
           <!-- HEADER -->

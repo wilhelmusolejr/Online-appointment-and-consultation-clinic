@@ -4,12 +4,15 @@
 const headerNavContainer = document.querySelector("header .navigator-parent");
 const modalLoginRegParent = document.querySelector(".modal-login-reg");
 
+console.log(headerNavContainer);
+console.log(modalLoginRegParent);
+
 // LOGIN AND REGISTER
 const loginContainer = document.querySelector(".login-form-parent");
 const registerContainer = document.querySelector(".register-form-parent");
 
 headerNavContainer.addEventListener("click", function (e) {
-  if (e.target.tagName == "A") {
+  if (e.target.closest(".nav-button")) {
     e.preventDefault();
   }
 
@@ -57,3 +60,5 @@ modalLoginRegParent.addEventListener("click", function (e) {
     registerContainer.classList.remove("hidden");
   }
 });
+
+console.log("test");

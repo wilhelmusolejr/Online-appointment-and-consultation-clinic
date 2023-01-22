@@ -1,10 +1,10 @@
 <?php
     $page_title = "";
-    $dashboard = "";
-    $application = "";
-    $screening = "";
-    $programs = "";
-    $students = "";
-    $faculty = "";
-    $settings = "";
+    $home = "";
+    $consultation = "";
+    $rnds = "";
+    $tools = "";
+    $faq = "";
+    $about = "";
+    $contact = "";
 ?>
