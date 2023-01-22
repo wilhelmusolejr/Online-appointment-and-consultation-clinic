@@ -1,0 +1,47 @@
+/* ---------------------*/
+/* hero main content header */
+main {
+  background-color: rgba(245, 245, 245, 0.7);
+
+  position: relative;
+}
+main .sizing-secondary {
+  width: 90%;
+  min-height: 75vh;
+
+  display: flex;
+  align-items: center;
+}
+
+main .sizing-secondary .main-text {
+  margin: auto;
+}
+
+.main-text p {
+  margin: 10px auto 40px auto;
+  width: 80%;
+  max-width: 700px;
+}
+
+.main-text h1 {
+  width: 95%;
+  margin: auto;
+}
+
+/* LAPTOP */
+@media (min-width: 768px) {
+  .main-text p {
+    margin: 20px auto 50px auto;
+    width: 80%;
+    max-width: 700px;
+  }
+}
+
+/* NAVIGATOR */
+/* MAIN HERO */
+@media (min-width: 1120px) {
+  /* hero main content header */
+  main {
+    background-color: transparent;
+  }
+}

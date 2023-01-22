@@ -207,7 +207,6 @@ main .sizing-secondary {
   }
   main .sizing-secondary {
     width: 85%;
-    min-height: 75vh;
   }
 
   main .sizing-secondary .main-text {

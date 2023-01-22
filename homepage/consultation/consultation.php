@@ -23,10 +23,34 @@
     <?php require_once $path.'includes/websitetag.php'; ?>
     <!-- navigator -->
     <?php require_once $path.'includes/navigator.php'; ?>
+
+    <main>
+      <div class="sizing-secondary">
+        <div class="main-text text-center">
+          <h1 class="text-uppercase">
+            Reach your RND<span class="text-initial">s</span> from anywhere
+          </h1>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat
+            quibusdam excepturi.
+          </p>
+          <a href="#" class="button button-primary">Book now!</a>
+        </div>
+      </div>
+
+    </main>
+
+
   </header>
+
+
 
   <!-- footer -->
   <?php require_once $path.'includes/footer.php'; ?>
+
+  <!-- FLOATERS -->
+  <!-- MODAL -->
+  <?php require_once $path.'includes/loginRegModal.php'; ?>
 
 </body>
 
