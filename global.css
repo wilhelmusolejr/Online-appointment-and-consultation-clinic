@@ -318,67 +318,6 @@ header .navigator-parent {
   position: fixed;
 }
 
-/* ---------------------*/
-/* hero main content header */
-main {
-  background-color: rgba(245, 245, 245, 0.7);
-
-  position: relative;
-}
-main .sizing-secondary {
-  width: 90%;
-  min-height: 75vh;
-
-  display: flex;
-  align-items: center;
-}
-
-.main-text p {
-  margin: 10px 0 40px 0;
-  width: 80%;
-}
-
-.main-image {
-  position: absolute;
-  inset: 0;
-
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-
-  z-index: -1;
-  overflow: hidden;
-}
-.main-image img {
-  height: 70vh;
-}
-
-/* --------------------------------------- */
-/* --------------------------------------- */
-/* DATA INFO */
-.data-info-parent {
-  min-height: 25vh;
-
-  background-color: var(--color-green-tertiary);
-  border-top: 10px solid var(--color-green-secondary);
-  border-bottom: 10px solid var(--color-green-secondary);
-
-  padding: 5vw 0;
-}
-
-.data-info-box {
-  width: 125px;
-  height: 125px;
-
-  background-color: var(--color-white-primary);
-
-  flex-direction: column;
-}
-.data-info-box h3 {
-  color: var(--color-green-primary);
-  font-size: 5rem;
-}
-
 /* --------------------------------------- */
 /* --------------------------------------- */
 /* Section */
@@ -397,85 +336,25 @@ section {
   margin: auto;
 }
 
-.quick-solution-step-container {
+/* --------------------------------------- */
+/* --------------------------------------- */
+/* GRID - 3 */
+.grid-container {
   flex-wrap: wrap;
   gap: 20px;
 }
-
-/* ---------------------*/
-/* quick box */
-.quick-step-box {
+.grid-box {
   background-color: var(--color-white-primary);
 
   width: 100%;
   max-width: 350px;
-  height: 100vw;
-  max-height: 300px;
-
-  flex-direction: column;
-  align-items: flex-start;
 
   box-shadow: 5px 5px 25px #1a1a1a20;
-}
-
-.quick-emoji {
-  background-color: aliceblue;
-  width: fit-content;
-
-  margin-bottom: 30px;
-}
-
-.quick-text h3 {
-  margin-bottom: 15px;
-}
-
-/* --------------------------------------- */
-/* Tool Banner */
-.tool-banner {
-  min-height: 50vh;
-  background: linear-gradient(
-      0deg,
-      rgba(27, 27, 27, 0.7),
-      rgba(27, 27, 27, 0.7)
-    ),
-    url(homepage/asset/2-2-2-3foodgroups_fruits_detailfeature.jpg);
-  background-size: cover;
-
-  padding: 50px 0;
-}
-
-.tool-banner .form-header {
-  padding: 30px 0;
-}
-
-.tool-banner-container {
-  max-width: 450px;
-
-  background-color: #f2fff6;
-  border: 2px solid #707070;
-}
-
-.tool-banner .form-group:last-of-type {
-  margin: 20px 0 100px 0;
-}
-.tool-banner > a {
-  margin-top: 50px;
 }
 
 /* --------------------------------------- */
 /* --------------------------------------- */
 /* List of RNDS */
-.list-rnd-box {
-  background-color: var(--color-white-primary);
-  border-radius: 10px;
-  padding: 20px;
-
-  width: 100%;
-  max-width: 350px;
-
-  box-shadow: 5px 5px 25px #1a1a1a20;
-}
-
 .list-rnd-image {
   padding: 20px 20px 0 20px;
   background-color: var(--color-white-secondary);
@@ -493,52 +372,6 @@ section {
 
 .list-rnd-parent > .button {
   margin-top: 50px;
-}
-
-/* --------------------------------------- */
-/* --------------------------------------- */
-/* Feedback */
-.feedback-parent {
-  background-image: radial-gradient(circle, #73927f, #436550);
-
-  flex-direction: column;
-}
-
-.feedback-parent .section-header-parent {
-  color: white;
-}
-
-.feedback-container {
-  display: flex;
-}
-
-.feedback-box {
-  border-radius: 10px;
-  background-color: var(--color-white-secondary);
-
-  width: 100%;
-  max-width: 350px;
-}
-
-.feedback-image {
-  width: 100%;
-  border-radius: 10px;
-  background-color: var(--color-green-secondary);
-}
-.feedback-image img {
-  max-width: 80%;
-}
-
-.feedback-info {
-  padding: 20px;
-}
-.feedback-info h3.feedback-name {
-  font-size: 2.4rem;
-  font-weight: 700;
-  padding-bottom: 10px;
-}
-.feedback-info p.feedback-message {
-  font-size: clamp(1.5rem, 5vw, 1.8rem);
 }
 
 /* --------------------------------------- */
@@ -788,26 +621,12 @@ footer .nav-links {
 
 /* MEDIA QUERIES */
 
-.register-container .login-form-parent {
-  /* order: 2; */
-}
-.register-container .login-image {
-  /* order: 1; */
-}
-
 /* TABLET */
 @media (min-width: 576px) {
 }
 
 /* LAPTOP */
 @media (min-width: 768px) {
-  /* --------------------------------------- */
-  /* DATA INFO */
-  .data-info-box {
-    width: 175px;
-    height: 175px;
-  }
-
   /* --------------------------------------- */
   /* Section */
   section {
@@ -820,33 +639,20 @@ footer .nav-links {
   }
 
   /* --------------------------------------- */
-  /* Feedback */
-  .feedback-parent {
-    padding: 5vw 0;
-  }
-  .feedback-parent .section-header-parent {
-    padding-bottom: 3vw;
-  }
-  .feedback-parent .section-header-parent h2 {
-    width: 100%;
-    max-width: initial;
-  }
-
-  .feedback-box {
-    display: flex;
-    align-items: center;
-
-    width: 100%;
-    max-width: 800px;
-  }
-
-  /* --------------------------------------- */
   /* login */
   .modal-container {
     flex-direction: initial;
   }
   .modal-container.sizing-secondary {
     width: 90%;
+  }
+
+  /* register */
+  .modal-image {
+    order: 1;
+  }
+  .register-form-parent {
+    order: 2;
   }
 }
 
@@ -886,54 +692,6 @@ footer .nav-links {
 
   .nav-burger {
     display: none;
-  }
-
-  /* hero main content header */
-  main {
-    background-color: transparent;
-  }
-  main .sizing-secondary {
-    width: 85%;
-    min-height: 75vh;
-  }
-
-  main .sizing-secondary .main-text {
-    flex: 1;
-  }
-
-  main .sizing-secondary .main-image {
-    align-self: flex-end;
-  }
-
-  .main-image {
-    position: initial;
-    inset: initial;
-
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-  }
-
-  /* DATA INFO */
-  .data-info-box {
-    width: 200px;
-    height: 200px;
-  }
-
-  .quick-solution-step-container {
-    flex-wrap: wrap;
-    gap: 50px;
-  }
-
-  /* ---------------------*/
-  /* quick box */
-  .quick-step-box {
-    width: initial;
-    max-width: initial;
-    height: 100vw;
-    max-height: 300px;
-
-    flex: 1;
   }
 
   /* ---------------------*/

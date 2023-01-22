@@ -9,7 +9,9 @@ const loginContainer = document.querySelector(".login-form-parent");
 const registerContainer = document.querySelector(".register-form-parent");
 
 headerNavContainer.addEventListener("click", function (e) {
-  e.preventDefault();
+  if (e.target.tagName == "A") {
+    e.preventDefault();
+  }
 
   // Open nav amd Close
   if (
@@ -37,7 +39,9 @@ headerNavContainer.addEventListener("click", function (e) {
 
 // LOGIN AND REGISTER
 modalLoginRegParent.addEventListener("click", function (e) {
-  e.preventDefault();
+  if (e.target.tagName == "A") {
+    e.preventDefault();
+  }
 
   // Close nav
   if (
@@ -45,5 +49,11 @@ modalLoginRegParent.addEventListener("click", function (e) {
     e.target.classList.contains("overlay-black")
   ) {
     this.classList.add("hidden");
+  }
+
+  // Open Register
+  if (e.target.textContent == "Sign up") {
+    loginContainer.classList.add("hidden");
+    registerContainer.classList.remove("hidden");
   }
 });

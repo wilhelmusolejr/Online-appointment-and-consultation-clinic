@@ -61,8 +61,8 @@
     <div class="section-header-parent text-center">
       <h2 class="text-capital">Quick solution for scheduling with <span class="text-initial">RNDs</span></h2>
     </div>
-    <div class="quick-solution-step-container flex-center">
-      <div class="quick-step-box flex-center card">
+    <div class="quick-solution-step-container flex-center grid-container">
+      <div class="quick-step-box flex-center grid-box card">
         <div class="quick-emoji card">
           <i class="fa-solid fa-globe"></i>
         </div>
@@ -72,7 +72,7 @@
         </div>
         <p class="hidden">1</p>
       </div>
-      <div class="quick-step-box flex-center card">
+      <div class="quick-step-box flex-center grid-box card">
         <div class="quick-emoji card">
           <i class="fa-solid fa-globe"></i>
         </div>
@@ -82,7 +82,7 @@
         </div>
         <p class="hidden">1</p>
       </div>
-      <div class="quick-step-box flex-center card">
+      <div class="quick-step-box flex-center grid-box card">
         <div class="quick-emoji card">
           <i class="fa-solid fa-globe"></i>
         </div>
@@ -150,9 +150,9 @@
       <h2 class="text-capital">Meet our <span class="text-initial">RNDs</span></h2>
     </div>
 
-    <div class="list-rnd-container flex-center quick-solution-step-container">
+    <div class="list-rnd-container flex-center grid-container">
       <!-- 1 -->
-      <div class="list-rnd-box">
+      <div class="list-rnd-box grid-box card">
         <div class="list-rnd-image">
           <img src="../asset/doctor-bulk-billing-doctors-chapel-hill-health-care-medical-3.png" alt="">
         </div>
@@ -161,7 +161,7 @@
         </div>
       </div>
       <!-- 2 -->
-      <div class="list-rnd-box">
+      <div class="list-rnd-box grid-box card">
         <div class="list-rnd-image">
           <img src="../asset/doctor-bulk-billing-doctors-chapel-hill-health-care-medical-3.png" alt="">
         </div>
@@ -170,7 +170,7 @@
         </div>
       </div>
       <!-- 3 -->
-      <div class="list-rnd-box">
+      <div class="list-rnd-box grid-box card">
         <div class="list-rnd-image">
           <img src="../asset/doctor-bulk-billing-doctors-chapel-hill-health-care-medical-3.png" alt="">
         </div>
@@ -208,13 +208,13 @@
 
   <!-- FLOATERS -->
   <!-- MODAL -->
-  <div class="modal-login-reg overlay-black flex-center hidden">
+  <div class="modal-login-reg overlay-black flex-center hiddens">
 
     <!-- Floating model -->
     <div class="modal-container login-container sizing-secondary">
 
       <!-- login form -->
-      <div class="modal-form-parent login-form-parent flex-center hidden">
+      <div class="modal-form-parent login-form-parent flex-center hiddens">
         <div class="modal-form-container login-form-container sizing-main">
 
           <!-- HEADER -->
@@ -411,7 +411,7 @@
       </div>
 
       <!-- login image -->
-      <div class="modal-image login-image card">
+      <div class="modal-image card">
       </div>
 
       <!-- humburger menu -->
