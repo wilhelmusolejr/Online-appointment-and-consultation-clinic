@@ -28,6 +28,22 @@ main .sizing-secondary .main-text {
   margin: auto;
 }
 
+/* ---------------------*/
+/* ---------------------*/
+/* appointment */
+.appointment-parent {
+  background-color: black;
+
+  width: 100%;
+  min-height: 70vh;
+}
+.appointment-container {
+  border: 1px solid wheat;
+
+  height: 500px;
+}
+
+/* MEDIA QUERIES */
 /* LAPTOP */
 @media (min-width: 768px) {
   .main-text p {
