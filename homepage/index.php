@@ -21,9 +21,9 @@
   <!-- HEADER -->
   <header>
     <!-- website tag -->
-    <?php require_once '../includes/websitetag.php'; ?>
+    <?php require_once $path.'includes/websitetag.php'; ?>
     <!-- navigator -->
-    <?php require_once '../includes/navigator.php'; ?>
+    <?php require_once $path.'includes/navigator.php'; ?>
 
     <!-- main content hero header -->
     <main>

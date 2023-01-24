@@ -28,19 +28,180 @@ main .sizing-secondary .main-text {
   margin: auto;
 }
 
+section.appointment-parent {
+  background: linear-gradient(
+      0deg,
+      rgba(19, 42, 28, 0.7),
+      rgba(19, 42, 28, 0.7)
+    ),
+    url(../../asset/background-sample.jpg);
+
+  background-size: cover;
+}
 /* ---------------------*/
 /* ---------------------*/
 /* appointment */
-.appointment-parent {
-  background-color: black;
-
-  width: 100%;
-  min-height: 70vh;
-}
 .appointment-container {
-  border: 1px solid wheat;
+  background-color: white;
+  border: 1px solid black;
 
-  height: 500px;
+  position: relative;
+}
+
+/* step */
+.appointment-step {
+  margin: 30px 0;
+}
+
+.appointment-container .appointment-header h2 {
+  font-size: clamp(2.5rem, 7vw, 4rem);
+
+  margin: 60px 0;
+}
+
+.appointment-parent p {
+  font-size: 1.6rem;
+}
+
+.appointment-for {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  margin: 10px 0;
+}
+.appointment-for .option-container {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.appointment-container .option {
+  justify-content: flex-start;
+  gap: 7.5px;
+
+  border: 1px solid black;
+
+  width: 150px;
+  height: 50px;
+}
+.appointment-for label {
+  font-size: 1.6rem;
+}
+
+.appointment-parent .appointment-container form {
+}
+.appointment-container .form-group-input {
+  gap: 30px;
+}
+
+.appointment-board {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.appointment-board > div {
+  flex: 1;
+}
+
+.appointment-board .chief {
+  flex: 100%;
+}
+
+.two {
+  min-width: 45%;
+}
+
+.tabset > input[type="radio"] {
+  position: absolute;
+  left: -200vw;
+}
+
+.tabset .tab-panel {
+  display: none;
+
+  padding: 50px 10px;
+  margin: auto;
+}
+
+.tabset > input:first-child:checked ~ .tab-panels > .tab-panel:first-child,
+.tabset > input:nth-child(3):checked ~ .tab-panels > .tab-panel:nth-child(2),
+.tabset > input:nth-child(5):checked ~ .tab-panels > .tab-panel:nth-child(3),
+.tabset > input:nth-child(7):checked ~ .tab-panels > .tab-panel:nth-child(4),
+.tabset > input:nth-child(9):checked ~ .tab-panels > .tab-panel:nth-child(5),
+.tabset > input:nth-child(11):checked ~ .tab-panels > .tab-panel:nth-child(6) {
+  display: block;
+}
+
+/*
+ Styling
+*/
+.tabset > label {
+  position: relative;
+  display: inline-block;
+  padding: 15px 15px 25px;
+  border: 1px solid transparent;
+  border-bottom: 0;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.tabset > label::after {
+  content: "";
+  position: absolute;
+  left: 15px;
+  bottom: 10px;
+  width: 22px;
+  height: 4px;
+  background: #8d8d8d;
+}
+
+.tabset > label:hover,
+.tabset > input:focus + label {
+  color: #06c;
+}
+
+.tabset > label:hover::after,
+.tabset > input:focus + label::after,
+.tabset > input:checked + label::after {
+  background: #06c;
+}
+
+.tabset > input:checked + label {
+  border-color: #ccc;
+  border-bottom: 1px solid #fff;
+  margin-bottom: -1px;
+}
+
+.tab-panel {
+  padding: 30px 0;
+  border-top: 1px solid #ccc;
+}
+
+.appointment-buttons {
+  width: 90%;
+  margin: auto;
+
+  margin-bottom: 30px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/*
+ Demo purposes only
+*/
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+.tabset {
+  /* max-width: 65em; */
+  width: 90%;
+  margin: auto;
 }
 
 /* MEDIA QUERIES */
@@ -50,6 +211,10 @@ main .sizing-secondary .main-text {
     margin: 20px auto 50px auto;
     width: 80%;
     max-width: 700px;
+  }
+
+  .appointment-board {
+    flex-direction: inherit;
   }
 }
 

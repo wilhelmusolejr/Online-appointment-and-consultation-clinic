@@ -6,7 +6,7 @@
       <li><a class="<?php echo $consultation ?>"
           href="<?php echo $path ?>homepage/consultation/consultation.php">Consultation</a></li>
       <li>
-        <a class="<?php echo $rnds ?>" href="#">RND<span class="text-initial">s</span></a>
+        <a class="<?php echo $rnds ?>" href="https://www.youtube.com">RND<span class="text-initial">s</span></a>
       </li>
       <li><a class="<?php echo $tools ?>" href="#">Tools</a></li>
       <li><a class="<?php echo $faq ?>" href="#">FAQ</a></li>

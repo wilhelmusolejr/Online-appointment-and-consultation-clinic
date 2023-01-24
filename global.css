@@ -113,6 +113,10 @@ a.button {
   width: 100%;
   background-color: #58cb7a;
 }
+.button-disabled {
+  cursor: initial;
+  background-color: gray;
+}
 
 /* FORM */
 .form a,
