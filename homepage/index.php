@@ -183,7 +183,7 @@
       </div>
     </div>
 
-    <a href="#" class="button button-primary">See more</a>
+    <a href="rnds/rnds.php" class="button button-primary">See more</a>
   </section>
 
   <!-- SECTION - SLIDE -->

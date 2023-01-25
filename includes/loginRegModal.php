@@ -107,7 +107,7 @@
               <!-- gender -->
               <div class="gender-form form-input-box">
                 <label for="gender" class="text-capital">Gender <span>*</span></label>
-                <div class="gender-con flex-center">
+                <div class="gender-con radio-box flex-center">
                   <div>
                     <input type="radio" id="male" name="gender" value="Male">
                     <label for="male">Male</label>

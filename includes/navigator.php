@@ -6,12 +6,13 @@
       <li><a class="<?php echo $consultation ?>"
           href="<?php echo $path ?>homepage/consultation/consultation.php">Consultation</a></li>
       <li>
-        <a class="<?php echo $rnds ?>" href="https://www.youtube.com">RND<span class="text-initial">s</span></a>
+        <a class="<?php echo $rnds ?>" href="<?php echo $path ?>homepage/rnds/rnds.php">RND<span
+            class="text-initial">s</span></a>
       </li>
-      <li><a class="<?php echo $tools ?>" href="#">Tools</a></li>
+      <li><a class="<?php echo $tools ?>" href="<?php echo $path ?>homepage/tools/tools.php">Tools</a></li>
       <li><a class="<?php echo $faq ?>" href="#">FAQ</a></li>
       <li><a class="<?php echo $about ?>" href="#">About us</a></li>
-      <li><a class="<?php echo $contact ?>" href="#">Contact us</a></li>
+      <li><a class="<?php echo $contact ?>" href="<?php echo $path ?>homepage/contact/contact.php">Contact us</a></li>
     </ul>
   </nav>
 
