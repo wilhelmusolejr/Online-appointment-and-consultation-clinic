@@ -1,13 +1,20 @@
 /* ---------------------*/
 /* hero main content header */
 main {
-  background-color: rgba(187, 55, 55, 0.7);
+  background: linear-gradient(
+      0deg,
+      rgba(19, 42, 28, 0.7),
+      rgba(19, 42, 28, 0.7)
+    ),
+    url(../../asset/background-sample.jpg);
+  background-size: cover;
+  background-position: center;
 
   position: relative;
 }
 main .sizing-secondary {
   width: 90%;
-  min-height: 50vh;
+  min-height: 55vh;
 
   display: flex;
   align-items: center;
@@ -15,9 +22,11 @@ main .sizing-secondary {
 
 main .sizing-secondary .main-text {
   margin: auto;
+  color: var(--color-white-primary);
 }
 
 .main-text p {
+  color: var(--color-white-secondary);
   margin: 10px auto;
   width: 80%;
   max-width: 700px;
@@ -25,4 +34,42 @@ main .sizing-secondary .main-text {
 
 .main-text h1 {
   margin: auto;
+}
+
+/* section */
+section {
+  padding: 0;
+
+  position: relative;
+  top: -50px;
+}
+
+.grid-box {
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.grid-box .quick-emoji.card {
+  background-color: transparent;
+  padding: 0;
+}
+.grid-box .fa-light,
+.grid-box .fa-brands,
+.grid-box .fa-solid {
+  font-size: 8rem;
+  color: var(--color-green-secondary);
+}
+.grid-box .text-uppercase {
+  color: var(--color-green-tertiary);
+}
+.grid-box .text-left {
+  padding-top: 20px;
+
+  color: var(--color-green-secondary);
+}
+
+@media (min-width: 1120px) {
+  .quick-step-box {
+    max-height: 400px;
+  }
 }

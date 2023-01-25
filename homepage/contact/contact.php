@@ -12,8 +12,9 @@
 
     require_once $path.'includes/starterOne.php';
 ?>
+<link rel="stylesheet" href="../index.css" />
 <link rel="stylesheet" href="contact.css" />
-<script src="index.js" defer></script>
+<script src="../index.js" defer></script>
 <?php require_once $path.'includes/starterTwo.php'; ?>
 
 
@@ -38,9 +39,50 @@
       </div>
 
     </main>
+
   </header>
 
-
+  <!-- SECTION - Quick Solution -->
+  <section class="quick-solution-parent sizing-secondary">
+    <div class="quick-solution-step-container flex-center grid-container">
+      <!--  -->
+      <div class="quick-step-box flex-center grid-box card">
+        <div class="quick-emoji card">
+          <i class="fa-solid fa-location-pin"></i>
+        </div>
+        <div class="quick-text text-center">
+          <h3 class="text-uppercase">Location</h3>
+          <p>Department of Nutrition and Deitetics</p>
+          <p>College of Home Economics</p>
+          <p class="text-left">W376 + CGQ, Normal Road, Zamboanga City, 7000, Zamboanga Del Sur</p>
+        </div>
+        <p class="hidden">1</p>
+      </div>
+      <!--  -->
+      <div class="quick-step-box flex-center grid-box card">
+        <div class="quick-emoji card">
+          <i class="fa-solid fa-calendar-check"></i>
+        </div>
+        <div class="quick-text text-center">
+          <h3 class="text-uppercase">Appoint</h3>
+          <p>(62) 991 1771</p>
+          <p>wmsuchedean@gmail.com</p>
+        </div>
+        <p class="hidden">1</p>
+      </div>
+      <!--  -->
+      <div class="quick-step-box flex-center grid-box card">
+        <div class="quick-emoji card">
+          <i class="fa-brands fa-facebook-f"></i>
+        </div>
+        <div class="quick-text text-center">
+          <h3 class="text-uppercase">Appoint</h3>
+          <p>WMSU - College of Home Economics</p>
+        </div>
+        <p class="hidden">1</p>
+      </div>
+    </div>
+  </section>
 
   <!-- footer -->
   <?php require_once $path.'includes/footer.php'; ?>

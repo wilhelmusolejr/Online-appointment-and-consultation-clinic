@@ -37,6 +37,9 @@ html {
 .text-initial {
   text-transform: initial;
 }
+.text-left {
+  text-align: left;
+}
 .text-center {
   text-align: center;
 }
