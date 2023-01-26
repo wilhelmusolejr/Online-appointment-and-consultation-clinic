@@ -238,6 +238,7 @@ section.board-parent {
 /* TAB */
 .tabset {
   max-width: 1400px;
+  padding: 0 2%;
   margin: auto;
 }
 .tabset > input[type="radio"] {

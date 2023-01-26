@@ -125,13 +125,13 @@
           <!-- Tab -->
           <div class="tabset">
             <!-- Tab 1 -->
-            <input type="radio" name="tabset" id="tab1" aria-controls="marzen" checked>
+            <input type="radio" name="tabset" id="tab1" aria-controls="marzen">
             <label for="tab1">Consultation Information</label>
             <!-- Tab 2 -->
             <input type="radio" name="tabset" id="tab2" aria-controls="rauchbier">
             <label for="tab2">Food Information</label>
             <!-- Tab 3 -->
-            <input type="radio" name="tabset" id="tab3" aria-controls="dunkles">
+            <input type="radio" name="tabset" id="tab3" aria-controls="dunkles" checked>
             <label for="tab3">Physical Information</label>
 
             <div class="tab-panels">
@@ -240,65 +240,65 @@
                   <div class="form-input-parent">
                     <!-- Smoke -->
                     <div class="form-input-box form-radio-box">
-                      <p for="physical-activity" class="text-capital">How often do you smoke <span>*</span></p>
+                      <p>How often do you smoke <span>*</span></p>
                       <div class="gender-con radio-default">
                         <!-- Daily -->
                         <div>
-                          <input type="radio" id="smoke-daily" name="physical-activity" value="daily">
+                          <input type="radio" id="smoke-daily" name="smoke-level" value="smoke-daily">
                           <label for="smoke-daily">Daily</label>
                         </div>
                         <!-- Weekly -->
                         <div>
-                          <input type="radio" id="smoke-weekly" name="physical-activity" value="weekly">
+                          <input type="radio" id="smoke-weekly" name="smoke-level" value="smoke-weekly">
                           <label for="smoke-weekly">Weekly</label>
                         </div>
                         <!-- Monthly -->
                         <div>
-                          <input type="radio" id="smoke-monthly" name="physical-activity" value="monthly">
+                          <input type="radio" id="smoke-monthly" name="smoke-level" value="smoke-monthly">
                           <label for="smoke-monthly">Monthly</label>
                         </div>
                         <!-- Ocassionally -->
                         <div>
-                          <input type="radio" id="smoke-ocassionally" name="physical-activity" value="ocassionally">
+                          <input type="radio" id="smoke-ocassionally" name="smoke-level" value="smoke-ocassionally">
                           <label for="smoke-ocassionally">Ocassionally</label>
                         </div>
                         <!-- Never -->
                         <div>
-                          <input type="radio" id="smoke-never" name="physical-activity" value="never">
+                          <input type="radio" id="smoke-never" name="smoke-level" value="smoke-never">
                           <label for="smoke-never">Never</label>
                         </div>
                       </div>
                     </div>
                     <!-- Drink liquor -->
                     <div class="form-input-box form-radio-box">
-                      <p for="physical-activity" class="text-capital">How often do you drink liquor?
+                      <p>How often do you drink liquor?
                         <span>*</span>
                       </p>
                       <div class="gender-con radio-default">
                         <!-- Daily -->
                         <div>
-                          <input type="radio" id="smoke-daily" name="physical-activity" value="daily">
-                          <label for="smoke-daily">Daily</label>
+                          <input type="radio" id="drink-daily" name="drink-level" value="drink-daily">
+                          <label for="drink-daily">Daily</label>
                         </div>
                         <!-- Weekly -->
                         <div>
-                          <input type="radio" id="smoke-weekly" name="physical-activity" value="weekly">
-                          <label for="smoke-weekly">Weekly</label>
+                          <input type="radio" id="drink-weekly" name="drink-level" value="drink-weekly">
+                          <label for="drink-weekly">Weekly</label>
                         </div>
                         <!-- Monthly -->
                         <div>
-                          <input type="radio" id="smoke-monthly" name="physical-activity" value="monthly">
-                          <label for="smoke-monthly">Monthly</label>
+                          <input type="radio" id="drink-monthly" name="drink-level" value="drink-monthly">
+                          <label for="drink-monthly">Monthly</label>
                         </div>
                         <!-- Ocassionally -->
                         <div>
-                          <input type="radio" id="smoke-ocassionally" name="physical-activity" value="ocassionally">
-                          <label for="smoke-ocassionally">Ocassionally</label>
+                          <input type="radio" id="drink-ocassionally" name="drink-level" value="drink-ocassionally">
+                          <label for="drink-ocassionally">Ocassionally</label>
                         </div>
                         <!-- Never -->
                         <div>
-                          <input type="radio" id="smoke-never" name="physical-activity" value="never">
-                          <label for="smoke-never">Never</label>
+                          <input type="radio" id="drink-never" name="drink-level" value="drink-never">
+                          <label for="drink-never">Never</label>
                         </div>
                       </div>
                     </div>
@@ -335,7 +335,7 @@
                   <div class="right-form form-input-parent ">
                     <!-- Body type -->
                     <div class="form-input-box form-radio-box">
-                      <p for="physical-activity" class="text-capital">Physical activity <span>*</span></p>
+                      <p>Physical activity <span>*</span></p>
                       <div class="gender-con radio-default">
                         <!-- Endomorph -->
                         <div>
@@ -356,78 +356,78 @@
                     </div>
                     <!-- Physical activity -->
                     <div class="form-input-box form-radio-box">
-                      <p for="physical-activity" class="text-capital">Physical activity <span>*</span></p>
+                      <p>Physical activity <span>*</span></p>
                       <div class="gender-con radio-default">
                         <!-- Sedentary -->
                         <div>
-                          <input type="radio" id="sedentary" name="physical-activity" value="sedentary">
-                          <label for="sedentary">Sedentary</label>
+                          <input type="radio" id="physical-sedentary" name="physical-activity" value="sedentary">
+                          <label for="physical-sedentary">Sedentary</label>
                         </div>
                         <!-- Light -->
                         <div>
-                          <input type="radio" id="light" name="physical-activity" value="light">
-                          <label for="light">light</label>
+                          <input type="radio" id="physical-light" name="physical-activity" value="light">
+                          <label for="physical-light">light</label>
                         </div>
                         <!-- Moderate -->
                         <div>
-                          <input type="radio" id="moderate" name="physical-activity" value="moderate">
-                          <label for="moderate">Moderate</label>
+                          <input type="radio" id="physical-moderate" name="physical-activity" value="moderate">
+                          <label for="physical-moderate">Moderate</label>
                         </div>
                         <!-- Very active -->
                         <div>
-                          <input type="radio" id="very-active" name="physical-activity" value="very-active">
-                          <label for="very-active">Very active</label>
+                          <input type="radio" id="physical-very-active" name="physical-activity" value="very-active">
+                          <label for="physical-very-active">Very active</label>
                         </div>
                       </div>
                     </div>
                     <!-- Gain weight -->
                     <div class="form-input-box form-radio-box">
-                      <p for="physical-activity" class="text-capital">Do you gain weight <span>*</span></p>
+                      <p>Do you gain weight <span>*</span></p>
                       <div class="gender-con radio-default">
                         <!-- Sedentary -->
                         <div>
-                          <input type="radio" id="gain-easily" name="physical-activity" value="gain-easily">
+                          <input type="radio" id="gain-easily" name="gain-weight-level" value="easily">
                           <label for="gain-easily">Easily</label>
                         </div>
                         <!-- Light -->
                         <div>
-                          <input type="radio" id="gain-moderately" name="physical-activity" value="gain-moderately">
+                          <input type="radio" id="gain-moderately" name="gain-weight-level" value="moderately">
                           <label for="gain-moderately">Moderately</label>
                         </div>
                         <!-- Moderate -->
                         <div>
-                          <input type="radio" id="gain-slowly" name="physical-activity" value="gain-slowly">
+                          <input type="radio" id="gain-slowly" name="gain-weight-level" value="slowly">
                           <label for="gain-slowly">Slowly</label>
                         </div>
                         <!-- Very active -->
                         <div>
-                          <input type="radio" id="gain-very-slowly" name="physical-activity" value="gain-very-slowly">
+                          <input type="radio" id="gain-very-slowly" name="gain-weight-level" value="very-slowly">
                           <label for="gain-very-slowly">Very slowly</label>
                         </div>
                       </div>
                     </div>
                     <!-- Lose weight -->
                     <div class="form-input-box form-radio-box ">
-                      <p for="physical-activity" class="text-capital">Do you lose weight <span>*</span></p>
+                      <p>Do you lose weight <span>*</span></p>
                       <div class="gender-con radio-default">
                         <!-- Sedentary -->
                         <div>
-                          <input type="radio" id="lose-easily" name="physical-activity" value="lose-easily">
+                          <input type="radio" id="lose-easily" name="lose-weight-level" value="easily">
                           <label for="lose-easily">Easily</label>
                         </div>
                         <!-- Light -->
                         <div>
-                          <input type="radio" id="lose-moderately" name="physical-activity" value="lose-moderately">
+                          <input type="radio" id="lose-moderately" name="lose-weight-level" value="moderately">
                           <label for="lose-moderately">Moderately</label>
                         </div>
                         <!-- Moderate -->
                         <div>
-                          <input type="radio" id="lose-slowly" name="physical-activity" value="lose-slowly">
+                          <input type="radio" id="lose-slowly" name="lose-weight-level" value="slowly">
                           <label for="lose-slowly">Slowly</label>
                         </div>
                         <!-- Very active -->
                         <div>
-                          <input type="radio" id="lose-very-slowly" name="physical-activity" value="lose-very-slowly">
+                          <input type="radio" id="lose-very-slowly" name="lose-weight-level" value="very-slowly">
                           <label for="lose-very-slowly">Very slowly</label>
                         </div>
                       </div>
@@ -442,352 +442,7 @@
           <div class="form-button"><button class="button" disabled>Submit</button></div>
         </form>
       </div>
-      <!-- 2 -->
-      <div class="hidden">
-        <!-- Board Header -->
-        <div class="board-header text-uppercase text-center">
-          <h2>Pending</h2>
-        </div>
-        <!-- Form -->
-        <form action="/" class="form" method="post">
-          <!-- - Appointment for -->
-          <div class="appointment-for">
-            <div class="form-input-parent">
-              <div class="form-input-box">
-                <label for="appointment-for">Appointment for</label>
-                <div class="radio-box flex-center">
-                  <div>
-                    <input type="radio" id="myself" name="appointment-for" value="myself">
-                    <label for="myself">Myself</label>
-                  </div>
-                  <div>
-                    <input type="radio" id="other" name="appointment-for" value="other">
-                    <label for="other">Other</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Tab -->
-          <div class="tabset">
-            <!-- Tab 1 -->
-            <input type="radio" name="tabset" id="tab1" aria-controls="marzen" checked>
-            <label for="tab1">Consultation Information</label>
-            <!-- Tab 2 -->
-            <input type="radio" name="tabset" id="tab2" aria-controls="rauchbier">
-            <label for="tab2">Food Information</label>
-            <!-- Tab 3 -->
-            <input type="radio" name="tabset" id="tab3" aria-controls="dunkles">
-            <label for="tab3">Physical Information</label>
 
-            <div class="tab-panels">
-
-              <!-- Consultation Information -->
-              <section id="marzen" class="tab-panel">
-                <!-- - Form Header -->
-                <div class="form-header text-uppercase hidden hidden">
-                  <h3>Consultation Information</h3>
-                </div>
-                <!-- form parent -->
-                <div class="divider">
-                  <!-- left -->
-                  <div class="form-input-parent">
-                    <!-- Chief complaint -->
-                    <div class="form-input-box input-one">
-                      <label for="appoint-chief-complaint">Chief complaint <span>*</span></label>
-                      <input list="list-complaints" name="appoint-chief-complaint" id="appoint-chief-complaint"
-                        placeholder="Diet meal plan">
-                      <datalist id="list-complaints">
-                        <option value="Test">
-                        <option value="Test1">
-                      </datalist>
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
-                    <!-- Appointment date -->
-                    <div class="form-input-box input-two">
-                      <label for="appointment-date" class="text-capital">Appointment date <span>*</span></label>
-                      <input type="date" name="appointment-date" id="appointment-date"
-                        placeholder="Enter your middle name">
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
-                    <!-- Appointment time -->
-                    <div class="form-input-box input-two">
-                      <label for="appointment-time" class="text-capital">Appointment time <span>*</span></label>
-                      <input type="time" name="appointment-time" id="appointment-time">
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
-                    <!-- Referral form -->
-                    <div class="form-input-box input-two">
-                      <label for="appointment-referral" class="text-capital">Referral form</label>
-                      <input type="file" name="appointment-referral" id="appointment-referral">
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
-                    <!-- Medical record -->
-                    <div class="form-input-box input-two">
-                      <label for="appointment-medical" class="text-capital">Medical record </label>
-                      <input type="file" name="appointment-medical" id="appointment-medical">
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
-                  </div>
-                  <!-- right -->
-                  <div class="form-input-parent">
-                    <!-- More Information -->
-                    <div class="form-input-box input-one">
-                      <label for="appointment-medical" class="text-capital">More information</label>
-                      <textarea name="appointment-more-info" class=""
-                        placeholder="Give additional information about your chief complaint."></textarea>
-                    </div>
-                  </div>
-                </div>
-              </section>
-
-              <!-- Food Information -->
-              <section id="dunkles" class="tab-panel">
-                <!-- - Form Header -->
-                <div class="form-header text-uppercase hidden">
-                  <h3>Food Information</h3>
-                </div>
-                <!-- form parent -->
-                <div class="divider">
-                  <!-- left -->
-                  <div class="form-input-parent">
-                    <!-- food allergies -->
-                    <div class="form-input-box input-two">
-                      <label for="appoint-food-allergies">Do you have any food allergies? <span>*</span></label>
-                      <input type="text" name="appoint-food-allergies" id="appoint-food-allergies"
-                        placeholder="Peanut, Shrimp">
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
-                    <!-- Foods you like -->
-                    <div class="form-input-box input-two">
-                      <label for="appoint-food-like" class="text-capital">Foods you like <span>*</span></label>
-                      <input type="text" name="appoint-food-like" id="appoint-food-like" placeholder="E.g Salad, Egg">
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
-                    <!-- Foods you dislike -->
-                    <div class="form-input-box input-two">
-                      <label for="appoint-food-like" class="text-capital">Foods you dislike <span>*</span></label>
-                      <input type="text" name="appoint-food-dislike" id="appoint-food-dislike"
-                        placeholder="E.g Seaweed, Fish">
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
-                    <!-- Appointment time -->
-                    <div class="form-input-box input-two">
-                      <label for="appoint-type-diet">Are you on specific type of diet? <span>*</span></label>
-                      <input list="list-diet" name="appoint-type-diet" id="appoint-type-diet" placeholder="Vegan Diet">
-                      <datalist id="list-diet">
-                        <option value="Test">
-                        <option value="Test1">
-                      </datalist>
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
-                  </div>
-                  <!-- right -->
-                  <div class="form-input-parent">
-                    <!-- Smoke -->
-                    <div class="form-input-box form-radio-box">
-                      <p for="physical-activity" class="text-capital">How often do you smoke <span>*</span></p>
-                      <div class="gender-con radio-default">
-                        <!-- Daily -->
-                        <div>
-                          <input type="radio" id="smoke-daily" name="physical-activity" value="daily">
-                          <label for="smoke-daily">Daily</label>
-                        </div>
-                        <!-- Weekly -->
-                        <div>
-                          <input type="radio" id="smoke-weekly" name="physical-activity" value="weekly">
-                          <label for="smoke-weekly">Weekly</label>
-                        </div>
-                        <!-- Monthly -->
-                        <div>
-                          <input type="radio" id="smoke-monthly" name="physical-activity" value="monthly">
-                          <label for="smoke-monthly">Monthly</label>
-                        </div>
-                        <!-- Ocassionally -->
-                        <div>
-                          <input type="radio" id="smoke-ocassionally" name="physical-activity" value="ocassionally">
-                          <label for="smoke-ocassionally">Ocassionally</label>
-                        </div>
-                        <!-- Never -->
-                        <div>
-                          <input type="radio" id="smoke-never" name="physical-activity" value="never">
-                          <label for="smoke-never">Never</label>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Drink liquor -->
-                    <div class="form-input-box form-radio-box">
-                      <p for="physical-activity" class="text-capital">How often do you drink liquor?
-                        <span>*</span>
-                      </p>
-                      <div class="gender-con radio-default">
-                        <!-- Daily -->
-                        <div>
-                          <input type="radio" id="smoke-daily" name="physical-activity" value="daily">
-                          <label for="smoke-daily">Daily</label>
-                        </div>
-                        <!-- Weekly -->
-                        <div>
-                          <input type="radio" id="smoke-weekly" name="physical-activity" value="weekly">
-                          <label for="smoke-weekly">Weekly</label>
-                        </div>
-                        <!-- Monthly -->
-                        <div>
-                          <input type="radio" id="smoke-monthly" name="physical-activity" value="monthly">
-                          <label for="smoke-monthly">Monthly</label>
-                        </div>
-                        <!-- Ocassionally -->
-                        <div>
-                          <input type="radio" id="smoke-ocassionally" name="physical-activity" value="ocassionally">
-                          <label for="smoke-ocassionally">Ocassionally</label>
-                        </div>
-                        <!-- Never -->
-                        <div>
-                          <input type="radio" id="smoke-never" name="physical-activity" value="never">
-                          <label for="smoke-never">Never</label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </section>
-
-              <!-- Physical Information -->
-              <section id="rauchbier" class="tab-panel">
-                <!-- - Form Header -->
-                <div class="form-header text-uppercase hidden">
-                  <h3>Physical Information</h3>
-                </div>
-                <!-- form parent -->
-                <div class="divider">
-                  <!-- left -->
-                  <div class="left-form form-input-parent">
-                    <!-- Actual weight -->
-                    <div class="form-input-box ">
-                      <label for="appoint-actual-weight">Actual weight <span>*</span></label>
-                      <input type="number" min='0' name="appoint-actual-weight" id="appoint-actual-weight"
-                        placeholder="Enter your actual weight">
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
-                    <!-- Current height -->
-                    <div class="form-input-box ">
-                      <label for="appoint-current-height" class="text-capital">Current height <span>*</span></label>
-                      <input type="number" min='0' name="appoint-current-height" id="appoint-current-height"
-                        placeholder="Enter your current height">
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
-                  </div>
-                  <!-- right -->
-                  <div class="right-form form-input-parent ">
-                    <!-- Body type -->
-                    <div class="form-input-box form-radio-box">
-                      <p for="physical-activity" class="text-capital">Physical activity <span>*</span></p>
-                      <div class="gender-con radio-default">
-                        <!-- Endomorph -->
-                        <div>
-                          <input type="checkbox" id="body-type-endomorph" name="body-type" value="endomorph">
-                          <label for="body-type-endomorph">Endomorph</label>
-                        </div>
-                        <!-- Ectomorph -->
-                        <div>
-                          <input type="checkbox" id="body-type-ectomorph" name="body-type" value="ectomorph">
-                          <label for="body-type-ectomorph">Ectomorph</label>
-                        </div>
-                        <!-- Mesomorph -->
-                        <div>
-                          <input type="checkbox" id="body-type-mesomorph" name="body-type" value="mesomorph">
-                          <label for="body-type-mesomorph">Mesomorph</label>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Physical activity -->
-                    <div class="form-input-box form-radio-box">
-                      <p for="physical-activity" class="text-capital">Physical activity <span>*</span></p>
-                      <div class="gender-con radio-default">
-                        <!-- Sedentary -->
-                        <div>
-                          <input type="radio" id="sedentary" name="physical-activity" value="sedentary">
-                          <label for="sedentary">Sedentary</label>
-                        </div>
-                        <!-- Light -->
-                        <div>
-                          <input type="radio" id="light" name="physical-activity" value="light">
-                          <label for="light">light</label>
-                        </div>
-                        <!-- Moderate -->
-                        <div>
-                          <input type="radio" id="moderate" name="physical-activity" value="moderate">
-                          <label for="moderate">Moderate</label>
-                        </div>
-                        <!-- Very active -->
-                        <div>
-                          <input type="radio" id="very-active" name="physical-activity" value="very-active">
-                          <label for="very-active">Very active</label>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Gain weight -->
-                    <div class="form-input-box form-radio-box">
-                      <p for="physical-activity" class="text-capital">Do you gain weight <span>*</span></p>
-                      <div class="gender-con radio-default">
-                        <!-- Sedentary -->
-                        <div>
-                          <input type="radio" id="gain-easily" name="physical-activity" value="gain-easily">
-                          <label for="gain-easily">Easily</label>
-                        </div>
-                        <!-- Light -->
-                        <div>
-                          <input type="radio" id="gain-moderately" name="physical-activity" value="gain-moderately">
-                          <label for="gain-moderately">Moderately</label>
-                        </div>
-                        <!-- Moderate -->
-                        <div>
-                          <input type="radio" id="gain-slowly" name="physical-activity" value="gain-slowly">
-                          <label for="gain-slowly">Slowly</label>
-                        </div>
-                        <!-- Very active -->
-                        <div>
-                          <input type="radio" id="gain-very-slowly" name="physical-activity" value="gain-very-slowly">
-                          <label for="gain-very-slowly">Very slowly</label>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Lose weight -->
-                    <div class="form-input-box form-radio-box ">
-                      <p for="physical-activity" class="text-capital">Do you lose weight <span>*</span></p>
-                      <div class="gender-con radio-default">
-                        <!-- Sedentary -->
-                        <div>
-                          <input type="radio" id="lose-easily" name="physical-activity" value="lose-easily">
-                          <label for="lose-easily">Easily</label>
-                        </div>
-                        <!-- Light -->
-                        <div>
-                          <input type="radio" id="lose-moderately" name="physical-activity" value="lose-moderately">
-                          <label for="lose-moderately">Moderately</label>
-                        </div>
-                        <!-- Moderate -->
-                        <div>
-                          <input type="radio" id="lose-slowly" name="physical-activity" value="lose-slowly">
-                          <label for="lose-slowly">Slowly</label>
-                        </div>
-                        <!-- Very active -->
-                        <div>
-                          <input type="radio" id="lose-very-slowly" name="physical-activity" value="lose-very-slowly">
-                          <label for="lose-very-slowly">Very slowly</label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </section>
-
-            </div>
-          </div>
-
-          <div class="form-button"><button class="button" disabled>Submit</button></div>
-        </form>
-      </div>
     </div>
     <!-- Pending -->
     <div class="appointment-container board-container card hidden">
