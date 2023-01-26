@@ -45,13 +45,17 @@ section {
 }
 
 .grid-box {
+  flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+
+  height: unset;
+  max-height: unset;
 }
 
 .grid-box .quick-emoji.card {
   background-color: transparent;
-  padding: 0;
+  /* padding: 0; */
 }
 .grid-box .fa-light,
 .grid-box .fa-brands,
@@ -61,6 +65,7 @@ section {
 }
 .grid-box .text-uppercase {
   color: var(--color-green-tertiary);
+  padding-bottom: 20px;
 }
 .grid-box .text-left {
   padding-top: 20px;
@@ -69,8 +74,4 @@ section {
 
 .contact-parent .contact-container {
   align-items: unset;
-}
-.contact-parent .quick-step-box {
-  height: unset;
-  max-height: unset;
 }

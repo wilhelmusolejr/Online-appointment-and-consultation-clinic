@@ -239,6 +239,21 @@ button:disabled {
   cursor: pointer;
 }
 
+/* Tool */
+.tool-container-box .tool-header {
+  padding: 30px 0;
+}
+.tool-container-box {
+  max-width: 450px;
+
+  background-color: #f2fff6;
+  border: 1px solid #70707039;
+}
+
+.tool-container-box .form-group:last-of-type {
+  margin: 20px 0 100px 0;
+}
+
 /* --------------------------------------- */
 /* UNIVERSAL */
 body {
@@ -253,6 +268,12 @@ ul {
 
 .fa-solid {
   font-size: 3rem;
+}
+
+textarea {
+  min-height: 150px;
+  padding: 15px;
+  border-radius: 10px;
 }
 
 /* --------------------------------------- */
@@ -378,13 +399,13 @@ section {
 /* GRID - 3 */
 .grid-container {
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 25px;
 }
 .grid-box {
   background-color: var(--color-white-primary);
 
   width: 100%;
-  max-width: 350px;
+  max-width: 450px;
 
   box-shadow: 5px 5px 25px #1a1a1a20;
 }
@@ -685,11 +706,9 @@ footer .nav-links {
 .divider > div {
   flex: 48%;
 }
-
 .divider .left-form {
   max-width: 300px;
 }
-
 .input-one {
   flex: 100%;
 }
@@ -697,11 +716,32 @@ footer .nav-links {
   flex: 48%;
 }
 
-textarea {
-  min-height: 150px;
-  padding: 15px;
-  border-radius: 10px;
+/* DROP DOWN */
+.dropdown {
+  position: relative;
+  display: inline-block;
 }
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: var(--color-green-primary);
+  border-radius: 10px;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+.dropdown-content a {
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+  z-index: 5;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
 /* MEDIA QUERIES */
 
 /* TABLET */
@@ -777,14 +817,18 @@ textarea {
     display: none;
   }
 
+  .dropdown-content {
+    background-color: var(--color-white-secondary);
+  }
+
   /* ---------------------*/
   /* list of rnd */
-  .list-rnd-box {
+  /* .grid-box {
     flex: 1;
 
     width: initial;
     max-width: initial;
-  }
+  } */
 
   .signup-parent {
     position: absolute;

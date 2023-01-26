@@ -61,9 +61,11 @@
 
   <!-- SECTION - Quick Solution -->
   <section class="quick-solution-parent sizing-secondary">
+
     <div class="section-header-parent text-center">
       <h2 class="text-capital">Quick solution for scheduling with <span class="text-initial">RNDs</span></h2>
     </div>
+
     <div class="quick-solution-step-container flex-center grid-container">
       <div class="quick-step-box flex-center grid-box card">
         <div class="quick-emoji card">
@@ -101,9 +103,9 @@
   <!-- SECTION - Tool Banner -->
   <section class="tool-banner text-center">
 
-    <div class="tool-banner-container card sizing-main">
+    <div class="tool-container-box card sizing-main">
 
-      <div class="form-header text-center">
+      <div class="tool-header text-center">
         <h2 class="text-uppercase">Body mass index</h2>
       </div>
 
@@ -207,7 +209,6 @@
 
   <!-- footer -->
   <?php require_once $path.'includes/footer.php'; ?>
-
 
   <!-- FLOATERS -->
   <!-- MODAL -->

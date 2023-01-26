@@ -9,7 +9,17 @@
         <a class="<?php echo $rnds ?>" href="<?php echo $path ?>homepage/rnds/rnds.php">RND<span
             class="text-initial">s</span></a>
       </li>
-      <li><a class="<?php echo $tools ?>" href="<?php echo $path ?>homepage/tools/tools.php">Tools</a></li>
+      <li>
+        <div class="dropdown">
+          <a class="<?php echo $tools ?>" href="<?php echo $path ?>homepage/tools/tools.php">Tools</a>
+          <div class="dropdown-content hidden">
+            <a>BMI Calculator</a>
+            <a href="#">Tite</a>
+            <a href="#">Test</a>
+          </div>
+        </div>
+      </li>
+
       <li><a class="<?php echo $faq ?>" href="#">FAQ</a></li>
       <li><a class="<?php echo $about ?>" href="#">About us</a></li>
       <li><a class="<?php echo $contact ?>" href="<?php echo $path ?>homepage/contact/contact.php">Contact us</a></li>

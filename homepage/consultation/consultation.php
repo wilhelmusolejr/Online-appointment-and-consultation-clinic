@@ -14,7 +14,6 @@
 ?>
 <link rel="stylesheet" href="consultation.css" />
 <script src="../index.js" defer></script>
-<script src="consultation.js" defer></script>
 <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 <?php require_once $path.'includes/starterTwo.php'; ?>
 

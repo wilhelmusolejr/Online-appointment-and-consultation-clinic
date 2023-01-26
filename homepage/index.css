@@ -65,9 +65,6 @@ main .sizing-secondary {
 /* ---------------------*/
 /* quick box */
 .quick-step-box {
-  height: 100vw;
-  max-height: 300px;
-
   flex-direction: column;
   align-items: flex-start;
 }
@@ -99,20 +96,6 @@ main .sizing-secondary {
   padding: 50px 0;
 }
 
-.tool-banner .form-header {
-  padding: 30px 0;
-}
-
-.tool-banner-container {
-  max-width: 450px;
-
-  background-color: #f2fff6;
-  border: 2px solid #707070;
-}
-
-.tool-banner .form-group:last-of-type {
-  margin: 20px 0 100px 0;
-}
 .tool-banner > a {
   margin-top: 50px;
 }
@@ -230,11 +213,6 @@ main .sizing-secondary {
   .data-info-box {
     width: 200px;
     height: 200px;
-  }
-
-  .quick-solution-step-container {
-    flex-wrap: wrap;
-    gap: 50px;
   }
 
   /* ---------------------*/

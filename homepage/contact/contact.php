@@ -12,7 +12,6 @@
 
     require_once $path.'includes/starterOne.php';
 ?>
-<link rel="stylesheet" href="../index.css" />
 <link rel="stylesheet" href="contact.css" />
 <script src="../index.js" defer></script>
 <?php require_once $path.'includes/starterTwo.php'; ?>
@@ -43,10 +42,10 @@
   </header>
 
   <!-- SECTION - Quick Solution -->
-  <section class="contact-parent quick-solution-parent sizing-secondary">
-    <div class="contact-container quick-solution-step-container flex-center grid-container">
+  <section class="contact-parent sizing-secondary">
+    <div class="contact-container flex-center grid-container">
       <!--  -->
-      <div class="quick-step-box flex-center grid-box card">
+      <div class="flex-center grid-box card">
         <div class="quick-emoji card">
           <i class="fa-solid fa-location-pin"></i>
         </div>
@@ -59,7 +58,7 @@
         <p class="hidden">1</p>
       </div>
       <!--  -->
-      <div class="quick-step-box flex-center grid-box card">
+      <div class="flex-center grid-box card">
         <div class="quick-emoji card">
           <i class="fa-solid fa-calendar-check"></i>
         </div>
@@ -71,7 +70,7 @@
         <p class="hidden">1</p>
       </div>
       <!--  -->
-      <div class="quick-step-box flex-center grid-box card">
+      <div class="flex-center grid-box card">
         <div class="quick-emoji card">
           <i class="fa-brands fa-facebook-f"></i>
         </div>

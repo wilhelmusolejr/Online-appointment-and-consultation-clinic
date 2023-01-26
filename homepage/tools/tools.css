@@ -1,0 +1,19 @@
+.sizing-secondary {
+  width: 90%;
+}
+
+.tool-parent {
+  min-height: 75vh;
+}
+
+.grid-box {
+  padding: clamp(1rem, 1vw, 2rem);
+}
+
+.tool-parent .tool-header h2 {
+  font-size: clamp(3rem, 7vw, 4rem);
+}
+
+.tool-parent .grid-box:hover h2 {
+  color: initial;
+}
