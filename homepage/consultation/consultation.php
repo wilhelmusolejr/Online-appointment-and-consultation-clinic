@@ -14,6 +14,7 @@
 ?>
 <link rel="stylesheet" href="consultation.css" />
 <script src="../index.js" defer></script>
+<script src="consultation.js" defer></script>
 <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 <?php require_once $path.'includes/starterTwo.php'; ?>
 
@@ -131,13 +132,17 @@
             <input type="radio" name="tabset" id="tab2" aria-controls="rauchbier">
             <label for="tab2">Food Information</label>
             <!-- Tab 3 -->
-            <input type="radio" name="tabset" id="tab3" aria-controls="dunkles" checked>
+            <input type="radio" name="tabset" id="tab3" aria-controls="dunkles">
             <label for="tab3">Physical Information</label>
+            <!-- Tab 3 -->
+            <input type="radio" name="tabset" id="tab4" aria-controls="dunkles" checked>
+            <label for="tab4">Medical Information</label>
+
 
             <div class="tab-panels">
 
               <!-- Consultation Information -->
-              <section id="marzen" class="tab-panel">
+              <section id="consultation-tab" class="tab-panel">
                 <!-- - Form Header -->
                 <div class="form-header text-uppercase hidden hidden">
                   <h3>Consultation Information</h3>
@@ -196,7 +201,7 @@
               </section>
 
               <!-- Food Information -->
-              <section id="dunkles" class="tab-panel">
+              <section id="food-tab" class="tab-panel">
                 <!-- - Form Header -->
                 <div class="form-header text-uppercase hidden">
                   <h3>Food Information</h3>
@@ -307,7 +312,7 @@
               </section>
 
               <!-- Physical Information -->
-              <section id="rauchbier" class="tab-panel">
+              <section id="physical-tab" class="tab-panel">
                 <!-- - Form Header -->
                 <div class="form-header text-uppercase hidden">
                   <h3>Physical Information</h3>
@@ -429,6 +434,100 @@
                         <div>
                           <input type="radio" id="lose-very-slowly" name="lose-weight-level" value="very-slowly">
                           <label for="lose-very-slowly">Very slowly</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Medical Information -->
+              <section id="medical-tab" class="tab-panel">
+                <!-- - Form Header -->
+                <div class="form-header text-uppercase hidden">
+                  <h3>Medical Information</h3>
+                </div>
+                <!-- form parent -->
+                <div class="divider">
+                  <!-- left -->
+                  <div class="left-form form-input-parent">
+                    <!-- Current Medication -->
+                    <div class="form-input-box ">
+                      <label for="appoint-actual-weight">Are you currently taking any medication? <span>*</span></label>
+                      <input type="text" name="appoint-medical-current-med" id="appoint-medical-current-med"
+                        placeholder="E.g Ascorbic Acid" data-role="taginput">
+                      <p class="form-error-message hidden">Error</p>
+                    </div>
+                  </div>
+                  <!-- right -->
+                  <div class="right-form form-input-parent ">
+                    <!-- health condition -->
+                    <div class="form-input-box form-radio-box">
+                      <p>Do you have any health condition or have been diagnosed in the past? <span>*</span></p>
+                      <div class="gender-con radio-default">
+                        <!-- Endomorph -->
+                        <div>
+                          <input type="checkbox" id="self-conditions-diabetes" name="health-condition-one"
+                            value="Diabetes">
+                          <label for="self-conditions-diabetes">Diabetes</label>
+                        </div>
+                        <!-- Ectomorph -->
+                        <div>
+                          <input type="checkbox" id="self-conditions-hypertension" name="health-condition-one"
+                            value="Hypertension">
+                          <label for="self-conditions-hypertension">Hypertension</label>
+                        </div>
+                        <!-- Mesomorph -->
+                        <div>
+                          <input type="checkbox" id="self-conditions-obese" name="health-condition-one" value="Obese">
+                          <label for="self-conditions-obese">Obese</label>
+                        </div>
+                        <!-- Mesomorph -->
+                        <div>
+                          <input type="checkbox" id="self-conditions-anemia" name="health-condition-one" value="Anemia">
+                          <label for="self-conditions-anemia">Anemia</label>
+                        </div>
+                        <!-- Mesomorph -->
+                        <div>
+                          <input type="checkbox" id="health-condition-one-other" name="health-condition-one"
+                            value="health-condition-one-other">
+                          <label for="health-condition-one-other">If others, specify</label>
+                          <input type="text" id="otherValue" name="health-condition-one-other" class="hidden" />
+                        </div>
+                      </div>
+                    </div>
+                    <!-- family condition -->
+                    <div class="form-input-box form-radio-box">
+                      <p>Is anyone in your family has any health condition in the past? <span>*</span></p>
+                      <div class="gender-con radio-default">
+                        <!-- Endomorph -->
+                        <div>
+                          <input type="checkbox" id="self-conditions-diabetes" name="health-condition-one"
+                            value="Diabetes">
+                          <label for="self-conditions-diabetes">Diabetes</label>
+                        </div>
+                        <!-- Ectomorph -->
+                        <div>
+                          <input type="checkbox" id="self-conditions-hypertension" name="health-condition-one"
+                            value="Hypertension">
+                          <label for="self-conditions-hypertension">Hypertension</label>
+                        </div>
+                        <!-- Mesomorph -->
+                        <div>
+                          <input type="checkbox" id="self-conditions-obese" name="health-condition-one" value="Obese">
+                          <label for="self-conditions-obese">Obese</label>
+                        </div>
+                        <!-- Mesomorph -->
+                        <div>
+                          <input type="checkbox" id="self-conditions-anemia" name="health-condition-one" value="Anemia">
+                          <label for="self-conditions-anemia">Anemia</label>
+                        </div>
+                        <!-- Mesomorph -->
+                        <div>
+                          <input type="checkbox" id="health-condition-one-other" name="health-condition-one"
+                            value="health-condition-one-other">
+                          <label for="health-condition-one-other">If others, specify</label>
+                          <input type="text" id="otherValue" name="health-condition-one-other" class="hidden" />
                         </div>
                       </div>
                     </div>

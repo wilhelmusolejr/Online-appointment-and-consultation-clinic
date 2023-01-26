@@ -1,4 +1,16 @@
 "use strict";
+const otherCheckbox = document.querySelector("#health-condition-one-other");
+const otherText = document.querySelector("#otherValue");
+
+otherCheckbox.addEventListener("change", () => {
+  if (otherCheckbox.checked) {
+    otherText.classList.remove("hidden");
+    otherText.value = "";
+  } else {
+    otherText.classList.add("hidden");
+  }
+});
+
 const one = document.querySelector(".one");
 const two = document.querySelector(".two");
 const three = document.querySelector(".three");
