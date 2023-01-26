@@ -90,7 +90,6 @@
 }
 
 /* Responsive Css  */
-
 @media (max-width: 980px) {
   .main ul {
     gap: 35px;
@@ -171,6 +170,8 @@ section.board-parent {
   margin: auto;
 
   position: relative;
+
+  padding-bottom: 100px;
 }
 
 /* header */
@@ -199,15 +200,14 @@ section.board-parent {
   align-items: center;
   gap: 20px;
 }
-.appointment-for label {
-}
+
 .appointment-for .radio-box {
   width: 100%;
   max-width: 300px;
 
   justify-content: flex-start;
 }
-.radio-box > div {
+.appointment-for .radio-box > div {
   border: 1px solid black;
   padding: 10px 15px;
   border-radius: 10px;
