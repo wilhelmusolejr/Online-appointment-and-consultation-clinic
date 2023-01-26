@@ -98,6 +98,7 @@
         </div>
       </div>
       <!-- 1 -->
+      <!-- Appointment -->
       <div>
         <!-- Board Header -->
         <div class=" board-header text-uppercase text-center">
@@ -112,7 +113,7 @@
                 <label for="appointment-for">Appointment for</label>
                 <div class="radio-box flex-center">
                   <div>
-                    <input type="radio" id="myself" name="appointment-for" value="myself">
+                    <input type="radio" id="myself" name="appointment-for" value="myself" checked>
                     <label for="myself">Myself</label>
                   </div>
                   <div>
@@ -125,6 +126,9 @@
           </div>
           <!-- Tab -->
           <div class="tabset">
+            <!-- Tab 5 -->
+            <input type="radio" name="tabset" id="tab5" aria-controls="dunkles" checked>
+            <label for="tab5">Personal Information</label>
             <!-- Tab 1 -->
             <input type="radio" name="tabset" id="tab1" aria-controls="marzen">
             <label for="tab1">Consultation Information</label>
@@ -134,12 +138,79 @@
             <!-- Tab 3 -->
             <input type="radio" name="tabset" id="tab3" aria-controls="dunkles">
             <label for="tab3">Physical Information</label>
-            <!-- Tab 3 -->
-            <input type="radio" name="tabset" id="tab4" aria-controls="dunkles" checked>
+            <!-- Tab 4 -->
+            <input type="radio" name="tabset" id="tab4" aria-controls="dunkles">
             <label for="tab4">Medical Information</label>
 
-
             <div class="tab-panels">
+
+              <!-- Personal Information -->
+              <section id="personal-tab" class="tab-panel">
+                <!-- - Form Header -->
+                <div class="form-header text-uppercase hidden">
+                  <h3>Personal Information</h3>
+                </div>
+                <!-- form parent -->
+                <div class="divider">
+                  <!-- left -->
+                  <div class="form-input-parent">
+                    <!-- first name -->
+                    <div class="form-input-box input-two">
+                      <label for="firstname" class="text-capital">First name <span>*</span></label>
+                      <input type="text" name="firstname" id="firstname" placeholder="Enter your first name">
+                      <p class="form-error-message hidden">Error</p>
+                    </div>
+                    <!-- middle name -->
+                    <div class="form-input-box input-two">
+                      <label for="middlename" class="text-capital">Middle name <span>*</span></label>
+                      <input type="text" name="middlename" id="middlename" placeholder="Enter your middle name">
+                      <p class="form-error-message hidden">Error</p>
+                    </div>
+                    <!-- last name -->
+                    <div class="form-input-box input-two">
+                      <label for="lastname" class="text-capital">Last name <span>*</span></label>
+                      <input type="text" name="lastname" id="lastname" placeholder="Enter your last name">
+                      <p class="form-error-message hidden">Error</p>
+                    </div>
+                    <!-- gender -->
+                    <div class="gender-form form-input-box input-two">
+                      <label for="gender" class="text-capital">Gender <span>*</span></label>
+                      <div class="gender-con radio-box flex-center">
+                        <div>
+                          <input type="radio" id="male" name="gender" value="Male">
+                          <label for="male">Male</label>
+                        </div>
+                        <div>
+                          <input type="radio" id="female" name="gender" value="Female">
+                          <label for="female">Female</label>
+                        </div>
+                      </div>
+                      <p class="form-error-message hidden">Error</p>
+                    </div>
+                    <!-- birth date -->
+                    <div class="form-input-box input-two">
+                      <label for="birthdate" class="text-capital">Birthdate <span>*</span></label>
+                      <input type="date" name="birthdate" id="birthdate">
+                      <p class="form-error-message hidden">Error</p>
+                    </div>
+                  </div>
+                  <!-- right -->
+                  <div class="form-input-parent">
+                    <!-- Mobile -->
+                    <div class="form-input-box input-two">
+                      <label for="reg-mob" class="text-capital">Mobile number <span>*</span></label>
+                      <input type="text" name="reg-mob" id="reg-mob" placeholder="Enter your mobile number">
+                      <p class="form-error-message hidden">Error</p>
+                    </div>
+                    <!-- Email -->
+                    <div class="form-input-box input-two">
+                      <label for="reg-email" class="text-capital">Email address <span>*</span></label>
+                      <input type="email" name="reg-email" id="reg-email" placeholder="Enter your middle name">
+                      <p class="form-error-message hidden">Error</p>
+                    </div>
+                  </div>
+                </div>
+              </section>
 
               <!-- Consultation Information -->
               <section id="consultation-tab" class="tab-panel">
@@ -337,7 +408,7 @@
                     </div>
                   </div>
                   <!-- right -->
-                  <div class="right-form form-input-parent ">
+                  <div class="form-input-parent ">
                     <!-- Body type -->
                     <div class="form-input-box form-radio-box">
                       <p>Physical activity <span>*</span></p>
@@ -460,7 +531,7 @@
                     </div>
                   </div>
                   <!-- right -->
-                  <div class="right-form form-input-parent ">
+                  <div class=" form-input-parent ">
                     <!-- health condition -->
                     <div class="form-input-box form-radio-box">
                       <p>Do you have any health condition or have been diagnosed in the past? <span>*</span></p>
@@ -535,6 +606,8 @@
                 </div>
               </section>
 
+
+
             </div>
           </div>
 
@@ -543,8 +616,6 @@
       </div>
 
     </div>
-    <!-- Pending -->
-    <div class="appointment-container board-container card hidden">
 
     </div>
   </section>

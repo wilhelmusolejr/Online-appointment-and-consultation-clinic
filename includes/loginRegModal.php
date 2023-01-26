@@ -134,13 +134,13 @@
               <p>Contact Information</p>
             </div>
             <div class="form-input-parent">
-              <!-- first name -->
+              <!-- Mobile -->
               <div class="form-input-box">
                 <label for="reg-mob" class="text-capital">Mobile number <span>*</span></label>
                 <input type="text" name="reg-mob" id="reg-mob" placeholder="Enter your mobile number">
                 <p class="form-error-message hidden">Error</p>
               </div>
-              <!-- middle name -->
+              <!-- Email -->
               <div class="form-input-box">
                 <label for="reg-email" class="text-capital">Email address <span>*</span></label>
                 <input type="email" name="reg-email" id="reg-email" placeholder="Enter your middle name">

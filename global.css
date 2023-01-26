@@ -709,6 +709,9 @@ footer .nav-links {
 .divider .left-form {
   max-width: 300px;
 }
+.divider .right-form {
+  max-width: 300px;
+}
 .input-one {
   flex: 100%;
 }
