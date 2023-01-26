@@ -46,7 +46,7 @@
   <section class="board-parent">
 
     <!-- Set up your appointment -->
-    <div class="appointment-container board-container card">
+    <div class="board-container card">
       <!-- Progress -->
       <div class="board-progress">
         <div class="main flex-center">
@@ -99,9 +99,9 @@
       </div>
       <!-- 1 -->
       <!-- Appointment -->
-      <div>
+      <div class="appointment-stage">
         <!-- Board Header -->
-        <div class=" board-header text-uppercase text-center">
+        <div class="board-header text-uppercase text-center">
           <h2>Set your appoinment</h2>
         </div>
         <!-- Form -->
@@ -127,8 +127,8 @@
           <!-- Tab -->
           <div class="tabset">
             <!-- Tab 5 -->
-            <input type="radio" name="tabset" id="tab5" aria-controls="dunkles" checked>
-            <label for="tab5">Personal Information</label>
+            <input class='personal-tab' type="radio" name="tabset" id="tab5" aria-controls="dunkles" checked>
+            <label class='personal-tab' for="tab5">Personal Information</label>
             <!-- Tab 1 -->
             <input type="radio" name="tabset" id="tab1" aria-controls="marzen">
             <label for="tab1">Consultation Information</label>
@@ -605,8 +605,6 @@
                   </div>
                 </div>
               </section>
-
-
 
             </div>
           </div>

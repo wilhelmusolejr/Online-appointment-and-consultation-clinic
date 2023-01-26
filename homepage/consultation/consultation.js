@@ -1,4 +1,6 @@
 "use strict";
+
+// Other Specify
 const otherCheckbox = document.querySelector("#health-condition-one-other");
 const otherText = document.querySelector("#otherValue");
 
@@ -11,6 +13,7 @@ otherCheckbox.addEventListener("change", () => {
   }
 });
 
+// Progresss
 const one = document.querySelector(".one");
 const two = document.querySelector(".two");
 const three = document.querySelector(".three");
@@ -53,3 +56,25 @@ five.onclick = function () {
   four.classList.add("active");
   five.classList.add("active");
 };
+
+// Appoint for
+const boardContainer = document.querySelector(".board-container");
+const appointmentStage = boardContainer.querySelector(".appointment-stage");
+const appointFor = appointmentStage.querySelector(".appointment-for");
+
+appointFor.addEventListener("click", function (e) {
+  if (appointFor.querySelector("#myself").checked) {
+    appointmentStage.querySelector("#tab1").checked = true;
+    appointmentStage.querySelector("#tab5").classList.add("hidden");
+    appointmentStage.querySelectorAll(".personal-tab").forEach((tab) => {
+      tab.classList.add("hidden");
+    });
+  } else {
+    appointmentStage.querySelector("#tab5").classList.remove("hidden");
+    appointmentStage.querySelector("#tab1").checked = false;
+    appointmentStage.querySelector("#tab5").checked = true;
+    appointmentStage.querySelectorAll(".personal-tab").forEach((tab) => {
+      tab.classList.remove("hidden");
+    });
+  }
+});
