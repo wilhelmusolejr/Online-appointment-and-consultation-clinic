@@ -43,8 +43,8 @@
   </header>
 
   <!-- SECTION - Quick Solution -->
-  <section class="quick-solution-parent sizing-secondary">
-    <div class="quick-solution-step-container flex-center grid-container">
+  <section class="contact-parent quick-solution-parent sizing-secondary">
+    <div class="contact-container quick-solution-step-container flex-center grid-container">
       <!--  -->
       <div class="quick-step-box flex-center grid-box card">
         <div class="quick-emoji card">

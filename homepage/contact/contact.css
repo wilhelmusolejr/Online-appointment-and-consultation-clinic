@@ -56,7 +56,7 @@ section {
 .grid-box .fa-light,
 .grid-box .fa-brands,
 .grid-box .fa-solid {
-  font-size: 8rem;
+  font-size: 5rem;
   color: var(--color-green-secondary);
 }
 .grid-box .text-uppercase {
@@ -64,12 +64,13 @@ section {
 }
 .grid-box .text-left {
   padding-top: 20px;
-
   color: var(--color-green-secondary);
 }
 
-@media (min-width: 1120px) {
-  .quick-step-box {
-    max-height: 400px;
-  }
+.contact-parent .contact-container {
+  align-items: unset;
+}
+.contact-parent .quick-step-box {
+  height: unset;
+  max-height: unset;
 }
