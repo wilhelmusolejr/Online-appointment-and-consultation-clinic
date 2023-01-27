@@ -176,7 +176,7 @@ section.board-parent {
 
 /* header */
 .board-header {
-  width: 80%;
+  /* width: 1%; */
   margin: 30px auto;
 }
 .board-header h2 {

@@ -250,8 +250,13 @@ button:disabled {
   border: 1px solid #70707039;
 }
 
-.tool-container-box .form-group:last-of-type {
-  margin: 20px 0 100px 0;
+.tool-result {
+  background-color: rgb(212, 237, 213);
+  margin: 20px 0;
+}
+.tool-result h3 {
+  letter-spacing: 2px;
+  padding: 10px 0 0 0;
 }
 
 /* --------------------------------------- */

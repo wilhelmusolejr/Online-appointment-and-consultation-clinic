@@ -57,3 +57,48 @@ modalLoginRegParent.addEventListener("click", function (e) {
     registerContainer.classList.remove("hidden");
   }
 });
+
+// BMI CALCULATOR
+const inputFeetTool = document.querySelector("#feet");
+const inputInchesTool = document.querySelector("#inches");
+const inputPoundsTool = document.querySelector("#pounds");
+const btnBmiTool = document.querySelector(".submit-bmi-tool");
+const bmiToolParent = document.querySelector(".bmi-tool");
+
+btnBmiTool.addEventListener("click", function (e) {
+  let getBmi =
+    (703 * parseInt(inputPoundsTool.value)) /
+    Math.pow(
+      parseInt(inputFeetTool.value) * 12 + parseInt(inputInchesTool.value),
+      2
+    );
+  getBmi = getBmi.toFixed(2);
+
+  bmiToolParent.querySelector(".tool-result p").outerHTML = `
+  <p>Your Body Mass Index is <em>${getBmi}</em></p>
+  `;
+
+  if (getBmi < 18.5) {
+    bmiToolParent.querySelector(".tool-result h3").outerHTML = `
+    <h3 style="color: #87b1d9;" class="red text-uppercase">underweight</h3>
+    `;
+  } else if (getBmi > 18.5 && getBmi < 24.9) {
+    bmiToolParent.querySelector(".tool-result h3").outerHTML = `
+    <h3 style="color: #3cd465;" class="red text-uppercase">normal</h3>
+    `;
+  } else if (getBmi > 24.9 && getBmi < 29.9) {
+    bmiToolParent.querySelector(".tool-result h3").outerHTML = `
+    <h3 style="color: #eee133;" class="red text-uppercase">overweight</h3>
+    `;
+  } else if (getBmi > 30 && getBmi < 34.9) {
+    bmiToolParent.querySelector(".tool-result h3").outerHTML = `
+    <h3 style="color: #fd802e;" class="red text-uppercase">obese</h3>
+    `;
+  } else if (getBmi > 35) {
+    bmiToolParent.querySelector(".tool-result h3").outerHTML = `
+    <h3 style="color: #f95353;" class="red text-uppercase">extremely obese</h3>
+    `;
+  }
+
+  bmiToolParent.querySelector(".tool-result").classList.remove("hidden");
+});

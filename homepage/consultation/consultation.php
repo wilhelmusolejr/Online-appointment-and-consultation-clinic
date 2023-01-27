@@ -127,10 +127,10 @@
           <!-- Tab -->
           <div class="tabset">
             <!-- Tab 5 -->
-            <input class='personal-tab' type="radio" name="tabset" id="tab5" aria-controls="dunkles" checked>
-            <label class='personal-tab' for="tab5">Personal Information</label>
+            <input class='personal-tab hidden' type="radio" name="tabset" id="tab5" aria-controls="dunkles">
+            <label class='personal-tab hidden' for="tab5">Personal Information</label>
             <!-- Tab 1 -->
-            <input type="radio" name="tabset" id="tab1" aria-controls="marzen">
+            <input type="radio" name="tabset" id="tab1" aria-controls="marzen" checked>
             <label for="tab1">Consultation Information</label>
             <!-- Tab 2 -->
             <input type="radio" name="tabset" id="tab2" aria-controls="rauchbier">
@@ -145,7 +145,7 @@
             <div class="tab-panels">
 
               <!-- Personal Information -->
-              <section id="personal-tab" class="tab-panel">
+              <section id="personal-tab" class="personal-tab tab-panel hidden">
                 <!-- - Form Header -->
                 <div class="form-header text-uppercase hidden">
                   <h3>Personal Information</h3>

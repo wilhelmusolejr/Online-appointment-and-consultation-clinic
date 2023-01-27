@@ -21,7 +21,7 @@
       </li>
 
       <li><a class="<?php echo $faq ?>" href="#">FAQ</a></li>
-      <li><a class="<?php echo $about ?>" href="#">About us</a></li>
+      <li><a class="<?php echo $about ?>" href="<?php echo $path ?>homepage/about/about.php">About us</a></li>
       <li><a class="<?php echo $contact ?>" href="<?php echo $path ?>homepage/contact/contact.php">Contact us</a></li>
     </ul>
   </nav>

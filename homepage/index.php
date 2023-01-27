@@ -103,13 +103,14 @@
   <!-- SECTION - Tool Banner -->
   <section class="tool-banner text-center">
 
-    <div class="tool-container-box card sizing-main">
+    <div class="tool-container-box bmi-tool card sizing-main">
 
       <div class="tool-header text-center">
         <h2 class="text-uppercase">Body mass index</h2>
       </div>
 
       <div class="form">
+
         <!-- height group -->
         <div class="form-group">
           <div class="form-group-header">
@@ -118,12 +119,12 @@
           <div class="form-input-parent text-center">
             <!-- feet -->
             <div class="form-input-box">
-              <input type="number" name="feet" id="feet">
+              <input type="number" name="feet" id="feet" value="5">
               <label for="feet">feet</label>
             </div>
             <!-- inches -->
             <div class="form-input-box">
-              <input type="number" name="inches" id="inches">
+              <input type="number" name="inches" id="inches" value="5">
               <label for="inches">inches</label>
             </div>
           </div>
@@ -136,12 +137,18 @@
           </div>
           <div class="form-input-parent text-center">
             <div class="form-input-box">
-              <input type="number" name="pounds" id="pounds">
+              <input type="number" name="pounds" id="pounds" value="60">
               <label for="pounds">pounds</label>
             </div>
           </div>
         </div>
-        <button class="button button-secondary">Compute bmi</button>
+
+        <div class="tool-result text-center card hidden">
+          <p>Your Body Mass Index is 14.5</p>
+          <h3 class="red text-uppercase">underweight</h3>
+        </div>
+
+        <button class="button button-secondary submit-bmi-tool">Compute bmi</button>
       </div>
 
     </div>
