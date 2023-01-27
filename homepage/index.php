@@ -145,7 +145,7 @@
 
         <div class="tool-result text-center card hidden">
           <p>Your Body Mass Index is 14.5</p>
-          <h3 class="red text-uppercase">underweight</h3>
+          <h3 class=" text-uppercase">underweight</h3>
         </div>
 
         <button class="button button-secondary submit-bmi-tool">Compute bmi</button>

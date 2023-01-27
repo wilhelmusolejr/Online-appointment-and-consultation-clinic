@@ -250,13 +250,19 @@ button:disabled {
   border: 1px solid #70707039;
 }
 
+.tool-container-box .form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .tool-result {
   background-color: rgb(212, 237, 213);
-  margin: 20px 0;
+  /* margin: 20px 0; */
 }
 .tool-result h3 {
   letter-spacing: 2px;
-  padding: 10px 0 0 0;
+  /* padding: 10px 0 0 0; */
 }
 
 /* --------------------------------------- */
