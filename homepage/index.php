@@ -109,7 +109,7 @@
         <h2 class="text-uppercase">Body mass index</h2>
       </div>
 
-      <div class="form">
+      <form class="form">
 
         <!-- height group -->
         <div class="form-group">
@@ -119,12 +119,12 @@
           <div class="form-input-parent text-center">
             <!-- feet -->
             <div class="form-input-box">
-              <input type="number" name="feet" id="feet" value="5">
+              <input type="number" name="feet" id="feet" min=0 required>
               <label for="feet">feet</label>
             </div>
             <!-- inches -->
             <div class="form-input-box">
-              <input type="number" name="inches" id="inches" value="5">
+              <input type="number" name="inches" id="inches" min=0 required>
               <label for="inches">inches</label>
             </div>
           </div>
@@ -137,7 +137,7 @@
           </div>
           <div class="form-input-parent text-center">
             <div class="form-input-box">
-              <input type="number" name="pounds" id="pounds" value="60">
+              <input type="number" name="pounds" id="pounds" min=0 required>
               <label for="pounds">pounds</label>
             </div>
           </div>
@@ -145,14 +145,14 @@
 
         <div class="tool-result text-center card hidden">
           <p>Your Body Mass Index is 14.5</p>
-          <h3 class=" text-uppercase">underweight</h3>
+          <h3 class="text-uppercase">underweight</h3>
         </div>
 
         <button class="button button-secondary submit-bmi-tool">Compute bmi</button>
-      </div>
+      </form>
 
     </div>
-    <a href="#" class="button button-primary">See more tools</a>
+    <a href="tools/tools.php" class="button button-primary">See more tools</a>
   </section>
 
   <!-- SECTION - List of RND -->

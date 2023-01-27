@@ -80,19 +80,19 @@ btnBmiTool.addEventListener("click", function (e) {
 
   if (getBmi < 18.5) {
     bmiToolParent.querySelector(".tool-result h3").outerHTML = `
-    <h3 style="color: #87b1d9;" class="red text-uppercase">underweight</h3>
+    <h3 style="color: #87b1d9;" class="text-uppercase">underweight</h3>
     `;
   } else if (getBmi > 18.5 && getBmi < 24.9) {
     bmiToolParent.querySelector(".tool-result h3").outerHTML = `
-    <h3 style="color: #3cd465;" class="red text-uppercase">normal</h3>
+    <h3 style="color: #3cd465;" class="text-uppercase">normal</h3>
     `;
   } else if (getBmi > 24.9 && getBmi < 29.9) {
     bmiToolParent.querySelector(".tool-result h3").outerHTML = `
-    <h3 style="color: #eee133;" class="red text-uppercase">overweight</h3>
+    <h3 style="color: #eee133;" class="text-uppercase">overweight</h3>
     `;
   } else if (getBmi > 30 && getBmi < 34.9) {
     bmiToolParent.querySelector(".tool-result h3").outerHTML = `
-    <h3 style="color: #fd802e;" class="red text-uppercase">obese</h3>
+    <h3 style="color: #fd802e;" class="text-uppercase">obese</h3>
     `;
   } else if (getBmi > 35) {
     bmiToolParent.querySelector(".tool-result h3").outerHTML = `

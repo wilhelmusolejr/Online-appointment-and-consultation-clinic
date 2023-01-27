@@ -41,7 +41,7 @@
 
   </header>
 
-  <!-- SECTION - Quick Solution -->
+  <!-- contact -->
   <section class="contact-parent sizing-secondary">
     <div class="contact-container flex-center grid-container">
       <!--  -->

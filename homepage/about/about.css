@@ -1,0 +1,59 @@
+/* ---------------------*/
+/* hero main content header */
+main {
+  background: linear-gradient(
+      0deg,
+      rgba(19, 42, 28, 0.7),
+      rgba(19, 42, 28, 0.7)
+    ),
+    url(../../asset/background-sample.jpg);
+  background-size: cover;
+  background-position: center;
+
+  position: relative;
+}
+main .sizing-secondary {
+  width: 90%;
+  min-height: 55vh;
+
+  display: flex;
+  align-items: center;
+}
+
+main .sizing-secondary .main-text {
+  margin: auto;
+  color: var(--color-white-primary);
+}
+
+.main-text p {
+  color: var(--color-white-secondary);
+  margin: 10px auto;
+  width: 80%;
+  max-width: 700px;
+}
+
+.main-text h1 {
+  margin: auto;
+}
+
+/* ---------------------*/
+/* hero main content header */
+.about-container {
+  background-color: var(--color-white-primary);
+
+  max-width: 900px;
+  margin: auto;
+
+  padding: clamp(20px, 5vw, 50px);
+}
+.about-container p {
+  line-height: 1.8;
+}
+
+.about-container ul {
+  list-style: unset;
+  margin: 20px;
+}
+.about-container li {
+  font-size: clamp(1.6rem, 5vw, 2rem);
+}
