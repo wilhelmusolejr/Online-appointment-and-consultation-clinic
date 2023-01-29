@@ -181,7 +181,7 @@ section.board-parent {
 .board-header h2 {
   font-size: clamp(3rem, 7vw, 5rem);
   font-weight: 600;
-  letter-spacing: 5px;
+  /* letter-spacing: 5px; */
 }
 
 /* ---------------------*/
@@ -316,6 +316,143 @@ section.board-parent {
 }
 .appointment-checkpoint-stage .grid-box img {
   width: 60%;
+}
+
+/* CONSULTATION */
+.consultation-stage .divider {
+  max-width: 1400px;
+  padding: 0 2%;
+  margin: auto;
+}
+
+/* --- */
+.virtual-room-container {
+  background-color: var(--color-white-secondary);
+  justify-content: flex-start;
+
+  border-radius: 20px;
+  min-height: 150px;
+}
+.virtual-room-container ul {
+  padding: 10px;
+}
+.virtual-room-container li {
+  padding: 10px 10px 10px 20px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.virtual-room-container .circle {
+  width: 15px;
+  height: 15px;
+  background-color: var(--color-green-secondary);
+
+  border-radius: 50%;
+}
+
+.form-input-box {
+  justify-content: flex-start;
+}
+.grid-box {
+  margin: auto;
+}
+
+/* sched */
+.schedule-container {
+  background-color: var(--color-white-secondary);
+  justify-content: flex-start;
+
+  border-radius: 10px;
+
+  min-height: 300px;
+
+  /* border-top-left-radius: 25px; */
+}
+.container-header p {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+
+  background-color: var(--color-green-secondary);
+
+  padding: 20px;
+  color: white;
+}
+.schedule-container li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  gap: 10px;
+
+  padding: 20px 10px;
+
+  background-color: black;
+}
+.schedule-container p {
+  color: var(--color-white-secondary);
+}
+
+/* messenger */
+.messenger-container {
+  background-color: rgba(0, 102, 204, 0.332);
+
+  border: 1px solid black;
+
+  width: 100%;
+  height: 5 00px;
+
+  border-radius: 10px;
+}
+
+.actual-message-container {
+  /* background: url(../../asset/message-bg.jpg);
+  background-size: contain;
+  background-position: center; */
+
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  /* max-height: 300px; */
+  height: 100%;
+
+  overflow-x: hidden;
+
+  padding: 10px;
+}
+.messesage-con {
+  width: 90%;
+  padding: 5px;
+  border-radius: 10px;
+
+  max-width: 400px;
+}
+.message-me {
+  align-self: flex-end;
+}
+.message-you {
+  color: black;
+}
+.message-me .message-text {
+  background-color: #4987e5;
+  color: whitesmoke;
+}
+.message-you .message-text {
+  background-color: #f2f2f2;
+}
+.message-text {
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.message-me .time {
+  text-align: right;
+}
+.time {
+  font-size: 1.3rem !important;
+  color: #333;
+  padding-bottom: 2.5px;
 }
 
 /* MEDIA QUERIES */

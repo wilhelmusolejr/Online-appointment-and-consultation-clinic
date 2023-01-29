@@ -737,9 +737,17 @@ footer .nav-links {
   align-items: flex-start;
   gap: 15px;
 }
+
 .divider > div {
-  flex: 48%;
+  flex: 1;
+  min-width: 200px;
+  /* flex: 1 1 300px; */
 }
+
+.divider .divider-grow {
+  flex: 2;
+}
+
 .divider .left-form {
   max-width: 300px;
 }

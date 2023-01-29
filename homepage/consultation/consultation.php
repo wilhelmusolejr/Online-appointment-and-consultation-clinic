@@ -98,6 +98,7 @@
           </ul>
         </div>
       </div>
+
       <!-- 1 -->
       <!-- Appointment -->
       <div class="appointment-stage hidden">
@@ -631,7 +632,7 @@
 
       <!-- 2 -->
       <!-- Appointment checkpoint -->
-      <div class="appointment-checkpoint-stage">
+      <div class="appointment-checkpoint-stage hidden">
         <!-- Board Header -->
         <div class="board-header text-uppercase text-center">
           <h2>Appointment details</h2>
@@ -673,6 +674,190 @@
                 <div class="list-rnd-info text-center">
                   <p>Gregory Yames RND</p>
                   <a href="#" class="text-uppercase text-center profile-link">view profile</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="forms-buttons">
+            <div class="form-button"><button class="button button-primary">Next</button></div>
+            <div class="form-button"><button class="button button-primary">Next</button></div>
+          </div>
+        </form>
+
+      </div>
+
+        <div class="board-header text-uppercase text-center">
+          <h2>Consultation</h2>
+        </div>
+        <!-- Form -->
+        <form action="/" class="form" method="post">
+          <div class="divider">
+            <!-- 1 -->
+            <div class="form-input-parent">
+              <!-- Appointment Numbuh -->
+              <div class="form-input-box ">
+                <label for="firstname">Appointment number</label>
+                <input type="text" name="firstname" id="firstname" value="#123456" disabled>
+              </div>
+              <!-- Upcoming schedule -->
+              <div class="form-input-box schedule-container">
+                <div class="container-header text-center text-uppercase">
+                  <p>Upcoming schedule</p>
+                </div>
+                <div class="list-schedule">
+                  <ul>
+                    <li>
+                      <p>11/14/2022</p>
+                      <p>04:30pm</p>
+                      <p>1 hour left</p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!-- 2 -->
+            <div class="form-input-parent divider-grow">
+              <!-- Appointment Numbuh -->
+              <div class="form-input-box input-one">
+                <label for="firstname">Chief complaint</label>
+                <input type="text" name="firstname" id="firstname" value="Diet meal plan" disabled>
+              </div>
+
+              <!-- Date appointment submitted -->
+              <div class="form-input-box input-one messenger-container ">
+
+                <!-- actual sms  -->
+                <div class="actual-message-container">
+                  <!-- messege 1 -->
+                  <div class="message-me messesage-con">
+                    <p class="time">04:00pm</p>
+                    <p class="message-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas, a!</p>
+                  </div>
+                  <!-- messege 2 -->
+                  <div class="message-you messesage-con">
+                    <p class="time">04:00pm</p>
+                    <p class="message-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas, a!</p>
+                  </div>
+                  <!-- messege 3 -->
+                  <div class="message-you messesage-con">
+                    <p class="time">04:00pm</p>
+                    <p class="message-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas, a!</p>
+                  </div>
+                  <!-- messege 1 -->
+                  <div class="message-me messesage-con">
+                    <p class="time">04:00pm</p>
+                    <p class="message-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas, a!</p>
+                  </div>
+                </div>
+
+                <!-- sms box input -->
+                <div class="sms-box-container">
+                  <input type="text" name="middlename" id="middlename" placeholder="Your message here">
+                </div>
+
+              </div>
+            </div>
+            <!-- 3 -->
+            <div class="form-input-parent flex-center">
+              <!-- img -->
+              <div class="list-rnd-box grid-box card">
+                <div class="list-rnd-image flex-center">
+                  <img src="../../asset/doctor-bulk-billing-doctors-chapel-hill-health-care-medical-3.png" alt="">
+                </div>
+                <div class="list-rnd-info text-center">
+                  <p>Gregory Yames RND</p>
+                  <a href="#" class="text-uppercase text-center profile-link">view profile</a>
+                </div>
+              </div>
+              <!-- virtual room -->
+              <div class="form-input-box virtual-room-container">
+                <div class="container-header text-center text-uppercase">
+                  <p>in virtual room</p>
+                </div>
+                <div class="list-schedule">
+                  <ul>
+                    <li class="hidden">
+                      <div class="circle"></div>
+                      <p>RND Gregory Yames</p>
+                    </li>
+                    <li class="hiddens">
+                      <div class="circle"></div>
+                      <p>RND Gregory Yames</p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="forms-buttons">
+            <div class="form-button"><button class="button button-primary">Next</button></div>
+            <div class="form-button"><button class="button button-primary">Next</button></div>
+          </div>
+        </form>
+
+      </div>
+
+      <!-- 4 -->
+      <!-- consultation checkpoint -->
+      <div class="consultation-stage hiddens">
+        <!-- Board Header -->
+        <div class="board-header text-uppercase text-center">
+          <h2>Consultation result</h2>
+        </div>
+        <!-- Form -->
+        <form action="/" class="form" method="post">
+          <div class="divider">
+            <!-- 1 -->
+            <div class="form-input-parent">
+              <!-- Appointment Numbuh -->
+              <div class="form-input-box ">
+                <label for="firstname">Appointment number</label>
+                <input type="text" name="firstname" id="firstname" value="#123456" disabled>
+              </div>
+              <!-- Upcoming schedule -->
+              <div class="form-input-box ">
+                <label for="firstname">Appointment number</label>
+                <input type="text" name="firstname" id="firstname" value="#123456" disabled>
+              </div>
+            </div>
+            <!-- 2 -->
+            <div class="form-input-parent divider-grow">
+              <!-- Appointment Numbuh -->
+              <div class="form-input-box input-one">
+                <label for="firstname">Chief complaint</label>
+                <input type="text" name="firstname" id="firstname" value="Diet meal plan" disabled>
+              </div>
+            </div>
+            <!-- 3 -->
+            <div class="form-input-parent flex-center">
+              <!-- img -->
+              <div class="list-rnd-box grid-box card">
+                <div class="list-rnd-image flex-center">
+                  <img src="../../asset/doctor-bulk-billing-doctors-chapel-hill-health-care-medical-3.png" alt="">
+                </div>
+                <div class="list-rnd-info text-center">
+                  <p>Gregory Yames RND</p>
+                  <a href="#" class="text-uppercase text-center profile-link">view profile</a>
+                </div>
+              </div>
+              <!-- virtual room -->
+              <div class="form-input-box virtual-room-container">
+                <div class="container-header text-center text-uppercase">
+                  <p>in virtual room</p>
+                </div>
+                <div class="list-schedule">
+                  <ul>
+                    <li class="hidden">
+                      <div class="circle"></div>
+                      <p>RND Gregory Yames</p>
+                    </li>
+                    <li class="hiddens">
+                      <div class="circle"></div>
+                      <p>RND Gregory Yames</p>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
