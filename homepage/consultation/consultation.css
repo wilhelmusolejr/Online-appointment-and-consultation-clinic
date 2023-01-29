@@ -72,7 +72,6 @@
 }
 
 /* Active Css  */
-
 .board-progress li .active {
   background-color: #ff4732;
   display: grid;
@@ -234,7 +233,7 @@ section.board-parent {
   right: 50px;
   bottom: 50px;
 }
-/* ---------------------*/
+
 /* TAB */
 .tabset {
   max-width: 1400px;
@@ -300,6 +299,23 @@ section.board-parent {
 .tab-panel {
   padding: 30px 0;
   border-top: 1px solid #ccc;
+}
+
+/* --- checkpoint - appointment */
+/* ---------------------*/
+.appointment-checkpoint-stage .divider {
+  max-width: 1400px;
+  padding: 0 2%;
+  margin: auto;
+}
+.appointment-checkpoint-stage .form-input-parent:last-of-type {
+  justify-content: center;
+}
+.appointment-checkpoint-stage .profile-link {
+  margin-top: 50px;
+}
+.appointment-checkpoint-stage .grid-box img {
+  width: 60%;
 }
 
 /* MEDIA QUERIES */

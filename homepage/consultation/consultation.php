@@ -13,6 +13,7 @@
     require_once $path.'includes/starterOne.php';
 ?>
 <link rel="stylesheet" href="consultation.css" />
+<link rel="stylesheet" href="../rnds/rnds.css" />
 <script src="../index.js" defer></script>
 <script src="consultation.js" defer></script>
 <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
@@ -99,7 +100,7 @@
       </div>
       <!-- 1 -->
       <!-- Appointment -->
-      <div class="appointment-stage">
+      <div class="appointment-stage hidden">
         <!-- Board Header -->
         <div class="board-header text-uppercase text-center">
           <h2>Set your appoinment</h2>
@@ -611,7 +612,80 @@
 
           <div class="form-button"><button class="button" disabled>Submit</button></div>
         </form>
+
+        <!-- MODAl - CONFIRMATION -->
+        <div class="modal-parent modal-notif-parent modal-appointment-confirmation overlay-black flex-center hidden">
+          <div class="modal-container modal-notif-container sizing-secondary">
+            <div class="modal-header text-center">
+              <h2 class="text-uppercase">Confirm submission</h2>
+            </div>
+            <p class="text-center">message</p>
+            <div class="modal-buttons">
+              <button class="button button-previous">Go back</button>
+              <button class="button button-primary">Submit</button>
+            </div>
+          </div>
+        </div>
+
       </div>
+
+      <!-- 2 -->
+      <!-- Appointment checkpoint -->
+      <div class="appointment-checkpoint-stage">
+        <!-- Board Header -->
+        <div class="board-header text-uppercase text-center">
+          <h2>Appointment details</h2>
+        </div>
+        <!-- Form -->
+        <form action="/" class="form" method="post">
+          <!-- Tab -->
+          <div class="divider">
+            <!-- left -->
+            <div class="form-input-parent">
+              <!-- Appointment Numbuh -->
+              <div class="form-input-box input-two">
+                <label for="firstname">Appointment number</label>
+                <input type="text" name="firstname" id="firstname" value="#123456" disabled>
+              </div>
+              <!-- Date appointment submitted -->
+              <div class="form-input-box input-two">
+                <label for="middlename" class="text-capital">Date appointment submitted</label>
+                <input type="date" name="middlename" id="middlename" value="01/01/1990" disabled>
+              </div>
+              <!-- last name -->
+              <div class="form-input-box input-two">
+                <label for="lastname">Appointment status</label>
+                <input type="text" name="lastname" id="lastname" value="PENDING FOR APPROVAL" disabled>
+              </div>
+              <!-- last name -->
+              <div class="form-input-box input-two">
+                <label for="lastname">Assigned RDN</label>
+                <input type="text" name="lastname" id="lastname" value="PENDING FOR APPROVAL" disabled>
+              </div>
+            </div>
+            <!-- right -->
+            <div class="form-input-parent flex-center">
+              <!-- img -->
+              <div class="list-rnd-box grid-box card">
+                <div class="list-rnd-image flex-center">
+                  <img src="../../asset/doctor-bulk-billing-doctors-chapel-hill-health-care-medical-3.png" alt="">
+                </div>
+                <div class="list-rnd-info text-center">
+                  <p>Gregory Yames RND</p>
+                  <a href="#" class="text-uppercase text-center profile-link">view profile</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="forms-buttons">
+            <div class="form-button"><button class="button button-primary">Next</button></div>
+            <div class="form-button"><button class="button button-primary">Next</button></div>
+          </div>
+        </form>
+
+      </div>
+
 
     </div>
 

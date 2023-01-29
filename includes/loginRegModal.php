@@ -1,4 +1,4 @@
-<div class="modal-login-reg overlay-black flex-center hidden">
+<div class="modal-parent modal-data-parent modal-login-reg overlay-black flex-center hidden">
 
   <!-- Floating model -->
   <div class="modal-container login-container sizing-secondary">
