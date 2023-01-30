@@ -165,12 +165,40 @@ section.board-parent {
   background-color: white;
 
   width: 85%;
-  min-height: 90vh;
+  /* min-height: 70vh; */
   margin: auto;
 
   position: relative;
 
-  padding-bottom: 100px;
+  /* padding-bottom:  100px; */
+}
+.form-button {
+  margin: 100px 0 20px 0;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.form-button > div {
+  flex: 1;
+  /* min-width: 250px; */
+
+  display: flex;
+
+  /* border: 1px solid black;  */
+}
+
+.form-button div:nth-of-type(1) {
+  justify-content: flex-start;
+}
+.form-button div:nth-of-type(2) {
+  justify-content: center;
+  flex: 2;
+}
+.form-button div:nth-of-type(3) {
+  justify-content: flex-end;
 }
 
 /* header */
@@ -228,11 +256,11 @@ section.board-parent {
   height: 100%;
 }
 
-.form-button {
+/* .form-button {
   position: absolute;
   right: 50px;
   bottom: 50px;
-}
+} */
 
 /* TAB */
 .tabset {
@@ -319,7 +347,7 @@ section.board-parent {
 }
 
 /* CONSULTATION */
-.consultation-stage .divider {
+.board-container .divider {
   max-width: 1400px;
   padding: 0 2%;
   margin: auto;
@@ -352,8 +380,12 @@ section.board-parent {
   border-radius: 50%;
 }
 
-.form-input-box {
+.consultation-stage .form-input-box {
   justify-content: flex-start;
+}
+.form-input-box {
+  /* justify-content: initial; */
+  justify-content: space-between;
 }
 .grid-box {
   margin: auto;
@@ -414,8 +446,8 @@ section.board-parent {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  /* max-height: 300px; */
   height: 100%;
+  max-height: 300px;
 
   overflow-x: hidden;
 

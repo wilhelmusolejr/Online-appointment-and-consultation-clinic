@@ -1,0 +1,14 @@
+.form-input-box .status-pending {
+  border: 2px solid #c9ac35;
+  background-color: #e5dbb1;
+}
+
+.form-input-box .status-approved {
+  border: 2px solid #35c949;
+  background-color: #b1e5b8;
+}
+
+.form-input-box .status-declined {
+  border: 2px solid #c93535;
+  background-color: #e5b1b1;
+}

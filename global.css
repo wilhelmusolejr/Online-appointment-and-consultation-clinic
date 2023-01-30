@@ -416,7 +416,7 @@ section {
   width: 100%;
   max-width: 450px;
 
-  box-shadow: 5px 5px 25px #1a1a1a20;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
 .grid-box img {
   width: 100%;
@@ -808,8 +808,8 @@ footer .nav-links {
 
   /* --------------------------------------- */
   /* login */
-  .modal-container {
-    flex-direction: initial;
+  .modal-login-reg .modal-container {
+    flex-direction: row;
   }
   .modal-container.sizing-secondary {
     width: 90%;
