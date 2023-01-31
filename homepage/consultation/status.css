@@ -12,3 +12,20 @@
   border: 2px solid #c93535;
   background-color: #e5b1b1;
 }
+
+/* --------------------------------------- */
+/* BUTTON */
+.button-previous {
+  border: 2px solid #236a45;
+}
+.button-previous p {
+  color: #236a45;
+  font-weight: 700;
+}
+
+/* --------------------------------------- */
+/* form place holder */
+.status-declined:disabled {
+  font-weight: 600;
+  letter-spacing: 1px;
+}

@@ -20,43 +20,6 @@ const three = document.querySelector(".three");
 const four = document.querySelector(".four");
 const five = document.querySelector(".five");
 
-one.onclick = function () {
-  one.classList.add("active");
-  two.classList.remove("active");
-  three.classList.remove("active");
-  four.classList.remove("active");
-  five.classList.remove("active");
-};
-
-two.onclick = function () {
-  one.classList.add("active");
-  two.classList.add("active");
-  three.classList.remove("active");
-  four.classList.remove("active");
-  five.classList.remove("active");
-};
-three.onclick = function () {
-  one.classList.add("active");
-  two.classList.add("active");
-  three.classList.add("active");
-  four.classList.remove("active");
-  five.classList.remove("active");
-};
-four.onclick = function () {
-  one.classList.add("active");
-  two.classList.add("active");
-  three.classList.add("active");
-  four.classList.add("active");
-  five.classList.remove("active");
-};
-five.onclick = function () {
-  one.classList.add("active");
-  two.classList.add("active");
-  three.classList.add("active");
-  four.classList.add("active");
-  five.classList.add("active");
-};
-
 // Appoint for
 const boardContainer = document.querySelector(".board-container");
 const appointmentStage = boardContainer.querySelector(".appointment-stage");
@@ -78,3 +41,78 @@ appointFor.addEventListener("click", function (e) {
     });
   }
 });
+
+// PREV AND NEXT
+const boardSets = boardContainer.querySelectorAll(".board-page");
+const boardProgress = boardContainer.querySelector(".board-progress");
+
+boardContainer.addEventListener("click", function (e) {
+  if (e.target.parentElement.classList.contains("button-next")) {
+    e.preventDefault();
+
+    let current = parseInt(
+      e.target.closest(".board-page").getAttribute("data-board-page")
+    );
+    let prev = current - 1;
+    let next = current + 1;
+
+    boardSets.forEach((board) => {
+      let currentPage = parseInt(board.getAttribute("data-board-page"));
+
+      if (currentPage == current) {
+        board.classList.add("hidden");
+        console.log("remove");
+        console.log(current);
+
+        switch (currentPage) {
+          case 1:
+            one.classList.add("active");
+            two.classList.add("active");
+            three.classList.remove("active");
+            four.classList.remove("active");
+            five.classList.remove("active");
+            break;
+          case 2:
+            one.classList.add("active");
+            two.classList.add("active");
+            three.classList.add("active");
+            four.classList.remove("active");
+            five.classList.remove("active");
+            break;
+          case 3:
+            one.classList.add("active");
+            two.classList.add("active");
+            three.classList.add("active");
+            four.classList.add("active");
+            five.classList.remove("active");
+            break;
+          case 4:
+            one.classList.add("active");
+            two.classList.add("active");
+            three.classList.add("active");
+            four.classList.add("active");
+            five.classList.add("active");
+            break;
+          case 5:
+            break;
+        }
+      }
+
+      if (currentPage == next) {
+        board.scrollIntoView({
+          behavior: "smooth",
+        });
+
+        board.classList.remove("hidden");
+        console.log("added");
+      }
+    });
+  }
+});
+
+one.onclick = function () {};
+
+two.onclick = function () {};
+three.onclick = function () {};
+four.onclick = function () {};
+five.onclick = function () {};

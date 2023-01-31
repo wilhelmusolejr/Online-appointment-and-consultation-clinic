@@ -14,6 +14,7 @@
 ?>
 <link rel="stylesheet" href="consultation.css" />
 <link rel="stylesheet" href="../rnds/rnds.css" />
+<link rel="stylesheet" href="status.css">
 <script src="../index.js" defer></script>
 <script src="consultation.js" defer></script>
 <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
@@ -36,7 +37,7 @@
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat
             quibusdam excepturi.
           </p>
-          <a href="#" class="button button-primary">Book now!</a>
+          <a href="#board-parent" class="button button-primary">Book now!</a>
         </div>
       </div>
 
@@ -44,7 +45,7 @@
 
   </header>
 
-  <section class="board-parent">
+  <section id="board-parent" class="board-parent">
 
     <!-- Set up your appointment -->
     <div class="board-container card">
@@ -53,7 +54,7 @@
         <div class="main flex-center">
           <ul class="text-center">
             <!-- 1 -->
-            <li class="current">
+            <li data-board-page="1" class="current">
               <i class="icon uil uil-capture"></i>
               <div class="progress one">
                 <p>1</p>
@@ -62,7 +63,7 @@
               <p class="text">Appointment</p>
             </li>
             <!-- - -->
-            <li class="small-checkpoint">
+            <li data-board-page="2" class="small-checkpoint">
               <i class="icon uil uil-clipboard-notes"></i>
               <div class="progress two">
                 <!-- <p>2</p> -->
@@ -70,7 +71,7 @@
               </div>
             </li>
             <!-- 2 -->
-            <li>
+            <li data-board-page="3">
               <i class="icon uil uil-credit-card"></i>
               <div class="progress three">
                 <p>2</p>
@@ -79,7 +80,7 @@
               <p class="text">Consultation</p>
             </li>
             <!-- - -->
-            <li class="small-checkpoint">
+            <li data-board-page="4" class="small-checkpoint">
               <i class="icon uil uil-exchange"></i>
               <div class="progress four">
                 <!-- <p>4</p> -->
@@ -87,7 +88,7 @@
               </div>
             </li>
             <!-- 3 -->
-            <li>
+            <li data-board-page="5">
               <i class="icon uil uil-map-marker"></i>
               <div class="progress five">
                 <p>3</p>
@@ -101,7 +102,7 @@
 
       <!-- 1 -->
       <!-- Appointment -->
-      <div class="appointment-stage hidden">
+      <div data-board-page="1" class="appointment-stage board-page">
         <!-- Board Header -->
         <div class="board-header text-uppercase text-center">
           <h2>Set your appoinment</h2>
@@ -265,8 +266,8 @@
                   <div class="form-input-parent">
                     <!-- More Information -->
                     <div class="form-input-box input-one">
-                      <label for="appointment-medical" class="text-capital">More information</label>
-                      <textarea name="appointment-more-info" class=""
+                      <label for="appointment-more-info" class="text-capital">More information</label>
+                      <textarea name="appointment-more-info" class="" id="appointment-more-info"
                         placeholder="Give additional information about your chief complaint."></textarea>
                     </div>
                   </div>
@@ -287,7 +288,7 @@
                     <div class="form-input-box input-two">
                       <label for="appoint-food-allergies">Do you have any food allergies? <span>*</span></label>
                       <input type="text" name="appoint-food-allergies" id="appoint-food-allergies"
-                        placeholder="Peanut, Shrimp">
+                        placeholder="Peanut, Shrimp" required>
                       <p class="form-error-message hidden">Error</p>
                     </div>
                     <!-- Foods you like -->
@@ -611,7 +612,24 @@
             </div>
           </div>
 
-          <div class="form-button"><button class="button" disabled>Submit</button></div>
+          <div class="form-button">
+
+            <!-- prev -->
+            <div class="button-prev">
+              <button class="button hidden" disabled>prev</button>
+            </div>
+            <!-- middle -->
+            <div>
+              <button class="button hidden" disabled>Submit</button>
+            </div>
+            <!-- next -->
+            <div class="button-next">
+              <button class="button button-primary">Submit
+              </button>
+            </div>
+
+
+          </div>
         </form>
 
         <!-- MODAl - CONFIRMATION -->
@@ -632,7 +650,7 @@
 
       <!-- 2 -->
       <!-- Appointment checkpoint -->
-      <div class="appointment-checkpoint-stage hidden">
+      <div data-board-page="2" class="appointment-checkpoint-stage board-page hidden">
         <!-- Board Header -->
         <div class="board-header text-uppercase text-center">
           <h2>Appointment details</h2>
@@ -641,7 +659,7 @@
         <form action="/" class="form" method="post">
           <!-- Tab -->
           <div class="divider">
-            <!-- left -->
+            <!-- 1 -->
             <div class="form-input-parent">
               <!-- Appointment Numbuh -->
               <div class="form-input-box input-two">
@@ -649,9 +667,9 @@
                 <input type="text" name="firstname" id="firstname" value="#123456" disabled>
               </div>
               <!-- Date appointment submitted -->
-              <div class="form-input-box input-two">
-                <label for="middlename" class="text-capital">Date appointment submitted</label>
-                <input type="date" name="middlename" id="middlename" value="01/01/1990" disabled>
+              <div class="form-input-box input-two ">
+                <label for="middlename">Date appointment submitted</label>
+                <input type="date" class="status-pending" name="middlename" id="middlename" value="1990-05-02" disabled>
               </div>
               <!-- last name -->
               <div class="form-input-box input-two">
@@ -661,10 +679,11 @@
               <!-- last name -->
               <div class="form-input-box input-two">
                 <label for="lastname">Assigned RDN</label>
-                <input type="text" name="lastname" id="lastname" value="PENDING FOR APPROVAL" disabled>
+                <input class="status-declined" type="text" name="lastname" id="lastname" value="DECLINED" disabled>
               </div>
+
             </div>
-            <!-- right -->
+            <!-- 3 -->
             <div class="form-input-parent flex-center">
               <!-- img -->
               <div class="list-rnd-box grid-box card">
@@ -679,14 +698,32 @@
             </div>
           </div>
 
-          <div class="forms-buttons">
-            <div class="form-button"><button class="button button-primary">Next</button></div>
-            <div class="form-button"><button class="button button-primary">Next</button></div>
+          <div class="form-button">
+
+            <!-- prev -->
+            <div class="button-prev">
+              <button class="button hidden" disabled>prev</button>
+            </div>
+            <!-- middle -->
+            <div>
+              <button class="button hidden" disabled>Submit</button>
+            </div>
+            <!-- next -->
+            <div class="button-next">
+              <button class="button button-primary">Next
+              </button>
+            </div>
+
           </div>
+
         </form>
 
       </div>
 
+      <!-- 3 -->
+      <!-- consultation -->
+      <div data-board-page="3" class="consultation-stage board-page hidden">
+        <!-- Board Header -->
         <div class="board-header text-uppercase text-center">
           <h2>Consultation</h2>
         </div>
@@ -791,17 +828,31 @@
             </div>
           </div>
 
-          <div class="forms-buttons">
-            <div class="form-button"><button class="button button-primary">Next</button></div>
-            <div class="form-button"><button class="button button-primary">Next</button></div>
+          <div class="form-button">
+
+            <!-- prev -->
+            <div class="button-prev">
+              <button class="button hidden" disabled>prev</button>
+            </div>
+            <!-- middle -->
+            <div>
+              <button class="button hidden" disabled>Submit</button>
+            </div>
+            <!-- next -->
+            <div class="button-next">
+              <button class="button button-primary">Next
+              </button>
+            </div>
+
           </div>
+
         </form>
 
       </div>
 
       <!-- 4 -->
       <!-- consultation checkpoint -->
-      <div class="consultation-stage hiddens">
+      <div data-board-page="4" class="consultation-checkpoint-stage board-page hidden">
         <!-- Board Header -->
         <div class="board-header text-uppercase text-center">
           <h2>Consultation result</h2>
@@ -812,6 +863,74 @@
             <!-- 1 -->
             <div class="form-input-parent">
               <!-- Appointment Numbuh -->
+              <div class="form-input-box input-one">
+                <label for="firstname">Appointment number</label>
+                <input type="text" name="firstname" id="firstname" value="#123456" disabled>
+              </div>
+              <!-- Upcoming schedule -->
+              <div class="form-input-box input-one">
+                <label for="firstname">Appointment number</label>
+                <input type="text" name="firstname" id="firstname" value="#123456" disabled>
+              </div>
+            </div>
+            <!-- 2 -->
+            <div class="form-input-parent divider-grow">
+              <!-- Appointment Numbuh -->
+              <div class="form-input-box input-one">
+                <label for="firstname">Chief complaint</label>
+                <input type="text" name="firstname" id="firstname" value="Diet meal plan" disabled>
+              </div>
+            </div>
+            <!-- 3 -->
+            <div class="form-input-parent flex-center">
+              <!-- Appointment Numbuh -->
+              <div class="form-input-box">
+                <label for="firstname">Consultation result</label>
+                <input type="text" name="firstname" id="firstname" value="Diet meal plan" disabled>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-button">
+
+            <!-- prev -->
+            <div class="button-prev">
+              <button class="button hidden" disabled>prev</button>
+            </div>
+            <!-- middle -->
+            <div>
+              <button class="button hidden" disabled>Submit</button>
+            </div>
+            <!-- next -->
+            <div class="button-next">
+              <button class="button button-primary">Next
+              </button>
+            </div>
+
+          </div>
+
+        </form>
+
+      </div>
+
+      <!-- 5 -->
+      <!-- Solution -->
+      <div data-board-page="5" class="solution-stage board-page hidden">
+        <!-- Board Header -->
+        <div class="board-header text-uppercase text-center">
+          <h2>Solution</h2>
+        </div>
+        <!-- Form -->
+        <form action="/" class="form" method="post">
+          <div class="divider">
+            <!-- 1 -->
+            <div class="form-input-parent">
+              <!-- Appointment Numbuh -->
+              <div class="form-input-box ">
+                <label for="firstname">Appointment number</label>
+                <input type="text" name="firstname" id="firstname" value="#123456" disabled>
+              </div>
+              <!-- Upcoming schedule -->
               <div class="form-input-box ">
                 <label for="firstname">Appointment number</label>
                 <input type="text" name="firstname" id="firstname" value="#123456" disabled>
@@ -832,30 +951,17 @@
             </div>
             <!-- 3 -->
             <div class="form-input-parent flex-center">
-              <!-- img -->
-              <div class="list-rnd-box grid-box card">
-                <div class="list-rnd-image flex-center">
-                  <img src="../../asset/doctor-bulk-billing-doctors-chapel-hill-health-care-medical-3.png" alt="">
-                </div>
-                <div class="list-rnd-info text-center">
-                  <p>Gregory Yames RND</p>
-                  <a href="#" class="text-uppercase text-center profile-link">view profile</a>
-                </div>
-              </div>
-              <!-- virtual room -->
-              <div class="form-input-box virtual-room-container">
+              <!-- Upcoming schedule -->
+              <div class="form-input-box schedule-container">
                 <div class="container-header text-center text-uppercase">
-                  <p>in virtual room</p>
+                  <p>File</p>
                 </div>
                 <div class="list-schedule">
                   <ul>
-                    <li class="hidden">
-                      <div class="circle"></div>
-                      <p>RND Gregory Yames</p>
-                    </li>
-                    <li class="hiddens">
-                      <div class="circle"></div>
-                      <p>RND Gregory Yames</p>
+                    <li>
+                      <p>11/14/2022</p>
+                      <p>04:30pm</p>
+                      <p>1 hour left</p>
                     </li>
                   </ul>
                 </div>
@@ -863,20 +969,31 @@
             </div>
           </div>
 
-          <div class="forms-buttons">
-            <div class="form-button"><button class="button button-primary">Next</button></div>
-            <div class="form-button"><button class="button button-primary">Next</button></div>
+          <div class="form-button">
+
+            <!-- prev -->
+            <div class="button-prev">
+              <button class="button ">prev</button>
+            </div>
+            <!-- middle -->
+            <div>
+              <button class="button hidden" disabled>Submit</button>
+            </div>
+            <!-- next -->
+            <div class="button-next">
+              <button class="button button-primary">Next
+              </button>
+            </div>
+
           </div>
+
         </form>
 
       </div>
 
-
     </div>
 
-    </div>
   </section>
-
 
 
 
