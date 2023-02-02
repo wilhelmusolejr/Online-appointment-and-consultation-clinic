@@ -19,7 +19,10 @@
         </div>
 
         <!-- form -->
-        <form action="index.php" method="post" class="form sizing-main">
+        <form method="post" class="form form-login sizing-main">
+
+          <!-- path -->
+          <input type="hidden" class="path" value="<?php echo $path ?>">
 
           <!-- username -->
           <div class="username-form form-group">

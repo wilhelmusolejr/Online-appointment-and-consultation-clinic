@@ -58,62 +58,23 @@ modalLoginRegParent.addEventListener("click", function (e) {
   }
 });
 
-// BMI CALCULATOR
-const inputFeetTool = document.querySelector("#feet");
-const inputInchesTool = document.querySelector("#inches");
-const inputPoundsTool = document.querySelector("#pounds");
-const btnBmiTool = document.querySelector(".submit-bmi-tool");
-const bmiToolParent = document.querySelector(".bmi-tool");
-
-btnBmiTool.addEventListener("click", function (e) {
-  let getBmi =
-    (703 * parseInt(inputPoundsTool.value)) /
-    Math.pow(
-      parseInt(inputFeetTool.value) * 12 + parseInt(inputInchesTool.value),
-      2
-    );
-  getBmi = getBmi.toFixed(2);
-
-  bmiToolParent.querySelector(".tool-result p").outerHTML = `
-  <p>Your Body Mass Index is <em>${getBmi}</em></p>
-  `;
-
-  if (getBmi < 18.5) {
-    bmiToolParent.querySelector(".tool-result h3").outerHTML = `
-    <h3 style="color: #87b1d9;" class="text-uppercase">underweight</h3>
-    `;
-  } else if (getBmi > 18.5 && getBmi < 24.9) {
-    bmiToolParent.querySelector(".tool-result h3").outerHTML = `
-    <h3 style="color: #3cd465;" class="text-uppercase">normal</h3>
-    `;
-  } else if (getBmi > 24.9 && getBmi < 29.9) {
-    bmiToolParent.querySelector(".tool-result h3").outerHTML = `
-    <h3 style="color: #eee133;" class="text-uppercase">overweight</h3>
-    `;
-  } else if (getBmi > 30 && getBmi < 34.9) {
-    bmiToolParent.querySelector(".tool-result h3").outerHTML = `
-    <h3 style="color: #fd802e;" class="text-uppercase">obese</h3>
-    `;
-  } else if (getBmi > 35) {
-    bmiToolParent.querySelector(".tool-result h3").outerHTML = `
-    <h3 style="color: #f95353;" class="red text-uppercase">extremely obese</h3>
-    `;
-  }
-
-  bmiToolParent.querySelector(".tool-result").classList.remove("hidden");
-});
-
-$(".form").on("submit", function (e) {
+$(".form-login").on("submit", function (e) {
   e.preventDefault(); //prevent to reload the page
+
+  let path = this.querySelector(".path").value;
+  console.log(path);
 
   $.ajax({
     type: "post", //hide url
-    url: "../includes/login-server.php", //your form validation url
-    data: $(".form").serialize(),
+    url: `${path}includes/login-server.php`, //your form validation url
+    data: $(".form-login").serialize(),
     success: function (response) {
-      console.log(response);
-      location.href = "index.php";
-      // alert("The form was submitted successfully"); //display an alert whether the form is submitted okay
+      if (response == "success") {
+        let initialHref = location.href;
+        location.href = initialHref;
+      } else {
+        console.log("error");
+      }
     },
     error: function () {
       alert("test");

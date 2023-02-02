@@ -16,9 +16,9 @@
         $res = $users->validate();
         if($res){
             $_SESSION['user'] = $res['acc_no'];
+            echo "success";
         } else {
-        $error = 'Invalid username/password. Try again.';
-        echo $error;
+          echo "fail";
         }
         
         
