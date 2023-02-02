@@ -34,8 +34,8 @@
             Reach your RND<span class="text-initial">s</span> from anywhere
           </h1>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat
-            quibusdam excepturi.
+            Consulting oneself in a hospital is important for early detection and treatment of illnesses or injuries. It
+            also helps to keep track of one's overall health and prevent the progression of any potential health issues.
           </p>
           <a href="#board-parent" class="button button-primary">Book now!</a>
         </div>

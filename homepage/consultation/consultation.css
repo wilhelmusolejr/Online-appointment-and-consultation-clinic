@@ -48,7 +48,6 @@
   place-items: center;
   color: #fff;
   position: relative;
-  cursor: pointer;
 }
 .progress::after {
   content: " ";
