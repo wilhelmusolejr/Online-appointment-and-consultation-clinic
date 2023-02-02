@@ -2,7 +2,7 @@
   <!-- nav -->
   <nav class="nav-container ">
     <ul class="nav-links text-uppercase">
-      <li class="<?php echo isset($_SESSION['user'])? "": "hidden" ?>">
+      <li class="nav-profile-con <?php echo isset($_SESSION['user'])? "": "hidden" ?>">
         <div class="nav-profile">
           <!-- profile -->
           <div class="nav-profile flex-center">
@@ -52,7 +52,7 @@
   <div class="nav-profile <?php echo isset($_SESSION['user'])? "": "hidden" ?>">
     <div class="nav-profile flex-center">
       <img src="<?php echo $path ?>asset/char.jpg" alt="">
-      <p>Sofia Andres</p>
+      <p><?php echo $_SESSION['user']['first_name']." ".$_SESSION['user']['last_name'] ?></p>
     </div>
 
   </div>

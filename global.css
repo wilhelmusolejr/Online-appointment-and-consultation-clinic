@@ -829,6 +829,12 @@ footer .nav-links {
 
 /* TABLET */
 @media (min-width: 576px) {
+  .nav-container .nav-profile-con {
+    display: none;
+  }
+  .nav-profile {
+    display: inherit;
+  }
 }
 
 /* LAPTOP */
@@ -898,13 +904,6 @@ footer .nav-links {
 
   .nav-burger {
     display: none;
-  }
-
-  .nav-container .nav-profile {
-    display: none;
-  }
-  .nav-profile {
-    display: inherit;
   }
 
   .dropdown-content {

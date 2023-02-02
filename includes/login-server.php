@@ -1,7 +1,5 @@
 <?php
-
-
-    require_once '../classes/users.class.php';
+    require_once '../classes/login.class.php';
 
     //we start session since we need to use session values
     session_start();
@@ -10,12 +8,12 @@
     if(isset($_POST['username']) && isset($_POST['password'])){
 
         //Sanitizing the inputs of the users. Mandatory to prevent injections!
-        $users = new users;
+        $users = new login;
         $users->username = htmlentities($_POST['username']);
         $users->user_password = htmlentities($_POST['password']);
         $res = $users->validate();
         if($res){
-            $_SESSION['user'] = $res['acc_no'];
+            $_SESSION['acc_no'] = $res['acc_no'];
             echo "success";
         } else {
           echo "fail";

@@ -1,10 +1,7 @@
 <?php 
 require_once 'database.php';
 
-Class users{
-    public $firstname;
-    public $lastname;
-    public $type;
+Class login{
     public $username;
     public $user_password;
 

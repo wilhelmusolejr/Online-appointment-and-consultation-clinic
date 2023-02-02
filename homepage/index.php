@@ -1,10 +1,23 @@
 <?php 
-    session_start();
+    $path = "../";
 
-    require_once '../tools/variables.php';
+    require_once $path.'classes/user.class.php';
+    
+    require_once $path.'tools/variables.php';
     $page_title = "Homepage";
     $home = "nav-current";
-    $path = "../";
+
+    session_start();
+
+    if(isset($_SESSION['acc_no'])) {
+      $users = new user;
+      $users->targetId = $_SESSION['acc_no'];
+      $res = $users->validate();
+      if($res){
+          $_SESSION['user'] = $res;
+          print_r($_SESSION['user']);
+      }
+    }
 
     require_once $path.'includes/starterOne.php';
 ?>

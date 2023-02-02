@@ -1,9 +1,3 @@
-<?php 
-  if(isset($_SESSION['user'])) {
-    print_r($_SESSION['user']);
-  }
-?>
-
 <div class="modal-parent modal-data-parent modal-login-reg overlay-black flex-center hidden">
 
   <!-- Floating model -->

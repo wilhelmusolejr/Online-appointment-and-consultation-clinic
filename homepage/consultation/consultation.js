@@ -46,73 +46,83 @@ appointFor.addEventListener("click", function (e) {
 const boardSets = boardContainer.querySelectorAll(".board-page");
 const boardProgress = boardContainer.querySelector(".board-progress");
 
+function changePage(current, boardSets, target) {
+  let pagination = [current - 1, current + 1];
+
+  boardSets.forEach((board) => {
+    let currentPage = parseInt(board.getAttribute("data-board-page"));
+
+    if (currentPage != pagination[target]) {
+      board.classList.add("hidden");
+    } else {
+      board.classList.remove("hidden");
+    }
+  });
+
+  if (target == 0) {
+    changeBoardProgress(current - 1);
+  } else {
+    changeBoardProgress(current + 1);
+  }
+}
+function changeBoardProgress(currentPage) {
+  switch (currentPage) {
+    case 1:
+      one.classList.add("active");
+      two.classList.remove("active");
+      three.classList.remove("active");
+      four.classList.remove("active");
+      five.classList.remove("active");
+      break;
+    case 2:
+      one.classList.add("active");
+      two.classList.add("active");
+      three.classList.remove("active");
+      four.classList.remove("active");
+      five.classList.remove("active");
+      break;
+    case 3:
+      one.classList.add("active");
+      two.classList.add("active");
+      three.classList.add("active");
+      four.classList.remove("active");
+      five.classList.remove("active");
+      break;
+    case 4:
+      one.classList.add("active");
+      two.classList.add("active");
+      three.classList.add("active");
+      four.classList.add("active");
+      five.classList.remove("active");
+      break;
+    case 5:
+      one.classList.add("active");
+      two.classList.add("active");
+      three.classList.add("active");
+      four.classList.add("active");
+      five.classList.add("active");
+      break;
+  }
+}
+
 boardContainer.addEventListener("click", function (e) {
+  let current = parseInt(
+    e.target.closest(".board-page").getAttribute("data-board-page")
+  );
+
+  // pagination
+  // prev
+  if (e.target.parentElement.classList.contains("button-prev")) {
+    e.preventDefault();
+    changePage(current, boardSets, 0);
+  }
+
+  // next
   if (e.target.parentElement.classList.contains("button-next")) {
     e.preventDefault();
-
-    let current = parseInt(
-      e.target.closest(".board-page").getAttribute("data-board-page")
-    );
-    let prev = current - 1;
-    let next = current + 1;
-
-    boardSets.forEach((board) => {
-      let currentPage = parseInt(board.getAttribute("data-board-page"));
-
-      if (currentPage == current) {
-        board.classList.add("hidden");
-        console.log("remove");
-        console.log(current);
-
-        switch (currentPage) {
-          case 1:
-            one.classList.add("active");
-            two.classList.add("active");
-            three.classList.remove("active");
-            four.classList.remove("active");
-            five.classList.remove("active");
-            break;
-          case 2:
-            one.classList.add("active");
-            two.classList.add("active");
-            three.classList.add("active");
-            four.classList.remove("active");
-            five.classList.remove("active");
-            break;
-          case 3:
-            one.classList.add("active");
-            two.classList.add("active");
-            three.classList.add("active");
-            four.classList.add("active");
-            five.classList.remove("active");
-            break;
-          case 4:
-            one.classList.add("active");
-            two.classList.add("active");
-            three.classList.add("active");
-            four.classList.add("active");
-            five.classList.add("active");
-            break;
-          case 5:
-            break;
-        }
-      }
-
-      if (currentPage == next) {
-        board.scrollIntoView({
-          behavior: "smooth",
-        });
-
-        board.classList.remove("hidden");
-        console.log("added");
-      }
-    });
+    changePage(current, boardSets, 1);
   }
 });
 
-one.onclick = function () {};
-
-two.onclick = function () {};
-three.onclick = function () {};
-four.onclick = function () {};
-five.onclick = function () {};
+let current = parseInt(boardContainer.querySelector(".board-page").value);
+changeBoardProgress(current);

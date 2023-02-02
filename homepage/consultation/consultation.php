@@ -1,10 +1,30 @@
 <?php 
-    session_start();
-
     $path = "../../";
+
+    require_once $path.'classes/appoint.class.php';
+
     require_once $path.'tools/variables.php';
     $page_title = "Consultation";
     $consultation = 'nav-current';
+
+    session_start();
+
+    $board_page = 1;
+
+    if(isset($_GET['appoint_id'])) {
+      print_r($_GET['appoint_id']);
+      
+      $appoint = new appoint;
+      $appoint-> appointId = $_GET['appoint_id'];
+      $res = $appoint->validate();
+      if($res){
+          print_r($res);
+          $board = $res;
+
+          $board_page = $res['board_page'];
+      }
+
+    }
 
     require_once $path.'includes/starterOne.php';
 ?>
@@ -44,6 +64,14 @@
   <section id="board-parent" class="board-parent">
 
     <!-- Set up your appointment -->
+    <form action="consultation.php" class="form" method="get">
+      <div class="form-input-parent">
+        <div class="form-input-box">
+          <input type="number" name="appoint_id" placeholder="Enter your appointment number">
+          <button type="submit" value="submit" class="button-primary">Search</button>
+        </div>
+      </div>
+    </form>
     <div class="board-container card">
       <!-- Progress -->
       <div class="board-progress">
@@ -96,9 +124,13 @@
         </div>
       </div>
 
+      <form action="">
+        <input type="hidden" class="board-page" value="<?php echo $board_page ?>">
+      </form>
+
       <!-- 1 -->
       <!-- Appointment -->
-      <div data-board-page="1" class="appointment-stage board-page">
+      <div data-board-page="1" class="appointment-stage board-page <?php echo $board_page == 1?"":"hidden" ?>">
         <!-- Board Header -->
         <div class="board-header text-uppercase text-center">
           <h2>Set your appoinment</h2>
@@ -609,7 +641,6 @@
           </div>
 
           <div class="form-button">
-
             <!-- prev -->
             <div class="button-prev">
               <button class="button hidden" disabled>prev</button>
@@ -623,7 +654,6 @@
               <button class="button button-primary">Submit
               </button>
             </div>
-
 
           </div>
         </form>
@@ -646,7 +676,8 @@
 
       <!-- 2 -->
       <!-- Appointment checkpoint -->
-      <div data-board-page="2" class="appointment-checkpoint-stage board-page hidden">
+      <div data-board-page="2"
+        class="appointment-checkpoint-stage board-page <?php echo $board_page == 2?"":"hidden" ?>">
         <!-- Board Header -->
         <div class="board-header text-uppercase text-center">
           <h2>Appointment details</h2>
@@ -660,22 +691,24 @@
               <!-- Appointment Numbuh -->
               <div class="form-input-box input-two">
                 <label for="firstname">Appointment number</label>
-                <input type="text" name="firstname" id="firstname" value="#123456" disabled>
+                <input type="text" name="firstname" id="firstname" value="<?php echo $board['appoint_id'] ?>" disabled>
+              </div>
+              <!-- Appointment status -->
+              <div class="form-input-box input-two">
+                <label for="lastname">Appointment status</label>
+                <input type="text" name="lastname" id="lastname" value="<?php echo $board['appoint_status'] ?>"
+                  disabled>
               </div>
               <!-- Date appointment submitted -->
               <div class="form-input-box input-two ">
                 <label for="middlename">Date appointment submitted</label>
                 <input type="date" class="status-pending" name="middlename" id="middlename" value="1990-05-02" disabled>
               </div>
-              <!-- last name -->
-              <div class="form-input-box input-two">
-                <label for="lastname">Appointment status</label>
-                <input type="text" name="lastname" id="lastname" value="PENDING FOR APPROVAL" disabled>
-              </div>
-              <!-- last name -->
+              <!-- Assigned RDN -->
               <div class="form-input-box input-two">
                 <label for="lastname">Assigned RDN</label>
-                <input class="status-declined" type="text" name="lastname" id="lastname" value="DECLINED" disabled>
+                <input class="status-declined" type="text" name="lastname" id="lastname"
+                  value="<?php echo $board['appoint_rnd_status'] ?>" disabled>
               </div>
 
             </div>
@@ -698,7 +731,7 @@
 
             <!-- prev -->
             <div class="button-prev">
-              <button class="button hidden" disabled>prev</button>
+              <button class="button">prev</button>
             </div>
             <!-- middle -->
             <div>
@@ -718,7 +751,7 @@
 
       <!-- 3 -->
       <!-- consultation -->
-      <div data-board-page="3" class="consultation-stage board-page hidden">
+      <div data-board-page="3" class="consultation-stage board-page <?php echo $board_page == 3?"":"hidden" ?>">
         <!-- Board Header -->
         <div class="board-header text-uppercase text-center">
           <h2>Consultation</h2>
@@ -828,7 +861,7 @@
 
             <!-- prev -->
             <div class="button-prev">
-              <button class="button hidden" disabled>prev</button>
+              <button class="button">prev</button>
             </div>
             <!-- middle -->
             <div>
@@ -848,7 +881,8 @@
 
       <!-- 4 -->
       <!-- consultation checkpoint -->
-      <div data-board-page="4" class="consultation-checkpoint-stage board-page hidden">
+      <div data-board-page="4"
+        class="consultation-checkpoint-stage board-page <?php echo $board_page == 4?"":"hidden" ?>">
         <!-- Board Header -->
         <div class="board-header text-uppercase text-center">
           <h2>Consultation result</h2>
@@ -891,7 +925,7 @@
 
             <!-- prev -->
             <div class="button-prev">
-              <button class="button hidden" disabled>prev</button>
+              <button class="button">prev</button>
             </div>
             <!-- middle -->
             <div>
@@ -911,7 +945,7 @@
 
       <!-- 5 -->
       <!-- Solution -->
-      <div data-board-page="5" class="solution-stage board-page hidden">
+      <div data-board-page="5" class="solution-stage board-page <?php echo $board_page == 5?"":"hidden" ?>">
         <!-- Board Header -->
         <div class="board-header text-uppercase text-center">
           <h2>Solution</h2>
@@ -969,7 +1003,7 @@
 
             <!-- prev -->
             <div class="button-prev">
-              <button class="button ">prev</button>
+              <button class="button">prev</button>
             </div>
             <!-- middle -->
             <div>
@@ -977,7 +1011,7 @@
             </div>
             <!-- next -->
             <div class="button-next">
-              <button class="button button-primary">Next
+              <button class="button button-primary">Home
               </button>
             </div>
 
