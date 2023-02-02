@@ -1,26 +1,7 @@
-<?php
-    require_once $path.'classes/users.class.php';
-
-    //we start session since we need to use session values
-    // session_start();
-    //creating an array for list of users can login to the system
-
-    if(isset($_POST['username']) && isset($_POST['password'])){
-        print("test");
-
-        //Sanitizing the inputs of the users. Mandatory to prevent injections!
-        $users = new users;
-        $users->username = htmlentities($_POST['username']);
-        $users->user_password = htmlentities($_POST['password']);
-        $res = $users->validate();
-        if($res){
-            print("tite");
-            // $error = 'Invalid username/password. Try again.';
-        }
-        
-        //set the error message if account is invalid
-        // $error = 'Invalid username/password. Try again.';
-    }
+<?php 
+  if(isset($_SESSION['user'])) {
+    print_r($_SESSION['user']);
+  }
 ?>
 
 <div class="modal-parent modal-data-parent modal-login-reg overlay-black flex-center hidden">

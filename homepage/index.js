@@ -103,15 +103,20 @@ btnBmiTool.addEventListener("click", function (e) {
   bmiToolParent.querySelector(".tool-result").classList.remove("hidden");
 });
 
-$("form").on("submit", function (e) {
+$(".form").on("submit", function (e) {
   e.preventDefault(); //prevent to reload the page
 
   $.ajax({
-    type: "POST", //hide url
-    url: "formvalidation.php", //your form validation url
-    data: $("form").serialize(),
-    success: function () {
-      alert("The form was submitted successfully"); //display an alert whether the form is submitted okay
+    type: "post", //hide url
+    url: "../includes/login-server.php", //your form validation url
+    data: $(".form").serialize(),
+    success: function (response) {
+      console.log(response);
+      location.href = "index.php";
+      // alert("The form was submitted successfully"); //display an alert whether the form is submitted okay
+    },
+    error: function () {
+      alert("test");
     },
   });
 });

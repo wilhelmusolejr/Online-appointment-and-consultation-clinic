@@ -1,9 +1,5 @@
 <?php 
-    // session_start();
-
-    // if (!isset($_SESSION['logged-in'])){
-    //     header('location: ../login/login.php');
-    // }
+    session_start();
 
     $path = "../../";
     require_once $path.'tools/variables.php';

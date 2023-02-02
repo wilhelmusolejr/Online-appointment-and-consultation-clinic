@@ -1,9 +1,6 @@
 <?php 
-    // session_start();
+    session_start();
 
-    // if (!isset($_SESSION['logged-in'])){
-    //     header('location: ../login/login.php');
-    // }
 
     $path = "../../";
     require_once $path.'tools/variables.php';
@@ -13,7 +10,7 @@
     require_once $path.'includes/starterOne.php';
 ?>
 <link rel="stylesheet" href="faq.css" />
-<script src="index.js" defer></script>
+<script src="../index.js" defer></script>
 <?php require_once $path.'includes/starterTwo.php'; ?>
 
 

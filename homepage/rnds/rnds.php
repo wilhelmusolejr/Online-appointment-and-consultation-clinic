@@ -1,9 +1,5 @@
 <?php 
-    // session_start();
-
-    // if (!isset($_SESSION['logged-in'])){
-    //     header('location: ../login/login.php');
-    // }
+    session_start();
 
     require_once '../../tools/variables.php';
     $page_title = "Consultation";
