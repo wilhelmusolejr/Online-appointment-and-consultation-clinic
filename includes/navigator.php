@@ -2,6 +2,16 @@
   <!-- nav -->
   <nav class="nav-container ">
     <ul class="nav-links text-uppercase">
+      <li class="<?php echo isset($_SESSION['user'])? "": "hidden" ?>">
+        <div class="nav-profile">
+          <!-- profile -->
+          <div class="nav-profile flex-center">
+            <img src="<?php echo $path ?>asset/char.jpg" alt="">
+            <p>Sofia Andres</p>
+          </div>
+
+        </div>
+      </li>
       <li><a class="<?php echo $home ?>" href="<?php echo $path ?>homepage/index.php">Home</a></li>
       <li><a class="<?php echo $consultation ?>"
           href="<?php echo $path ?>homepage/consultation/consultation.php">Consultation</a></li>
@@ -19,10 +29,10 @@
           </div>
         </div>
       </li>
-
       <li><a class="<?php echo $faq ?>" href="<?php echo $path ?>homepage/faq/faq.php">FAQ</a></li>
       <li><a class="<?php echo $about ?>" href="<?php echo $path ?>homepage/about/about.php">About us</a></li>
       <li><a class="<?php echo $contact ?>" href="<?php echo $path ?>homepage/contact/contact.php">Contact us</a></li>
+
     </ul>
   </nav>
 
@@ -32,21 +42,20 @@
     <a class="button button-primary" href="#">register</a>
   </div>
 
+  <!-- communication -->
   <div class="nav-communication <?php echo isset($_SESSION['user'])? "": "hidden" ?>">
-    <i class="fa-solid fa-envelope"></i>
+    <i class="fa-solid fa-bell"></i>
     <i class="fa-solid fa-comments"></i>
   </div>
-  <div class="nav-profile">
 
-    <!-- profile -->
-    <div class="nav-profile flex-center <?php echo isset($_SESSION['user'])? "": "hidden" ?>">
-      <p>Sofia Andres</p>
+  <!-- profile -->
+  <div class="nav-profile <?php echo isset($_SESSION['user'])? "": "hidden" ?>">
+    <div class="nav-profile flex-center">
       <img src="<?php echo $path ?>asset/char.jpg" alt="">
+      <p>Sofia Andres</p>
     </div>
 
   </div>
-
-
 
   <!-- humburger menu -->
   <div class="nav-burger cursor-pointer">

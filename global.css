@@ -358,7 +358,6 @@ header .navigator-parent {
   left: -100%;
   bottom: 0;
 
-  width: 100%;
   min-height: 100vh;
 
   z-index: 1;
@@ -394,8 +393,27 @@ header .navigator-parent {
   gap: 10px;
 }
 
+.nav-communication .fa-solid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 2px solid #707070;
+  background-color: #ececec;
+  font-size: 2.5rem;
+
+  width: 50px;
+  height: 50px;
+
+  border-radius: 50%;
+
+  cursor: pointer;
+}
+
 .nav-profile {
   gap: 10px;
+
+  display: none;
 }
 .nav-profile img {
   width: 50px;
@@ -882,19 +900,16 @@ footer .nav-links {
     display: none;
   }
 
+  .nav-container .nav-profile {
+    display: none;
+  }
+  .nav-profile {
+    display: inherit;
+  }
+
   .dropdown-content {
     background-color: var(--color-white-secondary);
   }
-
-  /* ---------------------*/
-  /* list of rnd */
-  /* .grid-box {
-    flex: 1;
-
-    width: initial;
-    max-width: initial;
-  } */
-
   .signup-parent {
     position: absolute;
     left: 20px;

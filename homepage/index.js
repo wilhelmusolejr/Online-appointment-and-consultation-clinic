@@ -62,7 +62,6 @@ $(".form-login").on("submit", function (e) {
   e.preventDefault(); //prevent to reload the page
 
   let path = this.querySelector(".path").value;
-  console.log(path);
 
   $.ajax({
     type: "post", //hide url
