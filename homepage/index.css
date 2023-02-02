@@ -70,10 +70,28 @@ main .sizing-secondary {
 }
 
 .quick-emoji {
-  background-color: aliceblue;
   width: fit-content;
 
   margin-bottom: 30px;
+}
+
+.quick-step-box:nth-of-type(1) .quick-emoji {
+  background-color: #c6ffbf;
+}
+.quick-emoji .fa-calendar-plus {
+  color: #42b935;
+}
+.quick-step-box:nth-of-type(2) .quick-emoji {
+  background-color: #ffbfbf;
+}
+.quick-emoji .fa-comment-medical {
+  color: #b93535;
+}
+.quick-step-box:nth-of-type(3) .quick-emoji {
+  background-color: #bfe5ff;
+}
+.quick-emoji .fa-desktop {
+  color: #357bb9;
 }
 
 .quick-text h3 {

@@ -1,9 +1,5 @@
 <?php 
-    // session_start();
-
-    // if (!isset($_SESSION['logged-in'])){
-    //     header('location: ../login/login.php');
-    // }
+    session_start();
 
     require_once '../tools/variables.php';
     $page_title = "Homepage";
@@ -33,8 +29,9 @@
             Reach your RND<span class="text-initial">s</span> from anywhere
           </h1>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat
-            quibusdam excepturi.
+            Home Economics education can play a crucial role in promoting health and wellness by teaching individuals
+            and families about the importance of healthy food choices, physical activity, stress management, and disease
+            prevention.
           </p>
           <a href="#" class="button button-primary">Book now!</a>
         </div>
@@ -67,33 +64,36 @@
     </div>
 
     <div class="quick-solution-step-container flex-center grid-container">
+      <!-- 1 -->
       <div class="quick-step-box flex-center grid-box card">
         <div class="quick-emoji card">
-          <i class="fa-solid fa-globe"></i>
+          <i class="fa-solid fa-calendar-plus"></i>
         </div>
         <div class="quick-text">
           <h3 class="text-uppertext">Appoint</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, laborum!</p>
+          <p>Secure a date with the available time of the RNDs.</p>
         </div>
         <p class="hidden">1</p>
       </div>
+      <!-- 2 -->
       <div class="quick-step-box flex-center grid-box card">
         <div class="quick-emoji card">
-          <i class="fa-solid fa-globe"></i>
+          <i class="fa-solid fa-comment-medical"></i>
         </div>
         <div class="quick-text">
-          <h3 class="text-uppertext">Appoint</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, laborum!</p>
+          <h3 class="text-uppertext">Consult</h3>
+          <p>Communicate with the assigned RND and have your concerns fixed.</p>
         </div>
         <p class="hidden">1</p>
       </div>
+      <!-- 3 -->
       <div class="quick-step-box flex-center grid-box card">
         <div class="quick-emoji card">
-          <i class="fa-solid fa-globe"></i>
+          <i class="fa-solid fa-desktop"></i>
         </div>
         <div class="quick-text">
-          <h3 class="text-uppertext">Appoint</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, laborum!</p>
+          <h3 class="text-uppertext">Monitor</h3>
+          <p>Monitor your progress with our monitor system tool.</p>
         </div>
         <p class="hidden">1</p>
       </div>
@@ -207,8 +207,8 @@
         </div>
         <div class="feedback-info">
           <h3 class="text-capital feedback-name">Wilhelmus Ole Jr</h3>
-          <p class="feedback-message">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam quas libero optio
-            eaque doloremque architecto fugit quos ad incidunt placeat?</p>
+          <p class="feedback-message">It was a great experience to be assist by this health clinic. My problems are now
+            solved with the help of the passionate RNDs.</p>
         </div>
       </div>
     </div>

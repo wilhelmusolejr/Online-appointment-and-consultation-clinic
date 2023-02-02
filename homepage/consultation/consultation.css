@@ -487,7 +487,7 @@ section.board-parent {
   padding-bottom: 2.5px;
 }
 
-/* input {
+input {
   transition: border-color 0.5s ease-out;
 }
 input:optional {
@@ -503,16 +503,11 @@ input:required:valid {
 input:invalid {
   border-color: red;
 }
-/* input:required:focus:valid {
-  background: url("https://assets.digitalocean.com/labs/icons/hand-thumbs-up.svg")
-    no-repeat 95% 50% lightgreen;
-  background-size: 25px;
-} */
+
 input:focus:invalid {
   background: url("https://assets.digitalocean.com/labs/icons/exclamation-triangle-fill.svg")
     no-repeat 95% 50%;
 }
-*/
 
 /* MEDIA QUERIES */
 /* LAPTOP */

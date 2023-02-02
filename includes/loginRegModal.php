@@ -1,3 +1,28 @@
+<?php
+    require_once $path.'classes/users.class.php';
+
+    //we start session since we need to use session values
+    // session_start();
+    //creating an array for list of users can login to the system
+
+    if(isset($_POST['username']) && isset($_POST['password'])){
+        print("test");
+
+        //Sanitizing the inputs of the users. Mandatory to prevent injections!
+        $users = new users;
+        $users->username = htmlentities($_POST['username']);
+        $users->user_password = htmlentities($_POST['password']);
+        $res = $users->validate();
+        if($res){
+            print("tite");
+            // $error = 'Invalid username/password. Try again.';
+        }
+        
+        //set the error message if account is invalid
+        // $error = 'Invalid username/password. Try again.';
+    }
+?>
+
 <div class="modal-parent modal-data-parent modal-login-reg overlay-black flex-center hidden">
 
   <!-- Floating model -->
@@ -13,7 +38,7 @@
         </div>
 
         <!-- form -->
-        <form action="/" method="post" class="form sizing-main">
+        <form action="index.php" method="post" class="form sizing-main">
 
           <!-- username -->
           <div class="username-form form-group">
@@ -32,7 +57,7 @@
               <div class="form-input-box">
                 <label for="password">Password</label>
                 <input type="text" name="password" id="password" placeholder="Enter your password">
-                <p class="form-error-message hidden">Error</p>
+                <p class="form-error-message hidden">wiw</p>
               </div>
             </div>
           </div>
@@ -50,7 +75,7 @@
 
           <!-- button submit -->
           <div class="text-center">
-            <button class="button button-primary submit">Login</button>
+            <button type="submit" value="Login" name="login" class="button button-primary submit">Login</button>
           </div>
         </form>
 

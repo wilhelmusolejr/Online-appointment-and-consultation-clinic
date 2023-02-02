@@ -136,34 +136,9 @@ button:disabled {
   font-size: clamp(1.3rem, 5vw, 1.6rem);
 }
 
-input {
-  border: 2px solid;
-  border-radius: 4px;
-  font-size: 1rem;
-  margin: 0.25rem;
-  min-width: 125px;
-  padding: 0.5rem;
-  transition: border-color 0.5s ease-out;
-}
-input:optional {
-  border-color: gray;
-}
-input:required:valid {
-  border-color: green;
-}
-input:invalid {
-  border-color: red;
-}
-input:required:focus:valid {
-  background: url("https://assets.digitalocean.com/labs/icons/hand-thumbs-up.svg")
-    no-repeat 95% 50% lightgreen;
-  background-size: 25px;
-}
-input:focus:invalid {
-  background: url("https://assets.digitalocean.com/labs/icons/exclamation-triangle-fill.svg")
-    no-repeat 95% 50% lightsalmon;
-  background-size: 25px;
-}
+/* input:valid {
+  background-color: #0a331a;
+} */
 
 .form input {
   border: 1px solid var(--color-white-faded-form-brdr);
@@ -298,7 +273,7 @@ input:focus:invalid {
 body {
   background-color: var(--color-white-secondary);
   font-family: "Poppins", sans-serif;
-  letter-spacing: 0.1vw;
+  /* letter-spacing: 0.01vw; */
 }
 
 ul {
