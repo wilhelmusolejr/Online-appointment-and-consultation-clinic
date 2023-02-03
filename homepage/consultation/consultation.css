@@ -157,6 +157,16 @@ section.board-parent {
 }
 /* ---------------------*/
 /* reset */
+.search-parent {
+  width: 20%;
+}
+
+.search-form {
+  width: 85%;
+  margin: auto;
+  display: flex;
+  justify-content: flex-end;
+}
 
 /* ---------------------*/
 /* board */

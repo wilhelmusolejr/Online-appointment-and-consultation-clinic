@@ -12,13 +12,13 @@
     $board_page = 1;
 
     if(isset($_GET['appoint_id'])) {
-      print_r($_GET['appoint_id']);
+      // print_r($_GET['appoint_id']);
       
       $appoint = new appoint;
       $appoint-> appointId = $_GET['appoint_id'];
       $res = $appoint->validate();
       if($res){
-          print_r($res);
+          // print_r($res);
           $board = $res;
 
           $board_page = $res['board_page'];
@@ -64,14 +64,18 @@
   <section id="board-parent" class="board-parent">
 
     <!-- Set up your appointment -->
-    <form action="consultation.php" class="form" method="get">
-      <div class="form-input-parent">
+    <form action="consultation.php" class="form search-form" method="get">
+
+      <!-- search appoint id  -->
+      <div class="form-input-parent search-parent">
         <div class="form-input-box">
           <input type="number" name="appoint_id" placeholder="Enter your appointment number">
           <button type="submit" value="submit" class="button-primary">Search</button>
         </div>
       </div>
+
     </form>
+
     <div class="board-container card">
       <!-- Progress -->
       <div class="board-progress">
