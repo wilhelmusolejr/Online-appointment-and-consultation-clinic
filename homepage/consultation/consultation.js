@@ -106,9 +106,16 @@ function changeBoardProgress(currentPage) {
 }
 
 boardContainer.addEventListener("click", function (e) {
+  console.log(e.target);
+
   let current = parseInt(
     e.target.closest(".board-page").getAttribute("data-board-page")
   );
+
+  // semi submit
+  // if (e.target.classList.contains("button-semi")) {
+  //   e.preventDefault();
+  // }
 
   // pagination
   // prev
@@ -122,7 +129,67 @@ boardContainer.addEventListener("click", function (e) {
     e.preventDefault();
     changePage(current, boardSets, 1);
   }
+
+  // semi-submit
+  if (e.target.parentElement.classList.contains("button-semi-submit")) {
+    modalAppointNotif.classList.toggle("hidden");
+  }
 });
 
 let current = parseInt(boardContainer.querySelector(".board-page").value);
 changeBoardProgress(current);
+
+$(boardContainer).ready(function () {
+  $(".form-input-box input").keyup(function () {
+    let empty = false;
+    $(".form-input-box input:required").each(function () {
+      if ($(this).val().length == 0) {
+        empty = true;
+      }
+    });
+
+    if (empty) {
+      $(".button-semi-submit button").attr("disabled", "disabled");
+    } else {
+      $(".button-semi-submit button").attr("disabled", false);
+      $(".button-semi-submit button").addClass("button-primary");
+    }
+  });
+});
+
+// modal close
+const modalAppointNotif = document.querySelector(
+  ".modal-appointment-confirmation"
+);
+
+modalAppointNotif.addEventListener("click", function (e) {
+  if (
+    e.target.classList.contains("overlay-black") ||
+    e.target.classList.contains("button-cancel")
+  ) {
+    this.classList.toggle("hidden");
+  }
+});
+
+// $(".form-appoint-submit").on("submit", function (e) {
+//   e.preventDefault(); //prevent to reload the page
+
+//   console.log("test");
+
+//   $.ajax({
+//     type: "post", //hide url
+//     url: `php/set-appoint.php`, //your form validation url
+//     data: $(".form-appoint-submit").serialize(),
+//     success: function (response) {
+//       console.log(response);
+//       if (response == "success") {
+//         console.log("sssss");
+//       } else {
+//         console.log("error");
+//       }
+//     },
+//     error: function () {
+//       alert("test");
+//     },
+//   });
+// });

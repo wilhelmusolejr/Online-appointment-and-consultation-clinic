@@ -2,6 +2,7 @@
     require_once '../classes/login.class.php';
 
     //we start session since we need to use session values
+    // print_r($_POST);
     session_start();
     //creating an array for list of users can login to the system
 
@@ -18,8 +19,6 @@
         } else {
           echo "fail";
         }
-        
-        
         //set the error message if account is invalid
         // $error = 'Invalid username/password. Try again.';
     }

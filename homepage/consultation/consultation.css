@@ -159,6 +159,7 @@ section.board-parent {
 /* reset */
 .search-parent {
   width: 20%;
+  padding-bottom: 20px;
 }
 
 .search-form {
@@ -499,23 +500,16 @@ section.board-parent {
 input {
   transition: border-color 0.5s ease-out;
 }
-input:optional {
-  border-color: gray;
-}
+
 input:required:valid {
   border: 2px solid #53ae4c;
-}
-input:required:valid {
-  background: url("https://assets.digitalocean.com/labs/icons/hand-thumbs-up.svg")
-    no-repeat 95% 50%;
 }
 input:invalid {
   border-color: red;
 }
 
-input:focus:invalid {
-  background: url("https://assets.digitalocean.com/labs/icons/exclamation-triangle-fill.svg")
-    no-repeat 95% 50%;
+a.button-cancel {
+  color: black !important;
 }
 
 /* MEDIA QUERIES */

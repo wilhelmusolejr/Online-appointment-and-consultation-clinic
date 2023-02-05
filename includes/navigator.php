@@ -52,7 +52,9 @@
   <div class="nav-profile <?php echo isset($_SESSION['user'])? "": "hidden" ?>">
     <div class="nav-profile flex-center">
       <img src="<?php echo $path ?>asset/char.jpg" alt="">
-      <p><?php echo $_SESSION['user']['first_name']." ".$_SESSION['user']['last_name'] ?></p>
+      <p>
+        <?php  echo isset($_SESSION['user'])? $_SESSION['user']['first_name']." ".$_SESSION['user']['last_name']:""; ?>
+      </p>
     </div>
 
   </div>

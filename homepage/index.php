@@ -15,7 +15,7 @@
       $res = $users->validate();
       if($res){
           $_SESSION['user'] = $res;
-          print_r($_SESSION['user']);
+          // print_r($_SESSION['user']);
       }
     }
 

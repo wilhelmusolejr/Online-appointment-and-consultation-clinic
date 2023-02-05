@@ -23,7 +23,7 @@
             <div class="form-input-parent">
               <div class="form-input-box">
                 <label for="username">Username</label>
-                <input type="text" name="username" id="username" placeholder="Enter your email">
+                <input type="text" name="username" id="username" value="test@gmail.com" placeholder="Enter your email">
                 <p class="form-error-message hidden">Error</p>
               </div>
             </div>
@@ -34,7 +34,7 @@
             <div class="form-input-parent">
               <div class="form-input-box">
                 <label for="password">Password</label>
-                <input type="text" name="password" id="password" placeholder="Enter your password">
+                <input type="text" name="password" id="password" value="test" placeholder="Enter your password">
                 <p class="form-error-message hidden">wiw</p>
               </div>
             </div>
