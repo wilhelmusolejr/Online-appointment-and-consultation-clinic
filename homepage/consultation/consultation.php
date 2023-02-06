@@ -54,7 +54,7 @@
       }
 
       // appoint
-      
+
       
     }
 
@@ -804,29 +804,38 @@
             <!-- 1 -->
             <div class="form-input-parent">
               <!-- Appointment Numbuh -->
-              <div class="form-input-box input-two">
+              <div class="form-input-box input-one">
                 <label for="firstname">Appointment number</label>
                 <input type="text" name="firstname" id="firstname" value="<?php echo '#'.$appoint -> transact_id ?>"
                   disabled>
               </div>
-              <!-- Appointment status -->
-              <div class="form-input-box input-two">
-                <label for="lastname">Appointment status</label>
-                <input type="text" class="status-pending" name="appoint-status" id="lastname" value="PENDING" disabled>
+              <!-- chief complaint -->
+              <div class="form-input-box input-one">
+                <label for="firstname">Chief complaint</label>
+                <input type="text" name="firstname" id="firstname" value="<?php echo $consultInfo['chief_complaint'] ?>"
+                  disabled>
               </div>
               <!-- Date appointment submitted -->
-              <div class="form-input-box input-two ">
+              <div class="form-input-box input-one ">
                 <label for="middlename">Date appointment submitted</label>
                 <input type="text" name="middlename" id="middlename"
                   value="<?php echo date('l jS \of F Y h:i a', strtotime($appointInfo['appoint_date_submitted'])); ?>"
                   disabled>
               </div>
+
+            </div>
+            <!-- 2 -->
+            <div class="form-input-parent">
+              <!-- Appointment status -->
+              <div class="form-input-box input-one">
+                <label for="lastname">Appointment status</label>
+                <input type="text" class="status-pending" name="appoint-status" id="lastname" value="PENDING" disabled>
+              </div>
               <!-- Assigned RDN -->
-              <div class="form-input-box input-two">
+              <div class="form-input-box input-one">
                 <label for="lastname">Assigned RDN</label>
                 <input class="status-declineds status-pending" type="text" name="rdn-assigned" value="PENDING" disabled>
               </div>
-
             </div>
             <!-- 3 -->
             <div class="form-input-parent flex-center">
@@ -880,7 +889,8 @@
               <!-- Appointment Numbuh -->
               <div class="form-input-box ">
                 <label for="firstname">Appointment number</label>
-                <input type="text" name="firstname" id="firstname" value="#123456" disabled>
+                <input type="text" name="firstname" id="firstname" value="<?php echo '#'.$appoint -> transact_id ?>"
+                  disabled>
               </div>
               <!-- Upcoming schedule -->
               <div class="form-input-box schedule-container">
@@ -903,7 +913,8 @@
               <!-- Appointment Numbuh -->
               <div class="form-input-box input-one">
                 <label for="firstname">Chief complaint</label>
-                <input type="text" name="firstname" id="firstname" value="Diet meal plan" disabled>
+                <input type="text" name="firstname" id="firstname" value="<?php echo $consultInfo['chief_complaint'] ?>"
+                  disabled>
               </div>
 
               <!-- Date appointment submitted -->
