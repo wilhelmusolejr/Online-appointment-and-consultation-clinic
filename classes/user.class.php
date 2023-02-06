@@ -4,6 +4,8 @@ require_once 'database.php';
 Class user{
     public $targetId;
 
+    public $user_id;
+
     protected $db;
 
     function __construct()

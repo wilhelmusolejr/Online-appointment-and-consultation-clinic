@@ -836,7 +836,7 @@
                   <img src="../../asset/doctor-bulk-billing-doctors-chapel-hill-health-care-medical-3.png" alt="">
                 </div>
                 <div class="list-rnd-info text-center">
-                  <p>Gregory Yames RND</p>
+                  <p class="assigned-rnd">PENDING</p>
                   <a href="#" class="text-uppercase text-center profile-link">view profile</a>
                 </div>
               </div>
@@ -884,7 +884,7 @@
               </div>
               <!-- Upcoming schedule -->
               <div class="form-input-box schedule-container">
-                <div class="container-header text-center text-uppercase">
+                <div class="container-header text-center flex-center text-uppercase">
                   <p>Upcoming schedule</p>
                 </div>
                 <div class="list-schedule">
@@ -948,14 +948,15 @@
                   <img src="../../asset/doctor-bulk-billing-doctors-chapel-hill-health-care-medical-3.png" alt="">
                 </div>
                 <div class="list-rnd-info text-center">
-                  <p>Gregory Yames RND</p>
+                  <p class="assigned-rnd">DUMMY</p>
                   <a href="#" class="text-uppercase text-center profile-link">view profile</a>
                 </div>
               </div>
               <!-- virtual room -->
               <div class="form-input-box virtual-room-container">
-                <div class="container-header text-center text-uppercase">
+                <div class="container-header text-center flex-center text-uppercase">
                   <p>in virtual room</p>
+                  <a href="https://www.youtube.com/watch?v=vvFSVIy1Nqs" target="_blank" class="button">JOIN</a>
                 </div>
                 <div class="list-schedule">
                   <ul>
@@ -963,7 +964,7 @@
                       <div class="circle"></div>
                       <p>RND Gregory Yames</p>
                     </li>
-                    <li class="hiddens">
+                    <li class="hidden">
                       <div class="circle"></div>
                       <p>RND Gregory Yames</p>
                     </li>
@@ -1785,8 +1786,6 @@
         </form>
 
       </div>
-
-
 
     </div>
 

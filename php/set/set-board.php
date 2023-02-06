@@ -12,9 +12,7 @@ $appoint -> current_board_page = $_POST['board_page'] + 1;
 $appoint -> transact_id = $_SESSION['transactId'];
 $res = $appoint -> setBoardPage();
 if($res){
-  // print_r($res);
-  echo "done";
-  // echo "success";
+  echo "success to set board";
 } else {
-  // echo "fail";
+  echo "failed to set board";
 }

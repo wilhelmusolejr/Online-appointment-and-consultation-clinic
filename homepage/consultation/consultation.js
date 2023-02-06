@@ -105,6 +105,7 @@ $(boardContainer).ready(function () {
   });
 });
 
+// board 2
 const interval = setInterval(() => {
   $.ajax({
     type: "POST", //hide url
@@ -137,7 +138,7 @@ const interval = setInterval(() => {
         );
       }
 
-      // class assgined rnd
+      // class assigned rnd
       if (response.rnd_status == "APPROVED") {
         $(`${boardParent} input[name='rdn-assigned']`).addClass(
           "status-approved"
@@ -152,6 +153,24 @@ const interval = setInterval(() => {
         );
       }
 
+      // set rnf info
+      $.ajax({
+        type: "POST", //hide url
+        url: `../../php/request/request-profile.php`, //your form validation url
+        data: { rnd_id: response.rnd_id },
+        dataType: "json",
+        success: function (response) {
+          $(`.assigned-rnd`).text(
+            `${response.first_name} ${response.last_name}`
+          );
+
+          // assigned-rnd
+        },
+        error: function (response) {
+          console.log("failed to fetch");
+        },
+      });
+
       if (
         response.appoint_status == "APPROVED" &&
         response.rnd_status == "APPROVED"
@@ -162,7 +181,7 @@ const interval = setInterval(() => {
           // avoid auto click
           setTimeout(function () {
             $(`${boardParent} .button-next button`).trigger("click");
-          }, 500);
+          }, 10000);
 
           console.log("board 2 - inside");
 
@@ -249,6 +268,8 @@ boardContainer.addEventListener("click", function (e) {
   let currentBoardPage = parseInt(
     e.target.closest(".board-page").getAttribute("data-board-page")
   );
+
+  console.log(e.target);
 
   // prev
   if (e.target.parentElement.classList.contains("button-prev")) {

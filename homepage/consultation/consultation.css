@@ -371,6 +371,37 @@ section.board-parent {
   border-radius: 20px;
   min-height: 150px;
 }
+
+.virtual-room-container a {
+  text-decoration: none;
+
+  /* border: 1px solid gray; */
+
+  background-color: var(--color-white-secondary);
+  padding: 5px 15px;
+  color: #333 !important;
+
+  /* padding: 15px 25px; */
+  /* font-size: 24px; */
+  /* text-align: center; */
+  /* cursor: pointer; */
+  outline: none;
+  /* color: #fff; */
+  /* background-color: #04AA6D; */
+  border: none;
+  /* border-radius: 15px; */
+  box-shadow: 0 5px #999;
+}
+.virtual-room-container a:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+.virtual-room-container a:hover {
+  color: var(--color-green-secondary) !important;
+  background-color: rgb(220, 220, 220);
+}
+
 .virtual-room-container ul {
   padding: 10px;
 }
@@ -412,13 +443,19 @@ section.board-parent {
 
   /* border-top-left-radius: 25px; */
 }
-.container-header p {
+.container-header {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
+  background-color: var(--color-green-secondary);
+  padding: 20px;
 
+  padding: 10px;
+}
+.container-header p {
   background-color: var(--color-green-secondary);
 
   padding: 20px;
+  letter-spacing: 1px;
   color: white;
 }
 .schedule-container li {
