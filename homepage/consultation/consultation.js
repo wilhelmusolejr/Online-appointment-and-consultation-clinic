@@ -1,16 +1,22 @@
 "use strict";
 
 // Other Specify
-const otherCheckbox = document.querySelector("#health-condition-one-other");
-const otherText = document.querySelector("#otherValue");
+// const otherCheckbox = document.querySelector("#health-condition-one-other");
+// const otherText = document.querySelector("#otherValue");
 
-otherCheckbox.addEventListener("change", () => {
-  if (otherCheckbox.checked) {
-    otherText.classList.remove("hidden");
-    otherText.value = "";
-  } else {
-    otherText.classList.add("hidden");
-  }
+// otherCheckbox.addEventListener("change", () => {
+//   if (otherCheckbox.checked) {
+//     otherText.classList.remove("hidden");
+//     otherText.value = "";
+//   } else {
+//     otherText.classList.add("hidden");
+//   }
+// });
+
+// LIMIT CHECK BOX
+$("#physical-tab input:checkbox").click(function () {
+  let bol = $("#physical-tab input:checkbox:checked").length >= 2;
+  $("#physical-tab input:checkbox").not(":checked").attr("disabled", bol);
 });
 
 // Progresss
@@ -106,8 +112,6 @@ function changeBoardProgress(currentPage) {
 }
 
 boardContainer.addEventListener("click", function (e) {
-  console.log(e.target);
-
   let current = parseInt(
     e.target.closest(".board-page").getAttribute("data-board-page")
   );
@@ -193,3 +197,30 @@ modalAppointNotif.addEventListener("click", function (e) {
 //     },
 //   });
 // });
+
+$(".form-appoint-submit").on("submit", function (e) {
+  e.preventDefault(); //prevent to reload the page
+
+  console.log("test");
+
+  $.ajax({
+    type: "post", //hide url
+    url: `php/set-appoint.php`, //your form validation url
+    data: $(".form-appoint-submit").serialize(),
+    success: function (response) {
+      console.log(response);
+      if (response == "success") {
+        console.log("sssss");
+      } else {
+        console.log("error");
+      }
+    },
+    error: function () {
+      alert("test");
+    },
+  });
+});
+
+setInterval(function () {
+  console.log("test");
+}, 1000);

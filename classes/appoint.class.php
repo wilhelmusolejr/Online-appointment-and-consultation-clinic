@@ -84,11 +84,33 @@ Class appoint{
     }
 
     function getFoodInfo() {
-        $sql = "SELECT * FROM `tbl_transact_appoint_food` LEFT JOIN tbl_transact_appoint on tbl_transact_appoint_food.appoint_id = tbl_transact_appoint.appoint_id WHERE tbl_transact_appoint_food.appoint_id = :appointId;";
+        $sql = "SELECT * FROM `tbl_transact_appoint_food` LEFT JOIN tbl_transact_appoint on
+         tbl_transact_appoint_food.appoint_id = tbl_transact_appoint.appoint_id WHERE
+          tbl_transact_appoint_food.appoint_id = :appointId;";
         $query=$this->db->connect()->prepare($sql);
         $query->bindParam(':appointId', $this->appoint_id);
         if($query->execute()){
             $data = $query->fetch();
+        }
+        return $data;
+    }
+
+    function getFoodAllergy() {
+        $sql = "SELECT food_allergy.allergy_name, food_like.food_like_name, 
+        food_dislike.food_dislike_name FROM `tbl_transact_appoint_food` AS 
+        food_table INNER JOIN tbl_transact_appoint_food_allergy AS food_allergy
+         ON food_table.appoint_id = food_allergy.appoint_id INNER JOIN 
+         tbl_transact_appoint_food_like AS food_like ON food_table.appoint_id =
+          food_like.appoint_id INNER JOIN tbl_transact_appoint_food_dislike AS
+           food_dislike ON food_table.appoint_id = food_dislike.appoint_id WHERE
+            food_table.appoint_id = :appointId;
+        ";
+
+        $query=$this->db->connect()->prepare($sql);
+        $query->bindParam(':appointId', $this->appoint_id);
+        
+        if($query->execute()){
+            $data = $query->fetchAll();
         }
         return $data;
     }
@@ -99,6 +121,20 @@ Class appoint{
         $query->bindParam(':appointId', $this->appoint_id);
         if($query->execute()){
             $data = $query->fetch();
+        }
+        return $data;
+    }
+
+    function getbodyType() {
+        $sql = "SELECT physical_bodytype.body_type_name FROM `tbl_transact_appoint_physical`
+        AS table_physical RIGHT JOIN tbl_transact_appoint_physical_bodytype AS 
+        physical_bodytype ON table_physical.appoint_id =
+         physical_bodytype.appoint_id WHERE table_physical.appoint_id = :appointId;";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':appointId', $this->appoint_id);
+        if($query->execute()){
+            $data = $query->fetchAll();
         }
         return $data;
     }
@@ -171,16 +207,64 @@ Class appoint{
     }
 
     function setFoodInfo() {
+        // allergies
+        $sql = "INSERT INTO `tbl_transact_appoint_food_allergy` 
+        (`food_allergy_id`, `appoint_id`, `allergy_name`) VALUES ";
+        
+        $values = [];
+
+        foreach($this -> food_allergies as $name) {
+            array_push($values, "(NULL, $this->appoint_id, '$name')");
+        }
+
+        $final = join(",", $values);
+        $query=$this->db->connect()->prepare($sql.$final);
+        print_r($query);
+        if($query->execute()){
+            echo "record allergies inserted successfully";
+        }
+
+        // likes
+        $sql = "INSERT INTO `tbl_transact_appoint_food_like` (`food_like_id`, `appoint_id`, `food_like_name`) VALUES ";
+
+        $values = [];
+
+        foreach($this -> food_like as $name) {
+            array_push($values, "(NULL, $this->appoint_id, '$name')");
+        }
+
+        $final = join(",", $values);
+        $query=$this->db->connect()->prepare($sql.$final);
+        if($query->execute()){
+            echo "record allergies inserted successfully";
+        }
+
+        // dislikes
+        $sql = "INSERT INTO `tbl_transact_appoint_food_dislike` (`food_dislike_id`, `appoint_id`, `food_dislike_name`) VALUES ";
+
+        $values = [];
+
+        foreach($this -> food_dislike as $name) {
+            array_push($values, "(NULL, $this->appoint_id, '$name')");
+        }
+
+        $final = join(",", $values);
+        $query=$this->db->connect()->prepare($sql.$final);
+        if($query->execute()){
+            echo "record allergies inserted successfully";
+        }
+
+
         $sql = "INSERT INTO `tbl_transact_appoint_food` (`food_id`, `appoint_id`, `food_allergies_id`, `food_like_id`, 
-        `food_dislike_id`, `type_diet_id`, `smoke_level_id`, `drink_level_id`) VALUES (NULL, :appoint_id, :food_allergies_id, 
-        :food_like_id, :food_dislike_id, :type_diet_id, :smoke_level_id, :drink_level_id)
+        `food_dislike_id`, `type_diet_id`, `smoke_level_id`, `drink_level_id`) VALUES (NULL, :appoint_id, NULL, 
+        NULL, NULL, :type_diet_id, :smoke_level_id, :drink_level_id)
         ";
         $query=$this->db->connect()->prepare($sql);
 
         $query->bindParam(':appoint_id', $this->appoint_id);
-        $query->bindParam(':food_allergies_id', $this->food_allergies);
-        $query->bindParam(':food_like_id', $this->food_like);
-        $query->bindParam(':food_dislike_id', $this->food_dislike);
+        // $query->bindParam(':food_allergies_id', $this->food_allergies);
+        // $query->bindParam(':food_like_id', $this->food_like);
+        // $query->bindParam(':food_dislike_id', $this->food_dislike);
         $query->bindParam(':type_diet_id', $this->type_diet);
         $query->bindParam(':smoke_level_id', $this->smoke_level);
         $query->bindParam(':drink_level_id', $this->drink_level);
@@ -194,15 +278,33 @@ Class appoint{
     }
 
     function setPhysicalInfo() {
+        // body type
+        $sql = "INSERT INTO `tbl_transact_appoint_physical_bodytype` (`body_type_id`, 
+        `appoint_id`, `body_type_name`) VALUES ";
+        
+        $values = [];
+
+        foreach($this -> body_type as $name) {
+            array_push($values, "(NULL, $this->appoint_id, '$name')");
+        }
+
+        $final = join(",", $values);
+        $query=$this->db->connect()->prepare($sql.$final);
+        print_r($query);
+        if($query->execute()){
+            echo "record allergies inserted successfully";
+        }
+
+
         $sql = "INSERT INTO `tbl_transact_appoint_physical` (`physical_id`, `appoint_id`, `actual_weight`, `current_height`, 
         `body_type_id`, `physical_activity_id`, `gain_weight_level_id`, `lose_weight_level_id`) VALUES (NULL, :appoint_id, 
-        :actual_weight, :current_height, :body_type_id, :physical_activity_id, :gain_weight_level_id, :lose_weight_level_id)";
+        :actual_weight, :current_height, NULL, :physical_activity_id, :gain_weight_level_id, :lose_weight_level_id)";
         $query=$this->db->connect()->prepare($sql);
 
         $query->bindParam(':appoint_id', $this->appoint_id);
         $query->bindParam(':actual_weight', $this->physical_weight);
         $query->bindParam(':current_height', $this->physical_height);
-        $query->bindParam(':body_type_id', $this->body_type);
+        // $query->bindParam(':body_type_id', $this->body_type);
         $query->bindParam(':physical_activity_id', $this->physical_activity);
         $query->bindParam(':gain_weight_level_id', $this->gain_weight_level);
         $query->bindParam(':lose_weight_level_id', $this->lose_weight_level);

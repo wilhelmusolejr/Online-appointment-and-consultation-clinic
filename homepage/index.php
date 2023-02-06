@@ -9,13 +9,17 @@
 
     session_start();
 
+    // print_r($_SESSION['acc_no']);
     if(isset($_SESSION['acc_no'])) {
+      // print_r("zzzzzz");
       $users = new user;
       $users->targetId = $_SESSION['acc_no'];
       $res = $users->validate();
       if($res){
           $_SESSION['user'] = $res;
           // print_r($_SESSION['user']);
+      } else {
+        print_r("error login");
       }
     }
 
