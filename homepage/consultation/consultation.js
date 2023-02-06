@@ -48,12 +48,149 @@ appointFor.addEventListener("click", function (e) {
   }
 });
 
-// PREV AND NEXT
-const boardSets = boardContainer.querySelectorAll(".board-page");
-const boardProgress = boardContainer.querySelector(".board-progress");
+// modal close
+const modalAppointNotif = document.querySelector(
+  ".modal-appointment-confirmation"
+);
 
-function changePage(current, boardSets, target) {
-  let pagination = [current - 1, current + 1];
+modalAppointNotif.addEventListener("click", function (e) {
+  if (
+    e.target.classList.contains("overlay-black") ||
+    e.target.classList.contains("button-cancel")
+  ) {
+    this.classList.toggle("hidden");
+  }
+});
+
+// $(".form-appoint-submit").on("submit", function (e) {
+//   e.preventDefault(); //prevent to reload the page
+
+//   console.log("test");
+
+//   $.ajax({
+//     type: "post", //hide url
+//     url: `php/set-appoint.php`, //your form validation url
+//     data: $(".form-appoint-submit").serialize(),
+//     success: function (response) {
+//       console.log(response);
+//       if (response == "success") {
+//         console.log("sssss");
+//       } else {
+//         console.log("error");
+//       }
+//     },
+//     error: function () {
+//       alert("test");
+//     },
+//   });
+// });
+
+// setInterval(function () {}, 50000);
+
+$(boardContainer).ready(function () {
+  $(".form-input-box input").keyup(function () {
+    let empty = false;
+    $(".form-input-box input:required").each(function () {
+      if ($(this).val().length == 0) {
+        empty = true;
+      }
+    });
+
+    if (empty) {
+      $(".button-semi-submit button").attr("disabled", "disabled");
+    } else {
+      $(".button-semi-submit button").attr("disabled", false);
+      $(".button-semi-submit button").addClass("button-primary");
+    }
+  });
+});
+
+const interval = setInterval(() => {
+  $.ajax({
+    type: "POST", //hide url
+    url: `../../php/request/request-appoint.php`, //your form validation url
+    dataType: "json",
+    success: function (response) {
+      console.log("board 2 - outside");
+
+      let boardParent = ".appointment-checkpoint-stage";
+
+      // appoint status
+      $(`${boardParent} input[name='appoint-status']`).val(
+        response.appoint_status
+      );
+      // rdn
+      $(`${boardParent} input[name='rdn-assigned']`).val(response.rnd_status);
+
+      // class appoint status
+      if (response.appoint_status == "APPROVED") {
+        $(`${boardParent} input[name='appoint-status']`).addClass(
+          "status-approved"
+        );
+      } else if (response.appoint_status == "DECLINED") {
+        $(`${boardParent} input[name='appoint-status']`).addClass(
+          "status-declined"
+        );
+      } else {
+        $(`${boardParent} input[name='appoint-status']`).addClass(
+          "status-pending"
+        );
+      }
+
+      // class assgined rnd
+      if (response.rnd_status == "APPROVED") {
+        $(`${boardParent} input[name='rdn-assigned']`).addClass(
+          "status-approved"
+        );
+      } else if (response.rnd_status == "DECLINED") {
+        $(`${boardParent} input[name='rdn-assigned']`).addClass(
+          "status-declined"
+        );
+      } else {
+        $(`${boardParent} input[name='rdn-assigned']`).addClass(
+          "status-pending"
+        );
+      }
+
+      if (
+        response.appoint_status == "APPROVED" &&
+        response.rnd_status == "APPROVED"
+      ) {
+        console.log("test");
+        // PUT LISTENER
+        if (response.board_page == 2) {
+          // avoid auto click
+          setTimeout(function () {
+            $(`${boardParent} .button-next button`).trigger("click");
+          }, 500);
+
+          console.log("board 2 - inside");
+
+          $.ajax({
+            type: "POST", //hide url
+            url: `../../php/set/set-board.php`, //your form validation url
+            data: { board_page: response.board_page },
+            success: function (response) {
+              console.log(response);
+            },
+          });
+        }
+
+        if (response.board != 2) {
+          $(`${boardParent} .button-next button`).prop("disabled", false);
+
+          clearInterval(interval);
+        }
+      }
+    },
+    error: function () {
+      console.log("fail at ajax");
+    },
+  });
+}, 1000);
+
+function changePage(currentBoardPage, boardSets, target) {
+  let pagination = [currentBoardPage - 1, currentBoardPage + 1];
 
   boardSets.forEach((board) => {
     let currentPage = parseInt(board.getAttribute("data-board-page"));
@@ -64,12 +201,6 @@ function changePage(current, boardSets, target) {
       board.classList.remove("hidden");
     }
   });
-
-  if (target == 0) {
-    changeBoardProgress(current - 1);
-  } else {
-    changeBoardProgress(current + 1);
-  }
 }
 function changeBoardProgress(currentPage) {
   switch (currentPage) {
@@ -111,116 +242,35 @@ function changeBoardProgress(currentPage) {
   }
 }
 
+const boardSets = boardContainer.querySelectorAll(".board-page");
+const boardProgress = boardContainer.querySelector(".board-progress");
+
 boardContainer.addEventListener("click", function (e) {
-  let current = parseInt(
+  let currentBoardPage = parseInt(
     e.target.closest(".board-page").getAttribute("data-board-page")
   );
 
-  // semi submit
-  // if (e.target.classList.contains("button-semi")) {
-  //   e.preventDefault();
-  // }
-
-  // pagination
   // prev
   if (e.target.parentElement.classList.contains("button-prev")) {
     e.preventDefault();
-    changePage(current, boardSets, 0);
+    changePage(currentBoardPage, boardSets, 0);
+    changeBoardProgress(currentBoardPage - 1);
+    currentBoardPage--;
   }
 
   // next
   if (e.target.parentElement.classList.contains("button-next")) {
     e.preventDefault();
-    changePage(current, boardSets, 1);
-  }
-
-  // semi-submit
-  if (e.target.parentElement.classList.contains("button-semi-submit")) {
-    modalAppointNotif.classList.toggle("hidden");
+    changePage(currentBoardPage, boardSets, 1);
+    changeBoardProgress(currentBoardPage + 1);
+    currentBoardPage++;
   }
 });
 
-let current = parseInt(boardContainer.querySelector(".board-page").value);
-changeBoardProgress(current);
-
-$(boardContainer).ready(function () {
-  $(".form-input-box input").keyup(function () {
-    let empty = false;
-    $(".form-input-box input:required").each(function () {
-      if ($(this).val().length == 0) {
-        empty = true;
-      }
-    });
-
-    if (empty) {
-      $(".button-semi-submit button").attr("disabled", "disabled");
-    } else {
-      $(".button-semi-submit button").attr("disabled", false);
-      $(".button-semi-submit button").addClass("button-primary");
-    }
-  });
-});
-
-// modal close
-const modalAppointNotif = document.querySelector(
-  ".modal-appointment-confirmation"
-);
-
-modalAppointNotif.addEventListener("click", function (e) {
-  if (
-    e.target.classList.contains("overlay-black") ||
-    e.target.classList.contains("button-cancel")
-  ) {
-    this.classList.toggle("hidden");
+// for searching - auto set board progress
+boardSets.forEach((board) => {
+  if (!board.classList.contains("hidden")) {
+    let tite = parseInt(board.getAttribute("data-board-page"));
+    changeBoardProgress(tite);
   }
 });
-
-// $(".form-appoint-submit").on("submit", function (e) {
-//   e.preventDefault(); //prevent to reload the page
-
-//   console.log("test");
-
-//   $.ajax({
-//     type: "post", //hide url
-//     url: `php/set-appoint.php`, //your form validation url
-//     data: $(".form-appoint-submit").serialize(),
-//     success: function (response) {
-//       console.log(response);
-//       if (response == "success") {
-//         console.log("sssss");
-//       } else {
-//         console.log("error");
-//       }
-//     },
-//     error: function () {
-//       alert("test");
-//     },
-//   });
-// });
-
-$(".form-appoint-submit").on("submit", function (e) {
-  e.preventDefault(); //prevent to reload the page
-
-  console.log("test");
-
-  $.ajax({
-    type: "post", //hide url
-    url: `php/set-appoint.php`, //your form validation url
-    data: $(".form-appoint-submit").serialize(),
-    success: function (response) {
-      console.log(response);
-      if (response == "success") {
-        console.log("sssss");
-      } else {
-        console.log("error");
-      }
-    },
-    error: function () {
-      alert("test");
-    },
-  });
-});
-
-setInterval(function () {
-  console.log("test");
-}, 1000);

@@ -10,10 +10,12 @@
     $consultation = 'nav-current';
 
     session_start();
-
+    
     $board_page = 1;
 
     if(isset($_GET['appoint_id'])) {
+      $_SESSION['transactId'] = $_GET['appoint_id'];
+
       $appoint = new appoint;
       $appoint-> searchTransactId = $_GET['appoint_id'];
       $res = $appoint->validate();
@@ -52,7 +54,7 @@
       }
 
       // appoint
-      // print_r($res['appoint_date_submitted']);
+      
       
     }
 
@@ -173,7 +175,7 @@
       </div>
 
       <form action="consultation.php">
-        <input type="hidden" class="board-page" value="<?php echo $board_page ?>">
+        <!-- <input type="hidden" class="board-page" value="<?php echo $board_page ?>"> -->
         <input type="hidden" class="path" value="<?php echo $path ?>">
       </form>
 
@@ -804,24 +806,25 @@
               <!-- Appointment Numbuh -->
               <div class="form-input-box input-two">
                 <label for="firstname">Appointment number</label>
-                <input type="text" name="firstname" id="firstname" value="<?php echo $appoint -> transact_id ?>"
+                <input type="text" name="firstname" id="firstname" value="<?php echo '#'.$appoint -> transact_id ?>"
                   disabled>
               </div>
               <!-- Appointment status -->
               <div class="form-input-box input-two">
                 <label for="lastname">Appointment status</label>
-                <input type="text" class="status-pending" name="lastname" id="lastname" value="test" disabled>
+                <input type="text" class="status-pending" name="appoint-status" id="lastname" value="PENDING" disabled>
               </div>
               <!-- Date appointment submitted -->
               <div class="form-input-box input-two ">
                 <label for="middlename">Date appointment submitted</label>
                 <input type="text" name="middlename" id="middlename"
-                  value="<?php echo $appointInfo['appoint_date_submitted'] ?>" disabled>
+                  value="<?php echo date('l jS \of F Y h:i a', strtotime($appointInfo['appoint_date_submitted'])); ?>"
+                  disabled>
               </div>
               <!-- Assigned RDN -->
               <div class="form-input-box input-two">
                 <label for="lastname">Assigned RDN</label>
-                <input class="status-declined" type="text" name="lastname" id="lastname" value="test" disabled>
+                <input class="status-declineds status-pending" type="text" name="rdn-assigned" value="PENDING" disabled>
               </div>
 
             </div>
@@ -852,7 +855,7 @@
             </div>
             <!-- next -->
             <div class="button-next">
-              <button class="button button-primary">Next
+              <button class="button button-primary" disabled>Next
               </button>
             </div>
 
@@ -982,7 +985,7 @@
             </div>
             <!-- next -->
             <div class="button-next">
-              <button class="button button-primary">Next
+              <button class="button button-primary" disabled>Next
               </button>
             </div>
 
@@ -1783,350 +1786,7 @@
 
       </div>
 
-      <!-- 2 -->
-      <!-- Appointment checkpoint -->
-      <div data-board-page="2"
-        class="appointment-checkpoint-stage board-page <?php echo $board_page == 2?"":"hidden" ?>">
-        <!-- Board Header -->
-        <div class="board-header text-uppercase text-center">
-          <h2>Appointment details</h2>
-        </div>
-        <!-- Form -->
-        <form action="/" class="form" method="post">
-          <!-- Tab -->
-          <div class="divider">
-            <!-- 1 -->
-            <div class="form-input-parent">
-              <!-- Appointment Numbuh -->
-              <div class="form-input-box input-two">
-                <label for="firstname">Appointment number</label>
-                <input type="text" name="firstname" id="firstname" value="test" disabled>
-              </div>
-              <!-- Appointment status -->
-              <div class="form-input-box input-two">
-                <label for="lastname">Appointment status</label>
-                <input type="text" name="lastname" id="lastname" value="test" disabled>
-              </div>
-              <!-- Date appointment submitted -->
-              <div class="form-input-box input-two ">
-                <label for="middlename">Date appointment submitted</label>
-                <input type="date" class="status-pending" name="middlename" id="middlename" value="1990-05-02" disabled>
-              </div>
-              <!-- Assigned RDN -->
-              <div class="form-input-box input-two">
-                <label for="lastname">Assigned RDN</label>
-                <input class="status-declined" type="text" name="lastname" id="lastname" value="test" disabled>
-              </div>
 
-            </div>
-            <!-- 3 -->
-            <div class="form-input-parent flex-center">
-              <!-- img -->
-              <div class="list-rnd-box grid-box card">
-                <div class="list-rnd-image flex-center">
-                  <img src="../../asset/doctor-bulk-billing-doctors-chapel-hill-health-care-medical-3.png" alt="">
-                </div>
-                <div class="list-rnd-info text-center">
-                  <p>Gregory Yames RND</p>
-                  <a href="#" class="text-uppercase text-center profile-link">view profile</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-button">
-
-            <!-- prev -->
-            <div class="button-prev">
-              <button class="button">prev</button>
-            </div>
-            <!-- middle -->
-            <div>
-              <button class="button hidden" disabled>Submit</button>
-            </div>
-            <!-- next -->
-            <div class="button-next">
-              <button class="button button-primary">Next
-              </button>
-            </div>
-
-          </div>
-
-        </form>
-
-      </div>
-
-      <!-- 3 -->
-      <!-- consultation -->
-      <div data-board-page="3" class="consultation-stage board-page <?php echo $board_page == 3?"":"hidden" ?>">
-        <!-- Board Header -->
-        <div class="board-header text-uppercase text-center">
-          <h2>Consultation</h2>
-        </div>
-        <!-- Form -->
-        <form action="/" class="form" method="post">
-          <div class="divider">
-            <!-- 1 -->
-            <div class="form-input-parent">
-              <!-- Appointment Numbuh -->
-              <div class="form-input-box ">
-                <label for="firstname">Appointment number</label>
-                <input type="text" name="firstname" id="firstname" value="#123456" disabled>
-              </div>
-              <!-- Upcoming schedule -->
-              <div class="form-input-box schedule-container">
-                <div class="container-header text-center text-uppercase">
-                  <p>Upcoming schedule</p>
-                </div>
-                <div class="list-schedule">
-                  <ul>
-                    <li>
-                      <p>11/14/2022</p>
-                      <p>04:30pm</p>
-                      <p>1 hour left</p>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <!-- 2 -->
-            <div class="form-input-parent divider-grow">
-              <!-- Appointment Numbuh -->
-              <div class="form-input-box input-one">
-                <label for="firstname">Chief complaint</label>
-                <input type="text" name="firstname" id="firstname" value="Diet meal plan" disabled>
-              </div>
-
-              <!-- Date appointment submitted -->
-              <div class="form-input-box input-one messenger-container ">
-
-                <!-- actual sms  -->
-                <div class="actual-message-container">
-                  <!-- messege 1 -->
-                  <div class="message-me messesage-con">
-                    <p class="time">04:00pm</p>
-                    <p class="message-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas, a!</p>
-                  </div>
-                  <!-- messege 2 -->
-                  <div class="message-you messesage-con">
-                    <p class="time">04:00pm</p>
-                    <p class="message-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas, a!</p>
-                  </div>
-                  <!-- messege 3 -->
-                  <div class="message-you messesage-con">
-                    <p class="time">04:00pm</p>
-                    <p class="message-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas, a!</p>
-                  </div>
-                  <!-- messege 1 -->
-                  <div class="message-me messesage-con">
-                    <p class="time">04:00pm</p>
-                    <p class="message-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas, a!</p>
-                  </div>
-                </div>
-
-                <!-- sms box input -->
-                <div class="sms-box-container">
-                  <input type="text" name="middlename" id="middlename" placeholder="Your message here">
-                </div>
-
-              </div>
-            </div>
-            <!-- 3 -->
-            <div class="form-input-parent flex-center">
-              <!-- img -->
-              <div class="list-rnd-box grid-box card">
-                <div class="list-rnd-image flex-center">
-                  <img src="../../asset/doctor-bulk-billing-doctors-chapel-hill-health-care-medical-3.png" alt="">
-                </div>
-                <div class="list-rnd-info text-center">
-                  <p>Gregory Yames RND</p>
-                  <a href="#" class="text-uppercase text-center profile-link">view profile</a>
-                </div>
-              </div>
-              <!-- virtual room -->
-              <div class="form-input-box virtual-room-container">
-                <div class="container-header text-center text-uppercase">
-                  <p>in virtual room</p>
-                </div>
-                <div class="list-schedule">
-                  <ul>
-                    <li class="hidden">
-                      <div class="circle"></div>
-                      <p>RND Gregory Yames</p>
-                    </li>
-                    <li class="hiddens">
-                      <div class="circle"></div>
-                      <p>RND Gregory Yames</p>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-button">
-
-            <!-- prev -->
-            <div class="button-prev">
-              <button class="button">prev</button>
-            </div>
-            <!-- middle -->
-            <div>
-              <button class="button hidden" disabled>Submit</button>
-            </div>
-            <!-- next -->
-            <div class="button-next">
-              <button class="button button-primary">Next
-              </button>
-            </div>
-
-          </div>
-
-        </form>
-
-      </div>
-
-      <!-- 4 -->
-      <!-- consultation checkpoint -->
-      <div data-board-page="4"
-        class="consultation-checkpoint-stage board-page <?php echo $board_page == 4?"":"hidden" ?>">
-        <!-- Board Header -->
-        <div class="board-header text-uppercase text-center">
-          <h2>Consultation result</h2>
-        </div>
-        <!-- Form -->
-        <form action="/" class="form" method="post">
-          <div class="divider">
-            <!-- 1 -->
-            <div class="form-input-parent">
-              <!-- Appointment Numbuh -->
-              <div class="form-input-box input-one">
-                <label for="firstname">Appointment number</label>
-                <input type="text" name="firstname" id="firstname" value="#123456" disabled>
-              </div>
-              <!-- Upcoming schedule -->
-              <div class="form-input-box input-one">
-                <label for="firstname">Appointment number</label>
-                <input type="text" name="firstname" id="firstname" value="#123456" disabled>
-              </div>
-            </div>
-            <!-- 2 -->
-            <div class="form-input-parent divider-grow">
-              <!-- Appointment Numbuh -->
-              <div class="form-input-box input-one">
-                <label for="firstname">Chief complaint</label>
-                <input type="text" name="firstname" id="firstname" value="Diet meal plan" disabled>
-              </div>
-            </div>
-            <!-- 3 -->
-            <div class="form-input-parent flex-center">
-              <!-- Appointment Numbuh -->
-              <div class="form-input-box">
-                <label for="firstname">Consultation result</label>
-                <input type="text" name="firstname" id="firstname" value="Diet meal plan" disabled>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-button">
-
-            <!-- prev -->
-            <div class="button-prev">
-              <button class="button">prev</button>
-            </div>
-            <!-- middle -->
-            <div>
-              <button class="button hidden" disabled>Submit</button>
-            </div>
-            <!-- next -->
-            <div class="button-next">
-              <button class="button button-primary">Next
-              </button>
-            </div>
-
-          </div>
-
-        </form>
-
-      </div>
-
-      <!-- 5 -->
-      <!-- Solution -->
-      <div data-board-page="5" class="solution-stage board-page <?php echo $board_page == 5?"":"hidden" ?>">
-        <!-- Board Header -->
-        <div class="board-header text-uppercase text-center">
-          <h2>Solution</h2>
-        </div>
-        <!-- Form -->
-        <form action="/" class="form" method="post">
-          <div class="divider">
-            <!-- 1 -->
-            <div class="form-input-parent">
-              <!-- Appointment Numbuh -->
-              <div class="form-input-box ">
-                <label for="firstname">Appointment number</label>
-                <input type="text" name="firstname" id="firstname" value="#123456" disabled>
-              </div>
-              <!-- Upcoming schedule -->
-              <div class="form-input-box ">
-                <label for="firstname">Appointment number</label>
-                <input type="text" name="firstname" id="firstname" value="#123456" disabled>
-              </div>
-              <!-- Upcoming schedule -->
-              <div class="form-input-box ">
-                <label for="firstname">Appointment number</label>
-                <input type="text" name="firstname" id="firstname" value="#123456" disabled>
-              </div>
-            </div>
-            <!-- 2 -->
-            <div class="form-input-parent divider-grow">
-              <!-- Appointment Numbuh -->
-              <div class="form-input-box input-one">
-                <label for="firstname">Chief complaint</label>
-                <input type="text" name="firstname" id="firstname" value="Diet meal plan" disabled>
-              </div>
-            </div>
-            <!-- 3 -->
-            <div class="form-input-parent flex-center">
-              <!-- Upcoming schedule -->
-              <div class="form-input-box schedule-container">
-                <div class="container-header text-center text-uppercase">
-                  <p>File</p>
-                </div>
-                <div class="list-schedule">
-                  <ul>
-                    <li>
-                      <p>11/14/2022</p>
-                      <p>04:30pm</p>
-                      <p>1 hour left</p>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-button">
-
-            <!-- prev -->
-            <div class="button-prev">
-              <button class="button">prev</button>
-            </div>
-            <!-- middle -->
-            <div>
-              <button class="button hidden" disabled>Submit</button>
-            </div>
-            <!-- next -->
-            <div class="button-next">
-              <button class="button button-primary">Home
-              </button>
-            </div>
-
-          </div>
-
-        </form>
-
-      </div>
 
     </div>
 

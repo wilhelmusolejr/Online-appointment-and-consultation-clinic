@@ -55,6 +55,8 @@ Class appoint{
     public $client_mobile_num;
     public $client_email_add;
 
+    // board
+    public $current_board_page;
 
     protected $db;
 
@@ -398,6 +400,44 @@ Class appoint{
         else{
             return false;
         }
+    }
+
+    function getAppointCheckpointStatus() {
+        $sql = "SELECT appoint_status, rnd_status, rnd_id FROM `tbl_transact_appoint_checkpoint_appoint_status` 
+        as appoint_status_table JOIN tbl_transact_appoint_checkpoint_rnd_status as rnd_status_table ON 
+        appoint_status_table.transact_id = appoint_status_table.transact_id WHERE appoint_status_table.transact_id = 
+        :transact_id;";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':transact_id', $this->transact_id);
+
+        if($query->execute()){
+            $data = $query->fetch();
+        }
+        return $data;
+    }
+
+    function getBoardPage() {
+        $sql = "SELECT board_page FROM `tbl_transact` WHERE transact_id = :transact_id;";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':transact_id', $this->transact_id);
+
+        if($query->execute()){
+            $data = $query->fetch();
+        }
+        return $data;
+    }
+
+    function setBoardPage() {
+        $sql = "UPDATE `tbl_transact` SET `board_page` = :board_page WHERE `tbl_transact`.`transact_id` = :transact_id;"; 
+        $query=$this->db->connect()->prepare($sql);
+        $query->bindParam(':board_page', $this->current_board_page);
+        $query->bindParam(':transact_id', $this->transact_id);
+        if($query->execute()){
+            return true;
+        }
+        return false;
     }
 }
 
