@@ -158,7 +158,6 @@ section.board-parent {
 /* ---------------------*/
 /* reset */
 .search-parent {
-  width: 20%;
   padding-bottom: 20px;
 }
 
@@ -563,6 +562,14 @@ a.button-cancel {
   .appointment-board {
     flex-direction: inherit;
   }
+}
+
+/* MODAL - FORM - SPACING */
+.modal-tool .modal-container {
+  max-width: 600px;
+}
+.modal-tool .modal-body {
+  padding: 25px 0;
 }
 
 /* NAVIGATOR */

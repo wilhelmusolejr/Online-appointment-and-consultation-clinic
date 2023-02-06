@@ -596,7 +596,7 @@ footer .nav-links {
 
   max-width: 800px;
   min-height: 40vh;
-  max-height: 500px;
+  /* max-height: 500px; */
 
   flex-direction: column;
   justify-content: space-between;
