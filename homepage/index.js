@@ -70,8 +70,8 @@ $(".form-login").on("submit", function (e) {
     data: $(".form-login").serialize(),
     success: function (response) {
       if (response == "success") {
-        // let initialHref = location.href;
-        // location.href = initialHref;
+        let initialHref = location.href;
+        location.href = initialHref;
       } else {
         console.log("error");
       }

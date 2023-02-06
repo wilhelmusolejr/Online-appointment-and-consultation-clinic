@@ -1,0 +1,5 @@
+
+
+---- SESSION
+> $_SESSION['acc_no'] 
+-] Can be used as a checker if logged in or not

@@ -372,32 +372,21 @@ section.board-parent {
   min-height: 150px;
 }
 
-.virtual-room-container a {
+a.mini-button {
   text-decoration: none;
-
-  /* border: 1px solid gray; */
-
   background-color: var(--color-white-secondary);
   padding: 5px 15px;
   color: #333 !important;
-
-  /* padding: 15px 25px; */
-  /* font-size: 24px; */
-  /* text-align: center; */
-  /* cursor: pointer; */
   outline: none;
-  /* color: #fff; */
-  /* background-color: #04AA6D; */
   border: none;
-  /* border-radius: 15px; */
   box-shadow: 0 5px #999;
 }
-.virtual-room-container a:active {
+a.mini-button:active {
   background-color: #3e8e41;
   box-shadow: 0 5px #666;
   transform: translateY(4px);
 }
-.virtual-room-container a:hover {
+a.mini-button:hover {
   color: var(--color-green-secondary) !important;
   background-color: rgb(220, 220, 220);
 }
@@ -439,9 +428,9 @@ section.board-parent {
 
   border-radius: 10px;
 
-  min-height: 300px;
+  min-height: 400px;
 
-  /* border-top-left-radius: 25px; */
+  position: relative;
 }
 .container-header {
   border-top-left-radius: 20px;
@@ -471,6 +460,19 @@ section.board-parent {
 }
 .schedule-container p {
   color: var(--color-white-secondary);
+}
+
+.schedule-button {
+  gap: 10px;
+
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+}
+
+.schedule-button .mini-button {
+  background-color: #e0e0e0;
 }
 
 /* messenger */

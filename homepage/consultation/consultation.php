@@ -3,6 +3,7 @@
 
     require_once $path.'classes/appoint.class.php';
     require_once $path.'classes/user.class.php';
+    require_once $path.'classes/consult.class.php';
 
 
     require_once $path.'tools/variables.php';
@@ -13,6 +14,7 @@
     
     $board_page = 1;
 
+    // SEARCH BAR --- GET --- TO GENERATE 
     if(isset($_GET['appoint_id'])) {
       $_SESSION['transactId'] = $_GET['appoint_id'];
 
@@ -25,6 +27,7 @@
       }
     }
 
+    // GETTING DATA FOR TABULATION
     if(isset($board_transact_id)) {
       $appoint -> transact_id = $board_transact_id;
       $appointInfo = $appoint -> getAppoint();
@@ -58,6 +61,7 @@
       
     }
 
+    // GET USER INFO
     if(isset($_SESSION['acc_no'])) {
       $users = new user;
       $users->targetId = $_SESSION['acc_no'];
@@ -65,6 +69,21 @@
       if($res){
           $_SESSION['user'] = $res;
       }
+    }
+
+    if(isset($_SESSION['acc_no'])) {
+      print_r("nyeta");
+
+      $consult = new consult;
+      $consult-> transact_id = $_SESSION['acc_no'];
+      $cheduleInfo = $consult -> getSchedule();
+      if($cheduleInfo){
+        print_r($cheduleInfo[0]);
+        print_r('\n');
+        print_r('\n');
+        print_r('\n');
+        print_r($cheduleInfo[1]);
+      } 
     }
 
     require_once $path.'includes/starterOne.php';
@@ -899,12 +918,19 @@
                 </div>
                 <div class="list-schedule">
                   <ul>
+                    <?php foreach($cheduleInfo as $schedule ) { ?>
                     <li>
-                      <p>11/14/2022</p>
-                      <p>04:30pm</p>
+                      <p><?php echo $schedule['date'] ?></p>
+                      <p><?php echo date('h:i a', strtotime($schedule['time'])) ?></p>
                       <p>1 hour left</p>
                     </li>
+                    <?php } ?>
                   </ul>
+
+                  <div class="schedule-button flex-center">
+                    <a href="#" class="button mini-button"><i class="fa-solid fa-plus"></i></a>
+                    <a href="#" class="button mini-button"><i class="fa-solid fa-pen"></i></a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -967,7 +993,8 @@
               <div class="form-input-box virtual-room-container">
                 <div class="container-header text-center flex-center text-uppercase">
                   <p>in virtual room</p>
-                  <a href="https://www.youtube.com/watch?v=vvFSVIy1Nqs" target="_blank" class="button">JOIN</a>
+                  <a href="https://www.youtube.com/watch?v=vvFSVIy1Nqs" target="_blank"
+                    class="button mini-button">JOIN</a>
                 </div>
                 <div class="list-schedule">
                   <ul>
