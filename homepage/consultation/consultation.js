@@ -365,7 +365,12 @@ function ajaxCaller(currentBoardPage) {
               response.appoint_status == "APPROVED" &&
               response.rnd_status == "APPROVED"
             ) {
-              console.log("still 2");
+              $(`${boardParent} .appoint-status-time`).addClass(
+                "status-time-good"
+              );
+              $(`${boardParent} .appoint-status-time span`).text(
+                `You're good to go`
+              );
 
               // PUT LISTENER
               if (response.board_page == 2) {
@@ -373,7 +378,7 @@ function ajaxCaller(currentBoardPage) {
                 $(`${boardParent} .button-next button`).prop("disabled", false);
                 setTimeout(function () {
                   $(`${boardParent} .button-next button`).trigger("click");
-                }, 5000);
+                }, 10000);
 
                 $.ajax({
                   type: "POST", //hide url
@@ -432,6 +437,19 @@ function ajaxCaller(currentBoardPage) {
               setTimeout(function () {
                 $(`${boardParent} .button-next button`).trigger("click");
               }, 5000);
+
+              // to be checked
+              // $.ajax({
+              //   type: "POST", //hide url
+              //   url: `../../php/set/set-consult-checkpoint.php`, //your form validation url
+              //   dataType: "json",
+              //   success: function (response) {
+              //     console.log(response);
+              //   },
+              //   error: function () {
+              //     console.log("error");
+              //   },
+              // });
 
               clearInterval(boardThree);
             }

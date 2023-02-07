@@ -404,8 +404,6 @@ Class appoint{
         }
     }
 
-
-
     function getBoardPage() {
         $sql = "SELECT * FROM `tbl_transact` WHERE transact_id = :transact_id;";
         $query=$this->db->connect()->prepare($sql);

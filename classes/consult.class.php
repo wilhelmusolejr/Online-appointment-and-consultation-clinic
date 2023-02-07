@@ -115,4 +115,18 @@ class consult {
     }
     return $data;
   }
+
+  function setConsultResult() {
+    $sql = "INSERT INTO `tbl_transact_consult_checkpoint_result_status`
+     (`consult_result_status_id`, `transact_id`, `consult_result_status`)
+      VALUES (NULL, :transact_id, 'PENDING')";
+    $query=$this->db->connect()->prepare($sql);
+
+    $query->bindParam(':transact_id', $this->transact_id);
+
+    if($query->execute()){
+        return true;
+    }
+    return false;
+  }
 }

@@ -30,6 +30,7 @@
       // print($_GET['transact_id']);
       // print("--------------------");
 
+      $_SESSION['transact_id'] = $_GET['transact_id'];
       $appoint-> searchTransactId = $_GET['transact_id'];
       $res = $appoint->validate();
       if($res){
@@ -877,7 +878,9 @@
             </div>
             <!-- middle -->
             <div>
-              <button class="button hidden" disabled>Submit</button>
+              <p class="text-uppercase appoint-status-time"><i class="fa-regular fa-clock"></i>
+                <span>approximate 10 minutes</span>
+              </p>
             </div>
             <!-- next -->
             <div class="button-next">
