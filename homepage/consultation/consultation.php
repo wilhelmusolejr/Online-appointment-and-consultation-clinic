@@ -1180,7 +1180,8 @@
               <!-- Consultation result -->
               <div class="form-input-box">
                 <label for="firstname">Consultation result</label>
-                <input type="text" name="firstname" id="firstname" class="status-pending" value="PENDING" disabled>
+                <input type="text" name="consultation-status" id="firstname" class="status-pending" value="DUMMY"
+                  disabled>
               </div>
             </div>
           </div>
@@ -1220,19 +1221,24 @@
             <!-- 1 -->
             <div class="form-input-parent">
               <!-- Appointment Numbuh -->
-              <div class="form-input-box ">
+              <div class="form-input-box input-one">
                 <label for="firstname">Appointment number</label>
-                <input type="text" name="firstname" id="firstname" value="#123456" disabled>
+                <input type="text" name="firstname" id="firstname" value="<?php echo '#'.$appoint -> transact_id ?>"
+                  disabled>
               </div>
-              <!-- Upcoming schedule -->
-              <div class="form-input-box ">
-                <label for="firstname">Appointment number</label>
-                <input type="text" name="firstname" id="firstname" value="#123456" disabled>
+              <!-- Date appointment submitted -->
+              <div class="form-input-box input-one ">
+                <label for="middlename">Date appointment submitted</label>
+                <input type="text" name="middlename" id="middlename"
+                  value="<?php echo date('l jS \of F Y h:i a', strtotime($appointInfo['appoint_date_submitted'])); ?>"
+                  disabled>
               </div>
-              <!-- Upcoming schedule -->
-              <div class="form-input-box ">
-                <label for="firstname">Appointment number</label>
-                <input type="text" name="firstname" id="firstname" value="#123456" disabled>
+              <!-- Date consultation finished -->
+              <div class="form-input-box input-one">
+                <label for="firstname">Date consultation completed</label>
+                <input type="text" name="firstname" id="firstname"
+                  value="<?php echo date('l jS \of F Y h:i a', strtotime($cheduleInfo[0]["consult_date_finish"])); ?>"
+                  disabled>
               </div>
             </div>
             <!-- 2 -->
@@ -1240,7 +1246,8 @@
               <!-- Appointment Numbuh -->
               <div class="form-input-box input-one">
                 <label for="firstname">Chief complaint</label>
-                <input type="text" name="firstname" id="firstname" value="Diet meal plan" disabled>
+                <input type="text" name="firstname" id="firstname" value="<?php echo $consultInfo['chief_complaint'] ?>"
+                  disabled>
               </div>
             </div>
             <!-- 3 -->
@@ -1274,9 +1281,9 @@
               <button class="button hidden" disabled>Submit</button>
             </div>
             <!-- next -->
-            <div class="button-next">
-              <button class="button button-primary">Home
-              </button>
+            <div class="">
+              <a href="https://www.youtube.com/watch?v=6DhQUPhVizo" target="_blank" class="button button-primary">Home
+              </a>
             </div>
 
           </div>

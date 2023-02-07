@@ -89,4 +89,17 @@ class consult {
     }
     return $data;
   }
+
+  function getConsultResult() {
+    $sql = "SELECT * FROM `tbl_transact_consult_checkpoint_result_status`
+     WHERE transact_id = :transact_id;";
+    $query=$this->db->connect()->prepare($sql);
+
+    $query->bindParam(':transact_id', $this->transact_id);
+
+    if($query->execute()){
+        $data = $query->fetch();
+    }
+    return $data;
+  }
 }

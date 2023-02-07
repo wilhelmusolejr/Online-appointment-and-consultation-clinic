@@ -414,6 +414,86 @@ function ajaxCaller(currentBoardPage) {
         });
       }, 1000);
       break;
+
+    // board 3
+    case 4:
+      const boardFour = setInterval(() => {
+        $.ajax({
+          type: "POST", //hide url
+          url: `../../php/request/req-consult.php`, //your form validation url
+          dataType: "json",
+          success: function (response) {
+            console.log(response);
+            let boardParent = ".consultation-checkpoint-stage";
+
+            // appoint status
+            $(`${boardParent} input[name='consultation-status']`).val(
+              response.consult_result_status
+            );
+
+            // class appoint status
+            if (response.consult_result_status == "APPROVED") {
+              $(`${boardParent} input[name='consultation-status']`).addClass(
+                "status-approved"
+              );
+            } else if (response.consult_result_status == "DECLINED") {
+              $(`${boardParent} input[name='consultation-status']`).addClass(
+                "status-declined"
+              );
+            } else {
+              $(`${boardParent} input[name='consultation-status']`).addClass(
+                "status-pending"
+              );
+            }
+
+            // class assigned rnd
+            // if (response.rnd_status == "APPROVED") {
+            //   $(`${boardParent} input[name='rdn-assigned']`).addClass(
+            //     "status-approved"
+            //   );
+            // } else if (response.rnd_status == "DECLINED") {
+            //   $(`${boardParent} input[name='rdn-assigned']`).addClass(
+            //     "status-declined"
+            //   );
+            // } else {
+            //   $(`${boardParent} input[name='rdn-assigned']`).addClass(
+            //     "status-pending"
+            //   );
+            // }
+
+            if (response.consult_result_status == "APPROVED") {
+              // PUT LISTENER
+              if (response.board_page == 4) {
+                $(`${boardParent} .button-next button`).prop("disabled", false);
+
+                // avoid auto click
+                setTimeout(function () {
+                  $(`${boardParent} .button-next button`).trigger("click");
+                }, 10000);
+
+                $.ajax({
+                  type: "POST", //hide url
+                  url: `../../php/set/set-board.php`, //your form validation url
+                  data: { board_page: response.board_page },
+                  success: function (response) {
+                    console.log(response);
+                  },
+                });
+              }
+
+              if (response.board != 4) {
+                $(`${boardParent} .button-next button`).prop("disabled", false);
+
+                clearInterval(boardFour);
+              }
+            }
+          },
+          error: function () {
+            console.log("fail at ajaxsssss");
+          },
+        });
+      }, 1000);
+      break;
   }
 }
 ajaxCaller(currentBoardPage);
