@@ -8,9 +8,6 @@ session_start();
 $appoint = new appoint;
 $appoint -> transact_id = $_SESSION['transactId'];
 
-
-// $user = new user;
-
 $appointStatus = $appoint -> getAppointCheckpointStatus();
 $board = $appoint -> getBoardPage();
 // $rndInfo = $appoint -> 

@@ -1,5 +1,21 @@
 "use strict";
 
+let transact = {
+  transact: {
+    transact_id: null,
+    appoint: {
+      appoint_id: null,
+    },
+    consult: {
+      consult_id: null,
+    },
+    user: {
+      client_id: null,
+      rnd_id: null,
+    },
+  },
+};
+
 // $(".form-appoint-submit").on("submit", function (e) {
 //   e.preventDefault(); //prevent to reload the page
 
@@ -152,7 +168,7 @@ const boardProgress = boardContainer.querySelector(".board-progress");
 boardContainer.addEventListener("click", function (e) {
   let currentBoardPage = getActiveBoard();
 
-  console.log(e.target);
+  // console.log(e.target);
 
   // prev
   if (e.target.parentElement.classList.contains("button-prev")) {
@@ -195,29 +211,18 @@ boardContainer.addEventListener("click", function (e) {
         .querySelector(".list-schedule .schedule-add")
         .classList.remove("hidden");
       console.log("plus");
-    } else {
+
+      // ajax
+    }
+    // if edit is pressed
+    else {
       boardContainer
         .querySelector(".list-schedule .schedule-edit")
         .classList.remove("hidden");
-      let markUp = `
-      <div class="form-input-parent">
-      <!-- Appointment date -->
-      <div class="form-input-box input-one">
-        <label for="appointment-date" class="text-capital">Appointment date <span>*</span></label>
-        <input type="date" name="appointment-date" id="appointment-date"
-          value="<?php echo $cheduleInfo[0]['date'] ?>">
-      </div>
-      <!-- Appointment time -->
-      <div class="form-input-box input-one">
-        <label for="appointment-time" class="text-capital">Appointment time <span>*</span></label>
-        <input type="time" name="appointment-time" id="appointment-time"
-          value="<?php echo $cheduleInfo[0]['time'] ?>">
-      </div>
-    </div>
-      `;
     }
   }
 
+  // edit section - choosing of schedule
   if (e.target.closest("li")) {
     if (e.target.closest("li")) {
       console.log(e.target.closest("li").getAttribute("data-schedule-id"));
@@ -230,7 +235,39 @@ boardContainer.addEventListener("click", function (e) {
         .closest(".modal-container")
         .querySelector(".button-submit")
         .classList.remove("hidden");
+      e.target
+        .closest(".modal-container")
+        .querySelector(".button-cancel")
+        .classList.add("hidden");
+      e.target
+        .closest(".modal-container")
+        .querySelector(".button-back")
+        .classList.remove("hidden");
     }
+  }
+
+  if (e.target.classList.contains("button-back")) {
+    console.log("test");
+    e.target
+      .closest(".modal-container")
+      .querySelector(".form")
+      .classList.add("hidden");
+    e.target
+      .closest(".modal-container")
+      .querySelector(".list-sched")
+      .classList.remove("hidden");
+    e.target
+      .closest(".modal-container")
+      .querySelector(".button-submit")
+      .classList.add("hidden");
+    e.target
+      .closest(".modal-container")
+      .querySelector(".button-cancel")
+      .classList.remove("hidden");
+    e.target
+      .closest(".modal-container")
+      .querySelector(".button-back")
+      .classList.add("hidden");
   }
 });
 
@@ -249,18 +286,15 @@ let currentBoardPage = getActiveBoard();
 changeBoardProgress(currentBoardPage);
 
 function ajaxCaller(currentBoardPage) {
-  console.log(currentBoardPage);
   switch (currentBoardPage) {
+    // board 2
     case 2:
-      // board 2
-      const interval = setInterval(() => {
+      const boardTwo = setInterval(() => {
         $.ajax({
           type: "POST", //hide url
           url: `../../php/request/request-appoint.php`, //your form validation url
           dataType: "json",
           success: function (response) {
-            console.log("board 2 - outside");
-
             let boardParent = ".appointment-checkpoint-stage";
 
             // appoint status
@@ -306,7 +340,7 @@ function ajaxCaller(currentBoardPage) {
             $.ajax({
               type: "POST", //hide url
               url: `../../php/request/request-profile.php`, //your form validation url
-              data: { rnd_id: response.rnd_id },
+              data: { target_id: response.rnd_id },
               dataType: "json",
               success: function (response) {
                 $(`.assigned-rnd`).text(
@@ -324,15 +358,12 @@ function ajaxCaller(currentBoardPage) {
               response.appoint_status == "APPROVED" &&
               response.rnd_status == "APPROVED"
             ) {
-              console.log("test");
               // PUT LISTENER
               if (response.board_page == 2) {
                 // avoid auto click
                 setTimeout(function () {
                   $(`${boardParent} .button-next button`).trigger("click");
                 }, 10000);
-
-                console.log("board 2 - inside");
 
                 $.ajax({
                   type: "POST", //hide url
@@ -347,7 +378,7 @@ function ajaxCaller(currentBoardPage) {
               if (response.board != 2) {
                 $(`${boardParent} .button-next button`).prop("disabled", false);
 
-                clearInterval(interval);
+                clearInterval(boardTwo);
               }
             }
           },
@@ -357,5 +388,125 @@ function ajaxCaller(currentBoardPage) {
         });
       }, 1000);
       break;
+
+    // board 3
+    case 3:
+      const boardThree = setInterval(() => {
+        showSchedule(".list-schedule ul");
+        showSchedule(".list-sched", true);
+
+        $.ajax({
+          type: "POST", //hide url
+          url: `../../php/request/request-appoint.php`, //your form validation url
+          dataType: "json",
+          success: function (response) {
+            console.log(response);
+
+            let boardParent = `.consultation-stage`;
+
+            if (response.board_page > 3) {
+              // PUT LISTENER
+              $(`${boardParent} .button-next button`).prop("disabled", false);
+
+              clearInterval(boardThree);
+            }
+          },
+        });
+      }, 1000);
+      break;
   }
+}
+ajaxCaller(currentBoardPage);
+
+// ----------------------------
+// ADD SCHEDULE
+$(".form-add-schedule").on("submit", function (e) {
+  e.preventDefault();
+
+  console.log("pressed");
+
+  $.ajax({
+    type: "POST", //hide url
+    url: `../../php/set/set-consult-schedule.php`, //your form validation url
+    data: $(".form-add-schedule").serialize(),
+    success: function (response) {
+      if (response) {
+        document.querySelectorAll(".modal-parent").forEach((modal) => {
+          modal.classList.add("hidden");
+        });
+      }
+
+      document.querySelectorAll(".form-add-schedule input").forEach((input) => {
+        input.value = "";
+      });
+    },
+    error: function () {
+      console.log("fail at ajax");
+    },
+  });
+});
+// ----------------------------
+// EDIT SCHEDULE
+$(".edit-form-sched").on("submit", function (e) {
+  e.preventDefault();
+
+  console.log("pressed");
+
+  $.ajax({
+    type: "POST", //hide url
+    url: `../../php/update/update-consult-schedule.php`, //your form validation url
+    data: $(".edit-form-sched").serialize(),
+    success: function (response) {
+      console.log(response);
+      // if (response) {
+      //   document.querySelectorAll(".modal-parent").forEach((modal) => {
+      //     modal.classList.add("hidden");
+      //   });
+      // }
+      // document.querySelectorAll(".form-add-schedule input").forEach((input) => {
+      //   input.value = "";
+      // });
+    },
+    error: function () {
+      console.log("fail at ajax");
+    },
+  });
+});
+
+function generateScheduleMarkUp(response, edit = false) {
+  let markUp = ``;
+
+  for (const sched in response) {
+    let time = new Date(`${response[sched].date} ${response[sched].time}`);
+    markUp += `<li data-schedule-id="${response[sched].consult_schedule_id}">
+                      <p>${response[sched].date}</p>
+                      <p>${time.toLocaleString("en-US", {
+                        hour: "numeric",
+                        minute: "numeric",
+                        hour12: true,
+                      })}</p>
+                      <p>1 hour left</p>
+                      <p class="cursor-pointer ${
+                        edit ? "" : "hidden"
+                      }"><i class="fa-solid fa-arrow-right"></i></p>
+                    </li>`;
+  }
+  return markUp;
+}
+
+function showSchedule(target, edit = false) {
+  $.ajax({
+    type: "POST", //hide url req-consult-sched
+    url: `../../php/request/req-consult-sched.php`, //your form validation url
+    dataType: "json",
+    success: function (response) {
+      document.querySelector(`${target}`).innerHTML = generateScheduleMarkUp(
+        response,
+        edit
+      );
+    },
+    error: function () {
+      console.log("failed to get sched");
+    },
+  });
 }

@@ -549,6 +549,9 @@ input:invalid {
 a.button-cancel {
   color: black !important;
 }
+a.button-back {
+  color: black !important;
+}
 
 /* MEDIA QUERIES */
 /* LAPTOP */

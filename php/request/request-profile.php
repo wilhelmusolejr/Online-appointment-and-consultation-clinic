@@ -4,7 +4,7 @@ require_once '../../classes/user.class.php';
 session_start();
 
 $user = new user;
-$user -> targetId = $_POST['rnd_id'];
+$user -> targetId = $_POST['target_id'];
 $res = $user -> validate();
 if($res){
   echo json_encode($res);

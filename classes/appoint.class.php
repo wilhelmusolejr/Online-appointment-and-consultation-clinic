@@ -413,6 +413,7 @@ Class appoint{
 
         if($query->execute()){
             $data = $query->fetch();
+            $_SESSION['rnd_id'] = $data['rnd_id'];
         }
         return $data;
     }

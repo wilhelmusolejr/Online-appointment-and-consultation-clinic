@@ -3,3 +3,30 @@
 ---- SESSION
 > $_SESSION['acc_no'] 
 -] Can be used as a checker if logged in or not
+-] ID WHO logged in
+
+
+1. Where to get user:id?
+--- 
+
+
+2. Where to get transact_id 
+--- $_SESSION['transactId'] ---> if search bar is being used 
+
+
+
+
+--- LIST OF UNFINISH WORK
+
+-- appointment
+re-run set appointment work
+
+-- appointment checkpoint
+time approximate to look for assigned
+
+
+-- consultation
+Consultation transaction done? -- Press next button remove disable
+Edit schedule functionality
+JOINING IN VIRTUAL ROOM
+

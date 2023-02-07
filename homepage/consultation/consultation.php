@@ -5,7 +5,6 @@
     require_once $path.'classes/user.class.php';
     require_once $path.'classes/consult.class.php';
 
-
     require_once $path.'tools/variables.php';
     $page_title = "Consultation";
     $consultation = 'nav-current';
@@ -13,12 +12,13 @@
     session_start();
     
     $board_page = 1;
+    
+    $appoint = new appoint;
 
     // SEARCH BAR --- GET --- TO GENERATE 
     if(isset($_GET['appoint_id'])) {
-      $_SESSION['transactId'] = $_GET['appoint_id'];
+      $_SESSION['transact_id'] = $_GET['appoint_id'];
 
-      $appoint = new appoint;
       $appoint-> searchTransactId = $_GET['appoint_id'];
       $res = $appoint->validate();
       if($res){
@@ -56,9 +56,8 @@
         array_push($bodyTypeList, $type['body_type_name']);
       }
 
-      // appoint
-
-      
+      // appoint checkpoint 
+      $rest = $appoint -> getAppointCheckpointStatus();
     }
 
     // GET USER INFO
@@ -76,14 +75,9 @@
       $consult-> transact_id = $_SESSION['acc_no'];
       $cheduleInfo = $consult -> getSchedule();
       if($cheduleInfo){
-        // print_r($cheduleInfo[0]);
-        // print_r('\n');
-        // print_r('\n');
-        // print_r('\n');
-        // print_r($cheduleInfo[1]);
       } 
-    }
-
+    } 
+    // getConsultInfo()
     require_once $path.'includes/starterOne.php';
 ?>
 <link rel="stylesheet" href="consultation.css" />
@@ -899,7 +893,7 @@
           <h2>Consultation</h2>
         </div>
         <!-- Form -->
-        <form action="/" class="form" method="post">
+        <div class="form">
           <div class="divider">
             <!-- 1 -->
             <div class="form-input-parent">
@@ -933,9 +927,6 @@
                   <!-- MODAl - ADD  -->
                   <div class="modal-parent modal-notif-parent modal-tool schedule-add overlay-black flex-center hidden">
 
-                    <!-- hidden - fox ajax -->
-                    <input type="hidden" name="submit" value='true' id="submit">
-
                     <!-- modal -->
                     <div class="modal-container modal-notif-container sizing-secondary">
                       <!-- header -->
@@ -943,60 +934,38 @@
                         <h2 class="text-uppercase">Add schedule</h2>
                       </div>
                       <!-- form -->
-                      <form class="form " method="post">
+                      <form class="form form-add-schedule" method="post">
                         <div class="divider modal-body">
                           <div class="form-input-parent">
                             <!-- Appointment date -->
                             <div class="form-input-box input-one">
                               <label for="appointment-date" class="text-capital">Appointment date <span>*</span></label>
-                              <input type="date" name="appointment-date" id="appointment-date"
-                                placeholder="Enter your middle name">
+                              <input type="date" name="appointment-date" required id="appointment-date"
+                                min="<?php echo date("Y-m-d") ?>">
                             </div>
                             <!-- Appointment time -->
                             <div class="form-input-box input-one">
                               <label for="appointment-time" class="text-capital">Appointment time <span>*</span></label>
-                              <input type="time" name="appointment-time" id="appointment-time">
+                              <input type="time" name="appointment-time" id="appointment-time" required>
                             </div>
                           </div>
                         </div>
+
+                        <!-- hidden - fox ajax -->
+                        <input type="hidden" name="submit" value='true' id="submit">
+                        <!-- button -->
+                        <div class="modal-buttons">
+                          <a class="button button-cancel">Go back</a>
+                          <button type="submit" name='submit' value="submit"
+                            class="button button-primary">Submit</button>
+
+                        </div>
                       </form>
-                      <!-- button -->
-                      <div class="modal-buttons">
-                        <a class="button button-cancel">Go back</a>
-                        <a type="submit" name='submit' value="submit" class="button button-primary">Submit</a>
-                      </div>
+
                     </div>
 
                     <!-- modal confirmation -->
-                    <div class="modal-container modal-notif-container sizing-secondary hidden">
-                      <!-- header -->
-                      <div class="modal-header text-center">
-                        <h2 class="text-uppercase">Add schedule</h2>
-                      </div>
-                      <!-- form -->
-                      <form class="form" method="post">
-                        <div class="divider">
-                          <div class="form-input-parent">
-                            <!-- Appointment date -->
-                            <div class="form-input-box input-one">
-                              <label for="appointment-date" class="text-capital">Appointment date <span>*</span></label>
-                              <input type="date" name="appointment-date" id="appointment-date"
-                                placeholder="Enter your middle name">
-                            </div>
-                            <!-- Appointment time -->
-                            <div class="form-input-box input-one">
-                              <label for="appointment-time" class="text-capital">Appointment time <span>*</span></label>
-                              <input type="time" name="appointment-time" id="appointment-time">
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                      <!-- button -->
-                      <div class="modal-buttons">
-                        <a class="button button-cancel">Go back</a>
-                        <button type="submit" name='submit' value="submit" class="button button-primary">Submit</button>
-                      </div>
-                    </div>
+
 
                   </div>
 
@@ -1020,13 +989,13 @@
                           <p><?php echo $schedule['date'] ?></p>
                           <p><?php echo date('h:i a', strtotime($schedule['time'])) ?></p>
                           <p>1 hour left</p>
-                          <p class="cursor-pointer"><i class="fa-solid fa-arrow-right"></i></p>
+                          <p class="cursor-pointer hidden"><i class="fa-solid fa-arrow-right"></i></p>
                         </li>
                         <?php } ?>
                       </ul>
 
                       <!-- edit -->
-                      <form class="form hidden modal-body" method="post">
+                      <form class="form edit-form-sched hidden modal-body" method="post">
                         <div class="divider modal-body">
                           <div class="form-input-parent">
                             <!-- Appointment date -->
@@ -1043,15 +1012,19 @@
                             </div>
                           </div>
                         </div>
-                      </form>
 
-                      <!-- button -->
-                      <div class="modal-buttons flex-center hiddens">
-                        <a class="button button-cancel">Go back</a>
-                        <button class="button button-primary hidden"><i class="fa-solid fa-trash"></i></button>
-                        <a type="submit" name='submit' value="submit"
-                          class="button button-primary button-submit hidden">UPDATE</a>
-                      </div>
+                        <!-- hidden - fox ajax -->
+                        <input type="hidden" name="submit" value='true' id="submit">
+
+                        <!-- button -->
+                        <div class="modal-buttons flex-center hiddens">
+                          <a class="button button-cancel ">Go back</a>
+                          <a class="button button-back hidden">Go back</a>
+                          <a class="hidden"><i class="fa-solid fa-trash"></i></a>
+                          <button type="submit" name='submit' value="submit"
+                            class="button button-primary button-submit hidden">UPDATE</button>
+                        </div>
+                      </form>
                     </div>
 
                   </div>
@@ -1149,13 +1122,13 @@
             </div>
             <!-- next -->
             <div class="button-next">
-              <button class="button button-primary" disabled>Next
+              <button class="button  button-next button-primary" disabled>Next
               </button>
             </div>
 
           </div>
 
-        </form>
+        </div>
 
       </div>
 
@@ -1175,12 +1148,22 @@
               <!-- Appointment Numbuh -->
               <div class="form-input-box input-one">
                 <label for="firstname">Appointment number</label>
-                <input type="text" name="firstname" id="firstname" value="#123456" disabled>
+                <input type="text" name="firstname" id="firstname" value="<?php echo '#'.$appoint -> transact_id ?>"
+                  disabled>
               </div>
-              <!-- Upcoming schedule -->
+              <!-- Date appointment submitted -->
+              <div class="form-input-box input-one ">
+                <label for="middlename">Date appointment submitted</label>
+                <input type="text" name="middlename" id="middlename"
+                  value="<?php echo date('l jS \of F Y h:i a', strtotime($appointInfo['appoint_date_submitted'])); ?>"
+                  disabled>
+              </div>
+              <!-- Date consultation finished -->
               <div class="form-input-box input-one">
-                <label for="firstname">Appointment number</label>
-                <input type="text" name="firstname" id="firstname" value="#123456" disabled>
+                <label for="firstname">Date consultation completed</label>
+                <input type="text" name="firstname" id="firstname"
+                  value="<?php echo date('l jS \of F Y h:i a', strtotime($cheduleInfo[0]["consult_date_finish"])); ?>"
+                  disabled>
               </div>
             </div>
             <!-- 2 -->
@@ -1188,15 +1171,16 @@
               <!-- Appointment Numbuh -->
               <div class="form-input-box input-one">
                 <label for="firstname">Chief complaint</label>
-                <input type="text" name="firstname" id="firstname" value="Diet meal plan" disabled>
+                <input type="text" name="firstname" id="firstname" value="<?php echo $consultInfo['chief_complaint'] ?>"
+                  disabled>
               </div>
             </div>
             <!-- 3 -->
             <div class="form-input-parent flex-center">
-              <!-- Appointment Numbuh -->
+              <!-- Consultation result -->
               <div class="form-input-box">
                 <label for="firstname">Consultation result</label>
-                <input type="text" name="firstname" id="firstname" value="Diet meal plan" disabled>
+                <input type="text" name="firstname" id="firstname" class="status-pending" value="PENDING" disabled>
               </div>
             </div>
           </div>
@@ -1213,7 +1197,7 @@
             </div>
             <!-- next -->
             <div class="button-next">
-              <button class="button button-primary">Next
+              <button class="button button-next button-primary" disabled>Next
               </button>
             </div>
 
