@@ -5,6 +5,9 @@
 -] Can be used as a checker if logged in or not
 -] ID WHO logged in
 
+> $_SESSION['rnd_id'] 
+-] Can be get at appoinment checkpoint
+
 
 1. Where to get user:id?
 --- 
