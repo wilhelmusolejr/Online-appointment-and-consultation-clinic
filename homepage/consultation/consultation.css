@@ -160,6 +160,18 @@ section.board-parent {
 .search-parent {
   padding-bottom: 20px;
 }
+.search-parent .form-input-box {
+  display: flex;
+  flex-direction: row;
+}
+.search-parent .form-input-box input {
+  border-radius: 0;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+.search-parent .form-input-box button {
+  border-radius: 0;
+}
 
 .search-form {
   width: 85%;

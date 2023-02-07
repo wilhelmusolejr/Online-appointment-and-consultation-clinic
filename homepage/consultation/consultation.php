@@ -15,49 +15,56 @@
     
     $appoint = new appoint;
 
-    // SEARCH BAR --- GET --- TO GENERATE 
-    if(isset($_GET['appoint_id'])) {
-      $_SESSION['transact_id'] = $_GET['appoint_id'];
+    // print_r($_GET['transact_id']);
+    // print("--------------------");
+    // print_r($_SESSION['transact_id']);
+    // print("--------------------");
+    // print_r($_SESSION);
+    // print("--------------------");
 
-      $appoint-> searchTransactId = $_GET['appoint_id'];
+    
+    // SEARCH BAR --- GET --- TO GENERATE 
+    if(isset($_GET['transact_id'])) {
+      // print("-------------read----");
+
+      // print($_GET['transact_id']);
+      // print("--------------------");
+
+      $appoint-> searchTransactId = $_GET['transact_id'];
       $res = $appoint->validate();
       if($res){
           $board_transact_id = $res['transact_id'];
           $board_page = $res['board_page'];
+
+          // GETTING DATA FOR TABULATION
+          $appoint -> transact_id = $board_transact_id;
+          $appointInfo = $appoint -> getAppoint();
+          $appoint -> appoint_id = $appointInfo['appoint_id'];
+          $consultInfo = $appoint -> getConsultInfo();
+          $foodInfo = $appoint -> getFoodInfo();
+          $physicalInfo = $appoint -> getPhysicalInfo();
+          $medicalInfo = $appoint -> getMedicalInfo();
+          $clientInfo = $appoint -> getClientInfo();
+
+          $listFoodAllergy = [];
+          $listFoodLike = [];
+          $listFoodDislike = [];
+
+          foreach($appoint -> getFoodAllergy() as $test) {
+            array_push($listFoodAllergy, $test['allergy_name']);
+            array_push($listFoodLike, $test['food_like_name']);
+            array_push($listFoodDislike, $test['food_dislike_name']);
+          }
+
+          // body type
+          $bodyType = $appoint -> getbodyType();
+          $bodyTypeList = [];
+
+          foreach($bodyType as $type) {
+            array_push($bodyTypeList, $type['body_type_name']);
+          }
+
       }
-    }
-
-    // GETTING DATA FOR TABULATION
-    if(isset($board_transact_id)) {
-      $appoint -> transact_id = $board_transact_id;
-      $appointInfo = $appoint -> getAppoint();
-      $appoint -> appoint_id = $appointInfo['appoint_id'];
-      $consultInfo = $appoint -> getConsultInfo();
-      $foodInfo = $appoint -> getFoodInfo();
-      $physicalInfo = $appoint -> getPhysicalInfo();
-      $medicalInfo = $appoint -> getMedicalInfo();
-      $clientInfo = $appoint -> getClientInfo();
-
-      $listFoodAllergy = [];
-      $listFoodLike = [];
-      $listFoodDislike = [];
-
-      foreach($appoint -> getFoodAllergy() as $test) {
-        array_push($listFoodAllergy, $test['allergy_name']);
-        array_push($listFoodLike, $test['food_like_name']);
-        array_push($listFoodDislike, $test['food_dislike_name']);
-      }
-
-      // body type
-      $bodyType = $appoint -> getbodyType();
-      $bodyTypeList = [];
-
-      foreach($bodyType as $type) {
-        array_push($bodyTypeList, $type['body_type_name']);
-      }
-
-      // appoint checkpoint 
-      $rest = $appoint -> getAppointCheckpointStatus();
     }
 
     // GET USER INFO
@@ -68,15 +75,14 @@
       if($res){
           $_SESSION['user'] = $res;
       }
-    }
 
-    if(isset($_SESSION['acc_no'])) {
       $consult = new consult;
-      $consult-> transact_id = $_SESSION['acc_no'];
+      $consult-> transact_id = $_SESSION['transact_id'];
       $cheduleInfo = $consult -> getSchedule();
       if($cheduleInfo){
       } 
-    } 
+    }
+
     // getConsultInfo()
     require_once $path.'includes/starterOne.php';
 ?>
@@ -126,7 +132,7 @@
       <!-- search appoint id  -->
       <div class="form-input-parent search-parent">
         <div class="form-input-box">
-          <input type="number" name="appoint_id" placeholder="Enter your appointment number">
+          <input type="number" name="transact_id" placeholder="Enter your appointment number">
           <button type="submit" value="submit" class="button-primary">Search</button>
         </div>
       </div>
@@ -1282,7 +1288,7 @@
             </div>
             <!-- next -->
             <div class="">
-              <a href="https://www.youtube.com/watch?v=6DhQUPhVizo" target="_blank" class="button button-primary">Home
+              <a href="<?php echo $path.'homepage/index.php' ?>" class="button button-primary">Home
               </a>
             </div>
 
@@ -1306,7 +1312,7 @@
       <!-- search appoint id  -->
       <div class="form-input-parent search-parent">
         <div class="form-input-box">
-          <input type="number" name="appoint_id" placeholder="Enter your appointment number">
+          <input type="number" name="transact_id" placeholder="Enter your appointment number">
           <button type="submit" value="submit" class="button-primary">Search</button>
         </div>
       </div>
@@ -1912,8 +1918,8 @@
             </div>
             <!-- next -->
             <div class="button-semi-submit">
-              <a class="button button-semi" disabled="disabled">Submit
-              </a>
+              <button class="button button-semi button-primary" disabled>Submit
+              </button>
             </div>
 
           </div>

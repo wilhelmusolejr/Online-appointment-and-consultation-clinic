@@ -9,7 +9,7 @@ session_start();
 
 $appoint = new appoint;
 $appoint -> current_board_page = $_POST['board_page'] + 1;
-$appoint -> transact_id = $_SESSION['transactId'];
+$appoint -> transact_id = $_SESSION['transact_id'];
 $res = $appoint -> setBoardPage();
 if($res){
   echo "success to set board";

@@ -348,6 +348,7 @@ Class appoint{
         return $data;
     }
 
+    // add new row in appoint table
     function setAppoint() {
         $sql = "INSERT INTO `tbl_transact_appoint` (`appoint_id`, `transact_id`, `appoint_for`, `consult_info_id`, 
         `food_info_id`, `physical_info_id`, `medical_info_id`, `appoint_date_submitted`) VALUES (NULL, :transact_id, :appoint_for
@@ -387,6 +388,7 @@ Class appoint{
         return $data['transact_id'];
     }
 
+    // add new row in a transact table 
     function setTransact() {
         $sql = "INSERT INTO `tbl_transact` (`transact_id`, `user_id`, `board_page`) VALUES (NULL, :user_id, 2)";
         $query=$this->db->connect()->prepare($sql);
@@ -402,24 +404,10 @@ Class appoint{
         }
     }
 
-    function getAppointCheckpointStatus() {
-        $sql = "SELECT appoint_status, rnd_status, rnd_id FROM `tbl_transact_appoint_checkpoint_appoint_status` 
-        as appoint_status_table JOIN tbl_transact_appoint_checkpoint_rnd_status as rnd_status_table ON 
-        appoint_status_table.transact_id = appoint_status_table.transact_id WHERE appoint_status_table.transact_id = 
-        :transact_id;";
-        $query=$this->db->connect()->prepare($sql);
 
-        $query->bindParam(':transact_id', $this->transact_id);
-
-        if($query->execute()){
-            $data = $query->fetch();
-            $_SESSION['rnd_id'] = $data['rnd_id'];
-        }
-        return $data;
-    }
 
     function getBoardPage() {
-        $sql = "SELECT board_page FROM `tbl_transact` WHERE transact_id = :transact_id;";
+        $sql = "SELECT * FROM `tbl_transact` WHERE transact_id = :transact_id;";
         $query=$this->db->connect()->prepare($sql);
 
         $query->bindParam(':transact_id', $this->transact_id);
@@ -435,6 +423,53 @@ Class appoint{
         $query=$this->db->connect()->prepare($sql);
         $query->bindParam(':board_page', $this->current_board_page);
         $query->bindParam(':transact_id', $this->transact_id);
+        if($query->execute()){
+            return true;
+        }
+        return false;
+    }
+
+    // CHECKPOINT STAGE - PROGRESS
+    // Returns data for appoint status and rnd status
+    function getAppointCheckpointStatus() {
+        $sql = "SELECT appoint_status, rnd_status, rnd_id FROM `tbl_transact_appoint_checkpoint_appoint_status`
+         as ck_appoint_status INNER JOIN tbl_transact_appoint_checkpoint_rnd_status as ck_rnd_status ON 
+         ck_appoint_status.transact_id = ck_rnd_status.transact_id WHERE ck_appoint_status.transact_id = :transact_id;";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':transact_id', $this->transact_id);
+
+        if($query->execute()){
+            $data = $query->fetch();
+            $_SESSION['rnd_id'] = $data['rnd_id'];
+        }
+        return $data;
+    }
+
+    // Set for appoint status
+    function setAppointCheckpointStatus() {
+        $sql = "INSERT INTO `tbl_transact_appoint_checkpoint_appoint_status` 
+        (`appoint_checkpoint_appoint_status_id`, `transact_id`, `appoint_status`)
+         VALUES (NULL, :transact_id, 'PENDING')";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':transact_id', $this->transact_id);
+
+        if($query->execute()){
+            return true;
+        }
+        return false;
+    }
+
+    // Set for rnd status
+    function setRndStatus() {
+        $sql = "INSERT INTO `tbl_transact_appoint_checkpoint_rnd_status`
+         (`appoint_checkpoint_rnd_status_id`, `transact_id`, `rnd_status`, `rnd_id`)
+          VALUES (NULL, :transact_id, 'PENDING', NULL)";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':transact_id', $this->transact_id);
+
         if($query->execute()){
             return true;
         }

@@ -295,6 +295,7 @@ function ajaxCaller(currentBoardPage) {
           url: `../../php/request/request-appoint.php`, //your form validation url
           dataType: "json",
           success: function (response) {
+            console.log(response);
             let boardParent = ".appointment-checkpoint-stage";
 
             // appoint status
@@ -337,33 +338,42 @@ function ajaxCaller(currentBoardPage) {
             }
 
             // set rnf info
-            $.ajax({
-              type: "POST", //hide url
-              url: `../../php/request/request-profile.php`, //your form validation url
-              data: { target_id: response.rnd_id },
-              dataType: "json",
-              success: function (response) {
-                $(`.assigned-rnd`).text(
-                  `${response.first_name} ${response.last_name}`
-                );
+            if (response.rnd_id) {
+              $.ajax({
+                type: "POST", //hide url
+                url: `../../php/request/request-profile.php`, //your form validation url
+                data: { target_id: response.rnd_id },
+                dataType: "json",
+                success: function (response) {
+                  $(`.assigned-rnd`).text(
+                    `${response.first_name} ${response.last_name}`
+                  );
 
-                // assigned-rnd
-              },
-              error: function (response) {
-                console.log("failed to fetch");
-              },
-            });
+                  // assigned-rnd
+                },
+                error: function (response) {
+                  console.log("failed to fetch");
+                },
+              });
+            }
+
+            console.log(response.appoint_status);
+            console.log(response.rnd_status);
+            console.log(response.board_page);
 
             if (
               response.appoint_status == "APPROVED" &&
               response.rnd_status == "APPROVED"
             ) {
+              console.log("still 2");
+
               // PUT LISTENER
               if (response.board_page == 2) {
                 // avoid auto click
+                $(`${boardParent} .button-next button`).prop("disabled", false);
                 setTimeout(function () {
                   $(`${boardParent} .button-next button`).trigger("click");
-                }, 10000);
+                }, 5000);
 
                 $.ajax({
                   type: "POST", //hide url
@@ -371,6 +381,20 @@ function ajaxCaller(currentBoardPage) {
                   data: { board_page: response.board_page },
                   success: function (response) {
                     console.log(response);
+                  },
+                  error: function (response) {
+                    console.log("failed to fetch board");
+                  },
+                });
+
+                $.ajax({
+                  type: "POST", //hide url
+                  url: `../../php/set/set-consult.php`, //your form validation url
+                  success: function (response) {
+                    console.log(response);
+                  },
+                  error: function (response) {
+                    console.log("failed to set consult");
                   },
                 });
               }
@@ -400,13 +424,14 @@ function ajaxCaller(currentBoardPage) {
           url: `../../php/request/request-appoint.php`, //your form validation url
           dataType: "json",
           success: function (response) {
-            console.log(response);
-
             let boardParent = `.consultation-stage`;
 
             if (response.board_page > 3) {
               // PUT LISTENER
               $(`${boardParent} .button-next button`).prop("disabled", false);
+              setTimeout(function () {
+                $(`${boardParent} .button-next button`).trigger("click");
+              }, 5000);
 
               clearInterval(boardThree);
             }

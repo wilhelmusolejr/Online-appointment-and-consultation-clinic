@@ -50,7 +50,7 @@
             and families about the importance of healthy food choices, physical activity, stress management, and disease
             prevention.
           </p>
-          <a href="#" class="button button-primary">Book now!</a>
+          <a href="consultation/consultation.php" class="button button-primary">Book now!</a>
         </div>
         <div class="main-image">
           <img src="../asset/doctor-bulk-billing-doctors-chapel-hill-health-care-medical-3.png" alt="" />

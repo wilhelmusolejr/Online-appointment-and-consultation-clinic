@@ -26,6 +26,19 @@ class consult {
     return $data['consult_id'];
   }
 
+  function setConsult() {
+    $sql = "INSERT INTO `tbl_transact_consult` (`consult_id`, `transact_id`, `consult_date_finish`)
+     VALUES (NULL, :transact_id, NULL)
+    ";
+    $query=$this->db->connect()->prepare($sql);
+
+    $query->bindParam(':transact_id', $this-> transact_id);
+
+    if($query->execute()){
+      return true;
+    }
+  }
+
   function getSchedule() {
     $sql = "SELECT * FROM `tbl_transact_consult` AS consult_table 
     RIGHT JOIN tbl_transact_consult_schedule AS consult_schedule ON 

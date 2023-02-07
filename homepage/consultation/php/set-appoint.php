@@ -5,15 +5,6 @@
 
     session_start();
 
-    // print_r($_POST['appoint-food-allergies']);
-    // $split_strings = preg_split('/[\ \n\,]+/', );
-    // print_r(sizeof($split_strings));
-
-    // print_r($split_strings);
-    // print_r($_POST['body-type']);
-
-    //we start session since we need to use session values
-    //creating an array for list of users can login to the system
     if(isset($_POST['submit'])){
       // print_r($_POST);
 
@@ -93,13 +84,13 @@
       $res = $appoint->setFoodInfo();
       $res = $appoint->setPhysicalInfo();
       $res = $appoint->setMedicalInfo();
-
-      print_r($appoint);
+      $res = $appoint->setAppointCheckpointStatus();
+      $res = $appoint->setRndStatus();
 
       if($res){
         echo "success";
-        $_GET['appoint_id'] = $appoint -> transact_id;
-        header("Location: ../consultation.php?appoint_id=".$_GET['appoint_id']);
+        $_SESSION['transact_id'] = $appoint -> transact_id;
+        header("Location: ../consultation.php?appoint_id=".$_GET['transact_id']);
       } else {
         echo "fail";
       }
