@@ -186,8 +186,7 @@
               <!-- Email -->
               <div class="form-input-box">
                 <label for="reg-email" class="text-capital">Email address <span>*</span></label>
-                <input type="email" name="reg-email" id="reg-email" disabled required
-                  placeholder="Enter your middle name">
+                <input type="email" name="reg-email" id="reg-email" required placeholder="Enter your middle name">
                 <p class="form-error-message hidden">Error</p>
               </div>
             </div>
