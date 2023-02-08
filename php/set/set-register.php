@@ -29,6 +29,9 @@
   } else {
     require_once '../config.php';
 
+    $login = false;
+    $client = googleClient($login);
+
     if(isset($_GET['code'])) {
       $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
 

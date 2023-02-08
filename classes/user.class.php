@@ -6,6 +6,8 @@ Class user{
 
     public $user_id;
 
+    public $via_googol;
+
     public $register_via_google;
     public $email;
     public $pass;
@@ -49,6 +51,18 @@ Class user{
 
     }
 
+    function getUserId() {
+        $sql = "SELECT * FROM `tbl_user_acc_info` WHERE email = :email;";
+        $query=$this->db->connect()->prepare($sql);
+        
+        $query->bindParam(':email', $this-> email);
+        
+        if($query->execute()){
+            $data = $query -> fetch();
+        }
+        return $data['user_id'];
+    }
+
     function register() {
         $sql = "INSERT INTO `tbl_user_profile` (`user_id`, `first_name`, `middle_name`, 
             `last_name`, `contact`, `gender`, `birthdate`, `account_info`) VALUES 
@@ -82,6 +96,25 @@ Class user{
             return "added successfully 1";
         }
         return "error adding";
+    }
+
+    function login() {
+        if($this -> via_googol == "true") {
+            $sql = "SELECT * FROM `tbl_user_profile` WHERE user_id = :user_id";
+            $query=$this->db->connect()->prepare($sql);
+
+            $query->bindParam(':user_id', $this-> user_id);
+        } else {
+            $sql = "SELECT * FROM tbl_user_acc_info WHERE email =:email and pass = :pass;";
+            $query=$this->db->connect()->prepare($sql);
+
+            $query->bindParam(':email', $this-> email);
+            $query->bindParam(':pass', $this-> pass);
+        }
+        if($query->execute()){
+            $data = $query->fetch();
+        }
+        return $data;
     }
 }
 

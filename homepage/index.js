@@ -68,10 +68,10 @@ $(".form-login").on("submit", function (e) {
 
   $.ajax({
     type: "post", //hide url
-    url: `${path}includes/login-server.php`, //your form validation url
+    url: `${path}php/request/req-login.php`, //your form validation url
     data: $(".form-login").serialize(),
     success: function (response) {
-      if (response == "success") {
+      if (response) {
         let initialHref = location.href;
         location.href = initialHref;
       } else {

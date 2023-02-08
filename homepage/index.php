@@ -1,17 +1,18 @@
 <?php 
     $path = "../";
 
+    session_start();
+
     require_once $path.'classes/user.class.php';
     
     require_once $path.'tools/variables.php';
     $page_title = "Homepage";
     $home = "nav-current";
 
-    session_start();
+    // print_r($_SESSION);
 
     // print_r($_SESSION['acc_no']);
     if(isset($_SESSION['acc_no'])) {
-      // print_r("zzzzzz");
       $users = new user;
       $users->targetId = $_SESSION['acc_no'];
       $res = $users->validate();

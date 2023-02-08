@@ -64,7 +64,11 @@
         <!-- alternative login -->
         <div class="alternative-login-parent flex-center">
           <p>Or login using: </p>
-          <a href="#"><i class="fa-brands fa-google"></i></a>
+          <a href="<?php 
+              $login = true;
+              $client = googleClient($login);
+          echo $client->createAuthUrl(); 
+          ?>"><i class="fa-brands fa-google"></i></a>
         </div>
 
         <!-- signup button -->
@@ -90,7 +94,13 @@
           <div class="form-group sign-up-button-parent">
             <div class="form-input-parent">
               <div class="form-input-box sign-up-google text-center">
-                <a href="<?php echo $client->createAuthUrl(); ?>"><i class="fa-brands fa-google"></i>Sign up using
+                <a href="<?php 
+
+                    $login = false;
+                    $client = googleClient($login);
+
+                echo $client->createAuthUrl(); 
+                ?>"><i class="fa-brands fa-google"></i>Sign up using
                   google</a>
               </div>
             </div>

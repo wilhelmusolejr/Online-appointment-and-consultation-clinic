@@ -76,12 +76,12 @@
       if($res){
           $_SESSION['user'] = $res;
       }
+    }
 
+    if(isset($_SESSION['transact_id'])) {
       $consult = new consult;
       $consult-> transact_id = $_SESSION['transact_id'];
       $cheduleInfo = $consult -> getSchedule();
-      if($cheduleInfo){
-      } 
     }
 
     // getConsultInfo()
