@@ -1,3 +1,7 @@
+<?php 
+  require_once $path.'php/config.php';
+?>
+
 <div class="modal-parent modal-data-parent modal-login-reg overlay-black flex-center hidden">
 
   <!-- Floating model -->
@@ -61,7 +65,6 @@
         <div class="alternative-login-parent flex-center">
           <p>Or login using: </p>
           <a href="#"><i class="fa-brands fa-google"></i></a>
-          <a href="#"><i class="fa-brands fa-facebook"></i></a>
         </div>
 
         <!-- signup button -->
@@ -83,6 +86,33 @@
         <!-- form -->
         <form action="/" method="post" class="form form-group-input sizing-main">
 
+          <!-- SIGN UP USING CHUCHU -->
+          <div class="form-group sign-up-button-parent">
+            <div class="form-input-parent">
+              <div class="form-input-box sign-up-google text-center">
+                <a href="<?php echo $client->createAuthUrl(); ?>"><i class="fa-brands fa-google"></i>Sign up using
+                  google</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- account type -->
+          <div class="form-group">
+            <div class="form-input-parent">
+              <div class="form-input-box">
+                <label for="account-type" class="text-capital">Account type<span>*</span></label>
+                <select id="account-type" required name="account-type">
+                  <option value="">--</option>
+                  <option value="Student">Student</option>
+                  <option value="Faculty">Faculty</option>
+                  <option value="Guest">Guest</option>
+                  <option value="Alumni">Alumni</option>
+                </select>
+                <p class="form-error-message hidden">Error</p>
+              </div>
+            </div>
+          </div>
+
           <!-- Personal Info -->
           <div class="username-form form-group">
             <div class="form-group-header text-uppercase">
@@ -92,7 +122,7 @@
               <!-- first name -->
               <div class="form-input-box">
                 <label for="firstname" class="text-capital">First name <span>*</span></label>
-                <input type="text" name="firstname" id="firstname" placeholder="Enter your first name">
+                <input type="text" name="firstname" id="firstname" required placeholder="Enter your first name">
                 <p class="form-error-message hidden">Error</p>
               </div>
               <!-- middle name -->
@@ -104,7 +134,7 @@
               <!-- last name -->
               <div class="form-input-box">
                 <label for="lastname" class="text-capital">Last name <span>*</span></label>
-                <input type="text" name="lastname" id="lastname" placeholder="Enter your last name">
+                <input type="text" name="lastname" id="lastname" required placeholder="Enter your last name">
                 <p class="form-error-message hidden">Error</p>
               </div>
               <!-- gender -->
@@ -112,12 +142,12 @@
                 <label for="gender" class="text-capital">Gender <span>*</span></label>
                 <div class="gender-con radio-box flex-center">
                   <div>
-                    <input type="radio" id="male" name="gender" value="Male">
-                    <label for="male">Male</label>
+                    <input type="radio" id="reg-male" name="gender" required value="Male">
+                    <label for="reg-male">Male</label>
                   </div>
                   <div>
-                    <input type="radio" id="female" name="gender" value="Female">
-                    <label for="female">Female</label>
+                    <input type="radio" id="reg-female" name="gender" required value="Female">
+                    <label for="reg-female">Female</label>
                   </div>
                 </div>
                 <p class="form-error-message hidden">Error</p>
@@ -125,7 +155,7 @@
               <!-- birth date -->
               <div class="form-input-box">
                 <label for="birthdate" class="text-capital">Birthdate <span>*</span></label>
-                <input type="date" name="birthdate" id="birthdate">
+                <input type="date" name="birthdate" required id="birthdate">
                 <p class="form-error-message hidden">Error</p>
               </div>
             </div>
@@ -140,13 +170,14 @@
               <!-- Mobile -->
               <div class="form-input-box">
                 <label for="reg-mob" class="text-capital">Mobile number <span>*</span></label>
-                <input type="text" name="reg-mob" id="reg-mob" placeholder="Enter your mobile number">
+                <input type="text" name="reg-mob" id="reg-mob" required placeholder="Enter your mobile number">
                 <p class="form-error-message hidden">Error</p>
               </div>
               <!-- Email -->
               <div class="form-input-box">
                 <label for="reg-email" class="text-capital">Email address <span>*</span></label>
-                <input type="email" name="reg-email" id="reg-email" placeholder="Enter your middle name">
+                <input type="email" name="reg-email" id="reg-email" disabled required
+                  placeholder="Enter your middle name">
                 <p class="form-error-message hidden">Error</p>
               </div>
             </div>
@@ -161,13 +192,14 @@
               <!-- first name -->
               <div class="form-input-box">
                 <label for="reg-pass" class="text-capital">Password <span>*</span></label>
-                <input type="password" name="reg-pass" id="reg-pass" placeholder="Enter your password">
+                <input type="password" name="reg-pass" id="reg-pass" required placeholder="Enter your password">
                 <p class="form-error-message hidden">Error</p>
               </div>
               <!-- middle name -->
               <div class="form-input-box">
-                <label for="reg-pass-confirm" class="text-capital">Email address <span>*</span></label>
-                <input type="text" name="reg-pass-confirm" id="reg-pass-confirm" placeholder="Confirm your password">
+                <label for="reg-pass-confirm" class="text-capital">Confirm Password <span>*</span></label>
+                <input type="text" name="reg-pass-confirm" id="reg-pass-confirm" required
+                  placeholder="Confirm your password">
                 <p class="form-error-message hidden">Error</p>
               </div>
             </div>
@@ -176,7 +208,7 @@
           <!-- remember me baby -->
           <div class="remember-form form-group">
             <div class="form-input-parent">
-              <input type="checkbox" name="reg-terms" id="reg-terms">
+              <input type="checkbox" name="reg-terms" id="reg-terms" required>
               <label for="reg-terms" class="cursor-pointer">I agree to the <a class="hiddens" href="#">Terms of
                   Services and Privacy Policy</a>.</label>
             </div>

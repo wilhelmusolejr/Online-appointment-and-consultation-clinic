@@ -547,17 +547,6 @@ a.mini-button:hover {
   padding-bottom: 2.5px;
 }
 
-input {
-  transition: border-color 0.5s ease-out;
-}
-
-input:required:valid {
-  border: 2px solid #53ae4c;
-}
-input:invalid {
-  border-color: red;
-}
-
 a.button-cancel {
   color: black !important;
 }

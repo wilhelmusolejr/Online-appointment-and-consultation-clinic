@@ -129,6 +129,19 @@ button:disabled {
   border: 1px solid rgba(128, 128, 128, 0.5);
 }
 
+select,
+input {
+  transition: border-color 0.5s ease-out !important;
+}
+select:required:valid,
+input:required:valid {
+  border: 2px solid #53ae4c !important;
+}
+select:invalid,
+input:invalid {
+  border-color: red !important;
+}
+
 /* FORM */
 .form a,
 .form label,
@@ -139,7 +152,7 @@ button:disabled {
 /* input:valid {
   background-color: #0a331a;
 } */
-
+.form select,
 .form input {
   border: 1px solid var(--color-white-faded-form-brdr);
   width: 100%;
@@ -730,6 +743,39 @@ footer .nav-links {
 }
 .register-form-parent form {
   max-height: 50vh;
+}
+
+.sign-up-button-parent {
+  border-bottom: 1px solid black;
+
+  padding-bottom: 50px;
+}
+.sign-up-google a {
+  border-radius: 10px;
+
+  width: 80%;
+  margin: auto;
+  padding: 20px 0;
+
+  background-color: #c13f3f;
+
+  color: white;
+
+  text-decoration: none;
+}
+.sign-up-google i {
+  padding-right: 10px;
+}
+
+/* continue register */
+.continue-register-container {
+  max-width: 500px;
+  margin: auto;
+}
+.continue-register-container .form-group-input {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 /* radio - box */

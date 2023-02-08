@@ -10,7 +10,7 @@
     $consultation = 'nav-current';
 
     session_start();
-    
+
     $board_page = 1;
     
     $appoint = new appoint;
