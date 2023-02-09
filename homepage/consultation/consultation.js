@@ -168,7 +168,10 @@ const boardProgress = boardContainer.querySelector(".board-progress");
 boardContainer.addEventListener("click", function (e) {
   let currentBoardPage = getActiveBoard();
 
-  // console.log(e.target);
+  console.log(e.target);
+  if (e.target.parentElement.classList.contains("button-semi-submit")) {
+    modalAppointNotif.classList.toggle("hidden");
+  }
 
   // prev
   if (e.target.parentElement.classList.contains("button-prev")) {
@@ -597,10 +600,30 @@ $(".edit-form-sched").on("submit", function (e) {
 });
 
 function generateScheduleMarkUp(response, edit = false) {
+  // convert milliseconds to seconds / minutes / hours etc.
+  const msPerSecond = 1000;
+  const msPerMinute = msPerSecond * 60;
+  const msPerHour = msPerMinute * 60;
+  const msPerDay = msPerHour * 24;
+
+  // calculate remaining time
+
   let markUp = ``;
 
   for (const sched in response) {
+    const now = new Date().getTime();
+    // const futureDate = new Date('27 Jan 2030 16:40:00').getTime();
+
     let time = new Date(`${response[sched].date} ${response[sched].time}`);
+
+    const timeleft = time - now;
+
+    const days = Math.floor(timeleft / msPerDay);
+    const hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / msPerHour);
+    const minutes = Math.floor((timeleft % (1000 * 60 * 60)) / msPerMinute);
+    const seconds = Math.floor((timeleft % (1000 * 60)) / msPerSecond);
+    // <p>${days}d ${hours}h ${minutes}m ${seconds}s</p>
+
     markUp += `<li data-schedule-id="${response[sched].consult_schedule_id}">
                       <p>${response[sched].date}</p>
                       <p>${time.toLocaleString("en-US", {
@@ -608,7 +631,7 @@ function generateScheduleMarkUp(response, edit = false) {
                         minute: "numeric",
                         hour12: true,
                       })}</p>
-                      <p>1 hour left</p>
+                      <p>${hours}H ${minutes}M left</p>
                       <p class="cursor-pointer ${
                         edit ? "" : "hidden"
                       }"><i class="fa-solid fa-arrow-right"></i></p>

@@ -54,7 +54,7 @@
           <a href="consultation/consultation.php" class="button button-primary">Book now!</a>
         </div>
         <div class="main-image">
-          <img src="../asset/doctor-bulk-billing-doctors-chapel-hill-health-care-medical-3.png" alt="" />
+          <img src="../asset/deleon.jpg" alt="" />
         </div>
       </div>
     </main>
@@ -137,12 +137,12 @@
           <div class="form-input-parent text-center">
             <!-- feet -->
             <div class="form-input-box">
-              <input type="number" name="feet" id="feet" min=0 required>
+              <input type="number" name="feet" id="feet" min=0>
               <label for="feet">feet</label>
             </div>
             <!-- inches -->
             <div class="form-input-box">
-              <input type="number" name="inches" id="inches" min=0 required>
+              <input type="number" name="inches" id="inches" min=0>
               <label for="inches">inches</label>
             </div>
           </div>
@@ -155,7 +155,7 @@
           </div>
           <div class="form-input-parent text-center">
             <div class="form-input-box">
-              <input type="number" name="pounds" id="pounds" min=0 required>
+              <input type="number" name="pounds" id="pounds" min=0>
               <label for="pounds">pounds</label>
             </div>
           </div>
@@ -184,7 +184,7 @@
       <!-- 1 -->
       <div class="list-rnd-box grid-box card">
         <div class="list-rnd-image">
-          <img src="../asset/doctor-bulk-billing-doctors-chapel-hill-health-care-medical-3.png" alt="">
+          <img src="../asset/deleon.jpg" alt="">
         </div>
         <div class="list-rnd-info">
           <p>Gregory Yames RND</p>

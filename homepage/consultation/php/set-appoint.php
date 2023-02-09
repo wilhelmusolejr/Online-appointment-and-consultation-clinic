@@ -5,11 +5,15 @@
 
     session_start();
 
+    // var_dump($_POST);
+    // echo '<pre>';
+    // var_dump($_SESSION);
+
     if(isset($_POST['submit'])){
       // print_r($_POST);
 
       $appoint = new appoint;
-      $appoint-> user_id = $_SESSION['acc_no'];
+      $appoint-> user_id = $_SESSION['user']['user_id'];
 
       // type
       $appoint-> appoint_for = $_POST['appointment-for'] == 'myself' ? 1:2;
@@ -47,9 +51,9 @@
       
       // client
       if($appoint-> appoint_for == 1) {
-        $sql = "SELECT * FROM tbl_user_profile AS profile_table RIGHT JOIN 
-        tbl_user_acc_info AS user_acc ON profile_table.user_id = user_acc.acc_no 
-        WHERE user_acc.acc_no = :user_id;";
+        $sql = "SELECT * FROM tbl_user_profile AS profile_table INNER JOIN 
+        tbl_user_acc_info AS user_acc ON profile_table.user_id = user_acc.user_id 
+        WHERE profile_table.user_id = :user_id;";
 
         $database = new Database();
 
@@ -89,8 +93,9 @@
 
       if($res){
         echo "success";
-        $_SESSION['transact_id'] = $appoint -> transact_id;
-        header("Location: ../consultation.php?appoint_id=".$_GET['transact_id']);
+        $_SESSION['transact_id'] = $appoint -> getTransactLatest();
+        $_GET['transact_id'] = $_SESSION['transact_id'];
+        header("Location: ../consultation.php?transact_id=".$_GET['transact_id']);
       } else {
         echo "fail";
       }

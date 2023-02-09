@@ -48,6 +48,7 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
 
     if($res) {
       $_SESSION['acc_no'] = $res['user_id'];
+      // $_SESSION['img_url'] = $userData['picture'];
       header("Location: ../../homepage/index.php");
     }
 

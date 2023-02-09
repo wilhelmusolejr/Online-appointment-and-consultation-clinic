@@ -33,3 +33,19 @@
   font-weight: 600;
   letter-spacing: 1px;
 }
+
+/* METRIC */
+.need-metric {
+  position: relative;
+}
+.metric {
+  position: absolute;
+  right: 7px;
+  bottom: 6px;
+
+  width: 30% !important;
+  max-width: 70px !important;
+  height: 50%;
+
+  padding: 0 0 0 5px !important;
+}

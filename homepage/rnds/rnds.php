@@ -32,7 +32,7 @@
       <!-- 1 -->
       <div class="list-rnd-box grid-box card">
         <div class="list-rnd-image">
-          <img src="../../asset/doctor-bulk-billing-doctors-chapel-hill-health-care-medical-3.png" alt="">
+          <img src="../../asset/deleon.jpg" alt="">
         </div>
         <div class="list-rnd-info">
           <p>Gregory Yames RND</p>

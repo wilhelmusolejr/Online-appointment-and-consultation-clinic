@@ -15,14 +15,6 @@
     
     $appoint = new appoint;
 
-    // print_r($_GET['transact_id']);
-    // print("--------------------");
-    // print_r($_SESSION['transact_id']);
-    // print("--------------------");
-    // print_r($_SESSION);
-    // print("--------------------");
-
-    
     // SEARCH BAR --- GET --- TO GENERATE 
     if(isset($_GET['transact_id'])) {
       // print("-------------read----");
@@ -1412,13 +1404,13 @@
             <input class='personal-tab hidden' type="radio" name="tabset" id="tab5" aria-controls="dunkles">
             <label class='personal-tab hidden' for="tab5">Personal Information</label>
             <!-- Tab 1 -->
-            <input type="radio" name="tabset" id="tab1" aria-controls="marzen" checked>
+            <input type="radio" name="tabset" id="tab1" aria-controls="marzen">
             <label for="tab1">Consultation Information</label>
             <!-- Tab 2 -->
             <input type="radio" name="tabset" id="tab2" aria-controls="rauchbier">
             <label for="tab2">Food Information</label>
             <!-- Tab 3 -->
-            <input type="radio" name="tabset" id="tab3" aria-controls="dunkles">
+            <input type="radio" name="tabset" id="tab3" aria-controls="dunkles" checked>
             <label for="tab3">Physical Information</label>
             <!-- Tab 4 -->
             <input type="radio" name="tabset" id="tab4" aria-controls="dunkles">
@@ -1693,17 +1685,26 @@
                   <!-- left -->
                   <div class="left-form form-input-parent">
                     <!-- Actual weight -->
-                    <div class="form-input-box ">
+                    <div class="form-input-box need-metric">
                       <label for="appoint-actual-weight">Actual weight <span>*</span></label>
-                      <input type="number" min='0' name="appoint-actual-weight" id="appoint-actual-weight"
-                        placeholder="Enter your actual weight" required value="1">
+                      <input type="number" class="need-metrics" min='0' name="appoint-actual-weight"
+                        id="appoint-actual-weight" placeholder="Enter your actual weight" required value="1">
+                      <select name="metric" class="metric">
+                        <option value="">KG</option>
+                        <option value="spider">LBS</option>
+                      </select>
                       <p class="form-error-message hidden">Error</p>
                     </div>
                     <!-- Current height -->
-                    <div class="form-input-box ">
+                    <div class="form-input-box need-metric">
                       <label for="appoint-current-height" class="text-capital">Current height <span>*</span></label>
                       <input type="number" min='0' name="appoint-current-height" id="appoint-current-height"
                         placeholder="Enter your current height" required value="1">
+                      <select name="metric" class="metric">
+                        <option value="">ft</option>
+                        <option value="spider">m</option>
+                        <option value="goldfish">cm</option>
+                      </select>
                       <p class="form-error-message hidden">Error</p>
                     </div>
                   </div>
@@ -1921,13 +1922,11 @@
             </div>
             <!-- next -->
             <div class="button-semi-submit">
-              <button class="button button-semi button-primary" disabled>Submit
-              </button>
+              <a class="button button-semi button-primary">Submit
+              </a>
             </div>
 
           </div>
-
-
 
           <!-- MODAl - CONFIRMATION -->
           <div class="modal-parent modal-notif-parent modal-appointment-confirmation overlay-black flex-center hidden">

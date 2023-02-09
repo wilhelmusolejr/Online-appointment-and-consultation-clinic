@@ -25,17 +25,12 @@
 re-run set appointment work
 
 -- appointment checkpoint
-time approximate to look for assigned
+time approximate to look for assigned [SOLVED]
 
 
 -- consultation
-Consultation transaction done? -- Press next button remove disable
+Consultation transaction done? -- Press next button remove disable [SOLVED]
 Edit schedule functionality
 JOINING IN VIRTUAL ROOM
 
 
-
-660283226253-759r0jhhee768fa7hm0ums6db91gp1nv.apps.googleusercontent.com
-
-
-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
