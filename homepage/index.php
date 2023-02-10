@@ -3,8 +3,6 @@
 
   session_start();
 
-  print_r($_SESSION);
-
   require_once $path.'classes/user.class.php';
   require_once $path.'tools/variables.php';
   $page_title = "Homepage";
