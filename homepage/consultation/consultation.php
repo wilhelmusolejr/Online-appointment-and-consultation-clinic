@@ -82,7 +82,6 @@
       if(isset($_SESSION['transact_rnd_id'])) {
         $clientData -> user_id = $_SESSION['transact_client_id'];
         $resultClientData = $clientData -> getUserData();
-        print_r($resultClientData);
       }
     }
     // print_r($_SESSION);
