@@ -47,3 +47,14 @@ Variables for board page to trigger
 3. consult result
 -- rnd will set 
 
+
+---------------------- FORM VALIDATION ----------------------
+1. First name   = required, max of 20
+2. Middle name  = optional, max of 20
+3. Last name    = required, max of 20 
+4. Gender       = sex
+5. Birthdate    = Cannot set in the future
+6. Mobile num   = Max of 11, only number
+7. Password     = Should also equal to the "Confirm password"
+8. Email        = Should be valid email
+9. 

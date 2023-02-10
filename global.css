@@ -132,7 +132,7 @@ button:disabled {
   border: 1px solid rgba(128, 128, 128, 0.5);
 }
 
-select,
+/* select,
 input {
   transition: border-color 0.5s ease-out !important;
 }
@@ -143,7 +143,7 @@ input:required:valid {
 select:invalid,
 input:invalid {
   border-color: red !important;
-}
+} */
 
 /* FORM */
 .form a,
@@ -207,7 +207,7 @@ input:invalid {
 .form-input-box {
   display: flex;
   flex-direction: column;
-  justify-content: inherit;
+  justify-content: flex-start;
   flex: 1 0 170px;
 }
 

@@ -3,8 +3,6 @@
 
   session_start();
 
-  print_r($_SESSION);
-
   require_once $path.'classes/user.class.php';
   require_once $path.'tools/variables.php';
   $page_title = "Homepage";
@@ -13,7 +11,7 @@
   require_once $path.'includes/starterOne.php';
 ?>
 <link rel="stylesheet" href="index.css" />
-<script src="index.js" defer></script>
+<script type="module" src="index.js" defer></script>
 <?php require_once $path.'includes/starterTwo.php'; ?>
 
 

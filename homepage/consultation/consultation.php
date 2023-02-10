@@ -93,7 +93,7 @@
 <link rel="stylesheet" href="consultation.css" />
 <link rel="stylesheet" href="../rnds/rnds.css" />
 <link rel="stylesheet" href="status.css">
-<script src="../index.js" defer></script>
+<script type="module" src="../index.js" defer></script>
 <script src="consultation.js" defer></script>
 <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 <?php require_once $path.'includes/starterTwo.php'; ?>

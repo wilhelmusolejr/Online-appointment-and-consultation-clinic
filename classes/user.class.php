@@ -64,6 +64,18 @@ Class user{
         return $data['user_id'];
     }
 
+    function checkIfEmailIsregistered() {
+        $sql = "SELECT * FROM `tbl_user_acc_info` WHERE email = :email ;";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':email', $this-> email);
+
+        if($query->execute()){
+            $data = $query->fetchAll();
+        }
+        return $data;
+    }
+
     function register() {
         $sql = "INSERT INTO `tbl_user_profile` (`user_id`, `user_privilege`, `user_type`,
         `first_name`, `middle_name`, `last_name`, `contact`, `gender`, `birthdate`, `profile_img`) 

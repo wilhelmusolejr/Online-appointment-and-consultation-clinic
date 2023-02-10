@@ -1,5 +1,7 @@
 "use strict";
 
+import { passwordChecker } from "../tools/functions.js";
+
 // NAVIGATOR
 const headerNavContainer = document.querySelector("header .navigator-parent");
 const modalLoginRegParent = document.querySelector(".modal-login-reg");
@@ -39,7 +41,7 @@ headerNavContainer.addEventListener("click", function (e) {
 
 // LOGIN AND REGISTER
 modalLoginRegParent.addEventListener("click", function (e) {
-  console.log(e.target);
+  // console.log(e.target);
 
   if (e.target.tagName == "A") {
     // e.preventDefault();
@@ -60,6 +62,7 @@ modalLoginRegParent.addEventListener("click", function (e) {
   }
 });
 
+// LOGIN - Submit
 $(".form-login").on("submit", function (e) {
   e.preventDefault(); //prevent to reload the page
 
@@ -80,6 +83,50 @@ $(".form-login").on("submit", function (e) {
     },
     error: function () {
       alert("Cannot establish connection login");
+    },
+  });
+});
+
+let parentElement = ".account-info-form";
+let password1 = "#reg-pass";
+let password2 = "#reg-pass-confirm";
+
+let isPasswordMatch = false;
+$("#reg-pass, #reg-pass-confirm").on("keyup", function () {
+  isPasswordMatch = passwordChecker(parentElement, password1, password2);
+});
+
+// REGISTER - Submit
+$(".form-register").on("submit", function (e) {
+  e.preventDefault(); //prevent to reload the page
+
+  let path = this.querySelector(".path").value;
+  console.log(path);
+
+  if (!isPasswordMatch) {
+    console.log(isPasswordMatch);
+    return;
+  }
+  console.log(isPasswordMatch);
+
+  $.ajax({
+    type: "post", //hide url
+    url: `${path}php/set/set-register-manual.php`, //your form validation url
+    data: $(".form-register").serialize(),
+    success: function (response) {
+      if (response == "success") {
+        $(".register-form-parent h2").html("Registration complete");
+        $(".register-form-parent form").html(
+          "<p class='text-center'>In order to start using this service, you need to confirm your email address first.</p><br><em class='text-center'>A verification link has sent to your <br> email provided.</em>"
+        );
+      } else {
+        $(".contact-info-form .form-error-message")
+          .html("Email is already registered")
+          .css("color", "red");
+      }
+    },
+    error: function () {
+      console.log("connect did not establish");
     },
   });
 });
@@ -133,3 +180,14 @@ $(".form-login").on("submit", function (e) {
 //     bmiToolParent.querySelector(".tool-result").classList.remove("hidden");
 //   }
 // });
+
+// FORM VALIDATION
+// $("#password, #confirm_password").on("keyup", function () {
+//   if ($("#password").val() != $("#confirm_password").val()) {
+//     $(".confirm-password .form-error-message")
+//       .html("Not Matching")
+//       .css("color", "red");
+//   } else $(".confirm-password .form-error-message").html("").css("color", "red");
+// });
+
+// console.log("test");

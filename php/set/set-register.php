@@ -4,6 +4,8 @@
   require_once $path."classes/user.class.php";
   require_once $path."php/general.php";
 
+  $user = new user;
+
   if(isset($_POST['submit'])) {
 
     $user = new user;
@@ -49,6 +51,8 @@
       // print_r($userData);
       // print_r($userData['email']);
       // print_r($userData['picture']);
+      $user -> email = $userData['email'];
+      $isEmailRegistered = $user -> checkIfEmailIsregistered();
     } else {
       header("Location: ../../homepage/index.php");
     }
@@ -56,7 +60,7 @@
 
   require_once $path.'includes/starterOne.php';
 ?>
-
+<script type="module" src="set-register.js" defer></script>
 <?php require_once $path.'includes/starterTwo.php'; ?>
 
 <body>
@@ -71,9 +75,9 @@
 
   <section class="continue-register-parent sizing-secondary">
     <div class="section-header-parent text-center">
-      <h2 class="text-capital">You're Almost done!</span></h2>
+      <h2 class="text-capital"><?php echo !$isEmailRegistered? "You're Almost done!":"Awww."?></span></h2>
     </div>
-
+    <?php if(!$isEmailRegistered) { ?>
     <div class="continue-register-container">
       <!-- form -->
       <form action="set-register.php" method="post" class="form form-group-input sizing-main">
@@ -140,7 +144,7 @@
             <!-- birth date -->
             <div class="form-input-box">
               <label for="birthdate" class="text-capital">Birthdate <span>*</span></label>
-              <input type="date" name="birthdate" required id="birthdate">
+              <input type="date" name="birthdate" required id="birthdate" max="<?php echo date("Y-m-d") ?>">
               <p class="form-error-message hidden">Error</p>
             </div>
           </div>
@@ -169,7 +173,7 @@
         </div>
 
         <!-- Account Info -->
-        <div class="username-form form-group">
+        <div class="account-info-form form-group">
           <div class="form-group-header text-uppercase">
             <p>Account Information</p>
           </div>
@@ -177,15 +181,15 @@
             <!-- first name -->
             <div class="form-input-box">
               <label for="reg-pass" class="text-capital">Password <span>*</span></label>
-              <input type="password" name="reg-pass" id="reg-pass" required placeholder="Enter your password">
-              <p class="form-error-message hidden">Error</p>
+              <input type="password" name="reg-pass" id="reg-pass" value="test" required
+                placeholder="Enter your password">
             </div>
             <!-- middle name -->
-            <div class="form-input-box">
+            <div class="confirm-password form-input-box">
               <label for="reg-pass-confirm" class="text-capital">Confirm Password <span>*</span></label>
-              <input type="text" name="reg-pass-confirm" id="reg-pass-confirm" required
-                placeholder="Confirm your password">
-              <p class="form-error-message hidden">Error</p>
+              <input type="password" name="reg-pass-confirm" id="reg-pass-confirm" required
+                placeholder="Confirm your password" value="test">
+              <p class="form-error-message"></p>
             </div>
           </div>
         </div>
@@ -209,6 +213,9 @@
 
       </form>
     </div>
+    <?php } else { ?>
+    <p class="text-center">The email you used is already registered na. Kindly login nalang ha.</p>
+    <?php } ?>
   </section>
 
   <!-- footer -->
