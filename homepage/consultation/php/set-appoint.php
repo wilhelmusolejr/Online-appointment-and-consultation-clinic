@@ -13,7 +13,7 @@
       // print_r($_POST);
 
       $appoint = new appoint;
-      $appoint-> user_id = $_SESSION['user']['user_id'];
+      $appoint-> user_id = $_SESSION['user_loggedIn']['user_id'];
 
       // type
       $appoint-> appoint_for = $_POST['appointment-for'] == 'myself' ? 1:2;

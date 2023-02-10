@@ -34,3 +34,16 @@ Edit schedule functionality
 JOINING IN VIRTUAL ROOM
 
 
+
+///////////////////
+Variables for board page to trigger
+1. Appointment checkpoint 
+-- when appoint status and rnd approved 
+-- either user or rnd will trigger this
+
+2. consultation chat
+-- rnd will set the board page to + 1 when chatting is done 
+
+3. consult result
+-- rnd will set 
+

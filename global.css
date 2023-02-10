@@ -119,6 +119,9 @@ a.button {
   width: 100%;
   background-color: #58cb7a;
 }
+.button-tertiary {
+  background-color: #804375;
+}
 .button-disabled {
   cursor: not-allowed;
   background-color: gray;

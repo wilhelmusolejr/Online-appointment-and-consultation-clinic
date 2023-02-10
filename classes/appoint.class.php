@@ -5,8 +5,6 @@ Class appoint{
     public $user_id;
     public $transact_id;
 
-    public $searchTransactId;
-
     public $appointId;
 
     // appointment data
@@ -68,7 +66,7 @@ Class appoint{
     function validate(){
         $sql = "SELECT * FROM tbl_transact WHERE transact_id =:transact_id;";
         $query=$this->db->connect()->prepare($sql);
-        $query->bindParam(':transact_id', $this-> searchTransactId);
+        $query->bindParam(':transact_id', $this-> transact_id);
         if($query->execute()){
             $data = $query->fetch();
         }
@@ -439,7 +437,8 @@ Class appoint{
 
         if($query->execute()){
             $data = $query->fetch();
-            $_SESSION['rnd_id'] = $data['rnd_id'];
+            // $_SESSION['transact_rnd_id'] = $data['rnd_id'];
+            // $_SESSION['transact_client_id'] = $_SESSION['transact_client_id'];
         }
         return $data;
     }

@@ -75,11 +75,11 @@ $(".form-login").on("submit", function (e) {
         let initialHref = location.href;
         location.href = initialHref;
       } else {
-        console.log("error");
+        console.log("ERROR LOGIN VIA TEXT");
       }
     },
     error: function () {
-      alert("test");
+      alert("Cannot establish connection login");
     },
   });
 });

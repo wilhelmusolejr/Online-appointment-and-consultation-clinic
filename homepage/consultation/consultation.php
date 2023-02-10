@@ -14,21 +14,33 @@
     $board_page = 1;
     
     $appoint = new appoint;
-
+    $consult = new consult;
+    $clientData = new user;
+    
     // SEARCH BAR --- GET --- TO GENERATE 
     if(isset($_GET['transact_id'])) {
-      // print("-------------read----");
 
-      // print($_GET['transact_id']);
-      // print("--------------------");
+      if($_SESSION['user_loggedIn']['user_privilege'] == 'rnd') {
+        header('Location: rnd/consultation.php?transact_id='.$_GET['transact_id']);
+      }
+
+      $appoint -> transact_id = $_GET['transact_id'];
+
+      // Set $session transaction
+      if(!isset($_SESSION['transact_rnd_id'])) {
+        $_SESSION['transact_rnd_id'] = $appoint -> getAppointCheckpointStatus()['rnd_id'];
+      }
+      if(!isset($_SESSION['transact_client_id'])) {
+        $_SESSION['transact_client_id'] = $appoint -> validate()['user_id'];
+      }
 
       $_SESSION['transact_id'] = $_GET['transact_id'];
-      $appoint-> searchTransactId = $_GET['transact_id'];
-      $res = $appoint->validate();
-      if($res){
-          $board_transact_id = $res['transact_id'];
-          $board_page = $res['board_page'];
+      $result = $appoint -> validate();
+      if($result) {
+          $board_transact_id = $result['transact_id'];
+          $board_page = $result['board_page'];
 
+          // board 1
           // GETTING DATA FOR TABULATION
           $appoint -> transact_id = $board_transact_id;
           $appointInfo = $appoint -> getAppoint();
@@ -56,25 +68,24 @@
           foreach($bodyType as $type) {
             array_push($bodyTypeList, $type['body_type_name']);
           }
+      }
 
+
+      if($board_page == 3) {
+        // DATA CONSULT
+        // GET USER INFO
+        $consult-> transact_id = $_SESSION['transact_id'];
+        $cheduleInfo = $consult -> getSchedule();
+        // $consultInfo = $consult -> getConsultInfo();
+      }
+
+      if(isset($_SESSION['transact_rnd_id'])) {
+        $clientData -> user_id = $_SESSION['transact_client_id'];
+        $resultClientData = $clientData -> getUserData();
+        print_r($resultClientData);
       }
     }
-
-    // GET USER INFO
-    if(isset($_SESSION['acc_no'])) {
-      $users = new user;
-      $users->targetId = $_SESSION['acc_no'];
-      $res = $users->validate();
-      if($res){
-          $_SESSION['user'] = $res;
-      }
-    }
-
-    if(isset($_SESSION['transact_id'])) {
-      $consult = new consult;
-      $consult-> transact_id = $_SESSION['transact_id'];
-      $cheduleInfo = $consult -> getSchedule();
-    }
+    // print_r($_SESSION);
 
     // getConsultInfo()
     require_once $path.'includes/starterOne.php';
@@ -114,10 +125,9 @@
 
 
   <!-- search -->
+  <?php if(isset($board_transact_id)) { ?>
 
-  <?php if(isset($board_transact_id))  { ?>
-
-  <section id="board-parent" class="board-parent">
+  <section id="board-parent" class="board-parent ">
 
     <!-- Set up your appointment -->
     <form action="consultation.php" class="form search-form" method="get">
@@ -919,117 +929,6 @@
                     </li>
                     <?php } ?>
                   </ul>
-
-                  <div class="schedule-button flex-center">
-                    <a href="#" class="button mini-button"><i class="fa-solid fa-plus"></i></a>
-                    <a href="#" class="button mini-button"><i class="fa-solid fa-pen"></i></a>
-                  </div>
-
-                  <!-- MODAl - ADD  -->
-                  <div class="modal-parent modal-notif-parent modal-tool schedule-add overlay-black flex-center hidden">
-
-                    <!-- modal -->
-                    <div class="modal-container modal-notif-container sizing-secondary">
-                      <!-- header -->
-                      <div class="modal-header text-center">
-                        <h2 class="text-uppercase">Add schedule</h2>
-                      </div>
-                      <!-- form -->
-                      <form class="form form-add-schedule" method="post">
-                        <div class="divider modal-body">
-                          <div class="form-input-parent">
-                            <!-- Appointment date -->
-                            <div class="form-input-box input-one">
-                              <label for="appointment-date" class="text-capital">Appointment date <span>*</span></label>
-                              <input type="date" name="appointment-date" required id="appointment-date"
-                                min="<?php echo date("Y-m-d") ?>">
-                            </div>
-                            <!-- Appointment time -->
-                            <div class="form-input-box input-one">
-                              <label for="appointment-time" class="text-capital">Appointment time <span>*</span></label>
-                              <input type="time" name="appointment-time" id="appointment-time" required>
-                            </div>
-                          </div>
-                        </div>
-
-                        <!-- hidden - fox ajax -->
-                        <input type="hidden" name="submit" value='true' id="submit">
-                        <!-- button -->
-                        <div class="modal-buttons">
-                          <a class="button button-cancel">Go back</a>
-                          <button type="submit" name='submit' value="submit"
-                            class="button button-primary">Submit</button>
-
-                        </div>
-                      </form>
-
-                    </div>
-
-                    <!-- modal confirmation -->
-
-
-                  </div>
-
-                  <!-- MODAL - EDIT -->
-                  <div
-                    class="modal-parent modal-notif-parent modal-tool schedule-edit overlay-black flex-center hidden">
-
-                    <!-- hidden - fox ajax -->
-                    <input type="hidden" name="submit" value='true' id="submit">
-
-                    <!-- modal -->
-                    <div class="modal-container modal-notif-container sizing-secondary">
-                      <!-- header -->
-                      <div class="modal-header text-center">
-                        <h2 class="text-uppercase">Edit schedule</h2>
-                      </div>
-                      <!-- list of sched -->
-                      <ul class="list-sched modal-body">
-                        <?php foreach($cheduleInfo as $schedule ) { ?>
-                        <li data-schedule-id="<?php echo $schedule['consult_schedule_id'] ?>">
-                          <p><?php echo $schedule['date'] ?></p>
-                          <p><?php echo date('h:i a', strtotime($schedule['time'])) ?></p>
-                          <p>1 hour left</p>
-                          <p class="cursor-pointer hidden"><i class="fa-solid fa-arrow-right"></i></p>
-                        </li>
-                        <?php } ?>
-                      </ul>
-
-                      <!-- edit -->
-                      <form class="form edit-form-sched hidden modal-body" method="post">
-                        <div class="divider modal-body">
-                          <div class="form-input-parent">
-                            <!-- Appointment date -->
-                            <div class="form-input-box input-one">
-                              <label for="appointment-date" class="text-capital">Appointment date <span>*</span></label>
-                              <input type="date" name="appointment-date" id="appointment-date"
-                                value="<?php echo $cheduleInfo[0]['date'] ?>">
-                            </div>
-                            <!-- Appointment time -->
-                            <div class="form-input-box input-one">
-                              <label for="appointment-time" class="text-capital">Appointment time <span>*</span></label>
-                              <input type="time" name="appointment-time" id="appointment-time"
-                                value="<?php echo $cheduleInfo[0]['time'] ?>">
-                            </div>
-                          </div>
-                        </div>
-
-                        <!-- hidden - fox ajax -->
-                        <input type="hidden" name="submit" value='true' id="submit">
-
-                        <!-- button -->
-                        <div class="modal-buttons flex-center hiddens">
-                          <a class="button button-cancel ">Go back</a>
-                          <a class="button button-back hidden">Go back</a>
-                          <a class="hidden"><i class="fa-solid fa-trash"></i></a>
-                          <button type="submit" name='submit' value="submit"
-                            class="button button-primary button-submit hidden">UPDATE</button>
-                        </div>
-                      </form>
-                    </div>
-
-                  </div>
-
                 </div>
               </div>
             </div>
@@ -1299,7 +1198,7 @@
 
   <?php } else { ?>
 
-  <section id="board-parent" class="board-parent">
+  <section id="board-parent" class="board-parent ">
 
     <!-- Set up your appointment -->
     <form action="consultation.php" class="form search-form" method="get">
@@ -1954,6 +1853,7 @@
   </section>
 
   <?php } ?>
+
 
   <!-- footer -->
   <?php require_once $path.'includes/footer.php'; ?>

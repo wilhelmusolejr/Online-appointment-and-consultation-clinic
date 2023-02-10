@@ -2,7 +2,7 @@
   <!-- nav -->
   <nav class="nav-container ">
     <ul class="nav-links text-uppercase">
-      <li class="nav-profile-con <?php echo isset($_SESSION['user'])? "": "hidden" ?>">
+      <li class="nav-profile-con <?php echo isset($_SESSION['loggedIn'])? "": "hidden" ?>">
         <div class="nav-profile">
           <!-- profile -->
           <div class="nav-profile flex-center">
@@ -37,23 +37,23 @@
   </nav>
 
   <!-- buttons -->
-  <div class="nav-button flex-center text-uppercase <?php echo isset($_SESSION['user'])? "hidden": "" ?>">
+  <div class="nav-button flex-center text-uppercase <?php echo isset($_SESSION['loggedIn'])? "hidden": "" ?>">
     <a href="#">login</a>
     <a class="button button-primary" href="#">register</a>
   </div>
 
   <!-- communication -->
-  <div class="nav-communication <?php echo isset($_SESSION['user'])? "": "hidden" ?>">
+  <div class="nav-communication <?php echo isset($_SESSION['loggedIn'])? "": "hidden" ?>">
     <i class="fa-solid fa-bell"></i>
     <i class="fa-solid fa-comments"></i>
   </div>
 
   <!-- profile -->
-  <div class="nav-profile <?php echo isset($_SESSION['user'])? "": "hidden" ?>">
+  <div class="nav-profile <?php echo isset($_SESSION['loggedIn'])? "": "hidden" ?>">
     <div class="nav-profile flex-center">
       <img src="<?php echo $path ?>asset/char.jpg" alt="">
       <p>
-        <?php  echo isset($_SESSION['user'])? $_SESSION['user']['first_name']." ".$_SESSION['user']['last_name']:""; ?>
+        <?php  echo isset($_SESSION['loggedIn'])? $_SESSION['user_loggedIn']['first_name']." ".$_SESSION['user_loggedIn']['last_name']:""; ?>
       </p>
     </div>
 

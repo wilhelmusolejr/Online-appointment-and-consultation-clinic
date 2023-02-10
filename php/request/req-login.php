@@ -8,23 +8,19 @@ require_once $path.'classes/user.class.php';
 require_once $path."php/general.php";
 
 
-print_r($_POST);
-
 if(isset($_POST['username']) && isset($_POST['password'])) {
 
   $user = new user;
   $user -> via_googol = "false";
   $user -> email = validateInput($_POST['username']);
   $user -> pass = validateInput($_POST['password']);
-  print_r($user);
-  $res = $user -> login();
-  if($res) {
-    $_SESSION['acc_no'] = $res['user_id'];
-    header("Location: ".$path."homepage/index.php");
-    exit();
+  // print_r($user);
+  $result = $user -> login();
+  if(!$result) {
+    return;
   }
-  print_r("negative");
 } else {
+  
   require_once '../config.php';
 
   $login = true;
@@ -44,15 +40,28 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
     $user -> email = $userData['email'];
     $user -> user_id = $user -> getUserId();
     
-    $res = $user -> login();
+    $result = $user -> login();
 
-    if($res) {
-      $_SESSION['acc_no'] = $res['user_id'];
+    if(!$result) {
       // $_SESSION['img_url'] = $userData['picture'];
-      header("Location: ../../homepage/index.php");
+      header("Location: ".$path."homepage/index.php");
+      exit();
     }
-
-  } else {
-    header("Location: ../../homepage/index.php");
   }
 }
+
+$_SESSION['loggedIn'] = true;
+
+$user -> user_id = $result['user_id'];
+$userLoggedInData = $user -> getUserData();
+
+$_SESSION['user_loggedIn'] = $userLoggedInData;
+    
+if($userLoggedInData['user_privilege'] == 'rnd') {
+  $_SESSION['transact_rnd_id'] = $userLoggedInData['user_id'];
+} else {
+  $_SESSION['transact_client_id'] = $userLoggedInData['user_id'];
+}
+
+header("Location: ".$path."homepage/index.php");
+exit();

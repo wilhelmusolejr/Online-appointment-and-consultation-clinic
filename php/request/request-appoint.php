@@ -9,12 +9,9 @@ $appoint = new appoint;
 $appoint -> transact_id = $_SESSION['transact_id'];
 
 $appointStatus = $appoint -> getAppointCheckpointStatus();
-$board = $appoint -> getBoardPage();
-// $rndInfo = $appoint -> 
-if($appointStatus && $board){
-  // print_r($res);
-  // echo json_encode($appointStatus);
-  echo json_encode(array_merge($appointStatus, $board));
+
+if($appointStatus){
+  echo json_encode($appointStatus);
   // echo "success";
 } else {
   // echo "fail";

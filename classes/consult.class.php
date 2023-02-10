@@ -27,12 +27,12 @@ class consult {
   }
 
   function setConsult() {
-    $sql = "INSERT INTO `tbl_transact_consult` (`consult_id`, `transact_id`, `consult_date_finish`)
-     VALUES (NULL, :transact_id, NULL)
-    ";
+    $sql = "INSERT INTO `tbl_transact_consult` (`consult_id`, `transact_id`, `rnd_id`, 
+    `consult_date_finish`) VALUES (NULL, :transact_id, :rnd_id, NULL)";
     $query=$this->db->connect()->prepare($sql);
 
     $query->bindParam(':transact_id', $this-> transact_id);
+    $query->bindParam(':rnd_id', $this-> rnd_id);
 
     if($query->execute()){
       return true;

@@ -11,21 +11,22 @@
     $user -> email = validateInput($_POST['reg-email']);
     $user -> pass = validateInput($_POST['reg-pass']);
     $user -> status = "VERIFIED";
-
+    
+    $user -> user_type = $_POST['account-type'];
     $user -> first_name = validateInput($_POST['firstname']);
     $user -> middle_name = validateInput($_POST['middlename']);
     $user -> last_name = validateInput($_POST['lastname']);
     $user -> contact = validateInput($_POST['reg-mob']);
     $user -> gender = $_POST['gender'] == "Male"? 1:2;
     $user -> birthdate = $_POST['birthdate'];
+    // $user -> profile_img = $_POST['birthdate'];
 
-    $res = $user -> register();
-    if($res) {
+    $result = $user -> register();
+    if($result) {
       header("Location: ".$path."homepage/index.php");
       exit();
     }
 
-    print_r("yas");
   } else {
     require_once '../config.php';
 

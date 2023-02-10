@@ -1,30 +1,16 @@
 <?php 
-    $path = "../";
+  $path = "../";
 
-    session_start();
+  session_start();
 
-    require_once $path.'classes/user.class.php';
-    
-    require_once $path.'tools/variables.php';
-    $page_title = "Homepage";
-    $home = "nav-current";
+  print_r($_SESSION);
 
-    // print_r($_SESSION);
+  require_once $path.'classes/user.class.php';
+  require_once $path.'tools/variables.php';
+  $page_title = "Homepage";
+  $home = "nav-current";
 
-    // print_r($_SESSION['acc_no']);
-    if(isset($_SESSION['acc_no'])) {
-      $users = new user;
-      $users->targetId = $_SESSION['acc_no'];
-      $res = $users->validate();
-      if($res){
-          $_SESSION['user'] = $res;
-          // print_r($_SESSION['user']);
-      } else {
-        print_r("error login");
-      }
-    }
-
-    require_once $path.'includes/starterOne.php';
+  require_once $path.'includes/starterOne.php';
 ?>
 <link rel="stylesheet" href="index.css" />
 <script src="index.js" defer></script>

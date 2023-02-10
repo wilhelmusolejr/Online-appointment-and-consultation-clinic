@@ -2,8 +2,6 @@
 require_once 'database.php';
 
 Class user{
-    public $targetId;
-
     public $user_id;
 
     public $via_googol;
@@ -13,6 +11,7 @@ Class user{
     public $pass;
     public $status;
 
+    public $user_type;
     public $first_name;
     public $middle_name;
     public $last_name;
@@ -26,10 +25,12 @@ Class user{
         $this->db = new Database();
     }
 
-    function validate() {
-        $sql = "SELECT * FROM tbl_user_profile WHERE user_id =:targetId;";
+    function getUserData() {
+        $sql = "SELECT * FROM tbl_user_profile WHERE user_id =:user_id;";
         $query=$this->db->connect()->prepare($sql);
-        $query->bindParam(':targetId', $this-> targetId);
+        
+        $query->bindParam(':user_id', $this-> user_id);
+        
         if($query->execute()){
             $data = $query->fetch();
         }
@@ -64,12 +65,13 @@ Class user{
     }
 
     function register() {
-        $sql = "INSERT INTO `tbl_user_profile` (`user_id`, `first_name`, `middle_name`, 
-            `last_name`, `contact`, `gender`, `birthdate`, `account_info`) VALUES 
-            (NULL, :first_name, :middle_name, :last_name, :contact, :gender, 
-            :birthdate, NULL)";
+        $sql = "INSERT INTO `tbl_user_profile` (`user_id`, `user_privilege`, `user_type`,
+        `first_name`, `middle_name`, `last_name`, `contact`, `gender`, `birthdate`, `profile_img`) 
+        VALUES (NULL, 'client', :user_type, :first_name, :middle_name, :last_name, :contact, 
+            :gender, :birthdate, NULL)";
         $query=$this->db->connect()->prepare($sql);
 
+        $query->bindParam(':user_type', $this-> user_type);
         $query->bindParam(':first_name', $this-> first_name);
         $query->bindParam(':middle_name', $this-> middle_name);
         $query->bindParam(':last_name', $this-> last_name);
