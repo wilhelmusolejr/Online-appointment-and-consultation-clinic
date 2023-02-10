@@ -434,8 +434,12 @@ header .navigator-parent {
 
   border-radius: 20px;
 }
-.nav-container .nav-profile {
+.nav-container .profile-container {
   display: flex;
+}
+
+.profile-container {
+  gap: 10px;
 }
 
 .nav-profile {
@@ -443,12 +447,12 @@ header .navigator-parent {
 
   display: none;
 }
-.nav-profile img {
+.profile-container img {
   width: 50px;
   height: 50px;
 
   border-radius: 50%;
-  border: 2px solid black;
+  border: 5px solid #58cb7a;
 }
 
 /* --------------------------------------- */
@@ -886,6 +890,83 @@ footer .nav-links {
   display: block;
 }
 
+.outside-profile > .profile-container:hover {
+  cursor: default;
+}
+.outside-profile > .profile-container {
+  position: relative;
+}
+
+/* PRIFILE CARD */
+.nav-profile-card {
+  background-color: var(--color-white-secondary);
+
+  border-radius: 20px;
+  width: 350px;
+  min-height: 450px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  box-shadow: 0 10px 25px 10px rgba(0, 0, 0, 0.2);
+
+  position: absolute;
+  top: 90px;
+  right: 90px;
+}
+
+.nav-profile-card .profile-container {
+  background-color: var(--color-white-primary);
+  border-radius: 20px;
+
+  padding: 40px 0;
+}
+.nav-profile-card .profile-container img {
+  order: initial;
+
+  width: 75px;
+  height: 75px;
+}
+
+.nav-profile-card select {
+  padding: 10px 0;
+  border-radius: 10px;
+
+  border: none;
+  outline: none;
+  scroll-behavior: smooth;
+}
+.nav-profile-card option {
+  padding: 10px;
+}
+
+.profile-list-options {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.profile-list-options li a {
+  display: flex;
+  gap: 10px;
+
+  border-top: 1px solid #646464;
+  border-bottom: 1px solid #555;
+  padding: 20px;
+}
+
+.profile-list-options li a:hover {
+  background-color: #85b597;
+}
+
+.button-logout {
+  width: 95%;
+  margin: 10px auto;
+  color: black;
+
+  background-color: var(--color-green-primary);
+}
+
 /* MEDIA QUERIES */
 
 /* TABLET */
@@ -896,7 +977,7 @@ footer .nav-links {
   .nav-profile {
     display: inherit;
   }
-  .nav-profile img {
+  .profile-container img {
     order: 1;
   }
 }
