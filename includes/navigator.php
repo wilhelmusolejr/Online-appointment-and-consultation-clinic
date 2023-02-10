@@ -2,7 +2,7 @@
   <!-- nav -->
   <nav class="nav-container ">
     <ul class="nav-links text-uppercase">
-      <li class="nav-profile-con <?php echo isset($_SESSION['loggedIn'])? "": "hidden" ?>">
+      <li class="nav-profile-con flex-center<?php echo isset($_SESSION['loggedIn'])? "": "hiddens" ?>">
         <div class="nav-profile">
           <!-- profile -->
           <div class="nav-profile flex-center">

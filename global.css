@@ -389,7 +389,7 @@ header .navigator-parent {
   justify-content: space-around;
 
   height: 100%;
-  padding-left: 30px;
+  padding: 0 20px;
 }
 
 .nav-button a {
@@ -424,6 +424,18 @@ header .navigator-parent {
   border-radius: 50%;
 
   cursor: pointer;
+}
+
+.nav-container .nav-profile-con {
+  display: flex;
+
+  background-color: whitesmoke;
+  padding: 15px 0;
+
+  border-radius: 20px;
+}
+.nav-container .nav-profile {
+  display: flex;
 }
 
 .nav-profile {
@@ -883,6 +895,9 @@ footer .nav-links {
   }
   .nav-profile {
     display: inherit;
+  }
+  .nav-profile img {
+    order: 1;
   }
 }
 
