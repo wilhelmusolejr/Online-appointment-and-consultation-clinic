@@ -14,7 +14,6 @@
 <script type="module" src="index.js" defer></script>
 <?php require_once $path.'includes/starterTwo.php'; ?>
 
-
 <body>
   <!-- HEADER -->
   <header>
