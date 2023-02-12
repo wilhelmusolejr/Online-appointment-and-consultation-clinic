@@ -1,0 +1,96 @@
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+table {
+  width: 100%;
+}
+
+th {
+  background-color: var(--color-green-primary);
+
+  padding: 40px 0;
+
+  font-size: clamp(1.6rem, 5vw, 1.8rem);
+  color: white;
+  font-weight: 400;
+
+  letter-spacing: 2px;
+}
+td {
+  font-size: clamp(1.6rem, 5vw, 1.8rem);
+  padding: 20px 0;
+}
+
+.appointment-number a {
+  letter-spacing: 2px;
+}
+
+table a {
+  padding: 1px;
+  color: var(--color-green-tertiary);
+  border-bottom: 2px solid var(--color-green-tertiary);
+}
+
+td p {
+  width: 50%;
+  margin: auto;
+}
+
+td p.card {
+  padding: 10px;
+}
+
+.status-pending {
+  border: 2px solid #c9ac35;
+  background-color: #e5dbb1;
+}
+
+.status-approved {
+  border: 2px solid #35c949;
+  background-color: #b1e5b8;
+}
+
+.status-declined {
+  border: 2px solid #c93535;
+  background-color: #e5b1b1;
+}
+
+.button-parent {
+  /* gap: 10px; */
+}
+.button-accept {
+  background-color: #35c949;
+  margin-right: 10px;
+}
+.button-denaid {
+  background-color: #c93535;
+}
+
+/* search  */
+.search-form {
+  width: 100%;
+  margin: auto;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.search-parent {
+  padding-bottom: 20px;
+  /* text-align: right; */
+}
+.search-parent .form-input-box {
+  display: flex;
+  flex-direction: row;
+}
+.search-parent .form-input-box input {
+  border-radius: 0;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+.search-parent .form-input-box button {
+  border-radius: 0;
+}

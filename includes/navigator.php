@@ -46,6 +46,27 @@
   <div class="nav-communication <?php echo isset($_SESSION['loggedIn'])? "": "hidden" ?>">
     <i class="fa-solid fa-bell"></i>
     <i class="fa-solid fa-comments"></i>
+
+    <div class="notification-bar-card hidden">
+      <h3>Notifications</h3>
+
+      <ul class="notif-list">
+        <li class="notif-item"><a href="#">
+            <p class="notif-name">You have assigned to a new appointment</p>
+            <p class="notif-time">1 hour ago</p>
+          </a>
+        </li>
+        <li class="notif-item"><a href="#">
+            <p class="notif-name">You have assigned to a new appointment</p>
+            <p class="notif-time">1 hour ago</p>
+          </a>
+        </li>
+      </ul>
+
+      <div class="notif-show-all text-center">
+        <a class='text-uppercase' href="<?php echo $path."notification/notification.php" ?>">See all</a>
+      </div>
+    </div>
   </div>
 
   <!-- profile -->
@@ -75,7 +96,8 @@
 
       <!-- list of options -->
       <ul class="profile-list-options">
-        <li><a href="#"><i class="fa-solid fa-heart-circle-plus"></i>
+        <li><a href="<?php echo $path."appointment/appointment-history.php" ?>"><i
+              class="fa-solid fa-heart-circle-plus"></i>
             <p>Appointment History</p>
           </a>
         </li>

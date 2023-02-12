@@ -1302,13 +1302,13 @@
             <input class='personal-tab hidden' type="radio" name="tabset" id="tab5" aria-controls="dunkles">
             <label class='personal-tab hidden' for="tab5">Personal Information</label>
             <!-- Tab 1 -->
-            <input type="radio" name="tabset" id="tab1" aria-controls="marzen">
+            <input type="radio" name="tabset" id="tab1" aria-controls="marzen" checked>
             <label for="tab1">Consultation Information</label>
             <!-- Tab 2 -->
             <input type="radio" name="tabset" id="tab2" aria-controls="rauchbier">
             <label for="tab2">Food Information</label>
             <!-- Tab 3 -->
-            <input type="radio" name="tabset" id="tab3" aria-controls="dunkles" checked>
+            <input type="radio" name="tabset" id="tab3" aria-controls="dunkles">
             <label for="tab3">Physical Information</label>
             <!-- Tab 4 -->
             <input type="radio" name="tabset" id="tab4" aria-controls="dunkles">

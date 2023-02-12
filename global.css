@@ -967,6 +967,61 @@ footer .nav-links {
   background-color: var(--color-green-primary);
 }
 
+/* notification */
+.fa-comments {
+  position: relative;
+}
+.notification-bar-card {
+  background-color: var(--color-white-secondary);
+
+  border-radius: 20px;
+  width: 350px;
+  min-height: 450px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  box-shadow: 0 10px 25px 10px rgba(0, 0, 0, 0.2);
+
+  position: absolute;
+  top: 90px;
+  left: 90px;
+}
+
+.notification-bar-card h3 {
+  padding: 20px;
+}
+
+.notif-time {
+  padding-top: 10px;
+  font-size: 1.5rem;
+}
+
+.notif-item:first-of-type {
+  border-top: 1px solid black;
+}
+.notif-item {
+  border-bottom: 1px solid black;
+  padding: 10px 20px;
+}
+.notif-item:hover {
+  background-color: #277043;
+}
+
+.notif-show-all {
+  background-color: #0a331a;
+  border-top: 1px solid black;
+}
+.notif-show-all a {
+  display: inline-block;
+
+  width: 100%;
+  padding: 20px 0;
+  color: white !important;
+  letter-spacing: 2px;
+}
+
 /* MEDIA QUERIES */
 
 /* TABLET */

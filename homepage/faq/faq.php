@@ -10,7 +10,7 @@
     require_once $path.'includes/starterOne.php';
 ?>
 <link rel="stylesheet" href="faq.css" />
-<script src="../index.js" defer></script>
+<script type="module" src="../index.js" defer></script>
 <?php require_once $path.'includes/starterTwo.php'; ?>
 
 
