@@ -94,3 +94,14 @@ td p.card {
 .search-parent .form-input-box button {
   border-radius: 0;
 }
+
+.modal-appointment-confirmation a.button-cancel {
+  color: black !important;
+}
+
+.modal-positive {
+  background-color: #effff4;
+}
+.modal-negative {
+  background-color: #fff0ef;
+}

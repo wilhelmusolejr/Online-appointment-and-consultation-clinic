@@ -8,6 +8,7 @@
   $page_title = "Homepage";
   $home = "nav-current";
 
+
   require_once $path.'includes/starterOne.php';
 ?>
 <link rel="stylesheet" href="index.css" />

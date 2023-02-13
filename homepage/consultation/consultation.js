@@ -262,6 +262,10 @@ changeBoardProgress(currentBoardPage);
 
 let transactRndId = 0;
 let appointCheckpoint = true;
+
+// board 2
+let isTransactionAddedToRndPending;
+let appointmentStatus = "PENDING";
 function ajaxCaller(currentBoardPage) {
   switch (currentBoardPage) {
     // board 2
@@ -315,9 +319,13 @@ function ajaxCaller(currentBoardPage) {
                 );
               }
 
-              console.log(response.rnd_id);
+              // console.log(response.rnd_id);
               console.log(response.appoint_status);
-              console.log(response.rnd_status);
+              // console.log(response.rnd_status);
+
+              if (response.appoint_status == "APPROVED") {
+                appointmentStatus = "APPROVED";
+              }
 
               if (
                 response.appoint_status == "APPROVED" &&
@@ -347,34 +355,6 @@ function ajaxCaller(currentBoardPage) {
                         "disabled",
                         false
                       );
-                      setTimeout(function () {
-                        $(`${boardParent} .button-next button`).trigger(
-                          "click"
-                        );
-                      }, 10000);
-
-                      $.ajax({
-                        type: "POST", //hide url
-                        url: `../../php/set/set-board.php`, //your form validation url
-                        data: { board_page: response.board_page },
-                        success: function (response) {
-                          console.log(response);
-                        },
-                        error: function (response) {
-                          console.log("failed to fetch board");
-                        },
-                      });
-
-                      $.ajax({
-                        type: "POST", //hide url
-                        url: `../../php/set/set-consult.php`, //your form validation url
-                        success: function (response) {
-                          console.log(response);
-                        },
-                        error: function (response) {
-                          console.log("failed to set consult");
-                        },
-                      });
                     }
 
                     if (response.board != 2) {
@@ -392,6 +372,49 @@ function ajaxCaller(currentBoardPage) {
             },
           });
         }, 1000);
+
+        console.log(appointmentStatus);
+
+        const setPendingForRnd = setInterval(() => {
+          if (appointmentStatus == "APPROVED") {
+            $.ajax({
+              type: "POST", //hide url
+              url: `../../php/request/req-check-appoint-pending-rnd.php`, //your form validation url
+              // dataType: "json",
+              async: false,
+              success: function (response) {
+                isTransactionAddedToRndPending = response;
+              },
+              error: function (response) {
+                console.log("failed to set consult");
+              },
+            });
+
+            if (isTransactionAddedToRndPending == "FALSE") {
+              let rndList = [3, 17, 8];
+              $.ajax({
+                type: "POST", //hide url
+                url: `../../php/set/set-appoint-pending-rnd.php`, //your form validation url
+                dataType: "json",
+                data: { rndList: rndList },
+                async: false,
+                success: function (response) {
+                  console.log("working");
+                  return true;
+                },
+                error: function (response) {
+                  console.log("failed");
+                },
+              });
+            }
+            clearInterval(setPendingForRnd);
+          }
+        }, 1000);
+
+        // const checkRndFeedback = setInterval(() => {
+        //   // check rnd feedback
+        //   if(rndfeedback = "")
+        // }, 1000)
 
         const profileChatter = setInterval(() => {
           // set rnf info
