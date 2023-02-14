@@ -264,8 +264,13 @@ let transactRndId = 0;
 let appointCheckpoint = true;
 
 // board 2
-let isTransactionAddedToRndPending;
+let pendingRndSize;
+let currentRndIndex;
 let appointmentStatus = "PENDING";
+
+// board 3
+let isConsultDone = false;
+
 function ajaxCaller(currentBoardPage) {
   switch (currentBoardPage) {
     // board 2
@@ -280,13 +285,23 @@ function ajaxCaller(currentBoardPage) {
               // console.log(response);
               let boardParent = ".appointment-checkpoint-stage";
 
+              if (response.rnd_status == "APPROVED") {
+                // rdn
+                $(`${boardParent} input[name='rdn-assigned']`).val(
+                  response.rnd_status
+                );
+                clearInterval(checkRndFeedback);
+              } else {
+                if (pendingRndSize > 0) {
+                  $(`${boardParent} input[name='rdn-assigned']`).val(
+                    `SEARCHING.. ${currentRndIndex} OF ${pendingRndSize}`
+                  );
+                }
+              }
+
               // appoint status
               $(`${boardParent} input[name='appoint-status']`).val(
                 response.appoint_status
-              );
-              // rdn
-              $(`${boardParent} input[name='rdn-assigned']`).val(
-                response.rnd_status
               );
 
               // class appoint status
@@ -320,7 +335,7 @@ function ajaxCaller(currentBoardPage) {
               }
 
               // console.log(response.rnd_id);
-              console.log(response.appoint_status);
+              // console.log(response.appoint_status);
               // console.log(response.rnd_status);
 
               if (response.appoint_status == "APPROVED") {
@@ -373,8 +388,6 @@ function ajaxCaller(currentBoardPage) {
           });
         }, 1000);
 
-        console.log(appointmentStatus);
-
         const setPendingForRnd = setInterval(() => {
           if (appointmentStatus == "APPROVED") {
             $.ajax({
@@ -383,14 +396,14 @@ function ajaxCaller(currentBoardPage) {
               // dataType: "json",
               async: false,
               success: function (response) {
-                isTransactionAddedToRndPending = response;
+                pendingRndSize = response;
               },
               error: function (response) {
                 console.log("failed to set consult");
               },
             });
 
-            if (isTransactionAddedToRndPending == "FALSE") {
+            if (pendingRndSize == 0) {
               let rndList = [3, 17, 8];
               $.ajax({
                 type: "POST", //hide url
@@ -411,10 +424,22 @@ function ajaxCaller(currentBoardPage) {
           }
         }, 1000);
 
-        // const checkRndFeedback = setInterval(() => {
-        //   // check rnd feedback
-        //   if(rndfeedback = "")
-        // }, 1000)
+        const checkRndFeedback = setInterval(() => {
+          if (pendingRndSize > 0) {
+            $.ajax({
+              type: "POST", //hide url
+              url: `../../php/request/req-appoint-pending-status-size.php`, //your form validation url
+              dataType: "json",
+              async: false,
+              success: function (response) {
+                currentRndIndex = response;
+              },
+              error: function (response) {
+                console.log("failed aaa");
+              },
+            });
+          }
+        }, 1000);
 
         const profileChatter = setInterval(() => {
           // set rnf info
@@ -442,12 +467,11 @@ function ajaxCaller(currentBoardPage) {
 
     // board 3
     case 3:
-      // const getSchedule = setInterval(() => {
-      // showSchedule(".list-schedule ul");
-      // showSchedule(".list-sched", true);
-      // }, 1000);
+      // schedule
+      const getSchedule = setInterval(() => {
+        showSchedule(".list-schedule ul");
+      }, 1000);
 
-      const isConsultDone = false;
       if (!isConsultDone) {
         const boardChecker = setInterval(() => {
           $.ajax({
@@ -457,35 +481,23 @@ function ajaxCaller(currentBoardPage) {
             success: function (response) {
               let boardParent = "consultation-stage";
 
-              // console.log(response.board_page);
+              console.log(response.board_page);
 
               if (response.board_page > 3) {
-                $(`${boardParent} .button-next button`).prop("disabled", false);
-                setTimeout(function () {
-                  $(`${boardParent} .button-next button`).trigger("click");
-                }, 10000);
+                $(`.${boardParent} .button-next button`).prop(
+                  "disabled",
+                  false
+                );
 
                 setTimeout(boardChecker);
                 isConsultDone = true;
               }
-
-              // avoid auto click
-              // set consult shoud be in rnd part
-              // $.ajax({
-              //   type: "POST", //hide url
-              //   url: `../../php/set/set-consult.php`, //your form validation url
-              //   success: function (response) {
-              //     console.log(response);
-              //   },
-              //   error: function (response) {
-              //     console.log("failed to set consult");
-              //   },
             },
             error: function () {
               console.log("fail to fetch board page");
             },
           });
-        }, 3000);
+        }, 1000);
       }
 
       const boardThree = setInterval(() => {
@@ -599,3 +611,67 @@ function ajaxCaller(currentBoardPage) {
   }
 }
 ajaxCaller(currentBoardPage);
+
+function generateScheduleMarkUp(response, edit = false) {
+  // convert milliseconds to seconds / minutes / hours etc.
+  const msPerSecond = 1000;
+  const msPerMinute = msPerSecond * 60;
+  const msPerHour = msPerMinute * 60;
+  const msPerDay = msPerHour * 24;
+
+  // calculate remaining time
+
+  let markUp = ``;
+
+  for (const sched in response) {
+    const now = new Date().getTime();
+
+    let time = new Date(`${response[sched].date} ${response[sched].time}`);
+    const timeleft = time - now;
+
+    const days = Math.floor(timeleft / msPerDay);
+    const hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / msPerHour);
+    const minutes = Math.floor((timeleft % (1000 * 60 * 60)) / msPerMinute);
+    const seconds = Math.floor((timeleft % (1000 * 60)) / msPerSecond);
+    // <p>${days}d ${hours}h ${minutes}m ${seconds}s</p>
+
+    // markUp += `<li data-schedule-id="${response[sched].consult_schedule_id}">
+    //                   <p>${response[sched].date}</p>
+    //                   <p>${time.toLocaleString("en-US", {
+    //                     hour: "numeric",
+    //                     minute: "numeric",
+    //                     hour12: true,
+    //                   })}</p>
+    //                   <p>${hours}H ${minutes}M left</p>
+    //                   <p class="cursor-pointer ${
+    //                     edit ? "" : "hidden"
+    //                   }"><i class="fa-solid fa-arrow-right"></i></p>
+    //                 </li>`;
+    markUp += `<li data-schedule-id="${response[sched].consult_schedule_id}">
+                    <p>${response[sched].date}</p>
+                    <p>${response[sched].time}</p>
+                    <p class="cursor-pointer ${
+                      edit ? "" : "hidden"
+                    }"><i class="fa-solid fa-arrow-right"></i></p>
+                  </li>`;
+  }
+  // console.log(markUp);
+  return markUp;
+}
+
+function showSchedule(target, edit = false) {
+  $.ajax({
+    type: "POST", //hide url req-consult-sched
+    url: `../../php/request/req-consult-sched.php`, //your form validation url
+    dataType: "json",
+    success: function (response) {
+      document.querySelector(`${target}`).innerHTML = generateScheduleMarkUp(
+        response,
+        edit
+      );
+    },
+    error: function () {
+      console.log("failed to get sched sss");
+    },
+  });
+}

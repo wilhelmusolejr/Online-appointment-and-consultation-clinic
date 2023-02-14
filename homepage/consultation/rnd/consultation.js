@@ -95,6 +95,7 @@ modalAppointNotif.addEventListener("click", function (e) {
   }
 });
 
+let currentSched;
 boardContainer.addEventListener("click", function (e) {
   let currentBoardPage = getActiveBoard();
 
@@ -117,6 +118,30 @@ boardContainer.addEventListener("click", function (e) {
     ajaxCaller(currentBoardPage + 1);
 
     modalAppointNotif.classList.add("hidden");
+
+    $.ajax({
+      type: "POST", //hide url
+      url: `../../../php/request/req-board-page.php`, //your form validation url
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+
+        $.ajax({
+          type: "POST", //hide url
+          url: `../../../php/set/set-board.php`, //your form validation url
+          data: { board_page: response["board_page"] },
+          success: function (response) {
+            console.log(response);
+          },
+          error: function (response) {
+            console.log("failed ");
+          },
+        });
+      },
+      error: function () {
+        console.log("fail");
+      },
+    });
   }
 
   // prev
@@ -179,51 +204,76 @@ boardContainer.addEventListener("click", function (e) {
 
   // edit section - choosing of schedule
   if (e.target.closest("li")) {
-    if (e.target.closest("li")) {
-      console.log(e.target.closest("li").getAttribute("data-schedule-id"));
-      e.target.closest(".list-sched").classList.add("hidden");
-      e.target
-        .closest(".modal-container")
-        .querySelector(".form")
-        .classList.remove("hidden");
-      e.target
-        .closest(".modal-container")
-        .querySelector(".button-submit")
-        .classList.remove("hidden");
-      e.target
-        .closest(".modal-container")
-        .querySelector(".button-cancel")
-        .classList.add("hidden");
-      e.target
-        .closest(".modal-container")
-        .querySelector(".button-back")
-        .classList.remove("hidden");
-    }
+    // console.log("choose sched");
+
+    // target id
+    let target = parseInt(
+      e.target.closest("li").getAttribute("data-schedule-id")
+    );
+
+    let listofEditSched = e.target
+      .closest(".modal-container")
+      .querySelectorAll(".edit-form-sched");
+
+    console.log(target);
+    console.log(listofEditSched);
+    // remove something
+    e.target.closest(".list-sched").classList.add("hidden");
+
+    listofEditSched.forEach((sched) => {
+      if (target == parseInt(sched.getAttribute("data-schedule-id"))) {
+        sched.classList.remove("hidden");
+        sched.classList.add("modal-active");
+        currentSched = sched;
+      } else {
+        sched.classList.add("hidden");
+        sched.classList.remove("modal-active");
+      }
+    });
   }
 
+  // edit section - go back
   if (e.target.classList.contains("button-back")) {
     console.log("test");
-    e.target
-      .closest(".modal-container")
-      .querySelector(".form")
-      .classList.add("hidden");
+
     e.target
       .closest(".modal-container")
       .querySelector(".list-sched")
       .classList.remove("hidden");
-    e.target
-      .closest(".modal-container")
-      .querySelector(".button-submit")
-      .classList.add("hidden");
-    e.target
-      .closest(".modal-container")
-      .querySelector(".button-cancel")
-      .classList.remove("hidden");
-    e.target
-      .closest(".modal-container")
-      .querySelector(".button-back")
-      .classList.add("hidden");
+
+    currentSched.classList.add("hidden");
   }
+
+  // if sched is deleted
+  if (e.target.classList.contains("fa-trash")) {
+    e.preventDefault();
+
+    let targetSchedId = parseInt(currentSched.getAttribute("data-schedule-id"));
+    console.log(targetSchedId);
+
+    $.ajax({
+      type: "POST", //hide url
+      url: `../../../php/delete/del-consult-sched.php`, //your form validation url
+      data: { targetSched: targetSchedId },
+      success: function (response) {
+        if (response) {
+          location.reload();
+        }
+        document
+          .querySelectorAll(".form-add-schedule input")
+          .forEach((input) => {
+            input.value = "";
+          });
+      },
+      error: function () {
+        console.log("fail at ajax");
+      },
+    });
+  }
+
+  // board 3
+
+  // if consultation is done
 });
 
 let transactRndId = 0;
@@ -383,75 +433,74 @@ function ajaxCaller(currentBoardPage) {
           }
         }, 1000);
       }
-
       break;
 
     // board 3
     case 3:
       let boardParent = ".consultation-stage";
-      // const getSchedule = setInterval(() => {
-      // showSchedule(".list-schedule ul");
-      // showSchedule(".list-sched", true);
-      // }, 1000);
+      const getSchedule = setInterval(() => {
+        showSchedule(".list-schedule ul");
+        showSchedule(".list-sched", true);
+      }, 5000);
 
-      let isConsultDone = false;
-      if (!isConsultDone) {
-        const boardChecker = setInterval(() => {
-          $.ajax({
-            type: "POST", //hide url
-            url: `../../../php/request/req-board-page.php`, //your form validation url
-            dataType: "json",
-            success: function (response) {
-              console.log(response.board_page);
+    // let isConsultDone = false;
+    // if (!isConsultDone) {
+    //   const boardChecker = setInterval(() => {
+    //     $.ajax({
+    //       type: "POST", //hide url
+    //       url: `../../../php/request/req-board-page.php`, //your form validation url
+    //       dataType: "json",
+    //       success: function (response) {
+    //         console.log(response.board_page);
 
-              if (response.board_page > 3) {
-                console.log("test");
-                $(`${boardParent} .button-confirmation`).addClass(
-                  "button-next"
-                );
-                $(`${boardParent} .button-confirmation`).removeClass(
-                  "button-confirmation"
-                );
-                $(`${boardParent} .button-next`).trigger("click");
-              }
+    //         if (response.board_page > 3) {
+    //           console.log("test");
+    //           $(`${boardParent} .button-confirmation`).addClass(
+    //             "button-next"
+    //           );
+    //           $(`${boardParent} .button-confirmation`).removeClass(
+    //             "button-confirmation"
+    //           );
+    //           $(`${boardParent} .button-next`).trigger("click");
+    //         }
 
-              setTimeout(boardChecker);
-            },
-            error: function () {
-              console.log("fail to fetch board page");
-            },
-          });
-        }, 1000);
-      }
+    //         setTimeout(boardChecker);
+    //       },
+    //       error: function () {
+    //         console.log("fail to fetch board page");
+    //       },
+    //     });
+    //   }, 1000);
+    // }
 
-      const boardThree = setInterval(() => {
-        $.ajax({
-          type: "POST", //hide url
-          url: `../../../php/request/request-appoint.php`, //your form validation url
-          dataType: "json",
-          success: function (response) {
-            let boardParent = `.consultation-stage`;
-            console.log("tite");
-            // PUT LISTENER
+    // const boardThree = setInterval(() => {
+    //   $.ajax({
+    //     type: "POST", //hide url
+    //     url: `../../../php/request/request-appoint.php`, //your form validation url
+    //     dataType: "json",
+    //     success: function (response) {
+    //       let boardParent = `.consultation-stage`;
+    //       console.log("tite");
+    //       // PUT LISTENER
 
-            // to be checked
-            // $.ajax({
-            //   type: "POST", //hide url
-            //   url: `../../php/set/set-consult-checkpoint.php`, //your form validation url
-            //   dataType: "json",
-            //   success: function (response) {
-            //     console.log(response);
-            //   },
-            //   error: function () {
-            //     console.log("error");
-            //   },
-            // });
+    //       // to be checked
+    //       // $.ajax({
+    //       //   type: "POST", //hide url
+    //       //   url: `../../php/set/set-consult-checkpoint.php`, //your form validation url
+    //       //   dataType: "json",
+    //       //   success: function (response) {
+    //       //     console.log(response);
+    //       //   },
+    //       //   error: function () {
+    //       //     console.log("error");
+    //       //   },
+    //       // });
 
-            clearInterval(boardThree);
-          },
-        });
-      }, 1000);
-      break;
+    //       clearInterval(boardThree);
+    //     },
+    //   });
+    // }, 1000);
+    // break;
 
     // board 3
     case 4:
@@ -474,18 +523,19 @@ $(".form-add-schedule").on("submit", function (e) {
 
   $.ajax({
     type: "POST", //hide url
-    url: `../../php/set/set-consult-schedule.php`, //your form validation url
+    url: `../../../php/set/set-consult-schedule.php`, //your form validation url
     data: $(".form-add-schedule").serialize(),
     success: function (response) {
-      if (response) {
-        document.querySelectorAll(".modal-parent").forEach((modal) => {
-          modal.classList.add("hidden");
-        });
-      }
+      console.log(response);
+      document.querySelectorAll(".modal-parent").forEach((modal) => {
+        modal.classList.add("hidden");
+      });
 
       document.querySelectorAll(".form-add-schedule input").forEach((input) => {
         input.value = "";
       });
+
+      location.reload();
     },
     error: function () {
       console.log("fail at ajax");
@@ -497,22 +547,20 @@ $(".form-add-schedule").on("submit", function (e) {
 $(".edit-form-sched").on("submit", function (e) {
   e.preventDefault();
 
-  console.log("pressed");
-
   $.ajax({
     type: "POST", //hide url
-    url: `../../php/update/update-consult-schedule.php`, //your form validation url
-    data: $(".edit-form-sched").serialize(),
+    url: `../../../php/update/update-consult-schedule.php`, //your form validation url
+    data: $(".edit-form-sched.modal-active").serialize(),
     success: function (response) {
       console.log(response);
-      // if (response) {
-      //   document.querySelectorAll(".modal-parent").forEach((modal) => {
-      //     modal.classList.add("hidden");
-      //   });
-      // }
-      // document.querySelectorAll(".form-add-schedule input").forEach((input) => {
-      //   input.value = "";
-      // });
+      if (response) {
+        document.querySelectorAll(".modal-parent").forEach((modal) => {
+          modal.classList.add("hidden");
+        });
+      }
+      document.querySelectorAll(".form-add-schedule input").forEach((input) => {
+        input.value = "";
+      });
     },
     error: function () {
       console.log("fail at ajax");
@@ -533,10 +581,8 @@ function generateScheduleMarkUp(response, edit = false) {
 
   for (const sched in response) {
     const now = new Date().getTime();
-    // const futureDate = new Date('27 Jan 2030 16:40:00').getTime();
 
     let time = new Date(`${response[sched].date} ${response[sched].time}`);
-
     const timeleft = time - now;
 
     const days = Math.floor(timeleft / msPerDay);
@@ -545,27 +591,36 @@ function generateScheduleMarkUp(response, edit = false) {
     const seconds = Math.floor((timeleft % (1000 * 60)) / msPerSecond);
     // <p>${days}d ${hours}h ${minutes}m ${seconds}s</p>
 
+    // markUp += `<li data-schedule-id="${response[sched].consult_schedule_id}">
+    //                   <p>${response[sched].date}</p>
+    //                   <p>${time.toLocaleString("en-US", {
+    //                     hour: "numeric",
+    //                     minute: "numeric",
+    //                     hour12: true,
+    //                   })}</p>
+    //                   <p>${hours}H ${minutes}M left</p>
+    //                   <p class="cursor-pointer ${
+    //                     edit ? "" : "hidden"
+    //                   }"><i class="fa-solid fa-arrow-right"></i></p>
+    //                 </li>`;
     markUp += `<li data-schedule-id="${response[sched].consult_schedule_id}">
-                      <p>${response[sched].date}</p>
-                      <p>${time.toLocaleString("en-US", {
-                        hour: "numeric",
-                        minute: "numeric",
-                        hour12: true,
-                      })}</p>
-                      <p>${hours}H ${minutes}M left</p>
-                      <p class="cursor-pointer ${
-                        edit ? "" : "hidden"
-                      }"><i class="fa-solid fa-arrow-right"></i></p>
-                    </li>`;
+                    <p>${response[sched].date}</p>
+                    <p>${response[sched].time}</p>
+                    <p class="cursor-pointer ${
+                      edit ? "" : "hidden"
+                    }"><i class="fa-solid fa-arrow-right"></i></p>
+                  </li>`;
   }
+  // console.log(markUp);
   return markUp;
 }
 
 function showSchedule(target, edit = false) {
   $.ajax({
     type: "POST", //hide url req-consult-sched
-    url: `../../php/request/req-consult-sched.php`, //your form validation url
+    url: `../../../php/request/req-consult-sched.php`, //your form validation url
     dataType: "json",
+    // async: false,
     success: function (response) {
       document.querySelector(`${target}`).innerHTML = generateScheduleMarkUp(
         response,
@@ -573,7 +628,7 @@ function showSchedule(target, edit = false) {
       );
     },
     error: function () {
-      console.log("failed to get sched");
+      console.log("failed to get sched sss");
     },
   });
 }

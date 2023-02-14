@@ -70,7 +70,7 @@
           }
       }
 
-
+      $cheduleInfo = [];
       if($board_page == 3) {
         // DATA CONSULT
         // GET USER INFO
@@ -78,6 +78,7 @@
         $cheduleInfo = $consult -> getSchedule();
         // $consultInfo = $consult -> getConsultInfo();
       }
+
 
       if(isset($_SESSION['transact_rnd_id'])) {
         $clientData -> user_id = $_SESSION['transact_client_id'];

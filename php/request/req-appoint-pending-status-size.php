@@ -6,7 +6,7 @@ session_start();
 $consult = new consult;
 $consult -> transact_id = $_SESSION['transact_id'];
 
-$res = $consult -> checkAppointPendingRndStatus();
+$res = $consult -> getAppointPendingRndSize(); 
 if($res){
   // if($res['number'] > 0) {
   //   echo "TRUE";

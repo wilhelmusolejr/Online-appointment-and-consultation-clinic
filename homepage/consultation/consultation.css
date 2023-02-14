@@ -565,6 +565,12 @@ a.button-cancel {
 a.button-back {
   color: black !important;
 }
+.button-delete {
+  background-color: rgb(120, 22, 22);
+}
+/* .button-delete .fa-trash {
+  font-size: 1.5rem;
+} */
 
 /* MEDIA QUERIES */
 /* LAPTOP */

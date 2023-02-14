@@ -4,8 +4,6 @@ require_once '../../classes/appoint.class.php';
 
 session_start();
 
-
-
 $appoint = new appoint;
 $consult = new consult;
 
@@ -16,7 +14,7 @@ $board = $appoint -> getBoardPage();
 $res = $consult -> getConsultResult();
 if($res && $board){
   // echo $res;
-  echo json_encode(array_merge($res,$board));
+  echo json_encode(array_merge($res, $board));
   // echo "success";
 } else {
   echo "fail";

@@ -7,6 +7,7 @@ class consult {
 
   public $client_id;
   public $rnd_id;
+  public $consult_schedule_id;
   public $sched_date;
   public $sched_time;
 
@@ -77,17 +78,28 @@ class consult {
   function updateSchedule() {
     $sql = "UPDATE tbl_transact_consult_schedule as consult_schedule SET `date` =
      :sched_date, `time` = :sched_time WHERE consult_schedule.consult_schedule_id = 
-     :consult_id;";
+     :consult_schedule_id;";
     $query=$this->db->connect()->prepare($sql);
 
-    $query->bindParam(':consult_id', $this-> consult_id);
+    $query->bindParam(':consult_schedule_id', $this-> consult_schedule_id);
+    $query->bindParam(':sched_time', $this-> sched_time);
+    $query->bindParam(':sched_date', $this-> sched_date);
+
     if($query->execute()){
       return true;
     }
   }
 
   function deleteSchedule() {
+    $sql = "DELETE FROM `tbl_transact_consult_schedule`
+     WHERE consult_schedule_id = :consult_schedule_id;";
+    $query=$this->db->connect()->prepare($sql);
 
+    $query->bindParam(':consult_schedule_id', $this-> consult_schedule_id);
+
+    if($query->execute()){
+      return true;
+    }
   }
 
   function getConsultInfo() {
@@ -134,6 +146,19 @@ class consult {
   function checkAppointPendingRndStatus() {
     $sql = "SELECT COUNT(transact_id) as number FROM `tbl_pending_appoint_rnd`
      WHERE transact_id = :transact_id;";
+    $query=$this->db->connect()->prepare($sql);
+
+    $query->bindParam(':transact_id', $this->transact_id);
+
+    if($query->execute()){
+      $data = $query->fetch();
+    }
+    return $data;
+  }
+
+  function getAppointPendingRndSize() {
+    $sql = "SELECT COUNT(*) AS number FROM `tbl_pending_appoint_rnd`
+     WHERE status != 'PROGRESS' AND transact_id = :transact_id ;";
     $query=$this->db->connect()->prepare($sql);
 
     $query->bindParam(':transact_id', $this->transact_id);

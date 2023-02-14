@@ -638,7 +638,8 @@ footer .nav-links {
 .modal-buttons {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-end;
+  /* align-items: flex-end; */
+  align-items: stretch;
   justify-content: center;
   gap: 10px;
 }

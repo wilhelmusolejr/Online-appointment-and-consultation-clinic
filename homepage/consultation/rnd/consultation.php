@@ -73,7 +73,7 @@
           }
       }
 
-
+      $cheduleInfo = [];
       if($board_page == 3) {
         // DATA CONSULT
         // GET USER INFO
@@ -96,7 +96,7 @@
 <link rel="stylesheet" href="../consultation.css" />
 <link rel="stylesheet" href="../../rnds/rnds.css" />
 <link rel="stylesheet" href="../status.css">
-<script src="../../index.js" defer></script>
+<script type="module" src="../../index.js" defer></script>
 <script src="consultation.js" defer></script>
 <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 <?php require_once $path.'includes/starterTwo.php'; ?>
@@ -286,7 +286,6 @@
 
 
                   </div>
-
                   <!-- MODAL - EDIT -->
                   <div
                     class="modal-parent modal-notif-parent modal-tool schedule-edit overlay-black flex-center hidden">
@@ -313,36 +312,44 @@
                       </ul>
 
                       <!-- edit -->
-                      <form class="form edit-form-sched hidden modal-body" method="post">
+                      <?php foreach($cheduleInfo as $schedule ) { ?>
+                      <form data-schedule-id="<?php echo $schedule['consult_schedule_id'] ?>"
+                        class="form edit-form-sched hidden modal-body hidden" method="post">
+
                         <div class="divider modal-body">
-                          <div class="form-input-parent">
+                          <div class="form-input-parent ">
                             <!-- Appointment date -->
                             <div class="form-input-box input-one">
                               <label for="appointment-date" class="text-capital">Appointment date <span>*</span></label>
                               <input type="date" name="appointment-date" id="appointment-date"
-                                value="<?php echo $cheduleInfo[0]['date'] ?>">
+                                value="<?php echo $schedule['date'] ?>">
                             </div>
                             <!-- Appointment time -->
                             <div class="form-input-box input-one">
                               <label for="appointment-time" class="text-capital">Appointment time <span>*</span></label>
                               <input type="time" name="appointment-time" id="appointment-time"
-                                value="<?php echo $cheduleInfo[0]['time'] ?>">
+                                value="<?php echo $schedule['time'] ?>">
                             </div>
                           </div>
                         </div>
 
                         <!-- hidden - fox ajax -->
                         <input type="hidden" name="submit" value='true' id="submit">
+                        <input type="hidden" name="targetSched" value='<?php echo $schedule['consult_schedule_id'] ?>'
+                          id="submit">
 
                         <!-- button -->
                         <div class="modal-buttons flex-center hiddens">
-                          <a class="button button-cancel ">Go back</a>
-                          <a class="button button-back hidden">Go back</a>
-                          <a class="hidden"><i class="fa-solid fa-trash"></i></a>
+                          <!-- <a class="button button-cancel ">Go back</a> -->
+                          <a class="button button-back">Go back</a>
+                          <a href="#" class="button button-primary button-delete "><i class="fa-solid fa-trash"></i></a>
                           <button type="submit" name='submit' value="submit"
-                            class="button button-primary button-submit hidden">UPDATE</button>
+                            class="button button-primary button-submit ">UPDATE</button>
                         </div>
+
                       </form>
+                      <?php } ?>
+
                     </div>
 
                   </div>
