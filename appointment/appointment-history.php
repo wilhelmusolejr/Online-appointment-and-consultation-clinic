@@ -4,9 +4,18 @@
   session_start();
 
   require_once $path.'classes/user.class.php';
+  require_once $path.'classes/appoint.class.php';
   require_once $path.'tools/variables.php';
   $page_title = "Appointment History";
   // $home = "nav-current";
+
+  // print_r($_SESSION);
+
+  $appoint = new appoint;
+  $appoint -> user_id = $_SESSION['transact_client_id'];
+
+  $result = $appoint -> getAppointTable();
+
 
   require_once $path.'includes/starterOne.php';
 ?>
@@ -34,10 +43,8 @@
     </div>
 
     <div class="appointment-container flex-center grid-container">
-
       <!-- Set up your appointment -->
       <form action="consultation.php" class="form search-form" method="get">
-
         <!-- search appoint id  -->
         <div class="form-input-parent search-parent">
           <div class="form-input-box">
@@ -45,10 +52,9 @@
             <button type="submit" value="submit" class="button-primary">Search</button>
           </div>
         </div>
-
       </form>
-
     </div>
+
     <table>
       <tr class="text-uppercase">
         <th>Appointment number</th>
@@ -56,7 +62,7 @@
         <th>Appointment status</th>
         <th>RND assigned</th>
       </tr>
-      <tr>
+      <!-- <tr>
         <td class="appointment-number"><a href="#">#123123</a></td>
         <td>Food complaint</td>
         <td>
@@ -66,14 +72,33 @@
           <p class="status-pending card">PENDING</p>
         </td>
       </tr>
-      <tr>
-        <td class="appointment-number"><a href="#">#123123</a></td>
-        <td>Food complaint</td>
-        <td>
-          <p class="status-approved card">APPROVED</p>
-        </td>
-        <td><a href="#">RND Gregory Yames</a></td>
+      <tr> -->
+      <td class="appointment-number"><a href="#">#123123</a></td>
+      <td>Food complaint</td>
+      <td>
+        <p class="status-approved card">APPROVED</p>
+      </td>
+      <td><a href="#">RND Gregory Yames</a></td>
       </tr>
+      <?php foreach($result as $transact) { ?>
+      <tr>
+        <td class="appointment-number"><a
+            href="<?php echo $path."homepage/consultation/consultation.php?transact_id=".$transact['transact_id'] ?>">#<?php echo $transact['transact_id'] ?></a>
+        </td>
+        <td><?php echo $transact['chief_complaint'] ?></td>
+        <td>
+          <p class="status-<?php echo strtolower($transact['appoint_status']) ?> card">
+            <?php echo $transact['appoint_status'] ?></p>
+        </td>
+        <?php if($transact['rnd_status'] == 'APPROVED') { ?>
+        <td><a href="#">RND <?php echo $transact['first_name']." ".$transact['last_name'] ?></a></td>
+        <?php } else { ?>
+        <td>
+          <p class="status-pending card">PENDING</p>
+        </td>
+        <?php } ?>
+      </tr>
+      <?php } ?>
     </table>
     </div>
 

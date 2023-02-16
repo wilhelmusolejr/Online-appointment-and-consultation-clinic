@@ -128,7 +128,7 @@ const boardProgress = boardContainer.querySelector(".board-progress");
 boardContainer.addEventListener("click", function (e) {
   let currentBoardPage = getActiveBoard();
 
-  console.log(e.target);
+  // console.log(e.target);
 
   if (e.target.parentElement.classList.contains("button-semi-submit")) {
     modalAppointNotif.classList.toggle("hidden");
@@ -172,29 +172,20 @@ boardContainer.addEventListener("click", function (e) {
       });
   }
 
-  if (e.target.closest(".mini-button")) {
+  if (e.target.closest(".button-join")) {
     e.preventDefault();
 
-    // if add is pressed
-    if (
-      e.target
-        .closest(".mini-button")
-        .querySelector("i")
-        .classList.contains("fa-plus")
-    ) {
-      boardContainer
-        .querySelector(".list-schedule .schedule-add")
-        .classList.remove("hidden");
-      console.log("plus");
-
-      // ajax
-    }
-    // if edit is pressed
-    else {
-      boardContainer
-        .querySelector(".list-schedule .schedule-edit")
-        .classList.remove("hidden");
-    }
+    $.ajax({
+      type: "POST", //hide url
+      url: `../../php/update/update-consult-join.php`, //your form validation url
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+      },
+      error: function () {
+        console.log("fail xxx");
+      },
+    });
   }
 
   // edit section - choosing of schedule
@@ -267,9 +258,11 @@ let appointCheckpoint = true;
 let pendingRndSize;
 let currentRndIndex;
 let appointmentStatus = "PENDING";
+let appointDateFinish;
 
 // board 3
 let isConsultDone = false;
+let resultJoin;
 
 function ajaxCaller(currentBoardPage) {
   switch (currentBoardPage) {
@@ -282,7 +275,7 @@ function ajaxCaller(currentBoardPage) {
             url: `../../php/request/request-appoint.php`, //your form validation url
             dataType: "json",
             success: function (response) {
-              // console.log(response);
+              console.log(response);
               let boardParent = ".appointment-checkpoint-stage";
 
               if (response.rnd_status == "APPROVED") {
@@ -461,6 +454,27 @@ function ajaxCaller(currentBoardPage) {
             });
           }
         }, 1000);
+
+        const dateCompleted = setInterval(() => {
+          if (!appointDateFinish) {
+            $.ajax({
+              type: "POST", //hide url
+              url: `../../php/request/req-date-appoint-completed.php`, //your form validation url
+              dataType: "json",
+              async: false,
+              success: function (response) {
+                $(`input[name='appoint-date-submitted']`).val(
+                  response.appoint_date_submitted
+                );
+                clearInterval(dateCompleted);
+                appointDateFinish = !appointDateFinish;
+              },
+              error: function (response) {
+                console.log("failed aaa");
+              },
+            });
+          }
+        }, 1000);
       }
 
       break;
@@ -481,15 +495,13 @@ function ajaxCaller(currentBoardPage) {
             success: function (response) {
               let boardParent = "consultation-stage";
 
-              console.log(response.board_page);
-
               if (response.board_page > 3) {
                 $(`.${boardParent} .button-next button`).prop(
                   "disabled",
                   false
                 );
 
-                setTimeout(boardChecker);
+                clearInterval(boardChecker);
                 isConsultDone = true;
               }
             },
@@ -499,6 +511,38 @@ function ajaxCaller(currentBoardPage) {
           });
         }, 1000);
       }
+
+      const profileChatter = setInterval(() => {
+        $.ajax({
+          type: "POST", //hide url
+          url: `../../php/request/request-appoint.php`, //your form validation url
+          dataType: "json",
+          success: function (response) {
+            console.log(response);
+            transactRndId = response.rnd_id;
+          },
+          error: function () {
+            console.log("fail at ajax");
+          },
+        });
+
+        // set rnf info
+        $.ajax({
+          type: "POST", //hide url
+          url: `../../php/request/request-profile.php`, //your form validation url
+          data: { target_id: transactRndId },
+          dataType: "json",
+          success: function (response) {
+            $(`.assigned-rnd`).text(
+              `${response.first_name} ${response.last_name}`
+            );
+            clearInterval(profileChatter);
+          },
+          error: function (response) {
+            console.log("failed to fetch");
+          },
+        });
+      }, 1000);
 
       const boardThree = setInterval(() => {
         $.ajax({
@@ -511,22 +555,60 @@ function ajaxCaller(currentBoardPage) {
             // PUT LISTENER
 
             // to be checked
-            // $.ajax({
-            //   type: "POST", //hide url
-            //   url: `../../php/set/set-consult-checkpoint.php`, //your form validation url
-            //   dataType: "json",
-            //   success: function (response) {
-            //     console.log(response);
-            //   },
-            //   error: function () {
-            //     console.log("error");
-            //   },
-            // });
 
             clearInterval(boardThree);
           },
         });
       }, 1000);
+
+      const joinRoom = setInterval(() => {
+        $.ajax({
+          type: "POST", //hide url
+          url: `../../php/request/req-consult-join.php`, //your form validation url
+          dataType: "json",
+          async: false,
+          success: function (response) {
+            console.log(response);
+            response.forEach((user) => {
+              if (user.current_in == 1) {
+                $.ajax({
+                  type: "POST", //hide url
+                  url: `../../php/request/request-profile.php`, //your form validation url
+                  dataType: "json",
+                  data: { target_id: user.current_id },
+                  async: false,
+                  success: function (response) {
+                    if (response.user_privilege == "client") {
+                      document
+                        .querySelector(".client-join")
+                        .classList.remove("hidden");
+                      document.querySelector(
+                        ".client-join p"
+                      ).textContent = `${response.first_name} ${response.last_name}`;
+                    } else {
+                      document
+                        .querySelector(".rnd-join")
+                        .classList.remove("hidden");
+                      document.querySelector(
+                        ".rnd-join p"
+                      ).textContent = `${response.first_name} ${response.last_name}`;
+                    }
+                  },
+                  error: function () {
+                    console.log("error");
+                  },
+                });
+              }
+              // if(user.join_time )
+            });
+
+            // clearInterval(joinRoom);
+          },
+          error: function () {
+            console.log("error");
+          },
+        });
+      }, 5000);
       break;
 
     // board 3
@@ -545,6 +627,11 @@ function ajaxCaller(currentBoardPage) {
               response.consult_result_status
             );
 
+            // date completed
+            $(`${boardParent} input[name="date-completed"]`).val(
+              response.date_consultation_completed
+            );
+
             // class appoint status
             if (response.consult_result_status == "APPROVED") {
               $(`${boardParent} input[name='consultation-status']`).addClass(
@@ -560,46 +647,10 @@ function ajaxCaller(currentBoardPage) {
               );
             }
 
-            // class assigned rnd
-            // if (response.rnd_status == "APPROVED") {
-            //   $(`${boardParent} input[name='rdn-assigned']`).addClass(
-            //     "status-approved"
-            //   );
-            // } else if (response.rnd_status == "DECLINED") {
-            //   $(`${boardParent} input[name='rdn-assigned']`).addClass(
-            //     "status-declined"
-            //   );
-            // } else {
-            //   $(`${boardParent} input[name='rdn-assigned']`).addClass(
-            //     "status-pending"
-            //   );
-            // }
-
             if (response.consult_result_status == "APPROVED") {
               // PUT LISTENER
-              if (response.board_page == 4) {
-                $(`${boardParent} .button-next button`).prop("disabled", false);
-
-                // avoid auto click
-                setTimeout(function () {
-                  $(`${boardParent} .button-next button`).trigger("click");
-                }, 10000);
-
-                $.ajax({
-                  type: "POST", //hide url
-                  url: `../../php/set/set-board.php`, //your form validation url
-                  data: { board_page: response.board_page },
-                  success: function (response) {
-                    console.log(response);
-                  },
-                });
-              }
-
-              if (response.board != 4) {
-                $(`${boardParent} .button-next button`).prop("disabled", false);
-
-                clearInterval(boardFour);
-              }
+              $(`${boardParent} .button-next button`).prop("disabled", false);
+              clearInterval(boardFour);
             }
           },
           error: function () {
@@ -607,6 +658,28 @@ function ajaxCaller(currentBoardPage) {
           },
         });
       }, 1000);
+
+      const dateCompleted = setInterval(() => {
+        if (!appointDateFinish) {
+          $.ajax({
+            type: "POST", //hide url
+            url: `../../php/request/req-date-appoint-completed.php`, //your form validation url
+            dataType: "json",
+            async: false,
+            success: function (response) {
+              $(`input[name='appoint-date-submitted']`).val(
+                response.appoint_date_submitted
+              );
+              clearInterval(dateCompleted);
+              appointDateFinish = !appointDateFinish;
+            },
+            error: function (response) {
+              console.log("failed aaa");
+            },
+          });
+        }
+      }, 1000);
+
       break;
   }
 }

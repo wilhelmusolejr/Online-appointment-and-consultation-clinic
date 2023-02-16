@@ -85,6 +85,9 @@ console.log(currentBoardPage);
 const modalAppointNotif = document.querySelector(
   ".modal-appointment-confirmation"
 );
+const modalNotifThree = document.querySelector(
+  ".consultation-stage .modal-appointment-confirmation"
+);
 
 modalAppointNotif.addEventListener("click", function (e) {
   if (
@@ -99,37 +102,74 @@ let currentSched;
 boardContainer.addEventListener("click", function (e) {
   let currentBoardPage = getActiveBoard();
 
-  // console.log(e.target);
+  console.log(e.target.parentElement);
   // console.log(currentBoardPage);
 
+  if (e.target.closest(".button-join")) {
+    e.preventDefault();
+
+    $.ajax({
+      type: "POST", //hide url
+      url: `../../../php/update/update-consult-join.php`, //your form validation url
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+      },
+      error: function () {
+        console.log("fail xxx");
+      },
+    });
+  }
+
   if (e.target.parentElement.classList.contains("button-semi-submit")) {
-    modalAppointNotif.classList.toggle("hidden");
+    modalNotifThree.classList.toggle("hidden");
   }
 
   // button confimation
-  if (e.target.parentElement.classList.contains("button-confirmation")) {
-    modalAppointNotif.classList.toggle("hidden");
+  if (
+    e.target.parentElement.classList.contains("button-confirmation-boardThree")
+  ) {
+    modalNotifThree.classList.toggle("hidden");
   }
 
-  // button confirm final
-  if (e.target.parentElement.classList.contains("button-confirm-final")) {
-    changePage(currentBoardPage, boardSets, 1);
-    changeBoardProgress(currentBoardPage + 1);
-    ajaxCaller(currentBoardPage + 1);
+  if (e.target.parentElement.classList.contains("button-upload-confirmation")) {
+    e.preventDefault();
 
-    modalAppointNotif.classList.add("hidden");
+    e.target
+      .closest(".consultation-checkpoint-stage ")
+      .querySelector(".modal-notif-parent")
+      .classList.remove("hidden");
+  }
+
+  if (e.target.parentElement.classList.contains("button-confirm-finalFour")) {
+    e.preventDefault();
+    console.log("test");
+
+    $(".button-upload-confirmation").remove();
+    // e.target.parentElement.classList.toggle("hidden");
+    this.querySelector(
+      ".consultation-checkpoint-stage .button-next"
+    ).classList.toggle("hidden");
+
+    // // add file to database
+    this.querySelector(
+      ".consultation-checkpoint-stage .modal-parent"
+    ).classList.toggle("hidden");
 
     $.ajax({
       type: "POST", //hide url
       url: `../../../php/request/req-board-page.php`, //your form validation url
       dataType: "json",
+      async: false,
       success: function (response) {
         console.log(response);
 
+        // increment board page
         $.ajax({
           type: "POST", //hide url
           url: `../../../php/set/set-board.php`, //your form validation url
           data: { board_page: response["board_page"] },
+          async: false,
           success: function (response) {
             console.log(response);
           },
@@ -142,6 +182,82 @@ boardContainer.addEventListener("click", function (e) {
         console.log("fail");
       },
     });
+
+    // set consult status to approved
+    $.ajax({
+      type: "POST", //hide url
+      url: `../../../php/update/update-consult-result.php`, //your form validation url
+      async: false,
+      success: function (response) {
+        console.log(response);
+      },
+      error: function (response) {
+        console.log("failed ");
+      },
+    });
+
+    // upload file to database
+
+    changePage(currentBoardPage, boardSets, 1);
+    changeBoardProgress(currentBoardPage + 1);
+    ajaxCaller(currentBoardPage + 1);
+  }
+
+  if (e.target.parentElement.classList.contains("button-confirm-finalThree")) {
+    // button confirm final
+
+    console.log("test");
+
+    $(".button-confirmation-boardThree").remove();
+    e.target.parentElement.classList.toggle("hidden");
+    this.querySelector(".consultation-stage .button-next").classList.toggle(
+      "hidden"
+    );
+
+    modalAppointNotif.classList.add("hidden");
+
+    $.ajax({
+      type: "POST", //hide url
+      url: `../../../php/request/req-board-page.php`, //your form validation url
+      dataType: "json",
+      async: false,
+      success: function (response) {
+        console.log(response);
+
+        $.ajax({
+          type: "POST", //hide url
+          url: `../../../php/set/set-board.php`, //your form validation url
+          data: { board_page: response["board_page"] },
+          async: false,
+          success: function (response) {
+            console.log(response);
+          },
+          error: function (response) {
+            console.log("failed ");
+          },
+        });
+      },
+      error: function () {
+        console.log("fail");
+      },
+    });
+
+    $.ajax({
+      type: "POST", //hide url
+      url: `../../../php/set/set-consult-checkpoint.php`, //your form validation url
+      dataType: "json",
+      async: false,
+      success: function (response) {
+        console.log(response);
+      },
+      error: function () {
+        console.log("error set");
+      },
+    });
+
+    changePage(currentBoardPage, boardSets, 1);
+    changeBoardProgress(currentBoardPage + 1);
+    ajaxCaller(currentBoardPage + 1);
   }
 
   // prev
@@ -178,8 +294,8 @@ boardContainer.addEventListener("click", function (e) {
   }
 
   if (e.target.closest(".mini-button")) {
-    e.preventDefault();
-
+    // e.preventDefault();
+    // console.log("test");
     // if add is pressed
     if (
       e.target
@@ -366,11 +482,11 @@ function ajaxCaller(currentBoardPage) {
                         "disabled",
                         false
                       );
-                      setTimeout(function () {
-                        $(`${boardParent} .button-next button`).trigger(
-                          "click"
-                        );
-                      }, 10000);
+                      // setTimeout(function () {
+                      //   $(`${boardParent} .button-next button`).trigger(
+                      //     "click"
+                      //   );
+                      // }, 10000);
 
                       $.ajax({
                         type: "POST", //hide url
@@ -443,64 +559,55 @@ function ajaxCaller(currentBoardPage) {
         showSchedule(".list-sched", true);
       }, 5000);
 
-    // let isConsultDone = false;
-    // if (!isConsultDone) {
-    //   const boardChecker = setInterval(() => {
-    //     $.ajax({
-    //       type: "POST", //hide url
-    //       url: `../../../php/request/req-board-page.php`, //your form validation url
-    //       dataType: "json",
-    //       success: function (response) {
-    //         console.log(response.board_page);
+      const joinRoom = setInterval(() => {
+        $.ajax({
+          type: "POST", //hide url
+          url: `../../../php/request/req-consult-join.php`, //your form validation url
+          dataType: "json",
+          async: false,
+          success: function (response) {
+            response.forEach((user) => {
+              if (user.current_in == 1) {
+                $.ajax({
+                  type: "POST", //hide url
+                  url: `../../../php/request/request-profile.php`, //your form validation url
+                  dataType: "json",
+                  data: { target_id: user.current_id },
+                  async: false,
+                  success: function (response) {
+                    console.log(response);
+                    if (response.user_privilege == "client") {
+                      document
+                        .querySelector(".client-join")
+                        .classList.remove("hidden");
+                      document.querySelector(
+                        ".client-join p"
+                      ).textContent = `${response.first_name} ${response.last_name}`;
+                    } else {
+                      document
+                        .querySelector(".rnd-join")
+                        .classList.remove("hidden");
+                      document.querySelector(
+                        ".rnd-join p"
+                      ).textContent = `${response.first_name} ${response.last_name}`;
+                    }
+                  },
+                  error: function () {
+                    console.log("error");
+                  },
+                });
+              }
+            });
 
-    //         if (response.board_page > 3) {
-    //           console.log("test");
-    //           $(`${boardParent} .button-confirmation`).addClass(
-    //             "button-next"
-    //           );
-    //           $(`${boardParent} .button-confirmation`).removeClass(
-    //             "button-confirmation"
-    //           );
-    //           $(`${boardParent} .button-next`).trigger("click");
-    //         }
+            // clearInterval(joinRoom);
+          },
+          error: function () {
+            console.log("error");
+          },
+        });
+      }, 5000);
 
-    //         setTimeout(boardChecker);
-    //       },
-    //       error: function () {
-    //         console.log("fail to fetch board page");
-    //       },
-    //     });
-    //   }, 1000);
-    // }
-
-    // const boardThree = setInterval(() => {
-    //   $.ajax({
-    //     type: "POST", //hide url
-    //     url: `../../../php/request/request-appoint.php`, //your form validation url
-    //     dataType: "json",
-    //     success: function (response) {
-    //       let boardParent = `.consultation-stage`;
-    //       console.log("tite");
-    //       // PUT LISTENER
-
-    //       // to be checked
-    //       // $.ajax({
-    //       //   type: "POST", //hide url
-    //       //   url: `../../php/set/set-consult-checkpoint.php`, //your form validation url
-    //       //   dataType: "json",
-    //       //   success: function (response) {
-    //       //     console.log(response);
-    //       //   },
-    //       //   error: function () {
-    //       //     console.log("error");
-    //       //   },
-    //       // });
-
-    //       clearInterval(boardThree);
-    //     },
-    //   });
-    // }, 1000);
-    // break;
+      break;
 
     // board 3
     case 4:
@@ -525,6 +632,7 @@ $(".form-add-schedule").on("submit", function (e) {
     type: "POST", //hide url
     url: `../../../php/set/set-consult-schedule.php`, //your form validation url
     data: $(".form-add-schedule").serialize(),
+    async: false,
     success: function (response) {
       console.log(response);
       document.querySelectorAll(".modal-parent").forEach((modal) => {
@@ -567,6 +675,51 @@ $(".edit-form-sched").on("submit", function (e) {
     },
   });
 });
+
+function formScheduleEditMarkUp(response) {
+  let markUp = ``;
+  response.forEach((sched) => {
+    markUp += `<form data-schedule-id="${sched.consult_schedule_id}"
+                        class="form edit-form-sched hidden modal-body hidden" method="post">
+
+                        <div class="divider modal-body">
+                          <div class="form-input-parent ">
+                            <!-- Appointment date -->
+                            <div class="form-input-box input-one">
+                              <label for="appointment-date" class="text-capital">Appointment date <span>*</span></label>
+                              <input type="date" name="appointment-date" id="appointment-date"
+                                value="${sched.date}">
+                            </div>
+                            <!-- Appointment time -->
+                            <div class="form-input-box input-one">
+                              <label for="appointment-time" class="text-capital">Appointment time <span>*</span></label>
+                              <input type="time" name="appointment-time" id="appointment-time"
+                                value="${sched.time}">
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- hidden - fox ajax -->
+                        <input type="hidden" name="submit" value='true' id="submit">
+                        <input type="hidden" name="targetSched" value='${sched.consult_schedule_id}'
+                          id="submit">
+
+                        <!-- button -->
+                        <div class="modal-buttons flex-center hiddens">
+                          <!-- <a class="button button-cancel ">Go back</a> -->
+                          <a class="button button-back">Go back</a>
+                          <a href="#" class="button button-primary button-delete "><i class="fa-solid fa-trash"></i></a>
+                          <button type="submit" name='submit' value="submit"
+                            class="button button-primary button-submit ">UPDATE</button>
+                        </div>
+
+                      </form>
+  
+  `;
+  });
+
+  return markUp;
+}
 
 function generateScheduleMarkUp(response, edit = false) {
   // convert milliseconds to seconds / minutes / hours etc.
@@ -620,8 +773,12 @@ function showSchedule(target, edit = false) {
     type: "POST", //hide url req-consult-sched
     url: `../../../php/request/req-consult-sched.php`, //your form validation url
     dataType: "json",
-    // async: false,
+    async: false,
     success: function (response) {
+      if (response.length < 0) {
+        console.log("none");
+      }
+
       document.querySelector(`${target}`).innerHTML = generateScheduleMarkUp(
         response,
         edit

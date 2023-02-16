@@ -11,6 +11,10 @@ class consult {
   public $sched_date;
   public $sched_time;
 
+  public $join_time;
+  public $current_id;
+  public $current_in;
+
   protected $db;
 
   function __construct() {
@@ -28,8 +32,7 @@ class consult {
   }
 
   function setConsult() {
-    $sql = "INSERT INTO `tbl_transact_consult` (`consult_id`, `transact_id`, `rnd_id`, 
-    `consult_date_finish`) VALUES (NULL, :transact_id, :rnd_id, NULL)";
+    $sql = "INSERT INTO `tbl_transact_consult` (`consult_id`, `transact_id`, `rnd_id`) VALUES (NULL, :transact_id, :rnd_id)";
     $query=$this->db->connect()->prepare($sql);
 
     $query->bindParam(':transact_id', $this-> transact_id);
@@ -138,6 +141,19 @@ class consult {
 
     if($query->execute()){
         return true;
+    }
+    return false;
+  }
+
+  function updateConsultResult() {
+    $sql = "UPDATE `tbl_transact_consult_checkpoint_result_status` 
+    SET consult_result_status = 'APPROVED' WHERE transact_id = :transact_id;";
+    $query=$this->db->connect()->prepare($sql);
+
+    $query->bindParam(':transact_id', $this->transact_id);
+
+    if($query->execute()){
+      return true;
     }
     return false;
   }
@@ -268,9 +284,34 @@ class consult {
     
   }
 
-  function setAppointRndFeedback() {
-    
+  // UPDATE
+
+  function getJoinList() {
+    $sql = "SELECT * FROM `tbl_consult_join` WHERE current_in = 1 and consult_id = :consult_id;";
+    $query=$this->db->connect()->prepare($sql);
+
+    $query->bindParam(':consult_id', $this-> consult_id);
+
+    if($query -> execute()) {
+      $data = $query->fetchAll();
+    }    
+    return $data;
   }
 
+  function updateJoinList() {
+    $sql = "UPDATE tbl_consult_join SET current_in = :current_in, join_time = :join_time 
+    WHERE consult_id = :consult_id AND current_id = :current_id;";
+    $query=$this->db->connect()->prepare($sql);
+
+    $query->bindParam(':join_time', $this-> join_time);
+    $query->bindParam(':current_in', $this-> current_in);
+    $query->bindParam(':consult_id', $this-> consult_id);
+    $query->bindParam(':current_id', $this-> current_id);
+
+    if($query->execute()){
+      return true;
+    }       
+    return false; 
+  }
   
 }

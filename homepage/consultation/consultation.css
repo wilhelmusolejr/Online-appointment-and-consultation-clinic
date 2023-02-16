@@ -380,7 +380,7 @@ section.board-parent {
   justify-content: flex-start;
 
   border-radius: 20px;
-  min-height: 150px;
+  min-height: 250px;
 }
 .virtual-room-container .container-header {
   background-color: #57755c;

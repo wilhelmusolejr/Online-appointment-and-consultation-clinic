@@ -93,6 +93,7 @@
     // getConsultInfo()
     require_once $path.'includes/starterOne.php';
 ?>
+<link rel="stylesheet" href="consultation.css">
 <link rel="stylesheet" href="../consultation.css" />
 <link rel="stylesheet" href="../../rnds/rnds.css" />
 <link rel="stylesheet" href="../status.css">
@@ -201,7 +202,7 @@
 
       <!-- 3 -->
       <!-- consultation -->
-      <div data-board-page="3" class="consultation-stage board-page <?php echo $board_page == 3?"":"hiddens" ?>">
+      <div data-board-page="3" class="consultation-stage board-page <?php echo $board_page == 3?"":"hidden" ?>">
         <!-- Board Header -->
         <div class="board-header text-uppercase text-center">
           <h2>Consultation</h2>
@@ -209,10 +210,6 @@
         <!-- Form -->
         <div class="form">
           <div class="divider">
-            <?php 
-            // print_r($_SESSION);
-            // print_r($appoint);
-            ?>
             <!-- 1 -->
             <div class="form-input-parent">
               <!-- Appointment Numbuh -->
@@ -228,16 +225,9 @@
                 </div>
                 <div class="list-schedule">
                   <ul>
-                    <?php foreach($cheduleInfo as $schedule ) { ?>
-                    <li>
-                      <p><?php echo $schedule['date'] ?></p>
-                      <p><?php echo date('h:i a', strtotime($schedule['time'])) ?></p>
-                      <p>1 hour left</p>
-                    </li>
-                    <?php } ?>
                   </ul>
 
-                  <div class="schedule-button flex-center">
+                  <div class="schedule-button flex-center <?php echo $board_page > 3? 'hidden':"" ?> ?>">
                     <a href="#" class="button mini-button"><i class="fa-solid fa-plus"></i></a>
                     <a href="#" class="button mini-button"><i class="fa-solid fa-pen"></i></a>
                   </div>
@@ -312,43 +302,48 @@
                       </ul>
 
                       <!-- edit -->
-                      <?php foreach($cheduleInfo as $schedule ) { ?>
-                      <form data-schedule-id="<?php echo $schedule['consult_schedule_id'] ?>"
-                        class="form edit-form-sched hidden modal-body hidden" method="post">
+                      <div class="sched-edit-parent">
+                        <?php foreach($cheduleInfo as $schedule ) { ?>
+                        <form data-schedule-id="<?php echo $schedule['consult_schedule_id'] ?>"
+                          class="form edit-form-sched hidden modal-body hidden" method="post">
 
-                        <div class="divider modal-body">
-                          <div class="form-input-parent ">
-                            <!-- Appointment date -->
-                            <div class="form-input-box input-one">
-                              <label for="appointment-date" class="text-capital">Appointment date <span>*</span></label>
-                              <input type="date" name="appointment-date" id="appointment-date"
-                                value="<?php echo $schedule['date'] ?>">
-                            </div>
-                            <!-- Appointment time -->
-                            <div class="form-input-box input-one">
-                              <label for="appointment-time" class="text-capital">Appointment time <span>*</span></label>
-                              <input type="time" name="appointment-time" id="appointment-time"
-                                value="<?php echo $schedule['time'] ?>">
+                          <div class="divider modal-body">
+                            <div class="form-input-parent ">
+                              <!-- Appointment date -->
+                              <div class="form-input-box input-one">
+                                <label for="appointment-date" class="text-capital">Appointment date
+                                  <span>*</span></label>
+                                <input type="date" name="appointment-date" id="appointment-date"
+                                  value="<?php echo $schedule['date'] ?>">
+                              </div>
+                              <!-- Appointment time -->
+                              <div class="form-input-box input-one">
+                                <label for="appointment-time" class="text-capital">Appointment time
+                                  <span>*</span></label>
+                                <input type="time" name="appointment-time" id="appointment-time"
+                                  value="<?php echo $schedule['time'] ?>">
+                              </div>
                             </div>
                           </div>
-                        </div>
 
-                        <!-- hidden - fox ajax -->
-                        <input type="hidden" name="submit" value='true' id="submit">
-                        <input type="hidden" name="targetSched" value='<?php echo $schedule['consult_schedule_id'] ?>'
-                          id="submit">
+                          <!-- hidden - fox ajax -->
+                          <input type="hidden" name="submit" value='true' id="submit">
+                          <input type="hidden" name="targetSched" value='<?php echo $schedule['consult_schedule_id'] ?>'
+                            id="submit">
 
-                        <!-- button -->
-                        <div class="modal-buttons flex-center hiddens">
-                          <!-- <a class="button button-cancel ">Go back</a> -->
-                          <a class="button button-back">Go back</a>
-                          <a href="#" class="button button-primary button-delete "><i class="fa-solid fa-trash"></i></a>
-                          <button type="submit" name='submit' value="submit"
-                            class="button button-primary button-submit ">UPDATE</button>
-                        </div>
+                          <!-- button -->
+                          <div class="modal-buttons flex-center hiddens">
+                            <!-- <a class="button button-cancel ">Go back</a> -->
+                            <a class="button button-back">Go back</a>
+                            <a href="#" class="button button-primary button-delete "><i
+                                class="fa-solid fa-trash"></i></a>
+                            <button type="submit" name='submit' value="submit"
+                              class="button button-primary button-submit ">UPDATE</button>
+                          </div>
 
-                      </form>
-                      <?php } ?>
+                        </form>
+                        <?php } ?>
+                      </div>
 
                     </div>
 
@@ -395,7 +390,8 @@
 
                 <!-- sms box input -->
                 <div class="sms-box-container">
-                  <input type="text" name="middlename" id="middlename" placeholder="Your message here">
+                  <input type="text" name="middlename" id="middlename" placeholder="Your message here"
+                    <?php echo $board_page > 3? 'disabled':"" ?>>
                 </div>
 
               </div>
@@ -418,15 +414,15 @@
                 <div class="container-header text-center flex-center text-uppercase">
                   <p>in virtual room</p>
                   <a href="https://www.youtube.com/watch?v=vvFSVIy1Nqs" target="_blank"
-                    class="button mini-button">JOIN</a>
+                    class="button button-join mini-button">JOIN</a>
                 </div>
                 <div class="list-schedule">
                   <ul>
-                    <li class="hidden">
+                    <li class="client-join hidden">
                       <div class="circle"></div>
                       <p>RND Gregory Yames</p>
                     </li>
-                    <li class="hidden">
+                    <li class="rnd-join hidden">
                       <div class="circle"></div>
                       <p>RND Gregory Yames</p>
                     </li>
@@ -446,12 +442,18 @@
             <div>
               <button class="button button-tertiary">Client information</button>
             </div>
+
             <!-- next -->
-            <div class="button-confirmation">
+            <div class="button-next <?php echo $board_page > 3 ? "":"hidden" ?>">
+              <button class="button button-next button-primary">Next
+              </button>
+            </div>
+            <!-- next -->
+            <div
+              class="button-confirmation button-confirmation-boardThree <?php echo $board_page == 3 ? "":"hidden" ?>">
               <button class="button button-next button-primary">Complete
               </button>
             </div>
-
           </div>
 
           <!-- MODAl - CONFIRMATION -->
@@ -463,7 +465,7 @@
               <p class="text-center">Mark the transaction complete. <br><em>This action cannot be reverted</em></p>
               <div class="modal-buttons">
                 <a class="button button-cancel">Go back</a>
-                <div class="button-confirm-final">
+                <div class="button-confirm-final button-confirm-finalThree">
                   <a type="submit" name='submit' value="submit" class="button button-primary">Submit</a>
                 </div>
               </div>
@@ -480,50 +482,35 @@
         class="consultation-checkpoint-stage board-page <?php echo $board_page == 4?"":"hidden" ?>">
         <!-- Board Header -->
         <div class="board-header text-uppercase text-center">
-          <h2>Consultation result</h2>
+          <h2>Upload consultation result</h2>
         </div>
         <!-- Form -->
         <form action="/" class="form" method="post">
           <div class="divider">
             <!-- 1 -->
             <div class="form-input-parent">
-              <!-- Appointment Numbuh -->
-              <div class="form-input-box input-one">
-                <label for="firstname">Appointment number</label>
-                <input type="text" name="firstname" id="firstname" value="<?php echo '#'.$appoint -> transact_id ?>"
-                  disabled>
-              </div>
-              <!-- Date appointment submitted -->
-              <div class="form-input-box input-one ">
-                <label for="middlename">Date appointment submitted</label>
-                <input type="text" name="middlename" id="middlename"
-                  value="<?php echo date('l jS \of F Y h:i a', strtotime($appointInfo['appoint_date_submitted'])); ?>"
-                  disabled>
-              </div>
-              <!-- Date consultation finished -->
-              <div class="form-input-box input-one">
-                <label for="firstname">Date consultation completed</label>
-                <input type="text" name="firstname" id="firstname"
-                  value="<?php echo date('l jS \of F Y h:i a', strtotime($cheduleInfo[0]["consult_date_finish"])); ?>"
-                  disabled>
-              </div>
-            </div>
-            <!-- 2 -->
-            <div class="form-input-parent divider-grow">
-              <!-- Appointment Numbuh -->
-              <div class="form-input-box input-one">
-                <label for="firstname">Chief complaint</label>
-                <input type="text" name="firstname" id="firstname" value="<?php echo $consultInfo['chief_complaint'] ?>"
-                  disabled>
-              </div>
-            </div>
-            <!-- 3 -->
-            <div class="form-input-parent flex-center">
-              <!-- Consultation result -->
-              <div class="form-input-box">
-                <label for="firstname">Consultation result</label>
-                <input type="text" name="consultation-status" id="firstname" class="status-pending" value="DUMMY"
-                  disabled>
+              <!-- Upcoming schedule -->
+              <div class="form-input-box schedule-container upload-box">
+                <div class="container-header text-center flex-center text-uppercase">
+                  <p>Files</p>
+                </div>
+                <div class="divider">
+                  <div class="form-input-parent">
+                    <!-- Referral form -->
+                    <div class="form-input-box input-one">
+                      <label for="appointment-referral">Consultation result file</label>
+                      <input type="file" name="appointment-referral" id="appointment-referral">
+                      <p class="form-error-message hidden">Error</p>
+                    </div>
+                    <!-- Medical record -->
+                    <div class="form-input-box input-one hidden">
+                      <label for="appointment-medical" class="text-capital">Conversation transcript</label>
+                      <input type="file" name="appointment-medical" id="appointment-medical" disabled>
+                      <p class="form-error-message hidden">Error</p>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
@@ -538,15 +525,37 @@
             <div>
               <button class="button hidden" disabled>Submit</button>
             </div>
+
             <!-- next -->
-            <div class="button-next">
-              <button class="button button-next button-primary" disabled>Next
+            <div class="button-next <?php echo $board_page > 4 ? "":"hidden" ?>">
+              <button class="button button-next button-primary">Next
+              </button>
+            </div>
+            <!-- next -->
+            <div class="button-upload-confirmation <?php echo $board_page == 3 ? "":"hidden" ?>">
+              <button class="button button-next button-primary">Upload
               </button>
             </div>
 
-          </div>
 
+          </div>
         </form>
+
+        <!-- MODAl - CONFIRMATION -->
+        <div class="modal-parent modal-notif-parent modal-appointment-confirmation overlay-black flex-center hidden">
+          <div class="modal-container modal-notif-container sizing-secondary">
+            <div class="modal-header text-center">
+              <h2 class="text-uppercase">Sure ka bhie?</h2>
+            </div>
+            <p class="text-center">Mark the transaction complete. <br><em>This action cannot be reverted</em></p>
+            <div class="modal-buttons">
+              <a class="button button-cancel">Go back</a>
+              <div class="button-confirm-final button-confirm-finalFour">
+                <a type="submit" name='submit' value="submit" class="button button-primary">Upload</a>
+              </div>
+            </div>
+          </div>
+        </div>
 
       </div>
 
@@ -557,57 +566,34 @@
         <div class="board-header text-uppercase text-center">
           <h2>Solution</h2>
         </div>
+
         <!-- Form -->
         <form action="/" class="form" method="post">
           <div class="divider">
             <!-- 1 -->
             <div class="form-input-parent">
-              <!-- Appointment Numbuh -->
-              <div class="form-input-box input-one">
-                <label for="firstname">Appointment number</label>
-                <input type="text" name="firstname" id="firstname" value="<?php echo '#'.$appoint -> transact_id ?>"
-                  disabled>
-              </div>
-              <!-- Date appointment submitted -->
-              <div class="form-input-box input-one ">
-                <label for="middlename">Date appointment submitted</label>
-                <input type="text" name="middlename" id="middlename"
-                  value="<?php echo date('l jS \of F Y h:i a', strtotime($appointInfo['appoint_date_submitted'])); ?>"
-                  disabled>
-              </div>
-              <!-- Date consultation finished -->
-              <div class="form-input-box input-one">
-                <label for="firstname">Date consultation completed</label>
-                <input type="text" name="firstname" id="firstname"
-                  value="<?php echo date('l jS \of F Y h:i a', strtotime($cheduleInfo[0]["consult_date_finish"])); ?>"
-                  disabled>
-              </div>
-            </div>
-            <!-- 2 -->
-            <div class="form-input-parent divider-grow">
-              <!-- Appointment Numbuh -->
-              <div class="form-input-box input-one">
-                <label for="firstname">Chief complaint</label>
-                <input type="text" name="firstname" id="firstname" value="<?php echo $consultInfo['chief_complaint'] ?>"
-                  disabled>
-              </div>
-            </div>
-            <!-- 3 -->
-            <div class="form-input-parent flex-center">
               <!-- Upcoming schedule -->
-              <div class="form-input-box schedule-container">
-                <div class="container-header text-center text-uppercase">
-                  <p>File</p>
+              <div class="form-input-box schedule-container upload-box">
+                <div class="container-header text-center flex-center text-uppercase">
+                  <p>Files</p>
                 </div>
-                <div class="list-schedule">
-                  <ul>
-                    <li>
-                      <p>11/14/2022</p>
-                      <p>04:30pm</p>
-                      <p>1 hour left</p>
-                    </li>
-                  </ul>
+                <div class="divider">
+                  <div class="form-input-parent">
+                    <!-- Referral form -->
+                    <div class="form-input-box input-one">
+                      <label for="appointment-referral">Consultation result file</label>
+                      <input type="file" name="appointment-referral" id="appointment-referral">
+                      <p class="form-error-message hidden">Error</p>
+                    </div>
+                    <!-- Medical record -->
+                    <div class="form-input-box input-one hidden">
+                      <label for="appointment-medical" class="text-capital">Conversation transcript</label>
+                      <input type="file" name="appointment-medical" id="appointment-medical" disabled>
+                      <p class="form-error-message hidden">Error</p>
+                    </div>
+                  </div>
                 </div>
+
               </div>
             </div>
           </div>
@@ -627,9 +613,7 @@
               <a href="<?php echo $path.'homepage/index.php' ?>" class="button button-primary">Home
               </a>
             </div>
-
           </div>
-
         </form>
 
       </div>

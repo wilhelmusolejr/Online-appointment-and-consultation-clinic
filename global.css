@@ -1023,6 +1023,13 @@ footer .nav-links {
   letter-spacing: 2px;
 }
 
+.loading-placeholder {
+  background-color: var(--color-green-primary);
+  color: #222;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
 /* MEDIA QUERIES */
 
 /* TABLET */

@@ -71,21 +71,22 @@
       }
 
       $cheduleInfo = [];
-      if($board_page == 3) {
         // DATA CONSULT
         // GET USER INFO
         $consult-> transact_id = $_SESSION['transact_id'];
         $cheduleInfo = $consult -> getSchedule();
-        // $consultInfo = $consult -> getConsultInfo();
-      }
 
 
       if(isset($_SESSION['transact_rnd_id'])) {
         $clientData -> user_id = $_SESSION['transact_client_id'];
         $resultClientData = $clientData -> getUserData();
       }
+
+      // board 4
+      $consultResultData = $consult -> getConsultResult();
+
     }
-    // print_r($_SESSION);
+    print_r($consultResultData);
 
     // getConsultInfo()
     require_once $path.'includes/starterOne.php';
@@ -701,28 +702,30 @@
                         <!-- Endomorph -->
                         <div>
                           <input type="checkbox" checked id="self-conditions-diabetes" name="health-condition-one"
-                            value="Diabetes">
+                            disabled value="Diabetes">
                           <label for="self-conditions-diabetes">Diabetes</label>
                         </div>
                         <!-- Ectomorph -->
                         <div>
-                          <input type="checkbox" id="self-conditions-hypertension" name="health-condition-one"
+                          <input type="checkbox" id="self-conditions-hypertension" name="health-condition-one" disabled
                             value="Hypertension">
                           <label for="self-conditions-hypertension">Hypertension</label>
                         </div>
                         <!-- Mesomorph -->
                         <div>
-                          <input type="checkbox" id="self-conditions-obese" name="health-condition-one" value="Obese">
+                          <input type="checkbox" id="self-conditions-obese" name="health-condition-one" disabled
+                            value="Obese">
                           <label for="self-conditions-obese">Obese</label>
                         </div>
                         <!-- Mesomorph -->
                         <div>
-                          <input type="checkbox" id="self-conditions-anemia" name="health-condition-one" value="Anemia">
+                          <input type="checkbox" id="self-conditions-anemia" name="health-condition-one" disabled
+                            value="Anemia">
                           <label for="self-conditions-anemia">Anemia</label>
                         </div>
                         <!-- Mesomorph -->
                         <div>
-                          <input type="checkbox" id="health-condition-one-other" name="health-condition-one"
+                          <input type="checkbox" id="health-condition-one-other" name="health-condition-one" disabled
                             value="health-condition-one-other">
                           <label for="health-condition-one-other">If others, specify</label>
                           <input type="text" id="otherValue" name="health-condition-one-other" class="hidden" />
@@ -736,23 +739,25 @@
                         <!-- Endomorph -->
                         <div>
                           <input type="checkbox" checked id="self-conditions-diabetes" name="health-condition-one"
-                            value="Diabetes">
+                            disabled value="Diabetes">
                           <label for="self-conditions-diabetes">Diabetes</label>
                         </div>
                         <!-- Ectomorph -->
                         <div>
-                          <input type="checkbox" id="self-conditions-hypertension" name="health-condition-one"
+                          <input type="checkbox" id="self-conditions-hypertension" name="health-condition-one" disabled
                             value="Hypertension">
                           <label for="self-conditions-hypertension">Hypertension</label>
                         </div>
                         <!-- Mesomorph -->
                         <div>
-                          <input type="checkbox" id="self-conditions-obese" name="health-condition-one" value="Obese">
+                          <input type="checkbox" id="self-conditions-obese" name="health-condition-one" disabled
+                            value="Obese">
                           <label for="self-conditions-obese">Obese</label>
                         </div>
                         <!-- Mesomorph -->
                         <div>
-                          <input type="checkbox" id="self-conditions-anemia" name="health-condition-one" value="Anemia">
+                          <input type="checkbox" id="self-conditions-anemia" name="health-condition-one" disabled
+                            value="Anemia">
                           <label for="self-conditions-anemia">Anemia</label>
                         </div>
                         <!-- Mesomorph -->
@@ -838,9 +843,7 @@
               <!-- Date appointment submitted -->
               <div class="form-input-box input-one ">
                 <label for="middlename">Date appointment submitted</label>
-                <input type="text" name="middlename" id="middlename"
-                  value="<?php echo date('l jS \of F Y h:i a', strtotime($appointInfo['appoint_date_submitted'])); ?>"
-                  disabled>
+                <input type="text" name="appoint-date-submitted" id="appoint-date-submitted" value="LOADING" disabled>
               </div>
 
             </div>
@@ -849,12 +852,12 @@
               <!-- Appointment status -->
               <div class="form-input-box input-one">
                 <label for="lastname">Appointment status</label>
-                <input type="text" class="status-pending" name="appoint-status" id="lastname" value="PENDING" disabled>
+                <input type="text" class="status-pendings" name="appoint-status" id="lastname" value="LOADING" disabled>
               </div>
               <!-- Assigned RDN -->
               <div class="form-input-box input-one">
                 <label for="lastname">Assigned RDN</label>
-                <input class="status-declineds status-pending" type="text" name="rdn-assigned" value="PENDING" disabled>
+                <input class="status-pendings" type="text" name="rdn-assigned" value="LOADING" disabled>
               </div>
             </div>
             <!-- 3 -->
@@ -865,7 +868,7 @@
                   <img src="../../asset/doctor-bulk-billing-doctors-chapel-hill-health-care-medical-3.png" alt="">
                 </div>
                 <div class="list-rnd-info text-center">
-                  <p class="assigned-rnd">PENDING</p>
+                  <p class="assigned-rnd">LOADING</p>
                   <a href="#" class="text-uppercase text-center profile-link">view profile</a>
                 </div>
               </div>
@@ -921,13 +924,6 @@
                 </div>
                 <div class="list-schedule">
                   <ul>
-                    <?php foreach($cheduleInfo as $schedule ) { ?>
-                    <li>
-                      <p><?php echo $schedule['date'] ?></p>
-                      <p><?php echo date('h:i a', strtotime($schedule['time'])) ?></p>
-                      <p>1 hour left</p>
-                    </li>
-                    <?php } ?>
                   </ul>
                 </div>
               </div>
@@ -970,7 +966,8 @@
 
                 <!-- sms box input -->
                 <div class="sms-box-container">
-                  <input type="text" name="middlename" id="middlename" placeholder="Your message here">
+                  <input type="text" name="middlename" id="middlename" placeholder="Your message here"
+                    <?php echo $board_page > 3? 'disabled':"" ?>>
                 </div>
 
               </div>
@@ -992,15 +989,15 @@
                 <div class="container-header text-center flex-center text-uppercase">
                   <p>in virtual room</p>
                   <a href="https://www.youtube.com/watch?v=vvFSVIy1Nqs" target="_blank"
-                    class="button mini-button">JOIN</a>
+                    class="button button-join mini-button">JOIN</a>
                 </div>
                 <div class="list-schedule">
                   <ul>
-                    <li class="hidden">
+                    <li class="client-join hidden">
                       <div class="circle"></div>
                       <p>RND Gregory Yames</p>
                     </li>
-                    <li class="hidden">
+                    <li class="rnd-join hidden">
                       <div class="circle"></div>
                       <p>RND Gregory Yames</p>
                     </li>
@@ -1054,16 +1051,12 @@
               <!-- Date appointment submitted -->
               <div class="form-input-box input-one ">
                 <label for="middlename">Date appointment submitted</label>
-                <input type="text" name="middlename" id="middlename"
-                  value="<?php echo date('l jS \of F Y h:i a', strtotime($appointInfo['appoint_date_submitted'])); ?>"
-                  disabled>
+                <input type="text" name="appoint-date-submitted" id="appoint-date-submitted" value="LOADING" disabled>
               </div>
               <!-- Date consultation finished -->
               <div class="form-input-box input-one">
                 <label for="firstname">Date consultation completed</label>
-                <input type="text" name="firstname" id="firstname"
-                  value="<?php echo date('l jS \of F Y h:i a', strtotime($cheduleInfo[0]["consult_date_finish"])); ?>"
-                  disabled>
+                <input type="text" name="date-completed" id="date-completed" value="LOADING" disabled>
               </div>
             </div>
             <!-- 2 -->
@@ -1080,7 +1073,7 @@
               <!-- Consultation result -->
               <div class="form-input-box">
                 <label for="firstname">Consultation result</label>
-                <input type="text" name="consultation-status" id="firstname" class="status-pending" value="DUMMY"
+                <input type="text" name="consultation-status" id="firstname" class="status-pending" value="LOADING"
                   disabled>
               </div>
             </div>
@@ -1136,8 +1129,8 @@
               <!-- Date consultation finished -->
               <div class="form-input-box input-one">
                 <label for="firstname">Date consultation completed</label>
-                <input type="text" name="firstname" id="firstname"
-                  value="<?php echo date('l jS \of F Y h:i a', strtotime($cheduleInfo[0]["consult_date_finish"])); ?>"
+                <input type="text" name="date-completed" id="date-completed"
+                  value="<?php echo date('l jS \of F Y h:i a', strtotime($consultResultData["date_consultation_completed"])); ?>"
                   disabled>
               </div>
             </div>
