@@ -1,6 +1,6 @@
 "use strict";
 
-console.log("test");
+let path = "../../../";
 
 let tableContainer = document.querySelector(".pending-appoint-container table");
 let modalParent = document.querySelector(".modal-parent");

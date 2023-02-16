@@ -1,3 +1,8 @@
+.sizing-secondary {
+  width: 90%;
+  padding: 50px 0;
+}
+
 table,
 th,
 td {
@@ -59,9 +64,6 @@ td p.card {
   background-color: #e5b1b1;
 }
 
-.button-parent {
-  /* gap: 10px; */
-}
 .button-accept {
   background-color: #35c949;
   margin-right: 10px;

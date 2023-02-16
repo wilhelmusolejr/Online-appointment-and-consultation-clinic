@@ -86,7 +86,7 @@
       $consultResultData = $consult -> getConsultResult();
 
     }
-    print_r($consultResultData);
+    // print_r($consultResultData);
 
     // getConsultInfo()
     require_once $path.'includes/starterOne.php';

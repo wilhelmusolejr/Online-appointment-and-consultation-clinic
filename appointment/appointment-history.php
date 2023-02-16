@@ -62,24 +62,6 @@
         <th>Appointment status</th>
         <th>RND assigned</th>
       </tr>
-      <!-- <tr>
-        <td class="appointment-number"><a href="#">#123123</a></td>
-        <td>Food complaint</td>
-        <td>
-          <p class="status-pending card">PENDING</p>
-        </td>
-        <td>
-          <p class="status-pending card">PENDING</p>
-        </td>
-      </tr>
-      <tr> -->
-      <td class="appointment-number"><a href="#">#123123</a></td>
-      <td>Food complaint</td>
-      <td>
-        <p class="status-approved card">APPROVED</p>
-      </td>
-      <td><a href="#">RND Gregory Yames</a></td>
-      </tr>
       <?php foreach($result as $transact) { ?>
       <tr>
         <td class="appointment-number"><a
@@ -91,7 +73,8 @@
             <?php echo $transact['appoint_status'] ?></p>
         </td>
         <?php if($transact['rnd_status'] == 'APPROVED') { ?>
-        <td><a href="#">RND <?php echo $transact['first_name']." ".$transact['last_name'] ?></a></td>
+        <td><a href="<?php echo $path."profile/profile.php?profile-id=".$transact['user_id'] ?>">RND
+            <?php echo $transact['first_name']." ".$transact['last_name'] ?></a></td>
         <?php } else { ?>
         <td>
           <p class="status-pending card">PENDING</p>

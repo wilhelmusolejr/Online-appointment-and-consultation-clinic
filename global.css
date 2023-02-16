@@ -1030,6 +1030,69 @@ footer .nav-links {
   text-transform: uppercase;
   font-weight: 500;
 }
+
+/* sidebar */
+.side-bar-parent {
+  width: 100%;
+  display: flex;
+}
+
+.side-bar {
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+
+  min-height: 75vh;
+  background-color: var(--color-green-tertiary);
+
+  flex: 20%;
+}
+.side-bar ul {
+  margin-top: 70px;
+}
+
+.side-bar li {
+  margin: 20px 0;
+}
+
+.side-bar li a:hover {
+  background-color: #598a6c;
+}
+
+.side-bar .active {
+  background-color: #598a6c;
+  border-left: 15px solid var(--color-green-primary);
+}
+
+.side-bar a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  padding: 25px;
+}
+
+.side-bar p {
+  color: white;
+  letter-spacing: 1px;
+}
+
+.number-notif {
+  background-color: white;
+  color: black;
+
+  font-size: 1.8rem;
+  font-weight: 700;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+
+/* main-content */
+.main-content {
+  flex: 80%;
+}
+
 /* MEDIA QUERIES */
 
 /* TABLET */

@@ -85,7 +85,7 @@
         <div>
           <p>
             <a
-              href="#"><?php echo isset($_SESSION['loggedIn'])? $_SESSION['user_loggedIn']['first_name']." ".$_SESSION['user_loggedIn']['last_name']:""; ?></a>
+              href="<?php echo $path ?>profile/profile.php?profile-id=<?php echo $_SESSION['user_loggedIn']['user_id'] ?>"><?php echo isset($_SESSION['loggedIn'])? $_SESSION['user_loggedIn']['first_name']." ".$_SESSION['user_loggedIn']['last_name']:""; ?></a>
           </p>
           <select name="cars" class="cursor-pointer">
             <option value="Available">Available</option>
@@ -94,6 +94,21 @@
         </div>
       </div>
 
+
+      <?php if($_SESSION['user_loggedIn']['user_privilege'] == "rnd") { ?>
+      <!-- list of options -->
+      <ul class="profile-list-options">
+        <li><a href="<?php echo $path."appointment/rnd/pending-appointment/pending-appointment.php" ?>"><i
+              class="fa-solid fa-heart-circle-plus"></i>
+            <p>Appointment</p>
+          </a>
+        </li>
+        <li><a href="#"><i class="fa-solid fa-tv"></i>
+            <p>Monitoring</p>
+          </a>
+        </li>
+      </ul>
+      <?php } else { ?>
       <!-- list of options -->
       <ul class="profile-list-options">
         <li><a href="<?php echo $path."appointment/appointment-history.php" ?>"><i
@@ -106,6 +121,7 @@
           </a>
         </li>
       </ul>
+      <?php } ?>
 
       <!-- logout -->
       <a href="<?php echo $path."includes/logout.php" ?>" class="button button-logout button-secondary">Sign out</a>

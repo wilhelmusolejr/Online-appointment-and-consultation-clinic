@@ -2,7 +2,7 @@
   $path = "../";
 
   // require_once $path.'classes/appoint.class.php';
-  // require_once $path.'classes/user.class.php';
+  require_once $path.'classes/user.class.php';
   // require_once $path.'classes/consult.class.php';
 
   require_once $path.'tools/variables.php';
@@ -11,11 +11,22 @@
 
   session_start();
 
+  if(isset($_GET['profile-id'])) {
+    $user = new user;
+    $user -> user_id = $_GET['profile-id'];
+
+    $userData = $user -> getUserData();
+
+    print_r($_SESSION);
+
+
+  }
 
 
   require_once $path.'includes/starterOne.php';  
 ?>
 <link rel="stylesheet" href="profile.css" />
+<script type="module" src="<?php echo $path ?>homepage/index.js" defer></script>
 <?php require_once $path.'includes/starterTwo.php'; ?>
 
 <body>
@@ -39,7 +50,7 @@
         <!-- left -->
         <div class="profile-container">
           <img src="../asset/doctor-bulk-billing-doctors-chapel-hill-health-care-medical-3.png" alt="">
-          <p>Gregory Yames</p>
+          <p><?php echo $userData['first_name']." ".$userData['last_name'] ?></p>
         </div>
         <!-- right -->
         <!-- form parent -->
@@ -49,20 +60,10 @@
             <div class="form-input-parent">
               <!-- first name -->
               <div class="form-input-box input-two">
-                <label for="firstname" class="text-capital">First name <span>*</span></label>
-                <input type="text" name="firstname" id="firstname" value="test" disabled>
-                <p class="form-error-message hidden">Error</p>
-              </div>
-              <!-- middle name -->
-              <div class="form-input-box input-two">
-                <label for="middlename" class="text-capital">Middle name </label>
-                <input type="text" name="middlename" id="middlename" value="test" disabled>
-                <p class="form-error-message hidden">Error</p>
-              </div>
-              <!-- last name -->
-              <div class="form-input-box input-two">
-                <label for="lastname" class="text-capital">Last name <span>*</span></label>
-                <input type="text" name="lastname" id="lastname" value="test" disabled>
+                <label for="firstname">Full name</label>
+                <input type="text" name="firstname" id="firstname"
+                  value="<?php echo $userData['first_name']." ".$userData['middle_name']." ".$userData['last_name'] ?>"
+                  disabled>
                 <p class="form-error-message hidden">Error</p>
               </div>
               <!-- gender -->
@@ -83,18 +84,8 @@
               <!-- birth date -->
               <div class="form-input-box input-two">
                 <label for="birthdate" class="text-capital">Birthdate <span>*</span></label>
-                <input type="date" name="birthdate" id="birthdate" disabled>
-                <p class="form-error-message hidden">Error</p>
-              </div>
-              <!-- Relationship status -->
-              <div class="form-input-box input-two">
-                <label for="relationship-status">Relationship status <span>*</span></label>
-                <input list="list-relationship" name="relationship-status" id="relationship-status"
-                  placeholder="Diet meal plan" disabled>
-                <datalist id="list-relationship">
-                  <option value="Husbund">
-                  <option value="Mother">
-                </datalist>
+                <input type="date" name="birthdate" id="birthdate" value="<?php echo $userData['birthdate'] ?>"
+                  disabled>
                 <p class="form-error-message hidden">Error</p>
               </div>
             </div>
@@ -103,24 +94,27 @@
               <!-- Mobile -->
               <div class="form-input-box input-two">
                 <label for="reg-mob" class="text-capital">Mobile number <span>*</span></label>
-                <input type="text" name="reg-mob" id="reg-mob" disabled>
+                <input type="text" name="reg-mob" id="reg-mob" value="<?php echo $userData['contact'] ?>" disabled>
                 <p class="form-error-message hidden">Error</p>
               </div>
               <!-- Email -->
               <div class="form-input-box input-two">
                 <label for="reg-email" class="text-capital">Email address <span>*</span></label>
-                <input type="email" name="reg-email" id="reg-email" disabled>
+                <input type="email" name="reg-email" id="reg-email" value="<?php echo $userData['email'] ?>" disabled>
                 <p class="form-error-message hidden">Error</p>
               </div>
             </div>
           </div>
         </form>
       </div>
+
+      <?php if($_SESSION['user_loggedIn']['user_id'] == $_GET['profile-id']) { ?>
       <!-- BUTTONS -->
       <div class="profile-buttons ">
         <a href="#" class="button button-primary upload-id-btn">Upload Id</a>
         <a href="#" class="button button-primary edit-profile-btn">Edit profile</a>
       </div>
+      <?php } ?>
     </div>
     </div>
 

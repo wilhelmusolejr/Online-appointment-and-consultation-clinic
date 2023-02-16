@@ -289,6 +289,10 @@ function ajaxCaller(currentBoardPage) {
                   $(`${boardParent} input[name='rdn-assigned']`).val(
                     `SEARCHING.. ${currentRndIndex} OF ${pendingRndSize}`
                   );
+                } else {
+                  $(`${boardParent} input[name='rdn-assigned']`).val(
+                    response.rnd_status
+                  );
                 }
               }
 
