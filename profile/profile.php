@@ -17,7 +17,7 @@
 
     $userData = $user -> getUserData();
 
-    print_r($_SESSION);
+    // print_r($_SESSION);
 
 
   }

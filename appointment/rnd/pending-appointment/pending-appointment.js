@@ -59,9 +59,9 @@ modalParent.addEventListener("click", function (e) {
 
     $.ajax({
       type: "POST", //hide url
-      url: `../php/set/set-appoint-feedback.php`, //your form validation url
-      // dataType: "json",
+      url: `${path}php/set/set-appoint-feedback.php`, //your form validation url
       data: { transact_id: targetAppointNum, targetBtn: targetBtn },
+      async: false,
       success: function (response) {
         console.log(response);
         // if (response == "success") {
@@ -83,7 +83,7 @@ modalParent.addEventListener("click", function (e) {
   if (e.target.classList.contains("button-denaid")) {
     $.ajax({
       type: "POST", //hide url
-      url: `../php/set/set-appoint-feedback.php`, //your form validation url
+      url: `${path}php/set/set-appoint-feedback.php`, //your form validation url
       // dataType: "json",
       data: { transact_id: targetAppointNum, targetBtn: targetBtn },
       success: function (response) {

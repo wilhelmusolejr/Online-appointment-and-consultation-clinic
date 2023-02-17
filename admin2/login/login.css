@@ -1,0 +1,108 @@
+*{
+    font-family:'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.title{
+    text-transform: uppercase;
+    color: #333;
+    text-align: center;
+    font-size: 120%;
+    padding-bottom: 20px;
+}
+
+.divider{
+    border: 0;
+    border-bottom: 2px  solid rgb(70, 70, 70);
+    width: 100%;
+    margin: 20px 0;
+}
+
+.divider-no-border{
+    height: 20px;
+}
+
+.button{
+    background-color: #006834;
+    color: white;
+    border: none;
+}
+
+.button:hover{
+    opacity: 0.9;
+}
+
+.error{
+    color: #c51244;
+    text-align: center;
+    line-height: 20px;
+    padding-top: 8px;
+}
+
+.login-container{
+    width: 100%;
+    height: calc(100vh);
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    overflow: hidden;
+    background-color: #006834;
+}
+
+.login-form .divider{
+    margin-top: 30px;
+}
+
+.login-form .button{
+    margin-top: 10px;
+    line-height: 27px;
+}
+
+.login-form{
+    max-width: 400px;
+    padding: 40px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 4%;
+}
+
+.login-form .logo-details{
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-form .logo-details i{
+    font-size: 40px;
+    font-weight: 800;
+    color: #006834;
+    text-align: center;
+    padding-right: 5px;
+}
+
+.login-form .logo-details .logo-name{
+    color: #006834;
+    font-size: 36px;
+    font-weight: 500;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 6px;
+    box-sizing: border-box;
+    border: 1px solid black;
+}
+
+input[type=radio]{
+    width: auto;
+}
+
+label{
+    margin-right: 20px;
+}

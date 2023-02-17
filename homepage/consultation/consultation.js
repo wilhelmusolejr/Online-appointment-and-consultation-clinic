@@ -555,7 +555,7 @@ function ajaxCaller(currentBoardPage) {
           dataType: "json",
           success: function (response) {
             let boardParent = `.consultation-stage`;
-            console.log("tite");
+            // console.log("tite");
             // PUT LISTENER
 
             // to be checked

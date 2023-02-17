@@ -207,8 +207,7 @@ section.board-parent {
   /* min-width: 250px; */
 
   display: flex;
-
-  /* border: 1px solid black;  */
+  justify-content: flex-end;
 }
 
 .form-button div:nth-of-type(1) {

@@ -24,7 +24,9 @@ class consult {
   function getConsultId() {
     $sql = 'SELECT * FROM `tbl_transact_consult` where transact_id = :transact_id;';
     $query=$this->db->connect()->prepare($sql);
+   
     $query->bindParam(':transact_id', $this-> transact_id);
+   
     if($query->execute()){
       $data = $query->fetch();
     }
@@ -312,6 +314,22 @@ class consult {
       return true;
     }       
     return false; 
+  }
+  
+  function setJoin($clientId) {
+    $sql = "INSERT INTO `tbl_consult_join` (`consult_join_id`, `consult_id`, `current_id`, `current_in`, `join_time`) VALUES
+     (NULL, :consult_id, :current_id, 0, :join_time), (NULL, :consult_id, $clientId, 0, :join_time)";
+    $query=$this->db->connect()->prepare($sql);
+
+    $query->bindParam(':consult_id', $this-> consult_id);
+    $query->bindParam(':current_id', $this-> current_id);
+    $query->bindParam(':join_time', $this-> join_time);
+
+    if($query->execute()){
+      return true;
+    }       
+    return false; 
+
   }
   
 }

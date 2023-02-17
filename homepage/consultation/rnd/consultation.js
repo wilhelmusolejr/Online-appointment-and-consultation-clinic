@@ -116,7 +116,7 @@ boardContainer.addEventListener("click", function (e) {
         console.log(response);
       },
       error: function () {
-        console.log("fail xxx");
+        console.log("fail in join room");
       },
     });
   }

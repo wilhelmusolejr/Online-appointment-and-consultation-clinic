@@ -38,7 +38,7 @@
             <div class="form-input-parent">
               <div class="form-input-box">
                 <label for="password">Password</label>
-                <input type="text" name="password" id="password" placeholder="Enter your password">
+                <input type="password" name="password" id="password" placeholder="Enter your password">
                 <p class="form-error-message hidden">wiw</p>
               </div>
             </div>

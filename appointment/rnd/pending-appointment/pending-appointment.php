@@ -59,15 +59,18 @@
               <tr class="text-uppercase">
                 <th>Appointment number</th>
                 <th>Chief complaint</th>
-                <th>Appointment status</th>
-                <th>RND assigned</th>
+                <th>Appointment date</th>
+                <th>Action</th>
               </tr>
-              <?php foreach($listOfPending as $transact) { ?>
+              <?php foreach($listOfPending as $transact) { 
+                date_default_timezone_set('Asia/Manila');
+                $mydate = strtotime($transact['appoint_date']." ".$transact['appoint_time']);
+                ?>
               <tr class="hiddens">
                 <td class="appointment-number">#<?php echo $transact['transact_id'] ?></td>
                 <td><?php echo $transact['chief_complaint'] ?></td>
                 <td>
-                  <p class="status-approved card">APPROVED</p>
+                  <?php echo date('F j, Y, g:i a', $mydate) ?>
                 </td>
                 <td>
                   <div class="button-parent flex-center">
