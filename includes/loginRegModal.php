@@ -116,8 +116,8 @@
               <div class="form-input-box">
                 <label for="account-type" class="text-capital">Account type<span>*</span></label>
                 <select id="account-type" required name="account-type">
-                  <option value="">--</option>
-                  <option value="Student" selected>Student</option>
+                  <option value="" selected>--</option>
+                  <option value="Student">Student</option>
                   <option value="Faculty">Faculty</option>
                   <option value="Guest">Guest</option>
                   <option value="Alumni">Alumni</option>
