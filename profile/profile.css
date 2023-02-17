@@ -1,0 +1,76 @@
+section.profile-page-parent {
+  padding: 5vw 0;
+}
+
+.profile-page-parent .section-header-parent {
+  padding-bottom: 1vw;
+}
+.profile-page-parent .section-header-parent h2 {
+  font-weight: 600;
+  letter-spacing: 3px;
+  width: 100%;
+  max-width: initial;
+  text-align: left;
+}
+
+.profile-page-container {
+  background-color: #f2fff6;
+  position: relative;
+}
+
+.profile-page-container-parent {
+  padding-top: 50px;
+  min-height: 60vh;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.profile-page-container-parent .profile-container {
+  flex-basis: 500px;
+}
+.profile-page-container-parent .profile-container img {
+  width: 100%;
+  height: auto;
+  max-width: 250px;
+  max-height: 250px;
+
+  object-position: center;
+  object-fit: fill;
+}
+.profile-page-container-parent .profile-container p {
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  padding-top: 20px;
+}
+
+/* RIGHT FORM */
+.profile-page-parent .form {
+  flex: 1;
+}
+
+/* buttons */
+.profile-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  position: absolute;
+  right: 30px;
+  bottom: 30px;
+}
+
+.modal-parent .form {
+  padding: 50px 0;
+}
+.modal-parent .form input {
+  width: 50%;
+  margin: auto;
+}
+
+a.button-cancel {
+  color: black !important;
+}
+a.button-back {
+  color: black !important;
+}

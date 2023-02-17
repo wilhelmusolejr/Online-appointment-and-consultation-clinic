@@ -131,6 +131,15 @@ $(".form-register").on("submit", function (e) {
   });
 });
 
+let outsideProfileCon = document.querySelector(
+  ".outside-profile > .profile-container"
+);
+let floatingProfileCard = document.querySelector(".nav-profile-card");
+
+outsideProfileCon.addEventListener("mouseover", function (e) {
+  floatingProfileCard.classList.toggle("hidden");
+});
+
 // BMI CALCULATOR
 // const inputFeetTool = document.querySelector("#feet");
 // const inputInchesTool = document.querySelector("#inches");

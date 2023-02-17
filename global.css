@@ -434,8 +434,12 @@ header .navigator-parent {
 
   border-radius: 20px;
 }
-.nav-container .nav-profile {
+.nav-container .profile-container {
   display: flex;
+}
+
+.profile-container {
+  gap: 10px;
 }
 
 .nav-profile {
@@ -443,12 +447,12 @@ header .navigator-parent {
 
   display: none;
 }
-.nav-profile img {
+.profile-container img {
   width: 50px;
   height: 50px;
 
   border-radius: 50%;
-  border: 2px solid black;
+  border: 5px solid #58cb7a;
 }
 
 /* --------------------------------------- */
@@ -634,7 +638,8 @@ footer .nav-links {
 .modal-buttons {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-end;
+  /* align-items: flex-end; */
+  align-items: stretch;
   justify-content: center;
   gap: 10px;
 }
@@ -886,6 +891,208 @@ footer .nav-links {
   display: block;
 }
 
+.outside-profile > .profile-container:hover {
+  cursor: default;
+}
+.outside-profile > .profile-container {
+  position: relative;
+}
+
+/* PRIFILE CARD */
+.nav-profile-card {
+  background-color: var(--color-white-secondary);
+
+  border-radius: 20px;
+  width: 350px;
+  min-height: 450px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  box-shadow: 0 10px 25px 10px rgba(0, 0, 0, 0.2);
+
+  position: absolute;
+  top: 90px;
+  right: 90px;
+}
+
+.nav-profile-card .profile-container {
+  background-color: var(--color-white-primary);
+  border-radius: 20px;
+
+  padding: 40px 0;
+}
+.nav-profile-card .profile-container img {
+  order: initial;
+
+  width: 75px;
+  height: 75px;
+}
+
+.nav-profile-card select {
+  padding: 10px 0;
+  border-radius: 10px;
+
+  border: none;
+  outline: none;
+  scroll-behavior: smooth;
+}
+.nav-profile-card option {
+  padding: 10px;
+}
+
+.profile-list-options {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.profile-list-options li a {
+  display: flex;
+  gap: 10px;
+
+  border-top: 1px solid #646464;
+  border-bottom: 1px solid #555;
+  padding: 20px;
+}
+
+.profile-list-options li a:hover {
+  background-color: #85b597;
+}
+
+.button-logout {
+  width: 95%;
+  margin: 10px auto;
+  color: black;
+
+  background-color: var(--color-green-primary);
+}
+
+/* notification */
+.fa-comments {
+  position: relative;
+}
+.notification-bar-card {
+  background-color: var(--color-white-secondary);
+
+  border-radius: 20px;
+  width: 350px;
+  min-height: 450px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  box-shadow: 0 10px 25px 10px rgba(0, 0, 0, 0.2);
+
+  position: absolute;
+  top: 90px;
+  left: 90px;
+}
+
+.notification-bar-card h3 {
+  padding: 20px;
+}
+
+.notif-time {
+  padding-top: 10px;
+  font-size: 1.5rem;
+}
+
+.notif-item:first-of-type {
+  border-top: 1px solid black;
+}
+.notif-item {
+  border-bottom: 1px solid black;
+  padding: 10px 20px;
+}
+.notif-item:hover {
+  background-color: #277043;
+}
+
+.notif-show-all {
+  background-color: #0a331a;
+  border-top: 1px solid black;
+}
+.notif-show-all a {
+  display: inline-block;
+
+  width: 100%;
+  padding: 20px 0;
+  color: white !important;
+  letter-spacing: 2px;
+}
+
+.loading-placeholder {
+  background-color: var(--color-green-primary);
+  color: #222;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* sidebar */
+.side-bar-parent {
+  width: 100%;
+  display: flex;
+}
+
+.side-bar {
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+
+  min-height: 75vh;
+  background-color: var(--color-green-tertiary);
+
+  flex: 20%;
+}
+.side-bar ul {
+  margin-top: 70px;
+}
+
+.side-bar li {
+  margin: 20px 0;
+}
+
+.side-bar li a:hover {
+  background-color: #598a6c;
+}
+
+.side-bar .active {
+  background-color: #598a6c;
+  border-left: 15px solid var(--color-green-primary);
+}
+
+.side-bar a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  padding: 25px;
+}
+
+.side-bar p {
+  color: white;
+  letter-spacing: 1px;
+}
+
+.number-notif {
+  background-color: white;
+  color: black;
+
+  font-size: 1.8rem;
+  font-weight: 700;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+
+/* main-content */
+.main-content {
+  flex: 80%;
+}
+
 /* MEDIA QUERIES */
 
 /* TABLET */
@@ -896,7 +1103,7 @@ footer .nav-links {
   .nav-profile {
     display: inherit;
   }
-  .nav-profile img {
+  .profile-container img {
     order: 1;
   }
 }

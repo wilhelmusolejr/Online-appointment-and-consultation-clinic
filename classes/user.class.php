@@ -26,7 +26,8 @@ Class user{
     }
 
     function getUserData() {
-        $sql = "SELECT * FROM tbl_user_profile WHERE user_id =:user_id;";
+        $sql = "SELECT * FROM tbl_user_profile INNER JOIN tbl_user_acc_info ON tbl_user_profile.user_id = tbl_user_acc_info.user_id
+         WHERE tbl_user_profile.user_id = :user_id;";
         $query=$this->db->connect()->prepare($sql);
         
         $query->bindParam(':user_id', $this-> user_id);

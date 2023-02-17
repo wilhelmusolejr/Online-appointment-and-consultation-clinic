@@ -128,7 +128,7 @@ const boardProgress = boardContainer.querySelector(".board-progress");
 boardContainer.addEventListener("click", function (e) {
   let currentBoardPage = getActiveBoard();
 
-  console.log(e.target);
+  // console.log(e.target);
 
   if (e.target.parentElement.classList.contains("button-semi-submit")) {
     modalAppointNotif.classList.toggle("hidden");
@@ -172,29 +172,20 @@ boardContainer.addEventListener("click", function (e) {
       });
   }
 
-  if (e.target.closest(".mini-button")) {
+  if (e.target.closest(".button-join")) {
     e.preventDefault();
 
-    // if add is pressed
-    if (
-      e.target
-        .closest(".mini-button")
-        .querySelector("i")
-        .classList.contains("fa-plus")
-    ) {
-      boardContainer
-        .querySelector(".list-schedule .schedule-add")
-        .classList.remove("hidden");
-      console.log("plus");
-
-      // ajax
-    }
-    // if edit is pressed
-    else {
-      boardContainer
-        .querySelector(".list-schedule .schedule-edit")
-        .classList.remove("hidden");
-    }
+    $.ajax({
+      type: "POST", //hide url
+      url: `../../php/update/update-consult-join.php`, //your form validation url
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+      },
+      error: function () {
+        console.log("fail xxx");
+      },
+    });
   }
 
   // edit section - choosing of schedule
@@ -262,6 +253,17 @@ changeBoardProgress(currentBoardPage);
 
 let transactRndId = 0;
 let appointCheckpoint = true;
+
+// board 2
+let pendingRndSize;
+let currentRndIndex;
+let appointmentStatus = "PENDING";
+let appointDateFinish;
+
+// board 3
+let isConsultDone = false;
+let resultJoin;
+
 function ajaxCaller(currentBoardPage) {
   switch (currentBoardPage) {
     // board 2
@@ -273,16 +275,30 @@ function ajaxCaller(currentBoardPage) {
             url: `../../php/request/request-appoint.php`, //your form validation url
             dataType: "json",
             success: function (response) {
-              // console.log(response);
+              console.log(response);
               let boardParent = ".appointment-checkpoint-stage";
+
+              if (response.rnd_status == "APPROVED") {
+                // rdn
+                $(`${boardParent} input[name='rdn-assigned']`).val(
+                  response.rnd_status
+                );
+                clearInterval(checkRndFeedback);
+              } else {
+                if (pendingRndSize > 0) {
+                  $(`${boardParent} input[name='rdn-assigned']`).val(
+                    `SEARCHING.. ${currentRndIndex} OF ${pendingRndSize}`
+                  );
+                } else {
+                  $(`${boardParent} input[name='rdn-assigned']`).val(
+                    response.rnd_status
+                  );
+                }
+              }
 
               // appoint status
               $(`${boardParent} input[name='appoint-status']`).val(
                 response.appoint_status
-              );
-              // rdn
-              $(`${boardParent} input[name='rdn-assigned']`).val(
-                response.rnd_status
               );
 
               // class appoint status
@@ -315,9 +331,13 @@ function ajaxCaller(currentBoardPage) {
                 );
               }
 
-              console.log(response.rnd_id);
-              console.log(response.appoint_status);
-              console.log(response.rnd_status);
+              // console.log(response.rnd_id);
+              // console.log(response.appoint_status);
+              // console.log(response.rnd_status);
+
+              if (response.appoint_status == "APPROVED") {
+                appointmentStatus = "APPROVED";
+              }
 
               if (
                 response.appoint_status == "APPROVED" &&
@@ -347,34 +367,6 @@ function ajaxCaller(currentBoardPage) {
                         "disabled",
                         false
                       );
-                      setTimeout(function () {
-                        $(`${boardParent} .button-next button`).trigger(
-                          "click"
-                        );
-                      }, 10000);
-
-                      $.ajax({
-                        type: "POST", //hide url
-                        url: `../../php/set/set-board.php`, //your form validation url
-                        data: { board_page: response.board_page },
-                        success: function (response) {
-                          console.log(response);
-                        },
-                        error: function (response) {
-                          console.log("failed to fetch board");
-                        },
-                      });
-
-                      $.ajax({
-                        type: "POST", //hide url
-                        url: `../../php/set/set-consult.php`, //your form validation url
-                        success: function (response) {
-                          console.log(response);
-                        },
-                        error: function (response) {
-                          console.log("failed to set consult");
-                        },
-                      });
                     }
 
                     if (response.board != 2) {
@@ -391,6 +383,59 @@ function ajaxCaller(currentBoardPage) {
               console.log("fail at ajax");
             },
           });
+        }, 1000);
+
+        const setPendingForRnd = setInterval(() => {
+          if (appointmentStatus == "APPROVED") {
+            $.ajax({
+              type: "POST", //hide url
+              url: `../../php/request/req-check-appoint-pending-rnd.php`, //your form validation url
+              // dataType: "json",
+              async: false,
+              success: function (response) {
+                pendingRndSize = response;
+              },
+              error: function (response) {
+                console.log("failed to set consult");
+              },
+            });
+
+            if (pendingRndSize == 0) {
+              let rndList = [3, 17, 8];
+              $.ajax({
+                type: "POST", //hide url
+                url: `../../php/set/set-appoint-pending-rnd.php`, //your form validation url
+                dataType: "json",
+                data: { rndList: rndList },
+                async: false,
+                success: function (response) {
+                  console.log("working");
+                  return true;
+                },
+                error: function (response) {
+                  console.log("failed");
+                },
+              });
+            }
+            clearInterval(setPendingForRnd);
+          }
+        }, 1000);
+
+        const checkRndFeedback = setInterval(() => {
+          if (pendingRndSize > 0) {
+            $.ajax({
+              type: "POST", //hide url
+              url: `../../php/request/req-appoint-pending-status-size.php`, //your form validation url
+              dataType: "json",
+              async: false,
+              success: function (response) {
+                currentRndIndex = response;
+              },
+              error: function (response) {
+                console.log("failed aaa");
+              },
+            });
+          }
         }, 1000);
 
         const profileChatter = setInterval(() => {
@@ -413,18 +458,38 @@ function ajaxCaller(currentBoardPage) {
             });
           }
         }, 1000);
+
+        const dateCompleted = setInterval(() => {
+          if (!appointDateFinish) {
+            $.ajax({
+              type: "POST", //hide url
+              url: `../../php/request/req-date-appoint-completed.php`, //your form validation url
+              dataType: "json",
+              async: false,
+              success: function (response) {
+                $(`input[name='appoint-date-submitted']`).val(
+                  response.appoint_date_submitted
+                );
+                clearInterval(dateCompleted);
+                appointDateFinish = !appointDateFinish;
+              },
+              error: function (response) {
+                console.log("failed aaa");
+              },
+            });
+          }
+        }, 1000);
       }
 
       break;
 
     // board 3
     case 3:
-      // const getSchedule = setInterval(() => {
-      // showSchedule(".list-schedule ul");
-      // showSchedule(".list-sched", true);
-      // }, 1000);
+      // schedule
+      const getSchedule = setInterval(() => {
+        showSchedule(".list-schedule ul");
+      }, 1000);
 
-      const isConsultDone = false;
       if (!isConsultDone) {
         const boardChecker = setInterval(() => {
           $.ajax({
@@ -434,36 +499,54 @@ function ajaxCaller(currentBoardPage) {
             success: function (response) {
               let boardParent = "consultation-stage";
 
-              // console.log(response.board_page);
-
               if (response.board_page > 3) {
-                $(`${boardParent} .button-next button`).prop("disabled", false);
-                setTimeout(function () {
-                  $(`${boardParent} .button-next button`).trigger("click");
-                }, 10000);
+                $(`.${boardParent} .button-next button`).prop(
+                  "disabled",
+                  false
+                );
 
-                setTimeout(boardChecker);
+                clearInterval(boardChecker);
                 isConsultDone = true;
               }
-
-              // avoid auto click
-              // set consult shoud be in rnd part
-              // $.ajax({
-              //   type: "POST", //hide url
-              //   url: `../../php/set/set-consult.php`, //your form validation url
-              //   success: function (response) {
-              //     console.log(response);
-              //   },
-              //   error: function (response) {
-              //     console.log("failed to set consult");
-              //   },
             },
             error: function () {
               console.log("fail to fetch board page");
             },
           });
-        }, 3000);
+        }, 1000);
       }
+
+      const profileChatter = setInterval(() => {
+        $.ajax({
+          type: "POST", //hide url
+          url: `../../php/request/request-appoint.php`, //your form validation url
+          dataType: "json",
+          success: function (response) {
+            console.log(response);
+            transactRndId = response.rnd_id;
+          },
+          error: function () {
+            console.log("fail at ajax");
+          },
+        });
+
+        // set rnf info
+        $.ajax({
+          type: "POST", //hide url
+          url: `../../php/request/request-profile.php`, //your form validation url
+          data: { target_id: transactRndId },
+          dataType: "json",
+          success: function (response) {
+            $(`.assigned-rnd`).text(
+              `${response.first_name} ${response.last_name}`
+            );
+            clearInterval(profileChatter);
+          },
+          error: function (response) {
+            console.log("failed to fetch");
+          },
+        });
+      }, 1000);
 
       const boardThree = setInterval(() => {
         $.ajax({
@@ -472,26 +555,64 @@ function ajaxCaller(currentBoardPage) {
           dataType: "json",
           success: function (response) {
             let boardParent = `.consultation-stage`;
-            console.log("tite");
+            // console.log("tite");
             // PUT LISTENER
 
             // to be checked
-            // $.ajax({
-            //   type: "POST", //hide url
-            //   url: `../../php/set/set-consult-checkpoint.php`, //your form validation url
-            //   dataType: "json",
-            //   success: function (response) {
-            //     console.log(response);
-            //   },
-            //   error: function () {
-            //     console.log("error");
-            //   },
-            // });
 
             clearInterval(boardThree);
           },
         });
       }, 1000);
+
+      const joinRoom = setInterval(() => {
+        $.ajax({
+          type: "POST", //hide url
+          url: `../../php/request/req-consult-join.php`, //your form validation url
+          dataType: "json",
+          async: false,
+          success: function (response) {
+            console.log(response);
+            response.forEach((user) => {
+              if (user.current_in == 1) {
+                $.ajax({
+                  type: "POST", //hide url
+                  url: `../../php/request/request-profile.php`, //your form validation url
+                  dataType: "json",
+                  data: { target_id: user.current_id },
+                  async: false,
+                  success: function (response) {
+                    if (response.user_privilege == "client") {
+                      document
+                        .querySelector(".client-join")
+                        .classList.remove("hidden");
+                      document.querySelector(
+                        ".client-join p"
+                      ).textContent = `${response.first_name} ${response.last_name}`;
+                    } else {
+                      document
+                        .querySelector(".rnd-join")
+                        .classList.remove("hidden");
+                      document.querySelector(
+                        ".rnd-join p"
+                      ).textContent = `${response.first_name} ${response.last_name}`;
+                    }
+                  },
+                  error: function () {
+                    console.log("error");
+                  },
+                });
+              }
+              // if(user.join_time )
+            });
+
+            // clearInterval(joinRoom);
+          },
+          error: function () {
+            console.log("error");
+          },
+        });
+      }, 5000);
       break;
 
     // board 3
@@ -510,6 +631,11 @@ function ajaxCaller(currentBoardPage) {
               response.consult_result_status
             );
 
+            // date completed
+            $(`${boardParent} input[name="date-completed"]`).val(
+              response.date_consultation_completed
+            );
+
             // class appoint status
             if (response.consult_result_status == "APPROVED") {
               $(`${boardParent} input[name='consultation-status']`).addClass(
@@ -525,46 +651,10 @@ function ajaxCaller(currentBoardPage) {
               );
             }
 
-            // class assigned rnd
-            // if (response.rnd_status == "APPROVED") {
-            //   $(`${boardParent} input[name='rdn-assigned']`).addClass(
-            //     "status-approved"
-            //   );
-            // } else if (response.rnd_status == "DECLINED") {
-            //   $(`${boardParent} input[name='rdn-assigned']`).addClass(
-            //     "status-declined"
-            //   );
-            // } else {
-            //   $(`${boardParent} input[name='rdn-assigned']`).addClass(
-            //     "status-pending"
-            //   );
-            // }
-
             if (response.consult_result_status == "APPROVED") {
               // PUT LISTENER
-              if (response.board_page == 4) {
-                $(`${boardParent} .button-next button`).prop("disabled", false);
-
-                // avoid auto click
-                setTimeout(function () {
-                  $(`${boardParent} .button-next button`).trigger("click");
-                }, 10000);
-
-                $.ajax({
-                  type: "POST", //hide url
-                  url: `../../php/set/set-board.php`, //your form validation url
-                  data: { board_page: response.board_page },
-                  success: function (response) {
-                    console.log(response);
-                  },
-                });
-              }
-
-              if (response.board != 4) {
-                $(`${boardParent} .button-next button`).prop("disabled", false);
-
-                clearInterval(boardFour);
-              }
+              $(`${boardParent} .button-next button`).prop("disabled", false);
+              clearInterval(boardFour);
             }
           },
           error: function () {
@@ -572,7 +662,93 @@ function ajaxCaller(currentBoardPage) {
           },
         });
       }, 1000);
+
+      const dateCompleted = setInterval(() => {
+        if (!appointDateFinish) {
+          $.ajax({
+            type: "POST", //hide url
+            url: `../../php/request/req-date-appoint-completed.php`, //your form validation url
+            dataType: "json",
+            async: false,
+            success: function (response) {
+              $(`input[name='appoint-date-submitted']`).val(
+                response.appoint_date_submitted
+              );
+              clearInterval(dateCompleted);
+              appointDateFinish = !appointDateFinish;
+            },
+            error: function (response) {
+              console.log("failed aaa");
+            },
+          });
+        }
+      }, 1000);
+
       break;
   }
 }
 ajaxCaller(currentBoardPage);
+
+function generateScheduleMarkUp(response, edit = false) {
+  // convert milliseconds to seconds / minutes / hours etc.
+  const msPerSecond = 1000;
+  const msPerMinute = msPerSecond * 60;
+  const msPerHour = msPerMinute * 60;
+  const msPerDay = msPerHour * 24;
+
+  // calculate remaining time
+
+  let markUp = ``;
+
+  for (const sched in response) {
+    const now = new Date().getTime();
+
+    let time = new Date(`${response[sched].date} ${response[sched].time}`);
+    const timeleft = time - now;
+
+    const days = Math.floor(timeleft / msPerDay);
+    const hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / msPerHour);
+    const minutes = Math.floor((timeleft % (1000 * 60 * 60)) / msPerMinute);
+    const seconds = Math.floor((timeleft % (1000 * 60)) / msPerSecond);
+    // <p>${days}d ${hours}h ${minutes}m ${seconds}s</p>
+
+    // markUp += `<li data-schedule-id="${response[sched].consult_schedule_id}">
+    //                   <p>${response[sched].date}</p>
+    //                   <p>${time.toLocaleString("en-US", {
+    //                     hour: "numeric",
+    //                     minute: "numeric",
+    //                     hour12: true,
+    //                   })}</p>
+    //                   <p>${hours}H ${minutes}M left</p>
+    //                   <p class="cursor-pointer ${
+    //                     edit ? "" : "hidden"
+    //                   }"><i class="fa-solid fa-arrow-right"></i></p>
+    //                 </li>`;
+    markUp += `<li data-schedule-id="${response[sched].consult_schedule_id}">
+                    <p>${response[sched].date}</p>
+                    <p>${response[sched].time}</p>
+                    <p class="cursor-pointer ${
+                      edit ? "" : "hidden"
+                    }"><i class="fa-solid fa-arrow-right"></i></p>
+                  </li>`;
+  }
+  // console.log(markUp);
+  return markUp;
+}
+
+function showSchedule(target, edit = false) {
+  $.ajax({
+    type: "POST", //hide url req-consult-sched
+    url: `../../php/request/req-consult-sched.php`, //your form validation url
+    dataType: "json",
+    success: function (response) {
+      document.querySelector(`${target}`).innerHTML = generateScheduleMarkUp(
+        response,
+        edit
+      );
+    },
+    error: function () {
+      console.log("failed to get sched sss");
+    },
+  });
+}

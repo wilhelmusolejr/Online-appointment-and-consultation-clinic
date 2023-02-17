@@ -207,8 +207,7 @@ section.board-parent {
   /* min-width: 250px; */
 
   display: flex;
-
-  /* border: 1px solid black;  */
+  justify-content: flex-end;
 }
 
 .form-button div:nth-of-type(1) {
@@ -380,7 +379,7 @@ section.board-parent {
   justify-content: flex-start;
 
   border-radius: 20px;
-  min-height: 150px;
+  min-height: 250px;
 }
 .virtual-room-container .container-header {
   background-color: #57755c;
@@ -565,6 +564,12 @@ a.button-cancel {
 a.button-back {
   color: black !important;
 }
+.button-delete {
+  background-color: rgb(120, 22, 22);
+}
+/* .button-delete .fa-trash {
+  font-size: 1.5rem;
+} */
 
 /* MEDIA QUERIES */
 /* LAPTOP */

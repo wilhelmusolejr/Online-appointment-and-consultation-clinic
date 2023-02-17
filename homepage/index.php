@@ -8,12 +8,12 @@
   $page_title = "Homepage";
   $home = "nav-current";
 
+
   require_once $path.'includes/starterOne.php';
 ?>
 <link rel="stylesheet" href="index.css" />
 <script type="module" src="index.js" defer></script>
 <?php require_once $path.'includes/starterTwo.php'; ?>
-
 
 <body>
   <!-- HEADER -->
