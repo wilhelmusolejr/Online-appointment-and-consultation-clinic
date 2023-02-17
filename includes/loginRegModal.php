@@ -136,21 +136,19 @@
               <!-- first name -->
               <div class="form-input-box">
                 <label for="firstname" class="text-capital">First name <span>*</span></label>
-                <input type="text" name="firstname" id="firstname" required placeholder="Enter your first name"
-                  value="test">
+                <input type="text" name="firstname" id="firstname" required placeholder="Enter your first name">
                 <!-- <p class="form-error-message hidden">Error</p> -->
               </div>
               <!-- middle name -->
               <div class="form-input-box">
                 <label for="middlename" class="text-capital">Middle name <span>*</span></label>
-                <input type="text" name="middlename" id="middlename" placeholder="Enter your middle name" value="test">
+                <input type="text" name="middlename" id="middlename" placeholder="Enter your middle name">
                 <!-- <p class="form-error-message hidden">Error</p> -->
               </div>
               <!-- last name -->
               <div class="form-input-box">
                 <label for="lastname" class="text-capital">Last name <span>*</span></label>
-                <input type="text" name="lastname" id="lastname" required placeholder="Enter your last name"
-                  value="test">
+                <input type="text" name="lastname" id="lastname" required placeholder="Enter your last name">
                 <!-- <p class="form-error-message hidden">Error</p> -->
               </div>
               <!-- gender -->
@@ -187,15 +185,13 @@
               <!-- Mobile -->
               <div class="form-input-box">
                 <label for="reg-mob" class="text-capital">Mobile number <span>*</span></label>
-                <input type="text" name="reg-mob" id="reg-mob" required placeholder="Enter your mobile number"
-                  value="09953546246">
+                <input type="text" name="reg-mob" id="reg-mob" required placeholder="Enter your mobile number">
                 <p class="form-error-message hidden">Error</p>
               </div>
               <!-- Email -->
               <div class="form-input-box">
                 <label for="reg-email" class="text-capital">Email address <span>*</span></label>
-                <input type="email" name="reg-email" id="reg-email" required placeholder="Enter your middle name"
-                  value="test@gmail.com">
+                <input type="email" name="reg-email" id="reg-email" required placeholder="Enter your middle name">
                 <p class="form-error-message"></p>
               </div>
             </div>
@@ -210,14 +206,13 @@
               <!-- first name -->
               <div class="form-input-box">
                 <label for="reg-pass" class="text-capital">Password <span>*</span></label>
-                <input type="password" name="reg-pass" id="reg-pass" value="test" required
-                  placeholder="Enter your password">
+                <input type="password" name="reg-pass" id="reg-pass" required placeholder="Enter your password">
               </div>
               <!-- middle name -->
               <div class="confirm-password form-input-box">
                 <label for="reg-pass-confirm" class="text-capital">Confirm Password <span>*</span></label>
                 <input type="password" name="reg-pass-confirm" id="reg-pass-confirm" required
-                  placeholder="Confirm your password" value="test">
+                  placeholder="Confirm your password">
                 <p class="form-error-message"></p>
               </div>
             </div>
