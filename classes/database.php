@@ -4,7 +4,7 @@ class Database{
     private $host = 'localhost';
     private $database = 'u117888000_clinic';
     private $username = 'u117888000_clinic';
-    private $password = 'Qw09058222';
+    private $password = '=Ev^ZshD=3';
     // private $database = 'clinic';
     // private $username = 'root';
     // private $password = '';
