@@ -2,7 +2,7 @@
 
 $path = "../../";
 
-require_once '..\functions\functions.php';
+require_once '../functions/functions.php';
 require_once $path.'classes/appoint.class.php';
 
     //resume session here to fetch session values
@@ -16,13 +16,10 @@ require_once $path.'classes/appoint.class.php';
         header('location: ../login/login.php');
     }
 
-    $appoint = new appoint;
-    $pendingAppointment = $appoint -> getPendingAppoint();
+    // $appoint = new appoint;
+    // $pendingAppointment = $appoint -> getPendingAppoint();
 
-    print_r($pendingAppointment);
     //if the above code is false then html below will be displayed
-
-
 ?>
 <!DOCTYPE html>
 
@@ -37,7 +34,9 @@ require_once $path.'classes/appoint.class.php';
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" defer></script>
   <title>Admin</title>
+  <script src="pending.js" defer></script>
 </head>
 
 <body>
@@ -119,15 +118,10 @@ require_once $path.'classes/appoint.class.php';
         <table class="table">
           <div class="table-heading">
 
-            <?php
-                    {
-                    ?>
             <span class="search">
               <input type="text" placeholder=" Search appointment">
               <i class="fa-solid fa-magnifying-glass"></i>
             </span>
-            <?php
-                    } ?>
 
           </div>
           <div class="divider-no-border"></div>
@@ -143,82 +137,9 @@ require_once $path.'classes/appoint.class.php';
               </tr>
             </thead>
             <tbody>
-              <?php
-                            if(!isset($_SESSION['table6'])){
-                                $_SESSION['table6'] = array(
-                                     array(
-                                        "appointment_number" => '#046271',
-                                        "chief_complaint" => 'Diet Food Meal Plan',
-                                        "appointment_date" => '11/4/2022, 12:30pm',
-                                        "referral_form" => 'icon',
-                                        "id_status" => 'APPROVED'
-                                    ),
-                                     array(
-                                      "appointment_number" => '#308967',
-                                      "chief_complaint" => 'Diagestive Problem',
-                                      "appointment_date" => '11/1/2022, 8:30pm',
-                                      "referral_form" => 'icon',
-                                      "id_status" => 'PENDING'
-                                    ),
-                                     array(
-                                      "appointment_number" => '#235343',
-                                      "chief_complaint" => 'Diabetes',
-                                      "appointment_date" => '10/5/2022, 4:00pm',
-                                      "referral_form" => 'icon',
-                                      "id_status" => 'APPROVED'
-                                    ),
-                                     array(
-                                        "appointment_number" => '#089732',
-                                        "chief_complaint" => 'Weight Loss',
-                                        "appointment_date" => '9/16/2022, 1:00pm',
-                                        "referral_form" => 'icon',
-                                        "id_status" => 'APPROVED'
-                                     ),
-                                     array(
-                                      "appointment_number" => '#216633',
-                                      "chief_complaint" => 'Diabetes',
-                                      "appointment_date" => '9/5/2022, 10:00pm',
-                                      "referral_form" => 'icon',
-                                      "id_status" => 'DECLINED'
-                                    ),
-                                     array(
-                                      "appointment_number" => '#748361',
-                                      "chief_complaint" => 'Food Lifestyle',
-                                      "appointment_date" => '9/1/2022, 9:00pm',
-                                      "referral_form" => 'icon',
-                                      "id_status" => 'APPROVED'
-                                    )
-                                );
-                            }
-
-                            //We will now fetch all the records in the array using loop
-                            //use as a counter, not required but suggested for the table
-                            $i = 1;
-                            //loop for each record found in the array
-                            foreach ($pendingAppointment as $value){ //start of loop
-                date_default_timezone_set('Asia/Manila');
-                $mydate = strtotime($value['appoint_date']." ".$value['appoint_time']);
-                              
-                        ?>
-              <tr>
-                <!-- always use echo to output PHP values -->
-                <td>#<?php echo $value['transact_id'] ?></td>
-                <td><?php echo $value['chief_complaint'] ?></td>
-                <td><?php echo date('F j, Y, g:i a', $mydate) ?></td>
-                <td><?php echo $value['referral_form_id'] ?></td>
-                <td><?php echo $value['referral_form_id'] ?></td>
-                <td class="action">
-                  <a class="action-accept"
-                    href="../php/update/update-pending-appoint-status.php?transact_id=<?php echo $value['transact_id'] ?>">ACCEPT</a>
-                  <a class="action-declined" href="#">DECLINE</a>
-                </td>
-              </tr>
-              <?php
-                            $i++;
-                        //end of loop
-                        }
-                        ?>
+              <!-- insert here -->
             </tbody>
+          </table>
       </div>
   </section>
 
