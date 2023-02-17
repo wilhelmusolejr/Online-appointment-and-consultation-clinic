@@ -5,16 +5,18 @@ session_start();
 
 print_r($_POST);
 
-if(isset($_POST['submits'])) {
+if(isset($_POST['submit'])) {
   $consult = new consult;
   $consult -> transact_id = $_SESSION['transact_id'];
-  $consult -> consult_id = $consult -> getConsultId();
+  $consult -> consult_schedule_id = $_POST['targetSched'];
 
-  $consult -> client_id = $_SESSION['acc_no'];
-  $consult -> rnd_id =  $_SESSION['rnd_id'];
+  $consult -> client_id = $_SESSION['transact_client_id'];
+  $consult -> rnd_id =  $_SESSION['transact_rnd_id'];
 
   $consult -> sched_date = $_POST['appointment-date'];
   $consult -> sched_time = $_POST['appointment-time'];
+
+  print_r($consult);
 
   $res = $consult -> updateSchedule();
   if($res){

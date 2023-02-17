@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="tools.css" />
 <link rel="stylesheet" href="../rnds/rnds.css" />
 <link rel="stylesheet" href="../index.css" />
-<script src="../index.js" defer></script>
+<script type="module" src="../index.js" defer></script>
 <?php require_once $path.'includes/starterTwo.php'; ?>
 
 <body>

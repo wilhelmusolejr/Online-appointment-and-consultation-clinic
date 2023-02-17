@@ -10,8 +10,8 @@ if(isset($_POST['submit'])) {
 
   $consult -> consult_id = $consult -> getConsultId();
 
-  $consult -> client_id = $_SESSION['acc_no'];
-  $consult -> rnd_id =  $_SESSION['rnd_id'];
+  $consult -> client_id = $_SESSION['transact_client_id'];
+  $consult -> rnd_id =  $_SESSION['transact_rnd_id'];
 
   $consult -> sched_date = $_POST['appointment-date'];
   $consult -> sched_time = $_POST['appointment-time'];

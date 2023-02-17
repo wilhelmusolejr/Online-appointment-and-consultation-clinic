@@ -417,8 +417,10 @@ Class appoint{
     function setBoardPage() {
         $sql = "UPDATE `tbl_transact` SET `board_page` = :board_page WHERE `tbl_transact`.`transact_id` = :transact_id;"; 
         $query=$this->db->connect()->prepare($sql);
+
         $query->bindParam(':board_page', $this->current_board_page);
         $query->bindParam(':transact_id', $this->transact_id);
+        
         if($query->execute()){
             return true;
         }
@@ -466,6 +468,56 @@ Class appoint{
         $query=$this->db->connect()->prepare($sql);
 
         $query->bindParam(':transact_id', $this->transact_id);
+
+        if($query->execute()){
+            return true;
+        }
+        return false;
+    }
+
+    function getAppointTable() {
+        $sql = "SELECT * FROM tbl_transact INNER JOIN tbl_transact_appoint as transact_appoint ON tbl_transact.transact_id = transact_appoint.transact_id INNER JOIN tbl_transact_appoint_consult AS appoint_consult ON transact_appoint.appoint_id = appoint_consult.appoint_id INNER JOIN tbl_transact_appoint_checkpoint_appoint_status as ck_appoint_status ON tbl_transact.transact_id = ck_appoint_status.transact_id INNER JOIN tbl_transact_appoint_checkpoint_rnd_status AS ck_appoint_rnd_status ON tbl_transact.transact_id = ck_appoint_rnd_status.transact_id LEFT JOIN tbl_user_profile ON ck_appoint_rnd_status.rnd_id = tbl_user_profile.user_id WHERE tbl_transact.user_id
+         = :user_id;";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':user_id', $this-> user_id);
+
+        if($query->execute()){
+            $data = $query->fetchAll();
+        }
+        return $data;
+    }
+
+    function getTransact() {
+        $sql = "SELECT * FROM tbl_transact WHERE transact_id = :transact_id";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':transact_id', $this-> transact_id);
+
+        if($query->execute()){
+            $data = $query->fetch();
+        }
+        return $data;
+    }
+
+
+    function getPendingAppoint() {
+        $sql = "SELECT * FROM tbl_transact INNER JOIN tbl_transact_appoint ON tbl_transact.transact_id = tbl_transact_appoint.transact_id INNER JOIN tbl_transact_appoint_consult as appoint_consult ON tbl_transact_appoint.appoint_id = appoint_consult.appoint_id INNER JOIN tbl_transact_appoint_checkpoint_appoint_status as ck_pending_appoint ON tbl_transact.transact_id = ck_pending_appoint.transact_id WHERE
+         ck_pending_appoint.appoint_status = 'PENDING';";
+        $query=$this->db->connect()->prepare($sql);
+
+        if($query->execute()){
+            $data = $query->fetchAll();
+        }
+        return $data;
+    }
+
+    function setAppointFeedback() {
+        $sql = "UPDATE tbl_transact_appoint_checkpoint_appoint_status SET
+         appoint_status = 'APPROVED' WHERE transact_id = :transact_id;";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':transact_id', $this-> transact_id);
 
         if($query->execute()){
             return true;
