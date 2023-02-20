@@ -33,6 +33,9 @@ function getAllPendingAppoint() {
       // tabulate data in table
       document.querySelector("tbody").innerHTML = generatePendingMarkUp(data);
     },
+    error: function (data) {
+      console.log("failed to get get all pending appointment");
+    },
     complete: function (data) {
       setTimeout(getAllPendingAppoint, 5000);
     },

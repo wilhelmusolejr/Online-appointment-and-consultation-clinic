@@ -416,11 +416,11 @@
                 </div>
                 <div class="list-schedule">
                   <ul>
-                    <li class="client-join hidden">
+                    <li data-userId="0" class="client-join join-user hidden">
                       <div class="circle"></div>
                       <p>RND Gregory Yames</p>
                     </li>
-                    <li class="rnd-join hidden">
+                    <li data-userId="0" class="rnd-join join-user hidden">
                       <div class="circle"></div>
                       <p>RND Gregory Yames</p>
                     </li>
@@ -438,7 +438,7 @@
             </div>
             <!-- middle -->
             <div>
-              <button class="button button-tertiary">Client information</button>
+              <button class="button button-tertiary button-clientInfo">Client information</button>
             </div>
 
             <!-- next -->
@@ -469,6 +469,64 @@
               </div>
             </div>
           </div>
+
+          <!-- MODAL - CLIENT INFO -->
+          <div class="modal-parent modal-notif-parent modal-client-info overlay-black flex-center hidden">
+            <div class="modal-container modal-notif-container sizing-secondary">
+              <div class="modal-header text-center">
+                <h2 class="text-uppercase">Client information</h2>
+              </div>
+
+              <div class="modal-data">
+
+                <!-- Personal information -->
+                <div class="data-container data-personal">
+                  <h3 class="text-uppercase">Personal information</h3>
+                  <p>Full name: Sofia Libero Andres</p>
+                  <p>Birthdate: May 15, 2000</p>
+                  <p>Gender: Female</p>
+                </div>
+
+                <!-- Contact information -->
+                <div class="data-container data-contact">
+                  <h3 class="text-uppercase">Contact information</h3>
+                  <p>Phone number: 09976936708</p>
+                  <p>Email address: tite@titeng-galet.xyz</p>
+                </div>
+
+
+                <!-- Health information -->
+                <div class="data-container data-health">
+                  <h3 class="text-uppercase">Health information</h3>
+                  <p>Current height: 160 cm</p>
+                  <p>Current weight: 160 lbs</p>
+                </div>
+
+
+                <!-- Consultation information -->
+                <div class="data-container data-consultation">
+                  <h3 class="text-uppercase">Consultation information</h3>
+                  <p>Referral form: <a href="#">test.pdf</a></p>
+                  <p>Medical form: <a href="#">test.pdf</a></p>
+                  <p>Current weight: tite@titeng-galet.xyz</p>
+                </div>
+
+                <!-- Consultation information -->
+                <div class="data-container data-nutritional">
+                  <h3 class="text-uppercase">Nutritional information</h3>
+                  <p>Referral form: <a href="#">test.pdf</a></p>
+                  <p>Medical form: <a href="#">test.pdf</a></p>
+                  <p>Current weight: tite@titeng-galet.xyz</p>
+                </div>
+
+              </div>
+
+              <div class="modal-buttons">
+                <a class="button button-cancel">Go back</a>
+              </div>
+            </div>
+          </div>
+
 
         </div>
 
@@ -530,7 +588,7 @@
               </button>
             </div>
             <!-- next -->
-            <div class="button-upload-confirmation <?php echo $board_page == 3 ? "":"hidden" ?>">
+            <div class="button-upload-confirmation <?php echo $board_page == 4 ? "":"hidden" ?>">
               <button class="button button-next button-primary">Upload
               </button>
             </div>

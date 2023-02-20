@@ -2,3 +2,24 @@
   max-width: 400px;
   margin: auto;
 }
+
+.modal-data {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  margin: 25px 0;
+}
+
+.modal-data > div {
+  flex: 45%;
+
+  background-color: var(--color-white-secondary);
+
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.modal-data h3 {
+  font-size: 2rem;
+}

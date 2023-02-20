@@ -993,11 +993,11 @@
                 </div>
                 <div class="list-schedule">
                   <ul>
-                    <li class="client-join hidden">
+                    <li data-userId="0" class="client-join join-user hidden">
                       <div class="circle"></div>
                       <p>RND Gregory Yames</p>
                     </li>
-                    <li class="rnd-join hidden">
+                    <li data-userId="0" class="rnd-join join-user hidden">
                       <div class="circle"></div>
                       <p>RND Gregory Yames</p>
                     </li>
