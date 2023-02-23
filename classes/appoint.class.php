@@ -219,10 +219,8 @@ Class appoint{
 
         $final = join(",", $values);
         $query=$this->db->connect()->prepare($sql.$final);
-        print_r($query);
-        if($query->execute()){
-            echo "record allergies inserted successfully";
-        }
+        $query->execute();
+        
 
         // likes
         $sql = "INSERT INTO `tbl_transact_appoint_food_like` (`food_like_id`, `appoint_id`, `food_like_name`) VALUES ";
@@ -235,9 +233,8 @@ Class appoint{
 
         $final = join(",", $values);
         $query=$this->db->connect()->prepare($sql.$final);
-        if($query->execute()){
-            echo "record allergies inserted successfully";
-        }
+        $query->execute();
+          
 
         // dislikes
         $sql = "INSERT INTO `tbl_transact_appoint_food_dislike` (`food_dislike_id`, `appoint_id`, `food_dislike_name`) VALUES ";
@@ -250,9 +247,7 @@ Class appoint{
 
         $final = join(",", $values);
         $query=$this->db->connect()->prepare($sql.$final);
-        if($query->execute()){
-            echo "record allergies inserted successfully";
-        }
+        $query->execute();
 
 
         $sql = "INSERT INTO `tbl_transact_appoint_food` (`food_id`, `appoint_id`, `food_allergies_id`, `food_like_id`, 
@@ -290,10 +285,8 @@ Class appoint{
 
         $final = join(",", $values);
         $query=$this->db->connect()->prepare($sql.$final);
-        print_r($query);
-        if($query->execute()){
-            echo "record allergies inserted successfully";
-        }
+        $query->execute();
+          
 
 
         $sql = "INSERT INTO `tbl_transact_appoint_physical` (`physical_id`, `appoint_id`, `actual_weight`, `current_height`, 

@@ -428,7 +428,10 @@ a.mini-button:hover {
 }
 .form-input-box {
   /* justify-content: initial; */
-  justify-content: space-between;
+
+  /* initial -- changed because on the form  */
+  /* justify-content: space-between; */
+  justify-content: flex-start;
 }
 .grid-box {
   margin: auto;

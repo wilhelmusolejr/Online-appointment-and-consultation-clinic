@@ -104,9 +104,11 @@ let currentSched;
 boardContainer.addEventListener("click", function (e) {
   let currentBoardPage = getActiveBoard();
 
-  // console.log(e.target);
+  console.log(e.target);
   // console.log(e.target.parentElement);
   // console.log(currentBoardPage);
+
+  // board 1
 
   // JOIN BUTTON
   if (e.target.closest(".button-join")) {
@@ -114,13 +116,25 @@ boardContainer.addEventListener("click", function (e) {
 
     $.ajax({
       type: "POST", //hide url
-      url: `../../../php/update/update-consult-join.php`, //your form validation url
+      url: `${path}php/request/req-board-page.php`, //your form validation url
       dataType: "json",
-      success: function (response) {
-        console.log(response);
+      success: function (data) {
+        if (data.board_page == 3) {
+          $.ajax({
+            type: "POST", //hide url
+            url: `${path}php/update/update-consult-join.php`, //your form validation url
+            dataType: "json",
+            success: function (response) {
+              console.log(response);
+            },
+            error: function () {
+              console.log("fail in join room");
+            },
+          });
+        }
       },
       error: function () {
-        console.log("fail in join room");
+        console.log("fail to fetch board page");
       },
     });
   }
@@ -147,65 +161,14 @@ boardContainer.addEventListener("click", function (e) {
   }
 
   if (e.target.parentElement.classList.contains("button-confirm-finalFour")) {
-    e.preventDefault();
+    // e.preventDefault();
     console.log("test");
 
-    $(".button-upload-confirmation").remove();
-    // e.target.parentElement.classList.toggle("hidden");
-    this.querySelector(
-      ".consultation-checkpoint-stage .button-next"
-    ).classList.toggle("hidden");
+    // // upload file to database
 
-    // // add file to database
-    this.querySelector(
-      ".consultation-checkpoint-stage .modal-parent"
-    ).classList.toggle("hidden");
-
-    $.ajax({
-      type: "POST", //hide url
-      url: `../../../php/request/req-board-page.php`, //your form validation url
-      dataType: "json",
-      async: false,
-      success: function (response) {
-        // console.log(response);
-
-        // increment board page
-        $.ajax({
-          type: "POST", //hide url
-          url: `../../../php/set/set-board.php`, //your form validation url
-          data: { board_page: response["board_page"] },
-          async: false,
-          success: function (response) {
-            console.log(response);
-          },
-          error: function (response) {
-            console.log("failed ");
-          },
-        });
-      },
-      error: function () {
-        console.log("fail");
-      },
-    });
-
-    // set consult status to approved
-    $.ajax({
-      type: "POST", //hide url
-      url: `../../../php/update/update-consult-result.php`, //your form validation url
-      async: false,
-      success: function (response) {
-        console.log(response);
-      },
-      error: function (response) {
-        console.log("failed ");
-      },
-    });
-
-    // upload file to database
-
-    changePage(currentBoardPage, boardSets, 1);
-    changeBoardProgress(currentBoardPage + 1);
-    ajaxCaller(currentBoardPage + 1);
+    // changePage(currentBoardPage, boardSets, 1);
+    // changeBoardProgress(currentBoardPage + 1);
+    // ajaxCaller(currentBoardPage + 1);
   }
 
   if (e.target.parentElement.classList.contains("button-confirm-finalThree")) {
@@ -396,8 +359,6 @@ boardContainer.addEventListener("click", function (e) {
 
   // client information
   if (e.target.classList.contains("button-clientInfo")) {
-    console.log("wiw");
-
     this.querySelector(".modal-client-info").classList.remove("hidden");
   }
 
@@ -424,6 +385,8 @@ function getBoardThreeData(stopper) {
 
         if (data.board_page > 3) {
           stopper = true;
+
+          $("#sms_chat").attr("disabled", true);
         }
       },
       error: function () {
@@ -502,10 +465,84 @@ function ajaxCaller(currentBoardPage) {
       });
 
       getBoardThreeData(false);
+
+      $.ajax({
+        type: "POST", //hide url
+        url: `${path}php/request/req-appoint-info.php`, //your form validation url
+        dataType: "json",
+        success: function (data) {
+          let parent = document.querySelector(".modal-client-info");
+
+          console.log(data);
+
+          let clientInfo = data.clientInfo;
+          // name
+          clientTabuate(
+            parent,
+            "client-fullName",
+            `${clientInfo.first_name} ${clientInfo.last_name}`
+          );
+          // birthdate
+          clientTabuate(parent, "client-birthdate", clientInfo.birthdate);
+          // sex
+          clientTabuate(parent, "client-sex", clientInfo.gender);
+
+          let physicalInfo = data.physicalInfo;
+          // height
+          clientTabuate(parent, "client-height", physicalInfo.current_height);
+          // weight
+          clientTabuate(parent, "client-weight", physicalInfo.actual_weight);
+
+          // contact
+          clientTabuate(parent, "client-phone", clientInfo.mobile_num);
+          // email
+          clientTabuate(parent, "client-email", clientInfo.email_add);
+
+          let consultInfo = data.consultInfo;
+          // referral download
+          document.querySelector(
+            ".referral-form-download"
+          ).href = `${path}php/request/download.php?file=${consultInfo.referral_form_id}`;
+          document.querySelector(
+            ".referral-form-download"
+          ).textContent = `${consultInfo.referral_form_id}`;
+          document.querySelector(
+            ".medical-form-download"
+          ).href = `${path}php/request/download.php?file=${consultInfo.medical_record_id}`;
+          document.querySelector(
+            ".medical-form-download"
+          ).textContent = `${consultInfo.medical_record_id}`;
+
+          //
+        },
+        error: function () {
+          console.log("ERROR at getting data");
+        },
+      });
       break;
 
     // board 3
     case 4:
+      break;
+
+    case 5:
+      let parent = document.querySelector(".solution-stage");
+
+      $.ajax({
+        type: "POST", //hide url
+        url: `${path}php/request/req-consult.php`, //your form validation url
+        dataType: "json",
+        success: function (data) {
+          let markUp = `
+                <a class="consultationSolution" href="${path}php/request/download.php?file=${data.filename}">${data.filename}</a>`;
+          $(`.download-form`).html(markUp);
+          $(`.download-form`).removeClass("hidden");
+        },
+        error: function () {
+          console.log("ERROR at getting consult checkpoint");
+        },
+      });
+
       break;
   }
 }
@@ -676,4 +713,97 @@ function showSchedule(target, edit = false) {
       console.log("failed to get sched sss");
     },
   });
+}
+
+$(".upload-consult-result").on("submit", function (e) {
+  e.preventDefault();
+
+  console.log("pressed");
+
+  $.ajax({
+    type: "POST", //hide url
+    url: `../../../php/set/set-file-consult-result.php`, //your form validation url
+    // data: $(".upload-consult-result").serialize(),
+
+    data: new FormData(this),
+    dataType: "json",
+    contentType: false,
+    cache: false,
+    processData: false,
+
+    success: function (data) {
+      console.log(data);
+
+      let parent = document.querySelector(".consultation-checkpoint-stage");
+
+      parent.querySelector(" .modal-parent").classList.toggle("hidden");
+
+      if (data.response == 1) {
+        parent.querySelector(".form-error-message").textContent = "";
+        parent.querySelector(
+          "input[name='appointment-referral']"
+        ).disabled = true;
+        // POSITIVE
+
+        $(".button-upload-confirmation").remove();
+        // e.target.parentElement.classList.toggle("hidden");
+
+        parent.querySelector(".button-next").classList.toggle("hidden");
+
+        // set board to + 1
+        $.ajax({
+          type: "POST", //hide url
+          url: `../../../php/request/req-board-page.php`, //your form validation url
+          dataType: "json",
+          async: false,
+          success: function (response) {
+            // console.log(response);
+
+            // increment board page
+            $.ajax({
+              type: "POST", //hide url
+              url: `../../../php/set/set-board.php`, //your form validation url
+              data: { board_page: response["board_page"] },
+              async: false,
+              success: function (response) {
+                console.log(response);
+              },
+              error: function (response) {
+                console.log("failed ");
+              },
+            });
+          },
+          error: function () {
+            console.log("fail");
+          },
+        });
+
+        // // set consult status to approved
+        // should have delete file below
+        // $.ajax({
+        //   type: "POST", //hide url
+        //   url: `../../../php/update/update-consult-result.php`, //your form validation url
+        //   async: false,
+        //   success: function (response) {
+        //     console.log(response);
+        //   },
+        //   error: function (response) {
+        //     console.log("failed ");
+        //   },
+        // });
+
+        // // add file to database
+      } else {
+        // NEGATIBO
+        parent.querySelector(".form-error-message").textContent = data.message;
+      }
+    },
+    error: function (data) {
+      console.log("error");
+    },
+  });
+});
+
+function clientTabuate(parent, target, data) {
+  parent.querySelector(`.${target}`).textContent = `${data}`;
 }

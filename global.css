@@ -1093,6 +1093,18 @@ footer .nav-links {
   flex: 80%;
 }
 
+.form-error-message {
+  color: red !important;
+}
+
+.download-form {
+  background-color: #f8fffa;
+
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 10px;
+  width: 100%;
+}
 /* MEDIA QUERIES */
 
 /* TABLET */

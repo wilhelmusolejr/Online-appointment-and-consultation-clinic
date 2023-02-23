@@ -1,31 +1,70 @@
 <?php
-    require_once '../../../classes/appoint.class.php';
-    require_once '../../../php/general.php';
-    require_once '../../../classes/database.php';
+  $path = "../../../";
 
-    session_start();
+  require_once $path.'classes/appoint.class.php';
+  require_once $path.'php/general.php';
+  require_once $path.'classes/database.php';
 
-    // var_dump($_POST);
-    // echo '<pre>';
-    // var_dump($_SESSION);
+  session_start();
 
-    if(isset($_POST['submit'])){
-      // print_r($_POST);
+  // var_dump($_FILES);
 
+  $resultTotal = array("errorResponse" => [], "transact_id" => null);
+
+  $target_dir = $path."uploads/";
+  foreach($_FILES as $target => $file) {
+    $result = array("response"=> 1,"message" => null, "target" => $target);
+
+    // print_r($file);
+
+    if($_FILES[$target]['name'] != "") {
+      $temp = explode(".", $file["name"]);
+      $fileName = round(rand(100,500).microtime(true)).rand(100,500). '.' . end($temp);
+      $_FILES[$target]['name'] = $fileName;
+      $fileType = strtolower(pathinfo($_FILES[$target]['name'],PATHINFO_EXTENSION));
+    
+      if($file['size'] > 5000000) {
+        $result["response"] = 0; 
+        $result['message'] = "Your file is too large, only 5mb below.";
+      }
+      
+      // Allow certain file formats
+      if($fileType != "jpg" && $fileType != "png" && $fileType != "jpeg"
+      && $fileType != "pdf" && $fileType != "docx" &&
+      $fileType != "doc" && $fileType != "") {
+        $result["response"] = 0; 
+        $result['message'] = "Only JPG, JPEG, PNG, PDF, and DOC file types are allowed.";
+      }
+    }
+    array_push($resultTotal['errorResponse'], $result);
+  }
+
+  // echo json_encode($_FILES);
+
+
+  // checker for error
+  $stopper = 0;
+  foreach($resultTotal['errorResponse'] as $result) {
+    if($result['response'] == 0) {
+      $stopper = 1;
+    }
+  }
+
+  if($stopper != 1) {
       $appoint = new appoint;
       $appoint-> user_id = $_SESSION['user_loggedIn']['user_id'];
-
+  
       // type
       $appoint-> appoint_for = $_POST['appointment-for'] == 'myself' ? 1:2;
-
+  
       // consult
       $appoint-> consul_complaint = validateInput($_POST['appoint-chief-complaint']);
       $appoint-> consul_date = $_POST['appointment-date'];
       $appoint-> consul_time = $_POST['appointment-time'];
-      $appoint-> consul_referal = isset($_POST['appointment-referral']) ? $_POST['appointment-referral']: null;
-      $appoint-> consul_record = isset($_POST['appointment-medical']) ? $_POST['appointment-medical']: null;
+      $appoint-> consul_referal = $_FILES['appointment-referral']['name'] != "" ? $_FILES['appointment-referral']['name']: null;
+      $appoint-> consul_record = $_FILES['appointment-medical']['name'] != "" ? $_FILES['appointment-medical']['name']: null;
       $appoint-> consul_more_info = isset($_POST['appointment-more-info']) ? validateInput($_POST['appointment-more-info']): null;
-
+  
       // food
       $appoint-> food_allergies = preg_split('/[\ \n\,]+/', validateInput($_POST['appoint-food-allergies']));
       $appoint-> food_like =  preg_split('/[\ \n\,]+/', validateInput($_POST['appoint-food-like']));
@@ -41,7 +80,7 @@
       $appoint-> physical_activity = $_POST['physical-activity'];
       $appoint-> gain_weight_level = $_POST['gain-weight-level'];
       $appoint-> lose_weight_level = $_POST['lose-weight-level'];
-
+  
       // medical
       $appoint-> medical_curent = validateInput($_POST['appoint-medical-current-med']);
       // $appoint-> medical_past_condition = $_POST['health-condition-one'];
@@ -54,9 +93,9 @@
         $sql = "SELECT * FROM tbl_user_profile AS profile_table INNER JOIN 
         tbl_user_acc_info AS user_acc ON profile_table.user_id = user_acc.user_id 
         WHERE profile_table.user_id = :user_id;";
-
+  
         $database = new Database();
-
+  
         $query=$database->connect()->prepare($sql);
         $query->bindParam(':user_id', $appoint->user_id);
         if($query->execute()){
@@ -79,8 +118,8 @@
         $appoint-> client_email_add = validateInput($_POST['reg-email']) ;
       }
       $appoint-> client_relationship_status = isset($_POST['relationship-status'])? validateInput($_POST['relationship-status']):"";
-
-
+  
+  
       $res = $appoint->setTransact();
       $res = $appoint->setAppoint();
       $res = $appoint->setConsultInfo();
@@ -90,16 +129,17 @@
       $res = $appoint->setMedicalInfo();
       $res = $appoint->setAppointCheckpointStatus();
       $res = $appoint->setRndStatus();
+  
+      
+      $_SESSION['transact_id'] = $appoint -> getTransactLatest();
+      $_GET['transact_id'] = $_SESSION['transact_id'];
+      $resultTotal['transact_id'] = $_SESSION['transact_id'];
 
-      if($res){
-        echo "success";
-        $_SESSION['transact_id'] = $appoint -> getTransactLatest();
-        $_GET['transact_id'] = $_SESSION['transact_id'];
-        header("Location: ../consultation.php?transact_id=".$_GET['transact_id']);
-      } else {
-        echo "fail";
+      foreach($_FILES as $target => $file) {
+        if($_FILES[$target]['name'] != "") {
+          move_uploaded_file($_FILES[$target]['tmp_name'], $target_dir.$_FILES[$target]['name']);
+        }
       }
-    }
-    // header("Location: ../consultation.php");
-
-?>
+  } 
+  
+  echo json_encode($resultTotal);

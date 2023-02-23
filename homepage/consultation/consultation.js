@@ -1,5 +1,7 @@
 "use strict";
 
+let path = "../../";
+
 // LIMIT CHECK BOX FOR BODY TYPE
 $("#physical-tab input:checkbox").click(function () {
   let bol = $("#physical-tab input:checkbox:checked").length >= 2;
@@ -130,6 +132,8 @@ boardContainer.addEventListener("click", function (e) {
 
   // console.log(e.target);
 
+  // board 1
+
   if (e.target.parentElement.classList.contains("button-semi-submit")) {
     modalAppointNotif.classList.toggle("hidden");
   }
@@ -177,13 +181,25 @@ boardContainer.addEventListener("click", function (e) {
 
     $.ajax({
       type: "POST", //hide url
-      url: `../../php/update/update-consult-join.php`, //your form validation url
+      url: `../../php/request/req-board-page.php`, //your form validation url
       dataType: "json",
-      success: function (response) {
-        console.log(response);
+      success: function (data) {
+        if (data.board_page == 3) {
+          $.ajax({
+            type: "POST", //hide url
+            url: `../../php/update/update-consult-join.php`, //your form validation url
+            dataType: "json",
+            success: function (response) {
+              console.log(response);
+            },
+            error: function () {
+              console.log("fail xxx");
+            },
+          });
+        }
       },
       error: function () {
-        console.log("fail xxx");
+        console.log("fail to fetch board page");
       },
     });
   }
@@ -253,7 +269,6 @@ changeBoardProgress(currentBoardPage);
 
 // board 2
 let transactRndId = 0;
-let appointCheckpoint = true;
 let pendingRndSize;
 let currentRndIndex;
 let appointmentStatus = "PENDING";
@@ -272,7 +287,7 @@ function getBoardTwoData(stopper) {
       url: `../../php/request/request-appoint.php`, //your form validation url
       dataType: "json",
       success: function (data) {
-        // console.log(data);
+        console.log(data);
 
         // APPROVED, DECLINED, PENDING
         // Board parent
@@ -311,16 +326,43 @@ function getBoardTwoData(stopper) {
           data.rnd_status == "APPROVED"
         ) {
           transactRndId = data.rnd_id;
-          appointCheckpoint = false;
 
           $(`${boardParent} .appoint-status-time`).addClass("status-time-good");
           $(`${boardParent} .appoint-status-time span`).text(
             `You're good to go`
           );
 
+          // change RND profile
           $.ajax({
             type: "POST", //hide url
-            url: `../../php/request/req-board-page.php`, //your form validation url
+            url: `../../php/request/req-katalk-user.php`, //your form validation url
+            dataType: "json",
+            success: function (data) {
+              $(`.assigned-rnd`).text(
+                `${data[1].first_name} ${data[1].last_name}`
+              );
+            },
+            error: function (data) {
+              console.log("ERROR at getting RND profile");
+            },
+          });
+
+          // $.ajax({
+          //   type: "POST", //hide url
+          //   url: `${path}php/request/request-profile.php`, //your form validation url
+          //   dataType: "json",
+          //   data: {}
+          //   async: false,
+          //   success: function (response) {
+          //     if (data.board != 2) {
+          //       $(`${boardParent} .button-next button`).prop("disabled", false);
+          //     }
+          //   },
+          // });
+
+          $.ajax({
+            type: "POST", //hide url
+            url: `${path}php/request/req-board-page.php`, //your form validation url
             dataType: "json",
             async: false,
             success: function (response) {
@@ -351,7 +393,6 @@ function getBoardThreeData(stopper) {
   console.log("board 3", stopper);
 
   if (!stopper) {
-    // get schedule data
     showSchedule(".list-schedule ul");
 
     $.ajax({
@@ -359,13 +400,13 @@ function getBoardThreeData(stopper) {
       url: `../../php/request/req-board-page.php`, //your form validation url
       dataType: "json",
       success: function (data) {
-        // console.log(data);
-
         let boardParent = "consultation-stage";
 
         if (data.board_page > 3) {
           $(`.${boardParent} .button-next button`).prop("disabled", false);
           stopper = true;
+
+          $("#sms_chat").attr("disabled", true);
         }
       },
       error: function () {
@@ -458,15 +499,164 @@ function getBoardFourData(stopper) {
   }
 }
 
-// setTimeout(getBoardTwoData, 1000);
+let urlTransactId = new URLSearchParams(window.location.search).get(
+  "transact_id"
+);
+
+function setterInfo(urlTransactId) {
+  if (urlTransactId) {
+    console.log(urlTransactId);
+
+    // REDIRECT TO LAST TRANSACT
+    $.ajax({
+      type: "POST", //hide url
+      url: `${path}php/request/req-board-page.php`, //your form validation url
+      dataType: "json",
+      data: { transact_id: urlTransactId },
+      async: false,
+      success: function (data) {
+        console.log(data);
+        let currentBoardPage = data.board_page - 1;
+        changePage(currentBoardPage, boardSets, 1);
+        changeBoardProgress(currentBoardPage + 1);
+        ajaxCaller(currentBoardPage + 1);
+
+        tabulateThenDisabled("transact_id", `#${urlTransactId}`);
+      },
+      error: function () {
+        console.log("ERROR at getting data for REQ BOARD");
+      },
+    });
+
+    // SETTING PRIMARY INFO
+    let parent = "appointment-stage";
+
+    $(`.${parent} .button-semi-submit`).addClass("hidden");
+    $(`.${parent} .button-next`).removeClass("hidden");
+
+    $.ajax({
+      type: "POST", //hide url
+      url: `${path}php/request/req-appoint-info.php`, //your form validation url
+      dataType: "json",
+      success: function (data) {
+        console.log(data);
+
+        // CONSULT
+        let consultInfo = data.consultInfo;
+
+        // OTHER DATA
+        tabulateThenDisabled(
+          "appoint-date-submitted",
+          consultInfo.appoint_date_submitted
+        );
+
+        tabulateThenDisabled(
+          "appoint-chief-complaint",
+          consultInfo.chief_complaint
+        );
+        tabulateThenDisabled("appointment-date", consultInfo.appoint_date);
+        tabulateThenDisabled("appointment-time", consultInfo.appoint_time);
+        tabulateThenDisabled(
+          "appointment-more-info",
+          consultInfo.appoint_more_info,
+          "textarea"
+        );
+
+        document
+          .querySelector(`.${parent}`)
+          .querySelectorAll("input[type='file']")
+          .forEach((elem) => {
+            elem.disabled = true;
+          });
+
+        // FOOD
+        let foodInfo = data.foodInfo;
+        tabulateThenDisabled("appoint-type-diet", foodInfo.type_diet_id);
+
+        // allegy
+        tabulateThenDisabled(
+          "appoint-food-allergies",
+          uniqueAndJoin(data.listFoodAllergy)
+        );
+
+        // like
+        tabulateThenDisabled(
+          "appoint-food-like",
+          uniqueAndJoin(data.listFoodLike)
+        );
+
+        // dislike
+        tabulateThenDisabled(
+          "appoint-food-dislike",
+          uniqueAndJoin(data.listFoodDislike)
+        );
+
+        disableCheckbox("smoke-level", foodInfo.smoke_level_id);
+        disableCheckbox("drink-level", foodInfo.drink_level_id);
+
+        //  PHYSICAL
+        let physicalInfo = data.physicalInfo;
+
+        tabulateThenDisabled(
+          "appoint-actual-weight",
+          physicalInfo.actual_weight
+        );
+        tabulateThenDisabled(
+          "appoint-current-height",
+          physicalInfo.current_height
+        );
+
+        // NEEDS FIXING
+        // VALUE OF INPUT IN CHECK BOXES AND SQL QUERY
+        // physical
+        disableCheckbox("physical-activity", physicalInfo.physical_activity_id);
+        // gain weight
+        disableCheckbox("gain-weight-level", physicalInfo.gain_weight_level_id);
+        // lose weight
+        disableCheckbox("lose-weight-level", physicalInfo.lose_weight_level_id);
+
+        // bodytype
+        document
+          .querySelectorAll("input[name='body-type[]']")
+          .forEach((elem) => {
+            elem.checked = false;
+            elem.disabled = true;
+          });
+
+        // MEDICAL
+        let medicalInfo = data.medicalInfo;
+
+        // current medication
+        tabulateThenDisabled(
+          "appoint-medical-current-med",
+          medicalInfo.current_medication
+        );
+
+        disableCheckbox("self-condition", medicalInfo.self_past_condition_id);
+
+        disableCheckbox(
+          "family-condition",
+          medicalInfo.family_past_condition_id
+        );
+      },
+      error: function () {
+        console.log("ERROR at getting data");
+      },
+    });
+  }
+}
+setterInfo(urlTransactId);
 
 function ajaxCaller(currentBoardPage) {
+  let parent;
+
   switch (currentBoardPage) {
+    case 1:
+      break;
     // board 2
     case 2:
       getBoardTwoData(false);
       break;
-
     // board 3
     case 3:
       // get who's ka talking stage ni user
@@ -506,6 +696,24 @@ function ajaxCaller(currentBoardPage) {
     case 4:
       getBoardFourData(false);
       break;
+
+    case 5:
+      parent = document.querySelector(".solution-stage");
+
+      $.ajax({
+        type: "POST", //hide url
+        url: `${path}php/request/req-consult.php`, //your form validation url
+        dataType: "json",
+        success: function (data) {
+          let markUp = `
+                <a class="consultationSolution" href="${path}php/request/download.php?file=${data.filename}">${data.filename}</a>`;
+          $(`.download-form`).html(markUp);
+          $(`.download-form`).removeClass("hidden");
+        },
+        error: function () {
+          console.log("ERROR at getting consult checkpoint");
+        },
+      });
   }
 }
 ajaxCaller(currentBoardPage);
@@ -576,8 +784,88 @@ function showSchedule(target, edit = false) {
     error: function () {
       console.log("ERROR at geting schedule data");
     },
-    complete: function (data) {
-      setTimeout(showSchedule, 5000, target, edit);
+  });
+}
+
+$(".form-appoint-submit").on("submit", function (e) {
+  e.preventDefault();
+
+  $.ajax({
+    type: "POST", //hide url
+    url: `php/set-appoint.php`, //your form validation url
+    data: new FormData(this),
+    dataType: "json",
+    contentType: false,
+    cache: false,
+    processData: false,
+    async: false,
+    success: function (data) {
+      let parent = "appointment-stage";
+      $(`.${parent} .modal-appointment-confirmation`).addClass("hidden");
+
+      console.log(data);
+
+      let stopper = false;
+
+      data.errorResponse.forEach((response) => {
+        document
+          .querySelector(`#${response.target}`)
+          .closest(".form-input-box")
+          .querySelector(".form-error-message").textContent = response.message;
+
+        if (response.response == 0) {
+          stopper = true;
+        }
+      });
+
+      if (!stopper) {
+        $(`.${parent} .button-semi-submit`).addClass("hidden");
+        $(`.${parent} .button-next`).removeClass("hidden");
+
+        const url = new URL(window.location.href);
+        url.searchParams.set("transact_id", data.transact_id);
+        window.history.replaceState(null, null, url);
+
+        urlTransactId = data.transact_id;
+        setterInfo(urlTransactId);
+
+        let currentBoardPage = 1;
+        changePage(currentBoardPage, boardSets, 1);
+        changeBoardProgress(currentBoardPage + 1);
+        ajaxCaller(currentBoardPage + 1);
+      }
     },
+    error: function () {
+      console.log("fail at ajax");
+    },
+  });
+});
+
+function tabulateThenDisabled(target, data, type = "input") {
+  data = data == "" ? "NO DATA GIVEN" : data;
+
+  $(`${type}[name='${target}']`).val(data);
+  $(`${type}[name='${target}']`).attr("disabled", true);
+}
+
+function getUniqueFromArray(data) {
+  return [...new Set(data)];
+}
+
+function joinStrings(data) {
+  return data.join(", ");
+}
+
+function uniqueAndJoin(data) {
+  return joinStrings(getUniqueFromArray(data));
+}
+
+function disableCheckbox(target, data) {
+  document.querySelectorAll(`input[name='${target}']`).forEach((elem) => {
+    elem.disabled = true;
+    elem.checked = false;
+    if (parseInt(elem.value) == data) {
+      elem.checked = true;
+    }
   });
 }

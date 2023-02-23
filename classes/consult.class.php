@@ -15,6 +15,8 @@ class consult {
   public $current_id;
   public $current_in;
 
+  public $consultResultFile;
+
   protected $db;
 
   function __construct() {
@@ -135,8 +137,8 @@ class consult {
 
   function setConsultResult() {
     $sql = "INSERT INTO `tbl_transact_consult_checkpoint_result_status`
-     (`consult_result_status_id`, `transact_id`, `consult_result_status`)
-      VALUES (NULL, :transact_id, 'PENDING')";
+     (`consult_result_status_id`, `transact_id`, `consult_result_status`, `filename`)
+      VALUES (NULL, :transact_id, 'PENDING', NULL)";
     $query=$this->db->connect()->prepare($sql);
 
     $query->bindParam(':transact_id', $this->transact_id);
@@ -149,10 +151,11 @@ class consult {
 
   function updateConsultResult() {
     $sql = "UPDATE `tbl_transact_consult_checkpoint_result_status` 
-    SET consult_result_status = 'APPROVED' WHERE transact_id = :transact_id;";
+    SET consult_result_status = 'APPROVED', filename = :consultResultFile WHERE transact_id = :transact_id;";
     $query=$this->db->connect()->prepare($sql);
 
     $query->bindParam(':transact_id', $this->transact_id);
+    $query->bindParam(':consultResultFile', $this->consultResultFile);
 
     if($query->execute()){
       return true;

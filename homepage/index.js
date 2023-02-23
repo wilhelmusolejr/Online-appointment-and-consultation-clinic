@@ -73,6 +73,7 @@ $(".form-login").on("submit", function (e) {
     type: "post", //hide url
     url: `${path}php/request/req-login.php`, //your form validation url
     data: $(".form-login").serialize(),
+
     success: function (response) {
       if (response) {
         let initialHref = location.href;

@@ -388,7 +388,7 @@
 
                 <!-- sms box input -->
                 <div class="sms-box-container">
-                  <input type="text" name="middlename" id="middlename" placeholder="Your message here"
+                  <input type="text" name="sms_chat" id="sms_chat" placeholder="Your message here"
                     <?php echo $board_page > 3? 'disabled':"" ?>>
                 </div>
 
@@ -482,33 +482,34 @@
                 <!-- Personal information -->
                 <div class="data-container data-personal">
                   <h3 class="text-uppercase">Personal information</h3>
-                  <p>Full name: Sofia Libero Andres</p>
-                  <p>Birthdate: May 15, 2000</p>
-                  <p>Gender: Female</p>
+                  <p>Full name: <span class="client-fullName">LOADING</span></p>
+                  <p>Birthdate: <span class="client-birthdate">LOADING</span></p>
+                  <p>Sex: <span class="client-sex">LOADING</span></p>
                 </div>
 
                 <!-- Contact information -->
                 <div class="data-container data-contact">
                   <h3 class="text-uppercase">Contact information</h3>
-                  <p>Phone number: 09976936708</p>
-                  <p>Email address: tite@titeng-galet.xyz</p>
+                  <p>Phone number: <span class="client-phone">LOADING</span></p>
+                  <p>Email address: <span class="client-email">LOADING</span></p>
                 </div>
 
 
                 <!-- Health information -->
                 <div class="data-container data-health">
                   <h3 class="text-uppercase">Health information</h3>
-                  <p>Current height: 160 cm</p>
-                  <p>Current weight: 160 lbs</p>
+                  <p>Current height: <span class="client-height">LOADING</span></p>
+                  <p>Current weight: <span class="client-weight">LOADING</span></p>
                 </div>
 
 
                 <!-- Consultation information -->
                 <div class="data-container data-consultation">
                   <h3 class="text-uppercase">Consultation information</h3>
-                  <p>Referral form: <a href="#">test.pdf</a></p>
-                  <p>Medical form: <a href="#">test.pdf</a></p>
-                  <p>Current weight: tite@titeng-galet.xyz</p>
+                  <p>Referral form: <a class="consultationSolution referral-form-download" href="#">test.pdf</a></p>
+                  <p>Medical form: <a class="consultationSolution medical-form-download" href="#">test.pdf</a></p>
+
+
                 </div>
 
                 <!-- Consultation information -->
@@ -516,7 +517,6 @@
                   <h3 class="text-uppercase">Nutritional information</h3>
                   <p>Referral form: <a href="#">test.pdf</a></p>
                   <p>Medical form: <a href="#">test.pdf</a></p>
-                  <p>Current weight: tite@titeng-galet.xyz</p>
                 </div>
 
               </div>
@@ -526,7 +526,6 @@
               </div>
             </div>
           </div>
-
 
         </div>
 
@@ -540,8 +539,9 @@
         <div class="board-header text-uppercase text-center">
           <h2>Upload consultation result</h2>
         </div>
+
         <!-- Form -->
-        <form action="/" class="form" method="post">
+        <form action="/" class="form upload-consult-result" method="post" enctype="multipart/form-data">
           <div class="divider">
             <!-- 1 -->
             <div class="form-input-parent">
@@ -555,15 +555,16 @@
                     <!-- Referral form -->
                     <div class="form-input-box input-one">
                       <label for="appointment-referral">Consultation result file</label>
-                      <input type="file" name="appointment-referral" id="appointment-referral">
-                      <p class="form-error-message hidden">Error</p>
+                      <input type="file" name="appointment-referral" id="appointment-referral"
+                        <?php echo $board_page > 4 ? "disabled" : "" ?>>
+                      <p class="form-error-message"></p>
+                      <?php if(!$board_page > 4) { ?>
+                      <?php }?>
+                      <!-- <div class="download-form hidden">
+                        <a class="consultationSolution" href="#">LOADING</a>
+                      </div> -->
                     </div>
-                    <!-- Medical record -->
-                    <div class="form-input-box input-one hidden">
-                      <label for="appointment-medical" class="text-capital">Conversation transcript</label>
-                      <input type="file" name="appointment-medical" id="appointment-medical" disabled>
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
+
                   </div>
                 </div>
 
@@ -595,23 +596,25 @@
 
 
           </div>
-        </form>
 
-        <!-- MODAl - CONFIRMATION -->
-        <div class="modal-parent modal-notif-parent modal-appointment-confirmation overlay-black flex-center hidden">
-          <div class="modal-container modal-notif-container sizing-secondary">
-            <div class="modal-header text-center">
-              <h2 class="text-uppercase">Sure ka bhie?</h2>
-            </div>
-            <p class="text-center">Mark the transaction complete. <br><em>This action cannot be reverted</em></p>
-            <div class="modal-buttons">
-              <a class="button button-cancel">Go back</a>
-              <div class="button-confirm-final button-confirm-finalFour">
-                <a type="submit" name='submit' value="submit" class="button button-primary">Upload</a>
+          <!-- MODAl - CONFIRMATION -->
+          <div class="modal-parent modal-notif-parent modal-appointment-confirmation overlay-black flex-center hidden">
+            <div class="modal-container modal-notif-container sizing-secondary">
+              <div class="modal-header text-center">
+                <h2 class="text-uppercase">Sure ka bhie?</h2>
+              </div>
+              <p class="text-center">Mark the transaction complete. <br><em>This action cannot be reverted</em></p>
+              <div class="modal-buttons">
+                <a class="button button-cancel">Go back</a>
+                <div class="button-confirm-final button-confirm-finalFour">
+                  <button type="submit" name='submit' value="submit" class="button button-primary">Upload</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </form>
+
+
 
       </div>
 
@@ -638,14 +641,9 @@
                     <!-- Referral form -->
                     <div class="form-input-box input-one">
                       <label for="appointment-referral">Consultation result file</label>
-                      <input type="file" name="appointment-referral" id="appointment-referral">
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
-                    <!-- Medical record -->
-                    <div class="form-input-box input-one hidden">
-                      <label for="appointment-medical" class="text-capital">Conversation transcript</label>
-                      <input type="file" name="appointment-medical" id="appointment-medical" disabled>
-                      <p class="form-error-message hidden">Error</p>
+                      <div class="download-form">
+                        <a class="consultationSolution" href="#">LOADING</a>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -662,7 +660,7 @@
             </div>
             <!-- middle -->
             <div>
-              <button class="button hidden" disabled>Submit</button>
+              <button class="button button-tertiary hidden">Request for monitoring</button>
             </div>
             <!-- next -->
             <div class="">
