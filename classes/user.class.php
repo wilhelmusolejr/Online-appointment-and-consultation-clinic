@@ -19,6 +19,10 @@ Class user{
     public $gender;
     public $birthdate;
 
+    public $id_image;
+    public $id_status;
+    public $id_remark;
+
     protected $db;
 
     function __construct() {
@@ -126,6 +130,57 @@ Class user{
             $query->bindParam(':email', $this-> email);
             $query->bindParam(':pass', $this-> pass);
         }
+        if($query->execute()){
+            $data = $query->fetch();
+        }
+        return $data;
+    }
+
+    function updateUserProfile() {
+        $sql = "UPDATE tbl_user_profile SET user_type = :user_type, first_name = :first_name, middle_name =
+         :middle_name, last_name = :last_name, contact = :contact, gender = :gender, 
+         birthdate = :birthdate WHERE user_id = :user_id";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':user_type', $this-> user_type);
+        $query->bindParam(':first_name', $this-> first_name);
+        $query->bindParam(':middle_name', $this-> middle_name);
+        $query->bindParam(':last_name', $this-> last_name);
+        $query->bindParam(':contact', $this-> contact);
+        $query->bindParam(':gender', $this-> gender);
+        $query->bindParam(':birthdate', $this-> birthdate);
+        $query->bindParam(':user_id', $this-> user_id);
+
+        if($query->execute()) {
+            return true;
+        }
+        return false;
+    }
+
+    function setUploadId() {
+        $sql = "INSERT INTO `tbl_user_identification` (`identification_id`, `user_id`, 
+        `image`, `status`, `remark`) VALUES (NULL, :user_id, :id_image, :id_status, 
+        :id_remark)";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':user_id', $this-> user_id);
+        $query->bindParam(':id_image', $this-> id_image);
+        $query->bindParam(':id_status', $this-> id_status);
+        $query->bindParam(':id_remark', $this-> id_remark);
+
+        if($query -> execute()) {
+            return true;
+        }
+        return false;
+    }   
+
+
+    function getIdInfo() {
+        $sql = "SELECT * FROM tbl_user_identification WHERE user_id = :user_id";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':user_id', $this-> user_id);
+
         if($query->execute()){
             $data = $query->fetch();
         }

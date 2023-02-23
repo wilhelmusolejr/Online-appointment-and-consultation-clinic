@@ -74,3 +74,7 @@ a.button-cancel {
 a.button-back {
   color: black !important;
 }
+
+.divider label {
+  text-align: left;
+}

@@ -16,17 +16,18 @@
     $user -> user_id = $_GET['profile-id'];
 
     $userData = $user -> getUserData();
-
-    // print_r($_SESSION);
-
+    $userId = $user -> getIdInfo();
 
   }
+
+  print_r($userId);
 
 
   require_once $path.'includes/starterOne.php';  
 ?>
 <link rel="stylesheet" href="profile.css" />
 <script type="module" src="<?php echo $path ?>homepage/index.js" defer></script>
+<script src="profile.js" defer></script>
 <?php require_once $path.'includes/starterTwo.php'; ?>
 
 <body>
@@ -37,7 +38,7 @@
     <?php require_once $path.'includes/navigator.php'; ?>
   </header>
 
-  <!-- SECTION - List of RND -->
+  <!-- SECTION - PROFILING -->
   <section class="profile-page-parent sizing-secondary text-center">
 
     <div class="section-header-parent">
@@ -68,7 +69,7 @@
               </div>
               <!-- gender -->
               <div class="gender-form form-input-box input-two">
-                <label for="gender" class="text-capital">Gender <span>*</span></label>
+                <label for="gender" class="text-capital">Gender</label>
                 <div class="gender-con radio-box flex-center">
                   <div>
                     <input type="radio" id="male" name="gender" value="Male" checked disabled>
@@ -83,7 +84,7 @@
               </div>
               <!-- birth date -->
               <div class="form-input-box input-two">
-                <label for="birthdate" class="text-capital">Birthdate <span>*</span></label>
+                <label for="birthdate" class="text-capital">Birthdate</label>
                 <input type="date" name="birthdate" id="birthdate" value="<?php echo $userData['birthdate'] ?>"
                   disabled>
                 <p class="form-error-message hidden">Error</p>
@@ -93,13 +94,13 @@
             <div class="form-input-parent">
               <!-- Mobile -->
               <div class="form-input-box input-two">
-                <label for="reg-mob" class="text-capital">Mobile number <span>*</span></label>
+                <label for="reg-mob" class="text-capital">Mobile number</label>
                 <input type="text" name="reg-mob" id="reg-mob" value="<?php echo $userData['contact'] ?>" disabled>
                 <p class="form-error-message hidden">Error</p>
               </div>
               <!-- Email -->
               <div class="form-input-box input-two">
-                <label for="reg-email" class="text-capital">Email address <span>*</span></label>
+                <label for="reg-email" class="text-capital">Email address</label>
                 <input type="email" name="reg-email" id="reg-email" value="<?php echo $userData['email'] ?>" disabled>
                 <p class="form-error-message hidden">Error</p>
               </div>
@@ -111,15 +112,20 @@
       <?php if($_SESSION['user_loggedIn']['user_id'] == $_GET['profile-id']) { ?>
       <!-- BUTTONS -->
       <div class="profile-buttons ">
+        <?php if($userId['status'] == "PENDING") { ?>
+        <a href="#" class="button button-primary disabled">UPLOADED</a>
+        <?php } else { ?>
         <a href="#" class="button button-primary upload-id-btn">Upload Id</a>
-        <a href="#" class="button button-primary edit-profile-btn">Edit profile</a>
+        <?php } ?>
+        <a href="edit-profile.php?profile-id=<?php echo $_GET['profile-id'] ?>"
+          class="button button-primary edit-profile-btn">Edit profile</a>
       </div>
       <?php } ?>
     </div>
     </div>
 
-    <!-- MODAl - CONFIRMATION -->
-    <div class="modal-parent modal-notif-parent modal-appointment-confirmation overlay-black flex-center hidden">
+    <!-- MODAl - UPLOAD ID -->
+    <div class="modal-parent modal-notif-parent modal-upload-id overlay-black flex-center hidden">
 
       <!-- hidden - fox ajax -->
       <input type="hidden" name="submit" value='true' id="submit">
@@ -128,21 +134,26 @@
         <div class="modal-header text-center">
           <h2 class="text-uppercase">Upload image</h2>
         </div>
-        <form class="form">
+
+        <form class="form form-identification " method="post" enctype="multipart/form-data">
           <div class="divider">
             <!-- left -->
             <div class="form-input-parent">
               <!-- first name -->
               <div class="form-input-box input-one">
-                <input type="file" name="id-image" id="id-image">
+                <input type="file" name="id-image" id="id-image" accept="image/*">
                 <p class="form-error-message hidden">Error</p>
               </div>
             </div>
           </div>
+          <div class="modal-buttons">
+            <a class="button button-cancel">Go back</a>
+            <button type="submit" name='submit' value="submit" class="button button-primary">Submit</button>
+          </div>
         </form>
-        <div class="modal-buttons">
-          <a class="button button-cancel">Go back</a>
-          <button type="submit" name='submit' value="submit" class="button button-primary">Submit</button>
+
+        <div class="modal-buttons form-success hidden">
+          <button class="button button-primary">Done</button>
         </div>
       </div>
     </div>
