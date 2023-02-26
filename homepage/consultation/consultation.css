@@ -559,16 +559,8 @@ a.mini-button:hover {
 .sms-box-container {
   border-top: 2px solid black;
   padding: 10px;
-}
 
-a.button-cancel {
-  color: black !important;
-}
-a.button-back {
-  color: black !important;
-}
-.button-delete {
-  background-color: rgb(120, 22, 22);
+  display: flex;
 }
 /* .button-delete .fa-trash {
   font-size: 1.5rem;

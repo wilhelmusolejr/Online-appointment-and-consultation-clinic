@@ -364,32 +364,15 @@
 
                 <!-- actual sms  -->
                 <div class="actual-message-container">
-                  <!-- messege 1 -->
-                  <div class="message-me messesage-con">
-                    <p class="time">04:00pm</p>
-                    <p class="message-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas, a!</p>
-                  </div>
-                  <!-- messege 2 -->
-                  <div class="message-you messesage-con">
-                    <p class="time">04:00pm</p>
-                    <p class="message-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas, a!</p>
-                  </div>
-                  <!-- messege 3 -->
-                  <div class="message-you messesage-con">
-                    <p class="time">04:00pm</p>
-                    <p class="message-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas, a!</p>
-                  </div>
-                  <!-- messege 1 -->
-                  <div class="message-me messesage-con">
-                    <p class="time">04:00pm</p>
-                    <p class="message-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas, a!</p>
-                  </div>
+                  <P style="width: 100%; height:100%; background-color: grey;" class="flex-center card">
+                    loading</P>
                 </div>
 
                 <!-- sms box input -->
                 <div class="sms-box-container">
                   <input type="text" name="sms_chat" id="sms_chat" placeholder="Your message here"
                     <?php echo $board_page > 3? 'disabled':"" ?>>
+                  <button class="button button-primary button-sendMessage">SEND</button>
                 </div>
 
               </div>
@@ -404,7 +387,7 @@
                 <div class="list-rnd-info text-center">
                   <p class="assigned-rnd">
                     <?php echo $resultClientData['first_name'].' '.$resultClientData['last_name'] ?></p>
-                  <a href="#" class="text-uppercase text-center profile-link">view profile</a>
+                  <a target="_blank" href="#" class="text-uppercase text-center profile-link">view profile</a>
                 </div>
               </div>
               <!-- virtual room -->

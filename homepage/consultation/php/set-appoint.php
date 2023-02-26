@@ -7,20 +7,19 @@
 
   session_start();
 
-  // var_dump($_FILES);
-
   $resultTotal = array("errorResponse" => [], "transact_id" => null);
+
+  if (!isset($_SESSION['user_loggedIn'])) {
+    $resultTotal['login'] = array("response"=> 1,"message" => "You need to login first");
+    echo json_encode($resultTotal);
+    exit();
+  }
 
   $target_dir = $path."uploads/";
   foreach($_FILES as $target => $file) {
     $result = array("response"=> 1,"message" => null, "target" => $target);
 
-    // print_r($file);
-
     if($_FILES[$target]['name'] != "") {
-      $temp = explode(".", $file["name"]);
-      $fileName = round(rand(100,500).microtime(true)).rand(100,500). '.' . end($temp);
-      $_FILES[$target]['name'] = $fileName;
       $fileType = strtolower(pathinfo($_FILES[$target]['name'],PATHINFO_EXTENSION));
     
       if($file['size'] > 5000000) {
@@ -39,9 +38,6 @@
     array_push($resultTotal['errorResponse'], $result);
   }
 
-  // echo json_encode($_FILES);
-
-
   // checker for error
   $stopper = 0;
   foreach($resultTotal['errorResponse'] as $result) {
@@ -56,14 +52,6 @@
   
       // type
       $appoint-> appoint_for = $_POST['appointment-for'] == 'myself' ? 1:2;
-  
-      // consult
-      $appoint-> consul_complaint = validateInput($_POST['appoint-chief-complaint']);
-      $appoint-> consul_date = $_POST['appointment-date'];
-      $appoint-> consul_time = $_POST['appointment-time'];
-      $appoint-> consul_referal = $_FILES['appointment-referral']['name'] != "" ? $_FILES['appointment-referral']['name']: null;
-      $appoint-> consul_record = $_FILES['appointment-medical']['name'] != "" ? $_FILES['appointment-medical']['name']: null;
-      $appoint-> consul_more_info = isset($_POST['appointment-more-info']) ? validateInput($_POST['appointment-more-info']): null;
   
       // food
       $appoint-> food_allergies = preg_split('/[\ \n\,]+/', validateInput($_POST['appoint-food-allergies']));
@@ -119,8 +107,28 @@
       }
       $appoint-> client_relationship_status = isset($_POST['relationship-status'])? validateInput($_POST['relationship-status']):"";
   
-  
-      $res = $appoint->setTransact();
+      $res = $appoint -> setTransact();
+
+      foreach($_FILES as $target => $file) {
+        if($_FILES[$target]['name'] != "") {
+          $temp = explode(".", $file["name"]);
+          $naming = explode("-", $target);
+          $fileName = $naming[1].'_file_'.$appoint -> transact_id.'.'.end($temp);
+          $_FILES[$target]['name'] = $fileName;
+        }
+      }
+
+      // echo json_encode($_FILES);
+      // exit();
+
+      // consult
+      $appoint-> consul_complaint = validateInput($_POST['appoint-chief-complaint']);
+      $appoint-> consul_date = $_POST['appointment-date'];
+      $appoint-> consul_time = $_POST['appointment-time'];
+      $appoint-> consul_referal = $_FILES['appointment-referral']['name'] != "" ? $_FILES['appointment-referral']['name']: null;
+      $appoint-> consul_record = $_FILES['appointment-medical']['name'] != "" ? $_FILES['appointment-medical']['name']: null;
+      $appoint-> consul_more_info = isset($_POST['appointment-more-info']) ? validateInput($_POST['appointment-more-info']): null;
+
       $res = $appoint->setAppoint();
       $res = $appoint->setConsultInfo();
       $res = $appoint->setClientInfo();
@@ -143,3 +151,4 @@
   } 
   
   echo json_encode($resultTotal);
+  exit();

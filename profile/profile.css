@@ -78,3 +78,17 @@ a.button-back {
 .divider label {
   text-align: left;
 }
+
+/* ID STATUS DESIGN */
+.upload-id-verified {
+  background-color: #b1e5b8;
+  border: 3px solid #35c949;
+}
+.upload-id-pending {
+  background-color: #e5dbb1;
+  border: 3px solid #c9ac35;
+}
+.upload-id-declined {
+  background-color: #e39797;
+  border: 3px solid #c93535;
+}

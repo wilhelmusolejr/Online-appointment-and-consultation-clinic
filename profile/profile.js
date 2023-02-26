@@ -34,6 +34,7 @@ modalUploadId.addEventListener("click", function (e) {
   }
 });
 
+// FORM -- IDENTIFICATION
 $(".form-identification").on("submit", function (e) {
   e.preventDefault();
 
@@ -48,7 +49,11 @@ $(".form-identification").on("submit", function (e) {
     success: function (response) {
       console.log(response);
 
-      if (response == "success") {
+      if (response.response == 0) {
+        console.log(response.message);
+        $(`.modal-upload-id .form-error-message`).text(response.message);
+        return;
+      } else {
         modalUploadId.querySelector("form").classList.add("hidden");
         modalUploadId
           .querySelector("form")
@@ -63,14 +68,14 @@ $(".form-identification").on("submit", function (e) {
         profileContainer
           .querySelector(".upload-id-btn")
           .classList.toggle("upload-id-btn");
-      } else {
-        console.log("error");
+
+        modalUploadId
+          .querySelector(".modal-container")
+          .classList.add("modal-good");
       }
     },
     error: function () {
       console.log("Cannot set ID");
     },
   });
-
-  console.log("test");
 });

@@ -13,8 +13,9 @@
         </div>
       </li>
       <li><a class="<?php echo $home ?>" href="<?php echo $path ?>homepage/index.php">Home</a></li>
-      <li><a class="<?php echo $consultation ?>"
-          href="<?php echo $path ?>homepage/consultation/rnd/consultation.php">Consultation</a></li>
+      <li><a class="<?php echo $consultation ?>" href="
+      <?php echo $path."homepage/consultation/consultation.php" ?>">Consultation</a>
+      </li>
       <li>
         <a class="<?php echo $rnds ?>" href="<?php echo $path ?>homepage/rnds/rnds.php">RND<span
             class="text-initial">s</span></a>

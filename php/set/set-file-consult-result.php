@@ -8,11 +8,14 @@ session_start();
 
 $result = array("response"=> 1,"message" => null);
 
+
+$transact_id = $_SESSION['transact_id'];
+
 $target_dir = $path."uploads/";
+
 $temp = explode(".", $_FILES["appointment-referral"]["name"]);
-$fileName = round(microtime(true)) . '.' . end($temp);
-$newfilename = $target_dir.round(microtime(true)) . '.' . end($temp);
-$fileType = strtolower(pathinfo($newfilename,PATHINFO_EXTENSION));
+$fileName = 'result'.'_file_'.$transact_id.'.' . end($temp);
+$fileType = strtolower(pathinfo($_FILES["appointment-referral"]["name"],PATHINFO_EXTENSION));
 
 // SIZE
 if($_FILES['appointment-referral']['size'] > 5000000) {
@@ -39,7 +42,7 @@ if($result["response"] != 0) {
   $res = $consult -> updateConsultResult();
 
   if($_FILES['appointment-referral']['name'] != "") {
-    move_uploaded_file($_FILES['appointment-referral']['tmp_name'], $newfilename);
+    move_uploaded_file($_FILES['appointment-referral']['tmp_name'], $target_dir.$fileName);
   }
 
   $result["response"] = 1; 

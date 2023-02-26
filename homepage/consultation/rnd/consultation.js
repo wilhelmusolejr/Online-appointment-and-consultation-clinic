@@ -81,7 +81,7 @@ function getActiveBoard() {
 
 let currentBoardPage = getActiveBoard();
 changeBoardProgress(currentBoardPage);
-console.log(currentBoardPage);
+// console.log(currentBoardPage);
 
 // MODAL CONFIRMATION
 const modalAppointNotif = document.querySelector(
@@ -104,7 +104,7 @@ let currentSched;
 boardContainer.addEventListener("click", function (e) {
   let currentBoardPage = getActiveBoard();
 
-  console.log(e.target);
+  // console.log(e.target);
   // console.log(e.target.parentElement);
   // console.log(currentBoardPage);
 
@@ -370,7 +370,7 @@ boardContainer.addEventListener("click", function (e) {
 function getBoardThreeData(stopper) {
   let boardParent = ".consultation-stage";
 
-  console.log("board 3", stopper);
+  // console.log("board 3", stopper);
 
   if (!stopper) {
     showSchedule(".list-schedule ul");
@@ -418,7 +418,7 @@ function getBoardThreeData(stopper) {
         // clearInterval(joinRoom);
       },
       error: function () {
-        console.log("ERROR at getting consult join");
+        // console.log("ERROR at getting consult join");
       },
       complete: function () {
         if (stopper) {
@@ -431,11 +431,55 @@ function getBoardThreeData(stopper) {
   }
 }
 
+function generateMessageMarkUp(data, current_user) {
+  let markUp = "";
+
+  data.forEach((sms) => {
+    markUp += `
+    <div class="${
+      current_user == sms.message_sender ? "message-me" : "message-you"
+    } messesage-con">
+      <p class="time">04:00pm</p>
+      <p class="message-text">${sms.message}</p>
+    </div>
+    `;
+  });
+
+  return markUp;
+}
+
+function getMessage() {
+  $.ajax({
+    type: "POST", //hide url
+    url: `${path}php/request/req-getMessage.php`, //your form validation url
+    dataType: "json",
+    success: function (data) {
+      console.log(data);
+
+      document.querySelector(".actual-message-container").innerHTML =
+        generateMessageMarkUp(data.message, data.current_user);
+
+      // scroll down
+      $(".actual-message-container").scrollTop(
+        $(".actual-message-container")[0].scrollHeight
+      );
+    },
+    error: function () {
+      console.log("ERROR at getting message");
+    },
+    complete: function () {
+      setTimeout(getMessage, 1000);
+    },
+  });
+}
+
 function ajaxCaller(currentBoardPage) {
   switch (currentBoardPage) {
     // board 2
     // board 3
     case 3:
+      // get who's ka talking stage ni user
+      // set names in join room
       $.ajax({
         type: "POST", //hide url
         url: `${path}php/request/req-katalk-user.php`, //your form validation url
@@ -443,7 +487,10 @@ function ajaxCaller(currentBoardPage) {
         success: function (data) {
           $(`.assigned-rnd`).text(`${data[0].first_name} ${data[0].last_name}`);
 
-          // console.log(data);
+          $(`.profile-link`).attr(
+            "href",
+            `${path}profile/profile.php?profile-id=${data[0].user_id}`
+          );
 
           data.forEach((user, index) => {
             let target;
@@ -464,16 +511,17 @@ function ajaxCaller(currentBoardPage) {
         },
       });
 
-      getBoardThreeData(false);
+      // MESSAGE
+      getMessage();
 
+      getBoardThreeData(false);
+      // req appoint info
       $.ajax({
         type: "POST", //hide url
         url: `${path}php/request/req-appoint-info.php`, //your form validation url
         dataType: "json",
         success: function (data) {
           let parent = document.querySelector(".modal-client-info");
-
-          console.log(data);
 
           let clientInfo = data.clientInfo;
           // name
@@ -710,7 +758,7 @@ function showSchedule(target, edit = false) {
       );
     },
     error: function () {
-      console.log("failed to get sched sss");
+      // console.log("failed to get sched sss");
     },
   });
 }
@@ -800,6 +848,28 @@ $(".upload-consult-result").on("submit", function (e) {
     },
     error: function (data) {
       console.log("error");
+    },
+  });
+});
+
+// SUBMIT MESSAGE
+let smsContainer = document.querySelector(".sms-box-container");
+smsContainer.addEventListener("click", function (e) {
+  let inputElem = smsContainer.querySelector("input");
+  let message = inputElem.value;
+
+  if (!message) return;
+
+  $.ajax({
+    type: "POST", //hide url
+    url: `${path}php/set/set-message.php`, //your form validation url
+    // dataType: "json",
+    data: { data: message },
+    success: function (data) {
+      inputElem.value = "";
+    },
+    error: function () {
+      console.log("ERROR at setting message");
     },
   });
 });

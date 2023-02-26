@@ -17,6 +17,9 @@ class consult {
 
   public $consultResultFile;
 
+  public $message_sender;
+  public $message;
+
   protected $db;
 
   function __construct() {
@@ -233,6 +236,21 @@ class consult {
     return $data;
   }
 
+  // get approved appointment
+  function getApprovedAppoint() {
+    $sql = "SELECT * FROM `tbl_transact_appoint_checkpoint_rnd_status` as ck_rnd_status INNER JOIN tbl_transact ON ck_rnd_status.transact_id = tbl_transact.transact_id 
+    INNER JOIN tbl_transact_appoint as transact_appoint ON tbl_transact.transact_id = transact_appoint.transact_id INNER JOIN tbl_transact_appoint_consult as appoint_consult 
+    ON transact_appoint.appoint_id = appoint_consult.appoint_id WHERE ck_rnd_status.rnd_id = :rnd_id AND ck_rnd_status.rnd_status = 'APPROVED';";
+    $query=$this->db->connect()->prepare($sql);
+  
+    $query->bindParam(':rnd_id', $this-> rnd_id);
+
+    if($query->execute()){
+      $data = $query->fetchAll();
+    }
+    return $data;
+  }
+
   // Set rnd feedback to transaction
   function appointFeedback($button) {
     if($button == "accept") {
@@ -332,7 +350,34 @@ class consult {
       return true;
     }       
     return false; 
+  }
 
+  function getMessage() {
+    $sql = "SELECT * FROM `tbl_chat` WHERE consult_id = :consult_id;";
+    $query=$this->db->connect()->prepare($sql);
+
+    $query->bindParam(':consult_id', $this-> consult_id);
+
+    if($query -> execute()) {
+      $data = $query->fetchAll();
+    }    
+    return $data;
+  }
+
+  function setMessage() {
+    $sql = "INSERT INTO `tbl_chat` (`chat_id`, `consult_id`, `message_sender`, 
+    `message`, `message_time`) VALUES (NULL, :consult_id, :message_sender, :message,
+     current_timestamp())";
+    $query=$this->db->connect()->prepare($sql);
+    
+    $query->bindParam(':consult_id', $this-> consult_id);
+    $query->bindParam(':message_sender', $this-> message_sender);
+    $query->bindParam(':message', $this-> message);
+
+    if($query->execute()){
+      return true;
+    }       
+    return false; 
   }
   
 }

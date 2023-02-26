@@ -16,6 +16,13 @@
     $appoint = new appoint;
     $consult = new consult;
     $clientData = new user;
+
+    // move the user to rnd page if the user is RND
+    if(isset($_SESSION['user_loggedIn'])) {
+      if($_SESSION['user_loggedIn']['user_privilege'] == "rnd") {
+        header("location: rnd/consultation.php");
+      }
+    }
     
     // SEARCH BAR --- GET --- TO GENERATE 
     // print_r($_GET);
@@ -58,7 +65,6 @@
     </main>
 
   </header>
-
 
   <section id="board-parent" class="board-parent ">
 
@@ -702,9 +708,11 @@
 
             <div class="modal-container modal-notif-container sizing-secondary">
               <div class="modal-header text-center">
-                <h2 class="text-uppercase">Confirm submission</h2>
+                <h2 class="text-uppercase">Confirm appointment</h2>
               </div>
-              <p class="text-center">message</p>
+              <div class="modal-message">
+                <p class="text-center">message</p>
+              </div>
               <div class="modal-buttons">
                 <a class="button button-cancel">Go back</a>
                 <button type="submit" name='submit' value="submit" class="button button-primary">Submit</button>
@@ -768,7 +776,7 @@
                 </div>
                 <div class="list-rnd-info text-center">
                   <p class="assigned-rnd">LOADING</p>
-                  <a href="#" class="text-uppercase text-center profile-link">view profile</a>
+                  <a target="_blank" href="#" class="text-uppercase text-center profile-link">view profile</a>
                 </div>
               </div>
             </div>
@@ -835,36 +843,19 @@
               </div>
 
               <!-- Date appointment submitted -->
-              <div class="form-input-box input-one messenger-container ">
+              <div class="form-input-box input-one messenger-container">
 
                 <!-- actual sms  -->
                 <div class="actual-message-container">
-                  <!-- messege 1 -->
-                  <div class="message-me messesage-con">
-                    <p class="time">04:00pm</p>
-                    <p class="message-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas, a!</p>
-                  </div>
-                  <!-- messege 2 -->
-                  <div class="message-you messesage-con">
-                    <p class="time">04:00pm</p>
-                    <p class="message-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas, a!</p>
-                  </div>
-                  <!-- messege 3 -->
-                  <div class="message-you messesage-con">
-                    <p class="time">04:00pm</p>
-                    <p class="message-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas, a!</p>
-                  </div>
-                  <!-- messege 1 -->
-                  <div class="message-me messesage-con">
-                    <p class="time">04:00pm</p>
-                    <p class="message-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas, a!</p>
-                  </div>
+                  <P style="width: 100%; height:100%; background-color: grey;" class="flex-center card">
+                    loading</P>
                 </div>
 
                 <!-- sms box input -->
                 <div class="sms-box-container">
                   <input type="text" name="sms_chat" id="sms_chat" placeholder="Your message here"
                     <?php echo $board_page > 3? 'disabled':"" ?>>
+                  <button class="button button-primary button-sendMessage">SEND</button>
                 </div>
 
               </div>
@@ -878,7 +869,7 @@
                 </div>
                 <div class="list-rnd-info text-center">
                   <p class="assigned-rnd">DUMMY</p>
-                  <a href="#" class="text-uppercase text-center profile-link">view profile</a>
+                  <a target="_blank" href="#" class="text-uppercase text-center profile-link">view profile</a>
                 </div>
               </div>
               <!-- virtual room -->
@@ -1081,8 +1072,26 @@
 
     </div>
 
-  </section>
+    <!-- MODAl - OTHER ACCOUNT IS LOGGED IN -->
+    <div class="modal-parent modal-notif-parent modal-oops-notif overlay-black flex-center hidden">
 
+      <!-- hidden - fox ajax -->
+      <input type="hidden" name="submit" value='true' id="submit">
+
+      <div class="modal-container modal-notif-container sizing-secondary modal-wait">
+        <div class="modal-header text-center">
+          <h2 class="text-uppercase">Something went wrong</h2>
+        </div>
+        <div class="modal-message">
+          <p class="text-center">Error poewes</p>
+        </div>
+        <div class="modal-buttons">
+          <a class="button button-back">Go back</a>
+        </div>
+      </div>
+    </div>
+
+  </section>
 
   <!-- footer -->
   <?php require_once $path.'includes/footer.php'; ?>

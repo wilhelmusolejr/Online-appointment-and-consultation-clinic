@@ -25,6 +25,13 @@ html {
   --color-green-primary: #277043;
   --color-green-secondary: #2e6a45;
   --color-green-tertiary: #0a331a;
+
+  --color-bad-light: #f3d9d9;
+  --color-bad-dark: #c93535;
+  --color-good-light: #b1e5b8;
+  --color-good-dark: #35c949;
+  --color-wait-light: #e5dbb1;
+  --color-wait-dark: #c9ac35;
 }
 
 /* --------------------------------------- */
@@ -132,6 +139,20 @@ button:disabled {
   border: 1px solid rgba(128, 128, 128, 0.5);
 }
 
+a.button-cancel {
+  background-color: var(--color-white-secondary);
+  color: black !important;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+a.button-back {
+  background-color: var(--color-white-secondary);
+  color: black !important;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+}
+.button-delete {
+  background-color: rgb(120, 22, 22);
+}
+
 /* select,
 input {
   transition: border-color 0.5s ease-out !important;
@@ -178,7 +199,6 @@ input:invalid {
 
 .modal-container a,
 .form a {
-  text-decoration: underline;
   color: var(--color-green-secondary);
 }
 
@@ -608,6 +628,21 @@ footer .nav-links {
 
 /* --------------------------------------- */
 /* modal */
+.modal-error {
+  background-color: var(--color-bad-light) !important;
+  border: 3px solid var(--color-bad-dark) !important;
+}
+
+.modal-wait {
+  background-color: var(--color-wait-light) !important;
+  border: 3px solid var(--color-wait-dark) !important;
+}
+
+.modal-good {
+  background-color: var(--color-good-light) !important;
+  border: 3px solid var(--color-good-dark) !important;
+}
+
 .modal-container {
   background-color: var(--color-white-primary);
   border-radius: 10px;
@@ -615,6 +650,10 @@ footer .nav-links {
   display: flex;
 
   position: relative;
+}
+
+.modal-header h2 {
+  font-size: clamp(3rem, 7vw, 4rem);
 }
 
 .modal-data-parent .modal-container {
@@ -789,6 +828,7 @@ footer .nav-links {
 
 /* continue register */
 .continue-register-container {
+  padding-top: 30px;
   max-width: 500px;
   margin: auto;
 }

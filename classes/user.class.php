@@ -23,6 +23,8 @@ Class user{
     public $id_status;
     public $id_remark;
 
+    public $feedback;
+
     protected $db;
 
     function __construct() {
@@ -174,6 +176,33 @@ Class user{
         return false;
     }   
 
+    function updateUpload() {
+        $sql = "UPDATE tbl_user_identification SET image = :image, 
+        status = :status WHERE user_id = :user_id";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':image', $this-> id_image);
+        $query->bindParam(':status', $this-> id_status);
+        $query->bindParam(':user_id', $this-> user_id);
+
+        if($query -> execute()) {
+            return true;
+        }
+        return false;
+    }
+
+    function ifUserIdExist() {
+        $sql = "SELECT * FROM `tbl_user_identification` WHERE user_id = :user_id";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':user_id', $this-> user_id);
+
+        if($query->execute()){
+            $data = $query->fetch();
+        }
+        return $data;
+    }
+
 
     function getIdInfo() {
         $sql = "SELECT * FROM tbl_user_identification WHERE user_id = :user_id";
@@ -185,6 +214,30 @@ Class user{
             $data = $query->fetch();
         }
         return $data;
+    }
+
+
+    function getAllPendingIdentification() {
+        $sql = "SELECT * FROM `tbl_user_identification` WHERE status = 'PENDING';";
+        $query=$this->db->connect()->prepare($sql);
+
+        if($query->execute()){
+            $data = $query->fetchAll();
+        }
+        return $data;
+    }
+
+    function setFeedbackIdentification() {
+        $sql = "UPDATE tbl_user_identification SET status = :feedback WHERE user_id = :user_id";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':user_id', $this-> user_id);
+        $query->bindParam(':feedback', $this-> feedback);
+
+        if($query -> execute()) {
+            return true;
+        }
+        return false;
     }
 }
 

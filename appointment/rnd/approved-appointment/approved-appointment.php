@@ -1,28 +1,28 @@
 <?php 
   $path = "../../../";
 
-  // require_once $path.'classes/appoint.class.php';
-  // require_once $path.'classes/user.class.php';
   require_once $path.'classes/consult.class.php';
 
   require_once $path.'tools/variables.php';
   $page_title = "Pending appointment";
   // $consultation = 'nav-current';
+  $approved = "active";
 
   session_start();
 
   $consult = new consult;
   $consult -> rnd_id = $_SESSION['transact_rnd_id'];
 
-  $listOfPending = $consult -> getListOfPendingAppoint();
+  $listOfApproved = $consult -> getApprovedAppoint();
 
-  // print_r($listOfPending);
+  // print_r(sizeof($listOfApproved));
 
   require_once $path.'includes/starterOne.php';  
 ?>
-<link rel="stylesheet" href="pending-appointment.css" />
-<script src="pending-appointment.js" defer></script>
+<link rel="stylesheet" href="approved-appointment.css" />
+<script src="approved-appointment.js" defer></script>
 <script type="module" src="<?php echo $path."homepage/index.js" ?>" defer></script>
+<script src="../side-bar.js" defer></script>
 <?php require_once $path.'includes/starterTwo.php'; ?>
 
 <body>
@@ -32,21 +32,9 @@
     <!-- navigator -->
     <?php require_once $path.'includes/navigator.php'; ?>
 
-
     <div class="side-bar-parent">
       <!-- sidebar -->
-      <div class="side-bar">
-        <ul>
-          <li class="pending-appointment"><a href="../pending-appointment/pending-appointment.php"
-              class="text-uppercase">
-              <p>Pending appointment</p> <span class="number-notif flex-center">1</span>
-            </a></li>
-          <li class="approved-appointment active"><a href="../approved-appointment/approved-appointment.php"
-              class="text-uppercase">
-              <p>Approved appointment</p>
-            </a></li>
-        </ul>
-      </div>
+      <?php require_once $path."appointment/rnd/side-bar.php" ?>
 
       <!-- main content -->
       <div class="main-content">
@@ -61,12 +49,15 @@
                 <th>Appointment status</th>
                 <th>RND assigned</th>
               </tr>
-              <?php foreach($listOfPending as $transact) { ?>
+              <?php foreach($listOfApproved as $transact) { 
+                date_default_timezone_set('Asia/Manila');
+                $mydate = strtotime($transact['appoint_date']." ".$transact['appoint_time']);
+                ?>
               <tr class="hiddens">
                 <td class="appointment-number">#<?php echo $transact['transact_id'] ?></td>
                 <td><?php echo $transact['chief_complaint'] ?></td>
                 <td>
-                  <p class="status-approved card">APPROVED</p>
+                  <?php echo date('F j, Y, g:i a', $mydate) ?>
                 </td>
                 <td>
                   <div class="button-parent flex-center">

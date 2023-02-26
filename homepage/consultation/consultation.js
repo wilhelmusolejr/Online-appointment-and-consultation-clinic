@@ -278,6 +278,48 @@ let appointDateFinish;
 let isConsultDone = false;
 let resultJoin;
 
+function generateMessageMarkUp(data, current_user) {
+  let markUp = "";
+
+  data.forEach((sms) => {
+    markUp += `
+    <div class="${
+      current_user == sms.message_sender ? "message-me" : "message-you"
+    } messesage-con">
+      <p class="time">04:00pm</p>
+      <p class="message-text">${sms.message}</p>
+    </div>
+    `;
+  });
+
+  return markUp;
+}
+
+function getMessage() {
+  $.ajax({
+    type: "POST", //hide url
+    url: `${path}php/request/req-getMessage.php`, //your form validation url
+    dataType: "json",
+    success: function (data) {
+      console.log(data);
+
+      document.querySelector(".actual-message-container").innerHTML =
+        generateMessageMarkUp(data.message, data.current_user);
+
+      // scroll down
+      $(".actual-message-container").scrollTop(
+        $(".actual-message-container")[0].scrollHeight
+      );
+    },
+    error: function () {
+      console.log("ERROR at getting message");
+    },
+    complete: function () {
+      setTimeout(getMessage, 1000);
+    },
+  });
+}
+
 function getBoardTwoData(stopper) {
   console.log("board 2", stopper);
 
@@ -331,6 +373,13 @@ function getBoardTwoData(stopper) {
           $(`${boardParent} .appoint-status-time span`).text(
             `You're good to go`
           );
+
+          $(`.profile-link`).attr(
+            "href",
+            `${path}profile/profile.php?profile-id=${transactRndId}`
+          );
+
+          // $("a").attr("href", "http://www.google.com/")
 
           // change RND profile
           $.ajax({
@@ -390,16 +439,20 @@ function getBoardTwoData(stopper) {
 }
 
 function getBoardThreeData(stopper) {
-  console.log("board 3", stopper);
+  // console.log("board 3", stopper);
+  let current_user;
 
   if (!stopper) {
     showSchedule(".list-schedule ul");
 
+    // REQ BOARD
     $.ajax({
       type: "POST", //hide url
       url: `../../php/request/req-board-page.php`, //your form validation url
       dataType: "json",
       success: function (data) {
+        current_user = data.user_id;
+
         let boardParent = "consultation-stage";
 
         if (data.board_page > 3) {
@@ -414,12 +467,13 @@ function getBoardThreeData(stopper) {
       },
     });
 
+    // JOIN
     $.ajax({
       type: "POST", //hide url
       url: `../../php/request/req-consult-join.php`, //your form validation url
       dataType: "json",
       success: function (response) {
-        // console.log(response);
+        console.log(response);
 
         let joinUsers = document.querySelectorAll(".join-user");
 
@@ -439,7 +493,7 @@ function getBoardThreeData(stopper) {
         });
       },
       error: function () {
-        console.log("ERROR at getting consult join");
+        // console.log("ERROR at getting consult join");
       },
       complete: function () {
         if (stopper) {
@@ -505,147 +559,226 @@ let urlTransactId = new URLSearchParams(window.location.search).get(
 
 function setterInfo(urlTransactId) {
   if (urlTransactId) {
-    console.log(urlTransactId);
-
-    // REDIRECT TO LAST TRANSACT
+    // ajax
     $.ajax({
       type: "POST", //hide url
-      url: `${path}php/request/req-board-page.php`, //your form validation url
-      dataType: "json",
-      data: { transact_id: urlTransactId },
+      url: `${path}php/request/req-check-loggedin.php`, //your form validation url
       async: false,
       success: function (data) {
-        console.log(data);
-        let currentBoardPage = data.board_page - 1;
-        changePage(currentBoardPage, boardSets, 1);
-        changeBoardProgress(currentBoardPage + 1);
-        ajaxCaller(currentBoardPage + 1);
+        // console.log(data);
 
-        tabulateThenDisabled("transact_id", `#${urlTransactId}`);
+        if (data == 1) {
+          // if current the account matches the transact id
+          $.ajax({
+            type: "POST", //hide url
+            url: `${path}php/request/req-check-account-matches-transact-id.php`, //your form validation url
+            data: { transact_id: urlTransactId },
+            async: false,
+            success: function (data) {
+              if (data == 1) {
+                // REDIRECT TO LAST TRANSACT
+                $.ajax({
+                  type: "POST", //hide url
+                  url: `${path}php/request/req-board-page.php`, //your form validation url
+                  dataType: "json",
+                  data: { transact_id: urlTransactId },
+                  async: false,
+                  success: function (data) {
+                    // console.log(data);
+                    let currentBoardPage = data.board_page - 1;
+                    changePage(currentBoardPage, boardSets, 1);
+                    changeBoardProgress(currentBoardPage + 1);
+                    ajaxCaller(currentBoardPage + 1);
+
+                    tabulateThenDisabled("transact_id", `#${urlTransactId}`);
+                  },
+                  error: function () {
+                    console.log("ERROR at getting data for REQ BOARD");
+                  },
+                });
+
+                // SETTING PRIMARY INFO
+                let parent = "appointment-stage";
+
+                $(`.${parent} .button-semi-submit`).addClass("hidden");
+                $(`.${parent} .button-next`).removeClass("hidden");
+
+                $.ajax({
+                  type: "POST", //hide url
+                  url: `${path}php/request/req-appoint-info.php`, //your form validation url
+                  dataType: "json",
+                  success: function (data) {
+                    // console.log(data);
+
+                    // CONSULT
+                    let consultInfo = data.consultInfo;
+
+                    // OTHER DATA
+                    tabulateThenDisabled(
+                      "appoint-date-submitted",
+                      consultInfo.appoint_date_submitted
+                    );
+
+                    tabulateThenDisabled(
+                      "appoint-chief-complaint",
+                      consultInfo.chief_complaint
+                    );
+                    tabulateThenDisabled(
+                      "appointment-date",
+                      consultInfo.appoint_date
+                    );
+                    tabulateThenDisabled(
+                      "appointment-time",
+                      consultInfo.appoint_time
+                    );
+                    tabulateThenDisabled(
+                      "appointment-more-info",
+                      consultInfo.appoint_more_info,
+                      "textarea"
+                    );
+
+                    document
+                      .querySelector(`.${parent}`)
+                      .querySelectorAll("input[type='file']")
+                      .forEach((elem) => {
+                        elem.disabled = true;
+                      });
+
+                    // FOOD
+                    let foodInfo = data.foodInfo;
+                    tabulateThenDisabled(
+                      "appoint-type-diet",
+                      foodInfo.type_diet_id
+                    );
+
+                    // allegy
+                    tabulateThenDisabled(
+                      "appoint-food-allergies",
+                      uniqueAndJoin(data.listFoodAllergy)
+                    );
+
+                    // like
+                    tabulateThenDisabled(
+                      "appoint-food-like",
+                      uniqueAndJoin(data.listFoodLike)
+                    );
+
+                    // dislike
+                    tabulateThenDisabled(
+                      "appoint-food-dislike",
+                      uniqueAndJoin(data.listFoodDislike)
+                    );
+
+                    disableCheckbox("smoke-level", foodInfo.smoke_level_id);
+                    disableCheckbox("drink-level", foodInfo.drink_level_id);
+
+                    //  PHYSICAL
+                    let physicalInfo = data.physicalInfo;
+
+                    tabulateThenDisabled(
+                      "appoint-actual-weight",
+                      physicalInfo.actual_weight
+                    );
+                    tabulateThenDisabled(
+                      "appoint-current-height",
+                      physicalInfo.current_height
+                    );
+
+                    // NEEDS FIXING
+                    // VALUE OF INPUT IN CHECK BOXES AND SQL QUERY
+                    // physical
+                    disableCheckbox(
+                      "physical-activity",
+                      physicalInfo.physical_activity_id
+                    );
+                    // gain weight
+                    disableCheckbox(
+                      "gain-weight-level",
+                      physicalInfo.gain_weight_level_id
+                    );
+                    // lose weight
+                    disableCheckbox(
+                      "lose-weight-level",
+                      physicalInfo.lose_weight_level_id
+                    );
+
+                    // bodytype
+                    document
+                      .querySelectorAll("input[name='body-type[]']")
+                      .forEach((elem) => {
+                        elem.checked = false;
+                        elem.disabled = true;
+                      });
+
+                    // MEDICAL
+                    let medicalInfo = data.medicalInfo;
+
+                    // current medication
+                    tabulateThenDisabled(
+                      "appoint-medical-current-med",
+                      medicalInfo.current_medication
+                    );
+
+                    disableCheckbox(
+                      "self-condition",
+                      medicalInfo.self_past_condition_id
+                    );
+
+                    disableCheckbox(
+                      "family-condition",
+                      medicalInfo.family_past_condition_id
+                    );
+                  },
+                  error: function () {
+                    console.log("ERROR at getting data");
+                  },
+                });
+              } else {
+                // show error not found
+                document
+                  .querySelector(".board-parent")
+                  .insertAdjacentHTML(
+                    "beforeend",
+                    generateModalNotif("Appointment number not found.")
+                  );
+              }
+            },
+            error: function () {
+              console.log("ERROR at matching");
+            },
+          });
+        }
       },
       error: function () {
         console.log("ERROR at getting data for REQ BOARD");
       },
     });
-
-    // SETTING PRIMARY INFO
-    let parent = "appointment-stage";
-
-    $(`.${parent} .button-semi-submit`).addClass("hidden");
-    $(`.${parent} .button-next`).removeClass("hidden");
-
-    $.ajax({
-      type: "POST", //hide url
-      url: `${path}php/request/req-appoint-info.php`, //your form validation url
-      dataType: "json",
-      success: function (data) {
-        console.log(data);
-
-        // CONSULT
-        let consultInfo = data.consultInfo;
-
-        // OTHER DATA
-        tabulateThenDisabled(
-          "appoint-date-submitted",
-          consultInfo.appoint_date_submitted
-        );
-
-        tabulateThenDisabled(
-          "appoint-chief-complaint",
-          consultInfo.chief_complaint
-        );
-        tabulateThenDisabled("appointment-date", consultInfo.appoint_date);
-        tabulateThenDisabled("appointment-time", consultInfo.appoint_time);
-        tabulateThenDisabled(
-          "appointment-more-info",
-          consultInfo.appoint_more_info,
-          "textarea"
-        );
-
-        document
-          .querySelector(`.${parent}`)
-          .querySelectorAll("input[type='file']")
-          .forEach((elem) => {
-            elem.disabled = true;
-          });
-
-        // FOOD
-        let foodInfo = data.foodInfo;
-        tabulateThenDisabled("appoint-type-diet", foodInfo.type_diet_id);
-
-        // allegy
-        tabulateThenDisabled(
-          "appoint-food-allergies",
-          uniqueAndJoin(data.listFoodAllergy)
-        );
-
-        // like
-        tabulateThenDisabled(
-          "appoint-food-like",
-          uniqueAndJoin(data.listFoodLike)
-        );
-
-        // dislike
-        tabulateThenDisabled(
-          "appoint-food-dislike",
-          uniqueAndJoin(data.listFoodDislike)
-        );
-
-        disableCheckbox("smoke-level", foodInfo.smoke_level_id);
-        disableCheckbox("drink-level", foodInfo.drink_level_id);
-
-        //  PHYSICAL
-        let physicalInfo = data.physicalInfo;
-
-        tabulateThenDisabled(
-          "appoint-actual-weight",
-          physicalInfo.actual_weight
-        );
-        tabulateThenDisabled(
-          "appoint-current-height",
-          physicalInfo.current_height
-        );
-
-        // NEEDS FIXING
-        // VALUE OF INPUT IN CHECK BOXES AND SQL QUERY
-        // physical
-        disableCheckbox("physical-activity", physicalInfo.physical_activity_id);
-        // gain weight
-        disableCheckbox("gain-weight-level", physicalInfo.gain_weight_level_id);
-        // lose weight
-        disableCheckbox("lose-weight-level", physicalInfo.lose_weight_level_id);
-
-        // bodytype
-        document
-          .querySelectorAll("input[name='body-type[]']")
-          .forEach((elem) => {
-            elem.checked = false;
-            elem.disabled = true;
-          });
-
-        // MEDICAL
-        let medicalInfo = data.medicalInfo;
-
-        // current medication
-        tabulateThenDisabled(
-          "appoint-medical-current-med",
-          medicalInfo.current_medication
-        );
-
-        disableCheckbox("self-condition", medicalInfo.self_past_condition_id);
-
-        disableCheckbox(
-          "family-condition",
-          medicalInfo.family_past_condition_id
-        );
-      },
-      error: function () {
-        console.log("ERROR at getting data");
-      },
-    });
   }
 }
 setterInfo(urlTransactId);
+
+function generateModalNotif(errorMessage) {
+  return `
+  <div class="modal-parent modal-notif-parent modal-oops-notif overlay-black flex-center">
+
+  <!-- hidden - fox ajax -->
+  <input type="hidden" name="submit" value='true' id="submit">
+
+  <div class="modal-container modal-notif-container sizing-secondary modal-wait">
+    <div class="modal-header text-center">
+      <h2 class="text-uppercase">Something went wrong</h2>
+    </div>
+    <div class="modal-message">
+      <p class="text-center">${errorMessage}</p>
+    </div>
+    <div class="modal-buttons">
+      <a class="button button-back">Go back</a>
+    </div>
+  </div>
+</div>
+
+  `;
+}
 
 function ajaxCaller(currentBoardPage) {
   let parent;
@@ -668,7 +801,10 @@ function ajaxCaller(currentBoardPage) {
         success: function (data) {
           $(`.assigned-rnd`).text(`${data[1].first_name} ${data[1].last_name}`);
 
-          // console.log(data);
+          $(`.profile-link`).attr(
+            "href",
+            `${path}profile/profile.php?profile-id=${data[1].user_id}`
+          );
 
           data.forEach((user, index) => {
             let target;
@@ -688,6 +824,9 @@ function ajaxCaller(currentBoardPage) {
           console.log("ERROR at getting RND profile");
         },
       });
+
+      // MESSAGE
+      getMessage();
 
       getBoardThreeData(false);
       break;
@@ -782,11 +921,12 @@ function showSchedule(target, edit = false) {
       // console.log(data);
     },
     error: function () {
-      console.log("ERROR at geting schedule data");
+      // console.log("ERROR at geting schedule data");
     },
   });
 }
 
+// SUBMIT APPOINTMENT
 $(".form-appoint-submit").on("submit", function (e) {
   e.preventDefault();
 
@@ -800,10 +940,28 @@ $(".form-appoint-submit").on("submit", function (e) {
     processData: false,
     async: false,
     success: function (data) {
-      let parent = "appointment-stage";
-      $(`.${parent} .modal-appointment-confirmation`).addClass("hidden");
-
       console.log(data);
+
+      let parent = "appointment-stage";
+
+      // if user is not logged in
+      if ("login" in data) {
+        $(`.${parent} .modal-appointment-confirmation .modal-message p`).text(
+          `${data.login.message}`
+        );
+
+        $(
+          `.${parent} .modal-appointment-confirmation .button-primary`
+        ).addClass("hidden");
+
+        $(
+          `.${parent} .modal-appointment-confirmation .modal-container`
+        ).addClass("modal-error");
+
+        return;
+      }
+
+      $(`.${parent} .modal-appointment-confirmation`).addClass("hidden");
 
       let stopper = false;
 
@@ -836,7 +994,29 @@ $(".form-appoint-submit").on("submit", function (e) {
       }
     },
     error: function () {
-      console.log("fail at ajax");
+      console.log("ERROR at setting appointment");
+    },
+  });
+});
+
+// SUBMIT MESSAGE
+let smsContainer = document.querySelector(".sms-box-container");
+smsContainer.addEventListener("click", function (e) {
+  let inputElem = smsContainer.querySelector("input");
+  let message = inputElem.value;
+
+  if (!message) return;
+
+  $.ajax({
+    type: "POST", //hide url
+    url: `../../php/set/set-message.php`, //your form validation url
+    // dataType: "json",
+    data: { data: message },
+    success: function (data) {
+      inputElem.value = "";
+    },
+    error: function () {
+      console.log("ERROR at setting message");
     },
   });
 });
@@ -869,3 +1049,18 @@ function disableCheckbox(target, data) {
     }
   });
 }
+
+document.addEventListener("click", function (e) {
+  // console.log(e.target);
+
+  if (
+    e.target.classList.contains("button-back") ||
+    e.target.classList.contains("overlay-black")
+  ) {
+    if (
+      e.target.closest(".modal-parent").classList.contains("modal-oops-notif")
+    ) {
+      e.target.closest(".modal-oops-notif").classList.add("hidden");
+    }
+  }
+});

@@ -9,6 +9,7 @@
   $page_title = "Consultation";
   $consultation = 'nav-current';
 
+
   session_start();
 
   if(isset($_GET['profile-id'])) {
@@ -17,10 +18,11 @@
 
     $userData = $user -> getUserData();
     $userId = $user -> getIdInfo();
-
   }
 
-  print_r($userId);
+  // print_r($userData);
+  // print_r(gettype($userId));
+  // print_r($_SESSION);
 
 
   require_once $path.'includes/starterOne.php';  
@@ -112,11 +114,19 @@
       <?php if($_SESSION['user_loggedIn']['user_id'] == $_GET['profile-id']) { ?>
       <!-- BUTTONS -->
       <div class="profile-buttons ">
-        <?php if($userId['status'] == "PENDING") { ?>
-        <a href="#" class="button button-primary disabled">UPLOADED</a>
-        <?php } else { ?>
+
+        <?php if($_SESSION['user_loggedIn']['user_privilege'] == "client")  { ?>
+        <?php if($userId == "") {?>
         <a href="#" class="button button-primary upload-id-btn">Upload Id</a>
+        <?php } elseif ($userId['status'] == "VERIFIED") { ?>
+        <a href="#" class="button button-primary disabled upload-id-verified">VERIFIED</a>
+        <?php } elseif ($userId['status'] == "PENDING") { ?>
+        <a href="#" class="button button-primary disabled upload-id-pending">PENDING</a>
+        <?php } elseif ($userId['status'] == "DECLINED") { ?>
+        <a href="#" class="button button-primary upload-id-btn upload-id-declined">DECLINED</a>
         <?php } ?>
+        <?php } ?>
+
         <a href="edit-profile.php?profile-id=<?php echo $_GET['profile-id'] ?>"
           class="button button-primary edit-profile-btn">Edit profile</a>
       </div>
@@ -142,7 +152,7 @@
               <!-- first name -->
               <div class="form-input-box input-one">
                 <input type="file" name="id-image" id="id-image" accept="image/*">
-                <p class="form-error-message hidden">Error</p>
+                <p class="form-error-message"></p>
               </div>
             </div>
           </div>

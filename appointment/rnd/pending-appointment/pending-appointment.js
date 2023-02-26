@@ -101,3 +101,44 @@ modalParent.addEventListener("click", function (e) {
     });
   }
 });
+
+function generatePendingMarkUp(data) {
+  let markUp = "";
+
+  data.forEach((appoint) => {
+    markUp += `<tr>
+          <td class="appointment-number">#${appoint.transact_id}</td>
+          <td>${appoint.chief_complaint}</td>
+          <td>${appoint.appoint_date} ${appoint.appoint_time}</td>
+          <td>
+              <div class="button-parent flex-center">
+                <a href="#" class="button button-accept">Accept</a>
+                <a href="#" class="button button-denaid">Denaid</a>
+              </div>
+          </td>
+        </tr>
+      `;
+  });
+
+  return markUp;
+}
+
+function getPendingAppoint() {
+  $.ajax({
+    type: "POST", //hide url
+    url: `req-pending-appointment.php`, //your form validation url
+    dataType: "json",
+    async: false,
+    success: function (data) {
+      document.querySelector("tbody").innerHTML = generatePendingMarkUp(data);
+    },
+    error: function () {
+      console.log("ERROR to get pending");
+    },
+    complete: function () {
+      setTimeout(getPendingAppoint, 5000);
+    },
+  });
+}
+
+getPendingAppoint();

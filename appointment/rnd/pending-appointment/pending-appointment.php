@@ -8,10 +8,9 @@
   require_once $path.'tools/variables.php';
   $page_title = "Pending appointment";
   // $consultation = 'nav-current';
+  $pending = "active";
 
   session_start();
-
-  // print_r($_SESSION);
 
   $consult = new consult;
   $consult -> rnd_id = $_SESSION['transact_rnd_id'];
@@ -25,6 +24,7 @@
 <link rel="stylesheet" href="pending-appointment.css" />
 <script src="pending-appointment.js" defer></script>
 <script type="module" src="<?php echo $path."homepage/index.js" ?>" defer></script>
+<script src="../side-bar.js" defer></script>
 <?php require_once $path.'includes/starterTwo.php'; ?>
 
 <body>
@@ -36,18 +36,7 @@
 
     <div class="side-bar-parent">
       <!-- sidebar -->
-      <div class="side-bar">
-        <ul>
-          <li class="pending-appointment active"><a href="../pending-appointment/pending-appointment.php"
-              class="text-uppercase">
-              <p>Pending appointment</p> <span class="number-notif flex-center">1</span>
-            </a></li>
-          <li class="approved-appointment"><a href="../approved-appointment/approved-appointment.php"
-              class="text-uppercase">
-              <p>Approved appointment</p>
-            </a></li>
-        </ul>
-      </div>
+      <?php require_once $path."appointment/rnd/side-bar.php" ?>
 
       <!-- main content -->
       <div class="main-content">
@@ -56,30 +45,16 @@
 
           <div class="pending-appoint-container flex-center grid-container">
             <table>
-              <tr class="text-uppercase">
-                <th>Appointment number</th>
-                <th>Chief complaint</th>
-                <th>Appointment date</th>
-                <th>Action</th>
-              </tr>
-              <?php foreach($listOfPending as $transact) { 
-                date_default_timezone_set('Asia/Manila');
-                $mydate = strtotime($transact['appoint_date']." ".$transact['appoint_time']);
-                ?>
-              <tr class="hiddens">
-                <td class="appointment-number">#<?php echo $transact['transact_id'] ?></td>
-                <td><?php echo $transact['chief_complaint'] ?></td>
-                <td>
-                  <?php echo date('F j, Y, g:i a', $mydate) ?>
-                </td>
-                <td>
-                  <div class="button-parent flex-center">
-                    <a href="#" class="button button-accept">Accept</a>
-                    <a href="#" class="button button-denaid">Denaid</a>
-                  </div>
-                </td>
-              </tr>
-              <?php } ?>
+              <thead>
+                <tr class="text-uppercase">
+                  <th>Appointment number</th>
+                  <th>Chief complaint</th>
+                  <th>Appointment date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
             </table>
 
             <!-- MODAL -->
