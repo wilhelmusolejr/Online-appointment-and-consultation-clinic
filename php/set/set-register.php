@@ -10,29 +10,29 @@
   $isEmailRegistered = false;
 
 
-  if(isset($_POST['submit'])) {
+  if(isset($_POST['submits'])) {
 
-    $user = new user;
-    $user -> register_via_google = true;
-    $user -> email = validateInput($_POST['reg-email']);
-    $user -> pass = validateInput($_POST['reg-pass']);
-    $user -> status = "VERIFIED";
+    // $user = new user;
+    // $user -> via_googol = true;
+    // $user -> email = validateInput($_POST['reg-email']);
+    // $user -> pass = validateInput($_POST['reg-pass']);
+    // $user -> status = "VERIFIED";
     
-    $user -> user_type = $_POST['account-type'];
-    $user -> first_name = validateInput($_POST['firstname']);
-    $user -> middle_name = validateInput($_POST['middlename']);
-    $user -> last_name = validateInput($_POST['lastname']);
-    $user -> contact = validateInput($_POST['reg-mob']);
-    $user -> gender = $_POST['gender'] == "Male"? 1:2;
-    $user -> birthdate = $_POST['birthdate'];
-    // $user -> profile_img = $_POST['birthdate'];
+    // $user -> user_type = $_POST['account-type'];
+    // $user -> first_name = validateInput($_POST['firstname']);
+    // $user -> middle_name = validateInput($_POST['middlename']);
+    // $user -> last_name = validateInput($_POST['lastname']);
+    // $user -> contact = validateInput($_POST['reg-mob']);
+    // $user -> gender = $_POST['gender'] == "Male"? 1:2;
+    // $user -> birthdate = $_POST['birthdate'];
+    // // $user -> profile_img = $_POST['birthdate'];
 
-    $result = $user -> register();
-    if($result) {
-      $registerDone = true;
-      // header("Location: ".$path."homepage/index.php");
-      // exit();
-    }
+    // $result = $user -> register();
+    // if($result) {
+    //   $registerDone = true;
+    //   // header("Location: ".$path."homepage/index.php");
+    //   // exit();
+    // }
 
   } else {
     require_once '../config.php';
@@ -56,7 +56,7 @@
 
       // print_r($userData);
       // print_r($userData['email']);
-      // print_r($userData['picture']);
+      print_r($userData['picture']);
       $user -> email = $userData['email'];
       $isEmailRegistered = $user -> checkIfEmailIsregistered();
     } else {
@@ -89,7 +89,7 @@
       <?php if(!$isEmailRegistered) { ?>
       <div class="continue-register-container">
         <!-- form -->
-        <form action="set-register.php" method="post" class="form form-group-input sizing-main">
+        <form method="post" class="form form-group-input form-register-google sizing-main">
           <!-- account type -->
           <div class="form-group">
             <div class="form-input-parent">
@@ -97,7 +97,7 @@
                 <label for="account-type" class="text-capital">Account type<span>*</span></label>
                 <select id="account-type" required name="account-type">
                   <option value="">--</option>
-                  <option value="Student">Student</option>
+                  <option value="Student" selected>Student</option>
                   <option value="Faculty">Faculty</option>
                   <option value="Guest">Guest</option>
                   <option value="Alumni">Alumni</option>
@@ -122,7 +122,7 @@
               </div>
               <!-- middle name -->
               <div class="form-input-box">
-                <label for="middlename" class="text-capital">Middle name <span>*</span></label>
+                <label for="middlename" class="text-capital">Middle name </label>
                 <input type="text" name="middlename" id="middlename" placeholder="Enter your middle name">
                 <p class="form-error-message hidden">Error</p>
               </div>
@@ -143,7 +143,7 @@
                     <label for="reg-male">Male</label>
                   </div>
                   <div>
-                    <input type="radio" id="reg-female" name="gender" required value="Female"
+                    <input type="radio" id="reg-female" name="gender" required checked value="Female"
                       <?php echo isset($userData['gender']) == "female" ? "checked":""?>>
                     <label for="reg-female">Female</label>
                   </div>
@@ -153,7 +153,8 @@
               <!-- birth date -->
               <div class="form-input-box">
                 <label for="birthdate" class="text-capital">Birthdate <span>*</span></label>
-                <input type="date" name="birthdate" required id="birthdate" max="<?php echo date("Y-m-d") ?>">
+                <input type="date" name="birthdate" required value="2001-01-01" id="birthdate"
+                  max="<?php echo date("Y-m-d") ?>">
                 <p class="form-error-message hidden">Error</p>
               </div>
             </div>
@@ -168,7 +169,8 @@
               <!-- Mobile -->
               <div class="form-input-box">
                 <label for="reg-mob" class="text-capital">Mobile number <span>*</span></label>
-                <input type="text" name="reg-mob" id="reg-mob" required placeholder="Enter your mobile number">
+                <input type="text" name="reg-mob" value="099999999" id="reg-mob" required
+                  placeholder="Enter your mobile number">
                 <p class="form-error-message hidden">Error</p>
               </div>
               <!-- Email -->
@@ -188,16 +190,18 @@
             </div>
             <div class="form-input-parent">
               <!-- first name -->
-              <div class="form-input-box">
+              <div class="password form-input-box">
                 <label for="reg-pass" class="text-capital">Password <span>*</span></label>
-                <input type="password" name="reg-pass" id="reg-pass" value="test" required
+                <input type="password" name="reg-pass" id="reg-pass" value="Qw09058222!" required
                   placeholder="Enter your password">
+                <p class="form-error-message"></p>
+
               </div>
               <!-- middle name -->
               <div class="confirm-password form-input-box">
                 <label for="reg-pass-confirm" class="text-capital">Confirm Password <span>*</span></label>
                 <input type="password" name="reg-pass-confirm" id="reg-pass-confirm" required
-                  placeholder="Confirm your password" value="test">
+                  placeholder="Confirm your password" value="Qw09058222!">
                 <p class="form-error-message"></p>
               </div>
             </div>
@@ -214,6 +218,7 @@
 
           <!-- reg-email hidden -->
           <input type="hidden" name="reg-email" id="reg-email" value="<?php echo $userData['email'] ?>">
+          <input type="hidden" name="via-gmail" value="true">
 
           <!-- button submit -->
           <div class="text-center">

@@ -112,7 +112,7 @@ boardContainer.addEventListener("click", function (e) {
 
   // JOIN BUTTON
   if (e.target.closest(".button-join")) {
-    e.preventDefault();
+    // e.preventDefault();
 
     $.ajax({
       type: "POST", //hide url
@@ -511,10 +511,24 @@ function ajaxCaller(currentBoardPage) {
         },
       });
 
+      // SET VIDEO CALL LINK TO CLIENTs
+      $.ajax({
+        type: "POST", //hide url
+        url: `${path}php/request/req-get-video-link.php`, //your form validation url
+        dataType: "json",
+        success: function (data) {
+          document.querySelector(".button-join").href = data.videocall_link;
+        },
+        error: function (data) {
+          console.log("ERROR at getting RND gmeet");
+        },
+      });
+
       // MESSAGE
       getMessage();
 
       getBoardThreeData(false);
+
       // req appoint info
       $.ajax({
         type: "POST", //hide url

@@ -131,6 +131,8 @@ boardContainer.addEventListener("click", function (e) {
   let currentBoardPage = getActiveBoard();
 
   // console.log(e.target);
+  // console.log(document.querySelector("select[name='metric']"));
+  console.log($("select[name='metric']").val());
 
   // board 1
 
@@ -177,8 +179,7 @@ boardContainer.addEventListener("click", function (e) {
   }
 
   if (e.target.closest(".button-join")) {
-    e.preventDefault();
-
+    // e.preventDefault();
     $.ajax({
       type: "POST", //hide url
       url: `../../php/request/req-board-page.php`, //your form validation url
@@ -796,7 +797,7 @@ function ajaxCaller(currentBoardPage) {
       // set names in join room
       $.ajax({
         type: "POST", //hide url
-        url: `../../php/request/req-katalk-user.php`, //your form validation url
+        url: `${path}php/request/req-katalk-user.php`, //your form validation url
         dataType: "json",
         success: function (data) {
           $(`.assigned-rnd`).text(`${data[1].first_name} ${data[1].last_name}`);
@@ -822,6 +823,19 @@ function ajaxCaller(currentBoardPage) {
         },
         error: function (data) {
           console.log("ERROR at getting RND profile");
+        },
+      });
+
+      // SET VIDEO CALL LINK TO CLIENTs
+      $.ajax({
+        type: "POST", //hide url
+        url: `${path}php/request/req-get-video-link.php`, //your form validation url
+        dataType: "json",
+        success: function (data) {
+          document.querySelector(".button-join").href = data.videocall_link;
+        },
+        error: function (data) {
+          console.log("ERROR at getting RND gmeet");
         },
       });
 

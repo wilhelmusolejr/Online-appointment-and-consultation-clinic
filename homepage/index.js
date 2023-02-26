@@ -1,6 +1,9 @@
 "use strict";
 
-import { passwordChecker } from "../tools/functions.js";
+import {
+  checkPasswordMatch,
+  checkPasswordValidity,
+} from "../tools/functions.js";
 
 // NAVIGATOR
 const headerNavContainer = document.querySelector("header .navigator-parent");
@@ -88,32 +91,60 @@ $(".form-login").on("submit", function (e) {
   });
 });
 
-let parentElement = ".account-info-form";
-let password1 = "#reg-pass";
-let password2 = "#reg-pass-confirm";
-
 let isPasswordMatch = false;
 $("#reg-pass, #reg-pass-confirm").on("keyup", function () {
-  isPasswordMatch = passwordChecker(parentElement, password1, password2);
+  isPasswordMatch = checkPasswordMatch();
+
+  let result = checkPasswordMatch(
+    $(`#reg-pass`).val(),
+    $(`#reg-pass-confirm`).val()
+  );
+
+  if (result) {
+    $(`.confirm-password .form-error-message`).html("");
+    isPasswordMatch = true;
+  } else {
+    $(`.confirm-password .form-error-message`)
+      .html("Password do not match")
+      .css("color", "red");
+    isPasswordMatch = false;
+  }
+});
+
+let isPasswordOk = false;
+$("#reg-pass").on("keyup", function () {
+  let result = checkPasswordValidity($(`#reg-pass`).val());
+
+  if (!result) {
+    $(`.account-info-form .password .form-error-message`)
+      .html("")
+      .css("color", "green");
+    isPasswordOk = true;
+  } else {
+    $(`.account-info-form .password .form-error-message`)
+      .html(result)
+      .css("color", "red");
+    isPasswordOk = false;
+  }
 });
 
 // REGISTER - Submit
-$(".form-register").on("submit", function (e) {
+$(".form-register-manual").on("submit", function (e) {
   e.preventDefault(); //prevent to reload the page
 
   let path = this.querySelector(".path").value;
   console.log(path);
 
-  if (!isPasswordMatch) {
-    console.log(isPasswordMatch);
+  if (!isPasswordMatch || !isPasswordOk) {
+    console.log("bad");
     return;
   }
-  console.log(isPasswordMatch);
+  console.log("good");
 
   $.ajax({
     type: "post", //hide url
     url: `${path}php/set/set-register-manual.php`, //your form validation url
-    data: $(".form-register").serialize(),
+    data: $(".form-register-manual").serialize(),
     success: function (response) {
       if (response == "success") {
         $(".register-form-parent h2").html("Registration complete");

@@ -1,17 +1,39 @@
 "use strict";
 
-export function passwordChecker(parentElement, password1, password2) {
-  let isPasswordMatch;
-
-  if ($(`${password1}`).val() == $(`${password2}`).val()) {
-    $(`${parentElement} .form-error-message`).html("");
-    isPasswordMatch = true;
-  } else {
-    $(`${parentElement} .form-error-message`)
-      .html("Password do not match")
-      .css("color", "red");
-    isPasswordMatch = false;
+export const checkPasswordValidity = (value) => {
+  const isNonWhiteSpace = /^\S*$/;
+  if (!isNonWhiteSpace.test(value)) {
+    return "Password must not contain Whitespaces.";
   }
 
-  return isPasswordMatch;
+  const isContainsUppercase = /^(?=.*[A-Z]).*$/;
+  if (!isContainsUppercase.test(value)) {
+    return "Password must have at least one Uppercase Character.";
+  }
+
+  const isContainsLowercase = /^(?=.*[a-z]).*$/;
+  if (!isContainsLowercase.test(value)) {
+    return "Password must have at least one Lowercase Character.";
+  }
+
+  const isContainsNumber = /^(?=.*[0-9]).*$/;
+  if (!isContainsNumber.test(value)) {
+    return "Password must contain at least one Digit.";
+  }
+
+  const isContainsSymbol = /^(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]).*$/;
+  if (!isContainsSymbol.test(value)) {
+    return "Password must contain at least one Special Symbol.";
+  }
+
+  const isValidLength = /^.{6,12}$/;
+  if (!isValidLength.test(value)) {
+    return "Password must be 6-12 Characters Long.";
+  }
+
+  return null;
+};
+
+export function checkPasswordMatch(passOne, passTwo) {
+  return passOne == passTwo;
 }

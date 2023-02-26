@@ -73,7 +73,7 @@
   <!-- profile -->
   <div class="outside-profile nav-profile <?php echo isset($_SESSION['loggedIn'])? "": "hidden" ?>">
     <div class="profile-container flex-center">
-      <img src="<?php echo $path ?>asset/char.jpg" alt="">
+      <img src="<?php echo $path.'uploads/'.$_SESSION['user_loggedIn']['profile_img'] ?>" alt="profile_img">
       <p>
         <?php echo isset($_SESSION['loggedIn'])? $_SESSION['user_loggedIn']['first_name']." ".$_SESSION['user_loggedIn']['last_name']:""; ?>
       </p>
@@ -82,7 +82,7 @@
     <div class="nav-profile-card hidden">
       <!-- profile -->
       <div class="profile-container flex-center">
-        <img src="<?php echo $path ?>asset/char.jpg" alt="">
+        <img src="<?php echo $path.'uploads/'.$_SESSION['user_loggedIn']['profile_img'] ?>" alt="">
         <div>
           <p>
             <a

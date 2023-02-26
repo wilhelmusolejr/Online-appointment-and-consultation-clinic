@@ -23,6 +23,8 @@ Class user{
     public $id_status;
     public $id_remark;
 
+    public $profile_img;
+
     public $feedback;
 
     protected $db;
@@ -141,7 +143,7 @@ Class user{
     function updateUserProfile() {
         $sql = "UPDATE tbl_user_profile SET user_type = :user_type, first_name = :first_name, middle_name =
          :middle_name, last_name = :last_name, contact = :contact, gender = :gender, 
-         birthdate = :birthdate WHERE user_id = :user_id";
+         birthdate = :birthdate, profile_img = :profile_img WHERE user_id = :user_id";
         $query=$this->db->connect()->prepare($sql);
 
         $query->bindParam(':user_type', $this-> user_type);
@@ -152,7 +154,8 @@ Class user{
         $query->bindParam(':gender', $this-> gender);
         $query->bindParam(':birthdate', $this-> birthdate);
         $query->bindParam(':user_id', $this-> user_id);
-
+        $query->bindParam(':profile_img', $this-> profile_img);
+        
         if($query->execute()) {
             return true;
         }
@@ -238,6 +241,19 @@ Class user{
             return true;
         }
         return false;
+    }
+
+    function getVideoCallLink() {
+        $sql = "SELECT videocall_link FROM
+         tbl_user_videocall WHERE user_id = :user_id";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':user_id', $this-> user_id);
+
+        if($query->execute()){
+            $data = $query->fetch();
+        }
+        return $data;
     }
 }
 

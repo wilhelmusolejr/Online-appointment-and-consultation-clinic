@@ -27,10 +27,8 @@
     // SEARCH BAR --- GET --- TO GENERATE 
     // print_r($_GET);
     // print_r($_SESSION);
-    
     // print_r($consultResultData);
 
-    // getConsultInfo()
     require_once $path.'includes/starterOne.php';
 ?>
 <link rel="stylesheet" href="consultation.css" />
@@ -171,13 +169,13 @@
             <input class='personal-tab hidden' type="radio" name="tabset" id="tab5" aria-controls="dunkles">
             <label class='personal-tab hidden' for="tab5">Personal Information</label>
             <!-- Tab 1 -->
-            <input type="radio" name="tabset" id="tab1" aria-controls="marzen" checked>
+            <input type="radio" name="tabset" id="tab1" aria-controls="marzen">
             <label for="tab1">Consultation Information</label>
             <!-- Tab 2 -->
             <input type="radio" name="tabset" id="tab2" aria-controls="rauchbier">
             <label for="tab2">Food Information</label>
             <!-- Tab 3 -->
-            <input type="radio" name="tabset" id="tab3" aria-controls="dunkles">
+            <input type="radio" name="tabset" id="tab3" aria-controls="dunkles" checked>
             <label for="tab3">Physical Information</label>
             <!-- Tab 4 -->
             <input type="radio" name="tabset" id="tab4" aria-controls="dunkles">
@@ -457,8 +455,8 @@
                       <input type="number" class="need-metrics" min='0' name="appoint-actual-weight"
                         id="appoint-actual-weight" placeholder="Enter your actual weight" required value="1">
                       <select name="metric" class="metric">
-                        <option value="">KG</option>
-                        <option value="spider">LBS</option>
+                        <option value="kg">KG</option>
+                        <option value="lbs">LBS</option>
                       </select>
                       <p class="form-error-message hidden">Error</p>
                     </div>
@@ -876,8 +874,7 @@
               <div class="form-input-box virtual-room-container">
                 <div class="container-header text-center flex-center text-uppercase">
                   <p>in virtual room</p>
-                  <a href="https://www.youtube.com/watch?v=vvFSVIy1Nqs" target="_blank"
-                    class="button button-join mini-button">JOIN</a>
+                  <a href="#" target="_blank" class="button button-join mini-button">JOIN</a>
                 </div>
                 <div class="list-schedule">
                   <ul>

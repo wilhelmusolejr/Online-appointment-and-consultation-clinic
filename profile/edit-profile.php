@@ -22,23 +22,67 @@
   }
 
   if(isset($_POST['submit'])) {
-    $user -> user_id = $_GET['profile-id'];
 
-    $user -> user_type = validateInput($_POST['account-type']);
-    $user -> first_name = validateInput($_POST['firstname']);
-    $user -> middle_name = validateInput($_POST['middlename']);
-    $user -> last_name = validateInput($_POST['lastname']);
-    $user -> gender = $_POST['gender'] == "Male"? 1 : 2;
-    $user -> birthdate = $_POST['birthdate'];
-    $user -> contact = $_POST['reg-mob'];
+    $target = "profile_img";
+    $file = $_FILES[$target];
 
-    $result = $user -> updateUserProfile();
-    if($result) {
-      header("location: profile.php?profile-id=".$user -> user_id);
-    } else {
-      echo "error updating profile";
+    $target_dir = $path."uploads/";
+    $result = array("response"=> 1,"message" => null, "target" => $target);
+    if($file['name'] != "") {
+      $fileType = strtolower(pathinfo($file['name'],PATHINFO_EXTENSION));
+    
+      if($file['size'] > 5000000) {
+        $result["response"] = 0; 
+        $result['message'] = "Your file is too large, only 5mb below.";
+      }
+      
+      // Allow certain file formats
+      if($fileType != "jpg" && $fileType != "png" && $fileType != "jpeg"
+      && $fileType != "pdf" && $fileType != "docx" &&
+      $fileType != "doc" && $fileType != "") {
+        $result["response"] = 0; 
+        $result['message'] = "Only JPG, JPEG, PNG, PDF, and DOC file types are allowed.";
+      }
     }
 
+    // good
+    if($result['response'] == 1) {
+
+      if($file['name'] != "") {
+        $firstName = $_SESSION['user_loggedIn']['first_name'];
+        $lastName = $_SESSION['user_loggedIn']['last_name'];
+        $rand = rand(10,100);
+  
+        $temp = explode(".", $file["name"]);
+        $fileName = 'profile_img'.'_file_'.$firstName.'_'.$lastName.'_'.$rand.'.' . end($temp);
+        $_FILES[$target]['name'] = $fileName;
+
+        move_uploaded_file($_FILES[$target]['tmp_name'], $target_dir.$_FILES[$target]['name']);
+      }
+
+      $user -> user_id = $_GET['profile-id'];
+      $user -> profile_img = $file['name'] == "" ? "NULL" : $fileName;
+      $user -> user_type = validateInput($_POST['account-type']);
+      $user -> first_name = validateInput($_POST['firstname']);
+      $user -> middle_name = validateInput($_POST['middlename']);
+      $user -> last_name = validateInput($_POST['lastname']);
+      $user -> gender = $_POST['gender'] == "Male"? 1 : 2;
+      $user -> birthdate = $_POST['birthdate'];
+      $user -> contact = $_POST['reg-mob'];
+  
+      $result = $user -> updateUserProfile();
+
+      if($result) {
+        $userLoggedInData = $user -> getUserData();
+        $_SESSION['user_loggedIn'] = $userLoggedInData;
+        header("location: profile.php?profile-id=".$user -> user_id);
+      } else {
+        echo "error updating profile";
+      }
+    } // bad 
+    else {
+
+    }
   }
 
   require_once $path.'includes/starterOne.php';  
@@ -63,11 +107,12 @@
     <div class="continue-register-container">
       <!-- form -->
       <form action="edit-profile.php?profile-id=<?php echo $_GET['profile-id'] ?>" method="post"
-        class="form form-group-input sizing-main">
+        class="form form-group-input sizing-main" enctype="multipart/form-data">
         <!-- account type -->
-        <div class="form-group">
+        <div class=" form-group">
           <div class="form-input-parent">
-            <div class="form-input-box">
+            <!-- account type -->
+            <div class="form-input-box input-one">
               <label for="account-type" class="text-capital">Account type<span>*</span></label>
               <select id="account-type" required name="account-type">
                 <option value="Student" <?php echo $userData['user_type'] == "Student" ? "selected":"" ?>>Student
@@ -78,6 +123,13 @@
                 <option value="Alumni" <?php echo $userData['user_type'] == "Alumni" ? "selected":"" ?>>Alumni</option>
               </select>
               <p class="form-error-message hidden">Error</p>
+            </div>
+
+            <!-- Profile image -->
+            <div class="form-input-box input-one">
+              <label for="account-type" class="text-capital">Profile image</label>
+              <input type="file" name="profile_img">
+              <p class="form-error-message"><?php echo isset($result['message']) ? $result['message'] : "" ?></p>
             </div>
           </div>
         </div>

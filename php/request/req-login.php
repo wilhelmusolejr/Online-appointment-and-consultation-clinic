@@ -56,6 +56,7 @@ $user -> user_id = $result['user_id'];
 $userLoggedInData = $user -> getUserData();
 
 $_SESSION['user_loggedIn'] = $userLoggedInData;
+$_SESSION['user_loggedIn']['profile_img'] = $userLoggedInData['profile_img'] == "" ? "dummy_user.jpg" : $userLoggedInData['profile_img'];
     
 if($userLoggedInData['user_privilege'] == 'rnd') {
   $_SESSION['transact_rnd_id'] = $userLoggedInData['user_id'];

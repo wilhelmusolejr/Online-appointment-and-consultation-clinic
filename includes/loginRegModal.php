@@ -88,7 +88,7 @@
         </div>
 
         <!-- form -->
-        <form action="/" method="post" class="form form-register form-group-input sizing-main">
+        <form action="/" method="post" class="form form-register-manual form-group-input sizing-main">
 
           <!-- path -->
           <input type="hidden" class="path" value="<?php echo $path ?>">
@@ -141,7 +141,7 @@
               </div>
               <!-- middle name -->
               <div class="form-input-box">
-                <label for="middlename" class="text-capital">Middle name <span>*</span></label>
+                <label for="middlename" class="text-capital">Middle name </label>
                 <input type="text" name="middlename" id="middlename" placeholder="Enter your middle name">
                 <!-- <p class="form-error-message hidden">Error</p> -->
               </div>
@@ -204,9 +204,10 @@
             </div>
             <div class="form-input-parent">
               <!-- first name -->
-              <div class="form-input-box">
+              <div class="password form-input-box">
                 <label for="reg-pass" class="text-capital">Password <span>*</span></label>
                 <input type="password" name="reg-pass" id="reg-pass" required placeholder="Enter your password">
+                <p class="form-error-message"></p>
               </div>
               <!-- middle name -->
               <div class="confirm-password form-input-box">

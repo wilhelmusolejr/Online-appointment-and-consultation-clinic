@@ -9,21 +9,25 @@
   $page_title = "Consultation";
   $consultation = 'nav-current';
 
-
   session_start();
+  
+  // check if user is logged in
+  if(!isset($_SESSION['loggedIn'])) {
+    header('Location: '.$path.'homepage/index.php');
+  }
 
   if(isset($_GET['profile-id'])) {
     $user = new user;
     $user -> user_id = $_GET['profile-id'];
 
     $userData = $user -> getUserData();
+    $userData['profile_img'] = $userData['profile_img'] == null? "dummy_user.jpg":$userData['profile_img'];
     $userId = $user -> getIdInfo();
   }
 
   // print_r($userData);
   // print_r(gettype($userId));
   // print_r($_SESSION);
-
 
   require_once $path.'includes/starterOne.php';  
 ?>
@@ -52,7 +56,7 @@
       <div class="profile-page-container-parent">
         <!-- left -->
         <div class="profile-container">
-          <img src="../asset/doctor-bulk-billing-doctors-chapel-hill-health-care-medical-3.png" alt="">
+          <img src="<?php echo $path.'uploads/'.$userData['profile_img'] ?>" alt="">
           <p><?php echo $userData['first_name']." ".$userData['last_name'] ?></p>
         </div>
         <!-- right -->
