@@ -53,7 +53,8 @@ modalLoginRegParent.addEventListener("click", function (e) {
   // Close nav
   if (
     e.target.classList.contains("fa-xmark") ||
-    e.target.classList.contains("overlay-black")
+    e.target.classList.contains("overlay-black") ||
+    e.target.classList.contains("button-back")
   ) {
     this.classList.add("hidden");
   }
@@ -70,19 +71,36 @@ $(".form-login").on("submit", function (e) {
   e.preventDefault(); //prevent to reload the page
 
   let path = this.querySelector(".path").value;
-  console.log(path);
 
   $.ajax({
     type: "post", //hide url
     url: `${path}php/request/req-login.php`, //your form validation url
     data: $(".form-login").serialize(),
-
+    dataType: "json",
     success: function (response) {
-      if (response) {
+      console.log(response);
+      console.log(response.response);
+      if (response.response == 1) {
         let initialHref = location.href;
         location.href = initialHref;
       } else {
-        console.log("ERROR LOGIN VIA TEXT");
+        // show error
+        $(`.form-login .form-error-message`).html(response.response.message);
+
+        if (response.response.target == "verification") {
+          $.ajax({
+            type: "post", //hide url
+            url: `${path}php/set/set-send-verification-mail.php`, //your form validation url
+            data: { user_id: response.user_id },
+            // dataType: "json",
+            success: function (response) {
+              console.log(response);
+            },
+            error: function () {
+              console.log("error at send verification");
+            },
+          });
+        }
       }
     },
     error: function () {
@@ -137,7 +155,6 @@ $(".form-register-manual").on("submit", function (e) {
   e.preventDefault(); //prevent to reload the page
 
   let path = this.querySelector(".path").value;
-  console.log(path);
 
   if (!isPasswordMatch || !isPasswordOk) {
     console.log("bad");
@@ -149,12 +166,30 @@ $(".form-register-manual").on("submit", function (e) {
     type: "post", //hide url
     url: `${path}php/set/set-register-manual.php`, //your form validation url
     data: $(".form-register-manual").serialize(),
+    dataType: "json",
     success: function (response) {
-      if (response == "success") {
+      console.log(response);
+      if (response.response == "success") {
         $(".register-form-parent h2").html("Registration complete");
         $(".register-form-parent form").html(
-          "<p class='text-center'>In order to start using this service, you need to confirm your email address first.</p><br><em class='text-center'>A verification link has sent to your <br> email provided.</em>"
+          `<p class='text-center'>In order to start using this service, you need to confirm your email address first.</p><br><em class='text-center'>A verification link has sent to your <br> provided email.</em>
+          <div class='text-center'>
+            <a class='button button-back button-primary'>Done</a>
+          </div>`
         );
+
+        // SET DATABASE FOR VERIFICATION
+        $.ajax({
+          type: "post", //hide url
+          url: `${path}php/set/set-account-verification.php`, //your form validation url
+          data: { userData: response.userData },
+          success: function (response) {
+            console.log(response);
+          },
+          error: function () {
+            console.log("connect did not establish");
+          },
+        });
       } else {
         $(".contact-info-form .form-error-message")
           .html("Email is already registered")
@@ -162,7 +197,7 @@ $(".form-register-manual").on("submit", function (e) {
       }
     },
     error: function () {
-      console.log("connect did not establish");
+      console.log("ERROR at set register manual");
     },
   });
 });

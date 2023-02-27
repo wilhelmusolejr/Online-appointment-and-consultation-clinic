@@ -7,9 +7,9 @@ session_start();
 require_once $path.'classes/user.class.php';
 require_once $path."php/general.php";
 
+$response = array("response" => 1, "target" => null ,"message" => null);
 
 if(isset($_POST['username']) && isset($_POST['password'])) {
-
   $user = new user;
   $user -> via_googol = "false";
   $user -> email = validateInput($_POST['username']);
@@ -17,10 +17,23 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
   // print_r($user);
   $result = $user -> login();
   if(!$result) {
-    return;
+    $response['response'] = 0;
+    $response['target'] = 'password';
+    $response['message'] = "Incorrect email or password.";
+    echo json_encode(["response" => $response]);
+    exit();
   }
-} else {
-  
+
+  if($result['status'] != "VERIFIED") {
+    $response['response'] = 0;
+    $response['target'] = 'verification';
+    $response['message'] = "Your account is not yet activated. Please check your inbox for the activitation link.";
+    
+    echo json_encode(["response" => $response, "user_id" => $result['user_id']]);
+    exit();
+  }
+} else { 
+  // Qw0905!Dummy
   require_once '../config.php';
 
   $login = true;
@@ -50,6 +63,7 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
   }
 }
 
+
 $_SESSION['loggedIn'] = true;
 
 $user -> user_id = $result['user_id'];
@@ -64,5 +78,6 @@ if($userLoggedInData['user_privilege'] == 'rnd') {
   $_SESSION['transact_client_id'] = $userLoggedInData['user_id'];
 }
 
-header("Location: ".$path."homepage/index.php");
+
+echo json_encode($response);
 exit();

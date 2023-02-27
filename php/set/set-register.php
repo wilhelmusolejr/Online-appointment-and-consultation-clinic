@@ -1,6 +1,8 @@
 <?php 
   $path = "../../";
 
+  session_start();
+
   require_once $path."classes/user.class.php";
   require_once $path."php/general.php";
 

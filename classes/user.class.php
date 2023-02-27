@@ -27,6 +27,8 @@ Class user{
 
     public $feedback;
 
+    public $verification_code;
+
     protected $db;
 
     function __construct() {
@@ -58,7 +60,18 @@ Class user{
             $data = $query -> fetch();
         }
         return $data['user_id'];
+    }
 
+    function getLatestUserIdTwo() {
+        $sql = "SELECT user_id FROM tbl_user_acc_info WHERE email = :email";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':email', $this-> email);
+
+        if($query->execute()){
+            $data = $query -> fetch();
+        }
+        return $data['user_id'];
     }
 
     function getUserId() {
@@ -101,7 +114,7 @@ Class user{
         $query->bindParam(':birthdate', $this-> birthdate);
 
         if($query->execute()){
-            $this -> user_id = $this -> getLatestUserId();
+            $this -> user_id =  $this -> getLatestUserId();
 
             $sql = "INSERT INTO `tbl_user_acc_info` (`acc_no`, `user_id`, `email`, `pass`, `status`) 
             VALUES (NULL, :user_id, :email, :pass, :status)";
@@ -113,12 +126,11 @@ Class user{
             $query->bindParam(':status', $this-> status);
             
             if($query->execute()) {
-                return "added successfully 2";
+                return true;
             }
-
-            return "added successfully 1";
+            return false;
         }
-        return "error adding";
+        return false;
     }
 
     function login() {
@@ -219,7 +231,6 @@ Class user{
         return $data;
     }
 
-
     function getIdInfo() {
         $sql = "SELECT * FROM tbl_user_identification WHERE user_id = :user_id";
         $query=$this->db->connect()->prepare($sql);
@@ -231,7 +242,6 @@ Class user{
         }
         return $data;
     }
-
 
     function getAllPendingIdentification() {
         $sql = "SELECT * FROM `tbl_user_identification` WHERE status = 'PENDING';";
@@ -267,6 +277,73 @@ Class user{
             $data = $query->fetch();
         }
         return $data;
+    }
+
+    function setAccountVerification() {
+        $sql = "INSERT INTO tbl_user_email_verification (`email_vericiation_id`, `user_id`, `verification_code`)
+        VALUES (NULL, :user_id, :verification_code)";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':user_id', $this-> user_id);
+        $query->bindParam(':verification_code', $this-> verification_code);
+
+        if($query -> execute()) {
+            return true;
+        }
+        return false;
+    }
+
+    function getAccountVerification() {
+        if(isset($this -> verification_code)) {
+            $sql = "SELECT * from tbl_user_email_verification WHERE verification_code = :verification_code";
+            $query=$this->db->connect()->prepare($sql);
+
+            $query->bindParam(':verification_code', $this-> verification_code);
+
+            if($query->execute()){
+                $data = $query->fetch();
+            }
+            return $data;
+        }
+
+        if(isset($this -> user_id)) {
+            $sql = "SELECT * from tbl_user_email_verification WHERE 
+            user_id = :user_id";
+            $query=$this->db->connect()->prepare($sql);
+
+            $query->bindParam(':user_id', $this-> user_id);
+
+            if($query->execute()){
+                $data = $query->fetch();
+            }
+            return $data;
+        }
+    }
+
+    function getAccountVerifications() {
+        $sql = "SELECT * from tbl_user_email_verification WHERE
+         verification_code = :verification_code";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':verification_code', $this-> verification_code);
+
+        if($query->execute()){
+            $data = $query->fetch();
+        }
+        return $data;
+    }
+
+    function updateAccountVerification() {
+        $sql = "UPDATE tbl_user_acc_info SET status = :feedback WHERE user_id = :user_id";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':user_id', $this-> user_id);
+        $query->bindParam(':feedback', $this-> feedback);
+
+        if($query -> execute()) {
+            return true;
+        }
+        return false;
     }
 }
 

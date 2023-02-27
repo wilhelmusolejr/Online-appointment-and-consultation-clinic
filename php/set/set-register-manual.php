@@ -1,10 +1,10 @@
 <?php 
   $path = "../../";
 
+  session_start();
+
   require_once $path."classes/user.class.php";
   require_once $path."php/general.php";
-
-
 
   $user = new user;
   $user -> via_googol = $_POST['via-gmail'] == "true" ? true : false;
@@ -23,12 +23,18 @@
   $isEmailRegistered = $user -> checkIfEmailIsregistered();
 
   if($isEmailRegistered) {
-    echo "fail";
-    return;
+    echo json_encode(array("response" => "fail", "userData" => $user));
+    exit();
   }
 
   $result = $user -> register();
   if($result) {
-    echo "success";
+    echo json_encode(array("response" => "success", "userData" => $user));
+    exit();
   }
 ?>
+
+<!-- > register();
+  if($result) {
+    echo "success";
+  } -->
