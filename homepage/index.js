@@ -91,20 +91,24 @@ $(".form-login").on("submit", function (e) {
   });
 });
 
+let parentForm = "form-register-manual";
+let passOneInput = `.${parentForm} #reg-pass`;
+let passTwoInput = `.${parentForm} #reg-pass-confirm`;
+
 let isPasswordMatch = false;
-$("#reg-pass, #reg-pass-confirm").on("keyup", function () {
+$(`${passOneInput}, ${passTwoInput}`).on("keyup", function () {
   isPasswordMatch = checkPasswordMatch();
 
   let result = checkPasswordMatch(
-    $(`#reg-pass`).val(),
-    $(`#reg-pass-confirm`).val()
+    $(`${passOneInput}`).val(),
+    $(`${passTwoInput}`).val()
   );
 
   if (result) {
-    $(`.confirm-password .form-error-message`).html("");
+    $(`.${parentForm} .confirm-password .form-error-message`).html("");
     isPasswordMatch = true;
   } else {
-    $(`.confirm-password .form-error-message`)
+    $(`.${parentForm} .confirm-password .form-error-message`)
       .html("Password do not match")
       .css("color", "red");
     isPasswordMatch = false;
@@ -112,16 +116,16 @@ $("#reg-pass, #reg-pass-confirm").on("keyup", function () {
 });
 
 let isPasswordOk = false;
-$("#reg-pass").on("keyup", function () {
-  let result = checkPasswordValidity($(`#reg-pass`).val());
+$(`${passOneInput}`).on("keyup", function () {
+  let result = checkPasswordValidity($(`${passOneInput}`).val());
 
   if (!result) {
-    $(`.account-info-form .password .form-error-message`)
+    $(`.${parentForm} .account-info-form .password .form-error-message`)
       .html("")
       .css("color", "green");
     isPasswordOk = true;
   } else {
-    $(`.account-info-form .password .form-error-message`)
+    $(`.${parentForm} .account-info-form .password .form-error-message`)
       .html(result)
       .css("color", "red");
     isPasswordOk = false;

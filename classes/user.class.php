@@ -162,6 +162,19 @@ Class user{
         return false;
     }
 
+    function updateUserAccount() {
+        $sql = "UPDATE tbl_user_acc_info SET pass = :pass WHERE user_id = :user_id";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':user_id', $this-> user_id);
+        $query->bindParam(':pass', $this-> pass);
+
+        if($query -> execute()) {
+            return true;
+        }
+        return false;
+    }
+
     function setUploadId() {
         $sql = "INSERT INTO `tbl_user_identification` (`identification_id`, `user_id`, 
         `image`, `status`, `remark`) VALUES (NULL, :user_id, :id_image, :id_status, 

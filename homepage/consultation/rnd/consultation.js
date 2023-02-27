@@ -485,6 +485,15 @@ function ajaxCaller(currentBoardPage) {
         url: `${path}php/request/req-katalk-user.php`, //your form validation url
         dataType: "json",
         success: function (data) {
+          $(".ka-talk-box img").attr(
+            "src",
+            `${path}uploads/${
+              data[0].profile_img == null
+                ? "dummy_user.jpg"
+                : data[0].profile_img
+            }`
+          );
+
           $(`.assigned-rnd`).text(`${data[0].first_name} ${data[0].last_name}`);
 
           $(`.profile-link`).attr(

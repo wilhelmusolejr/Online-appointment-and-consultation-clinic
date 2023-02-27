@@ -21,74 +21,11 @@
     // print_r($userData);
   }
 
-  if(isset($_POST['submit'])) {
-
-    $target = "profile_img";
-    $file = $_FILES[$target];
-
-    $target_dir = $path."uploads/";
-    $result = array("response"=> 1,"message" => null, "target" => $target);
-    if($file['name'] != "") {
-      $fileType = strtolower(pathinfo($file['name'],PATHINFO_EXTENSION));
-    
-      if($file['size'] > 5000000) {
-        $result["response"] = 0; 
-        $result['message'] = "Your file is too large, only 5mb below.";
-      }
-      
-      // Allow certain file formats
-      if($fileType != "jpg" && $fileType != "png" && $fileType != "jpeg"
-      && $fileType != "pdf" && $fileType != "docx" &&
-      $fileType != "doc" && $fileType != "") {
-        $result["response"] = 0; 
-        $result['message'] = "Only JPG, JPEG, PNG, PDF, and DOC file types are allowed.";
-      }
-    }
-
-    // good
-    if($result['response'] == 1) {
-
-      if($file['name'] != "") {
-        $firstName = $_SESSION['user_loggedIn']['first_name'];
-        $lastName = $_SESSION['user_loggedIn']['last_name'];
-        $rand = rand(10,100);
-  
-        $temp = explode(".", $file["name"]);
-        $fileName = 'profile_img'.'_file_'.$firstName.'_'.$lastName.'_'.$rand.'.' . end($temp);
-        $_FILES[$target]['name'] = $fileName;
-
-        move_uploaded_file($_FILES[$target]['tmp_name'], $target_dir.$_FILES[$target]['name']);
-      }
-
-      $user -> user_id = $_GET['profile-id'];
-      $user -> profile_img = $file['name'] == "" ? "NULL" : $fileName;
-      $user -> user_type = validateInput($_POST['account-type']);
-      $user -> first_name = validateInput($_POST['firstname']);
-      $user -> middle_name = validateInput($_POST['middlename']);
-      $user -> last_name = validateInput($_POST['lastname']);
-      $user -> gender = $_POST['gender'] == "Male"? 1 : 2;
-      $user -> birthdate = $_POST['birthdate'];
-      $user -> contact = $_POST['reg-mob'];
-  
-      $result = $user -> updateUserProfile();
-
-      if($result) {
-        $userLoggedInData = $user -> getUserData();
-        $_SESSION['user_loggedIn'] = $userLoggedInData;
-        header("location: profile.php?profile-id=".$user -> user_id);
-      } else {
-        echo "error updating profile";
-      }
-    } // bad 
-    else {
-
-    }
-  }
-
   require_once $path.'includes/starterOne.php';  
 ?>
 <link rel="stylesheet" href="profile.css" />
 <script type="module" src="<?php echo $path ?>homepage/index.js" defer></script>
+<script type="module" src="edit-profile.js" defer></script>
 <?php require_once $path.'includes/starterTwo.php'; ?>
 
 <body>
@@ -107,7 +44,7 @@
     <div class="continue-register-container">
       <!-- form -->
       <form action="edit-profile.php?profile-id=<?php echo $_GET['profile-id'] ?>" method="post"
-        class="form form-group-input sizing-main" enctype="multipart/form-data">
+        class="form form-group-input form-edit-profile sizing-main" enctype="multipart/form-data">
         <!-- account type -->
         <div class=" form-group">
           <div class="form-input-parent">
@@ -126,10 +63,10 @@
             </div>
 
             <!-- Profile image -->
-            <div class="form-input-box input-one">
+            <div class="form-input-box profile-image input-one">
               <label for="account-type" class="text-capital">Profile image</label>
               <input type="file" name="profile_img">
-              <p class="form-error-message"><?php echo isset($result['message']) ? $result['message'] : "" ?></p>
+              <p class="form-error-message"></p>
             </div>
           </div>
         </div>
@@ -218,16 +155,15 @@
           </div>
           <div class="form-input-parent">
             <!-- Current password -->
-            <div class="form-input-box">
+            <div class="password form-input-box">
               <label for="reg-pass" class="text-capital">Current Password <span>*</span></label>
-              <input type="password" name="reg-pass" id="reg-pass" value="test" required
-                placeholder="Enter your password">
+              <input type="password" name="reg-pass" id="reg-pass" required placeholder="Enter your password">
+              <p class="form-error-message"></p>
             </div>
             <!-- New password -->
             <div class="confirm-password form-input-box">
               <label for="reg-pass-confirm" class="text-capital">New Password</label>
-              <input type="password" name="reg-pass-confirm" id="reg-pass-confirm" required
-                placeholder="Confirm your password" value="test">
+              <input type="password" name="reg-pass-confirm" id="reg-pass-confirm" placeholder="Confirm your password">
               <p class="form-error-message"></p>
             </div>
           </div>
@@ -235,6 +171,8 @@
 
         <!-- reg-email hidden -->
         <input type="hidden" name="reg-email" id="reg-email" value="<?php echo $userData['email'] ?>">
+        <input type="hidden" name="current_pass" value="<?php echo $userData['pass'] ?>">
+        <input type="hidden" name="profile-id" value="<?php echo $userData['user_id'] ?>">
 
         <!-- button submit -->
         <div class="text-center">

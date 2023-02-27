@@ -23,6 +23,11 @@
     $userData = $user -> getUserData();
     $userData['profile_img'] = $userData['profile_img'] == null? "dummy_user.jpg":$userData['profile_img'];
     $userId = $user -> getIdInfo();
+  } else {
+    $user = new user;
+    $user -> user_id = $_SESSION['user_loggedIn']['user_id'];
+    header("location: "."profile.php?profile-id=".$user -> user_id);
+    exit();
   }
 
   // print_r($userData);

@@ -132,7 +132,7 @@ boardContainer.addEventListener("click", function (e) {
 
   // console.log(e.target);
   // console.log(document.querySelector("select[name='metric']"));
-  console.log($("select[name='metric']").val());
+  // console.log($("select[name='metric']").val());
 
   // board 1
 
@@ -322,7 +322,7 @@ function getMessage() {
 }
 
 function getBoardTwoData(stopper) {
-  console.log("board 2", stopper);
+  // console.log("board 2", stopper);
 
   if (!stopper) {
     $.ajax({
@@ -380,14 +380,23 @@ function getBoardTwoData(stopper) {
             `${path}profile/profile.php?profile-id=${transactRndId}`
           );
 
-          // $("a").attr("href", "http://www.google.com/")
-
           // change RND profile
           $.ajax({
             type: "POST", //hide url
             url: `../../php/request/req-katalk-user.php`, //your form validation url
             dataType: "json",
+            async: false,
             success: function (data) {
+              // profile_img
+              $(".ka-talk-box img").attr(
+                "src",
+                `${path}uploads/${
+                  data[1].profile_img == null
+                    ? "dummy_user.jpg"
+                    : data[1].profile_img
+                }`
+              );
+
               $(`.assigned-rnd`).text(
                 `${data[1].first_name} ${data[1].last_name}`
               );
@@ -396,19 +405,6 @@ function getBoardTwoData(stopper) {
               console.log("ERROR at getting RND profile");
             },
           });
-
-          // $.ajax({
-          //   type: "POST", //hide url
-          //   url: `${path}php/request/request-profile.php`, //your form validation url
-          //   dataType: "json",
-          //   data: {}
-          //   async: false,
-          //   success: function (response) {
-          //     if (data.board != 2) {
-          //       $(`${boardParent} .button-next button`).prop("disabled", false);
-          //     }
-          //   },
-          // });
 
           $.ajax({
             type: "POST", //hide url
@@ -799,7 +795,18 @@ function ajaxCaller(currentBoardPage) {
         type: "POST", //hide url
         url: `${path}php/request/req-katalk-user.php`, //your form validation url
         dataType: "json",
+        async: false,
         success: function (data) {
+          // profile_img
+          $(".ka-talk-box img").attr(
+            "src",
+            `${path}uploads/${
+              data[1].profile_img == null
+                ? "dummy_user.jpg"
+                : data[1].profile_img
+            }`
+          );
+
           $(`.assigned-rnd`).text(`${data[1].first_name} ${data[1].last_name}`);
 
           $(`.profile-link`).attr(

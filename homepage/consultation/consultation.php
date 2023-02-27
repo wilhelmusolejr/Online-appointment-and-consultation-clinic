@@ -768,9 +768,9 @@
             <!-- 3 -->
             <div class="form-input-parent flex-center">
               <!-- img -->
-              <div class="list-rnd-box grid-box card">
+              <div class="list-rnd-box ka-talk-box grid-box card">
                 <div class="list-rnd-image flex-center">
-                  <img src="../../asset/doctor-bulk-billing-doctors-chapel-hill-health-care-medical-3.png" alt="">
+                  <img src="../../uploads/dummy_user.jpg" alt="">
                 </div>
                 <div class="list-rnd-info text-center">
                   <p class="assigned-rnd">LOADING</p>
@@ -861,9 +861,9 @@
             <!-- 3 -->
             <div class="form-input-parent flex-center">
               <!-- img -->
-              <div class="list-rnd-box grid-box card">
+              <div class="list-rnd-box ka-talk-box grid-box card">
                 <div class="list-rnd-image flex-center">
-                  <img src="../../asset/doctor-bulk-billing-doctors-chapel-hill-health-care-medical-3.png" alt="">
+                  <img src="../../uploads/dummy_user.jpg" alt="">
                 </div>
                 <div class="list-rnd-info text-center">
                   <p class="assigned-rnd">DUMMY</p>
