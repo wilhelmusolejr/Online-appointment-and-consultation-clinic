@@ -56,7 +56,7 @@
 
       // print_r($userData);
       // print_r($userData['email']);
-      print_r($userData['picture']);
+      // print_r($userData['picture']);
       $user -> email = $userData['email'];
       $isEmailRegistered = $user -> checkIfEmailIsregistered();
     } else {
