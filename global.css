@@ -135,8 +135,9 @@ a.button {
 }
 
 button:disabled {
-  color: gray !important;
-  border: 1px solid rgba(128, 128, 128, 0.5);
+  background-color: #2770439a;
+  /* color: gray !important; */
+  /* border: 1px solid rgba(128, 128, 128, 0.5); */
 }
 
 a.button-cancel {
@@ -304,6 +305,16 @@ input:invalid {
   letter-spacing: 2px;
 }
 
+.sticky {
+  position: fixed !important;
+  top: 0;
+}
+.lock-page {
+  overflow: hidden;
+  inset: 0;
+
+  transition: 1s ease;
+}
 /* --------------------------------------- */
 /* UNIVERSAL */
 body {
@@ -379,8 +390,9 @@ header .navigator-parent {
 
   background-color: var(--color-white-secondary);
   z-index: 2;
-
-  /* box-shadow: 2.5px 2.5px 250px #1a1a1a50; */
+}
+.nav-shadow {
+  box-shadow: 2.5px 2.5px 250px #1a1a1a50;
 }
 .navigator-parent a {
   color: var(--color-white-primary);
@@ -652,6 +664,56 @@ footer .nav-links {
   position: relative;
 }
 
+.stopper {
+  background-color: rgba(245, 245, 245, 0.5);
+  backdrop-filter: blur(1px);
+  position: absolute;
+  inset: 0;
+}
+
+.parent-spinner {
+  position: absolute;
+  inset: 0;
+}
+
+.lds-facebook {
+  display: inline-block;
+  position: absolute;
+  width: 80px;
+  height: 80px;
+}
+.lds-facebook div {
+  display: inline-block;
+  position: absolute;
+  left: 8px;
+  width: 16px;
+  background: var(--color-green-primary);
+  animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+}
+.lds-facebook div:nth-child(1) {
+  left: 8px;
+  animation-delay: -0.24s;
+}
+.lds-facebook div:nth-child(2) {
+  left: 32px;
+  animation-delay: -0.12s;
+}
+.lds-facebook div:nth-child(3) {
+  left: 56px;
+  animation-delay: 0;
+}
+@keyframes lds-facebook {
+  0% {
+    top: 8px;
+    height: 64px;
+  }
+  50%,
+  100% {
+    top: 24px;
+    height: 32px;
+  }
+}
+
 .modal-header h2 {
   font-size: clamp(3rem, 7vw, 4rem);
 }
@@ -744,6 +806,10 @@ footer .nav-links {
 
 /* --------------------------------------- */
 /* Login */
+.login-form-parent {
+  position: relative;
+}
+
 .login-form-parent form {
   overflow-y: hidden;
 }

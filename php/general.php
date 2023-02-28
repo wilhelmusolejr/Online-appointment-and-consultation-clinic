@@ -15,20 +15,21 @@ function sendVerificationCode($userData, $veficationCode, $path) {
   require_once $path."api/phpmailer-api/src/PHPMailer.php";
   require_once $path."api/phpmailer-api/src/SMTP.php";
 
-  $website = "https://wmsu-dietitianconsult.online/";
-  $link = $website."/verify/verify-account.php?verif-code=".$veficationCode;
+  $website = "https://wmsu-dietitianconsult.online/"; 
+  $link = $website."verify/verify-account.php?verif-code=".$veficationCode;
+  // $link = "http://localhost/clinic/verify/verify-account.php?verif-code=".$veficationCode;
 
   $mail = new PHPMailer(true);
 
   $mail -> isSMTP();
   $mail -> Host = 'smtp.gmail.com';
   $mail -> SMTPAuth = true;
-  $mail -> Username = 'roberthapizlangmalakas@gmail.com';
-  $mail -> Password = 'cosrrakjdosdjuev';
+  $mail -> Username = 'kenny.sofer@gmail.com';
+  $mail -> Password = 'qlcdunfyqoqtghcw'; 
   $mail -> SMTPSecure = 'ssl';
   $mail -> Port = 465;
 
-  $mail -> setFrom('roberthapizlangmalakas@gmail.com');
+  $mail -> setFrom('kenny.sofer@gmail.com');
   $mail -> addAddress($userData['email']);
 
   $mail -> isHTML(true);

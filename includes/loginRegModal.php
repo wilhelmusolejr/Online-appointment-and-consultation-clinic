@@ -26,8 +26,8 @@
           <div class="username-form form-group">
             <div class="form-input-parent">
               <div class="form-input-box">
-                <label for="username">Username</label>
-                <input type="text" name="username" id="username" placeholder="Enter your email">
+                <label for="username">Email address</label>
+                <input type="text" name="username" id="username" placeholder="Enter your email" required>
               </div>
             </div>
           </div>
@@ -37,7 +37,7 @@
             <div class="form-input-parent">
               <div class="form-input-box">
                 <label for="password">Password</label>
-                <input type="password" name="password" id="password" placeholder="Enter your password">
+                <input type="password" name="password" id="password" placeholder="Enter your password" required>
               </div>
             </div>
           </div>
@@ -53,11 +53,16 @@
             </div>
           </div>
 
+          <div class="stopper hidden"></div>
+
           <!-- button submit -->
           <div class="text-center">
             <button type="submit" value="Login" name="login" class="button button-primary submit">Login</button>
           </div>
         </form>
+
+        <?php require_once $path."includes/spinner.php" ?>
+
 
         <!-- alternative login -->
         <div class="alternative-login-parent flex-center">
@@ -75,6 +80,8 @@
         </div>
       </div>
     </div>
+
+
 
     <!-- Register form -->
     <div class="modal-form-parent register-form-parent flex-center hidden">

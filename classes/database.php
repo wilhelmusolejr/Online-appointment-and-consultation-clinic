@@ -2,12 +2,12 @@
 
 class Database{
     private $host = 'localhost';
-    private $database = 'u117888000_clinic';
-    private $username = 'u117888000_clinic';
-    private $password = '=Ev^ZshD=3';
-    // private $database = 'clinic';
-    // private $username = 'root';
-    // private $password = '';
+    // private $database = 'u117888000_clinic';
+    // private $username = 'u117888000_clinic';
+    // private $password = '=Ev^ZshD=3';
+    private $database = 'clinic';
+    private $username = 'root';
+    private $password = '';
     protected $connection;
 
     function connect(){

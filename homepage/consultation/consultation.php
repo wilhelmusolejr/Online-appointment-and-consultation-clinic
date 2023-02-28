@@ -715,7 +715,13 @@
                 <a class="button button-cancel">Go back</a>
                 <button type="submit" name='submit' value="submit" class="button button-primary">Submit</button>
               </div>
+
+              <div class="stopper hidden"></div>
+
             </div>
+
+            <?php require_once $path."includes/spinner.php" ?>
+
           </div>
         </form>
 

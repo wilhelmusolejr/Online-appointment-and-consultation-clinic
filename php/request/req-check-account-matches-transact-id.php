@@ -7,8 +7,15 @@ require_once $path."classes/appoint.class.php";
 session_start();
 
 
+
+
+
 $appoint = new appoint;
 $appoint -> transact_id = $_POST['transact_id'];
+
+$appointStatus = $appoint -> getAppointCheckpointStatus();
+$_SESSION['transact_rnd_id'] = $appointStatus['rnd_id'];
+
 
 $result = $appoint -> validate();
 

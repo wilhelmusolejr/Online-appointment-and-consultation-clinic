@@ -3,10 +3,12 @@ require_once '../../classes/user.class.php';
 
 session_start();
 
+
+if(isset($_POST['transactRndId'])) {
+  $_SESSION['transact_rnd_id'] = $_POST['transactRndId'];
+}
+
 $user = new user;
-
-
-// echo $_SESSION;
 
 $user -> user_id = $_SESSION['transact_client_id'];
 $client = $user -> getUserData();
@@ -16,6 +18,5 @@ $rnd = $user -> getUserData();
 
 if($client && $rnd){
   echo json_encode([$client, $rnd]);
-} else {
-  echo "failed to fetch profile";
-}
+  exit();
+} 

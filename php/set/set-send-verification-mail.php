@@ -12,6 +12,6 @@ $user -> user_id = $_POST['user_id'];
 $userLoggedInData = $user -> getUserData();
 $verification = $user -> getAccountVerification();
 
-sendVerificationCode($userLoggedInData, $verification['verification_code'], $path);
+sendVerificationCode($userLoggedInData, $verification, $path);
 
 // echo 

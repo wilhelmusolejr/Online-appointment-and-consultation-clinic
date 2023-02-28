@@ -2,6 +2,8 @@
 
 let path = "../../";
 
+const body = document.querySelector("body");
+
 // LIMIT CHECK BOX FOR BODY TYPE
 $("#physical-tab input:checkbox").click(function () {
   let bol = $("#physical-tab input:checkbox:checked").length >= 2;
@@ -41,6 +43,7 @@ modalAppointNotif.addEventListener("click", function (e) {
     e.target.classList.contains("overlay-black") ||
     e.target.classList.contains("button-cancel")
   ) {
+    body.classList.remove("lock-page");
     this.classList.toggle("hidden");
   }
 });
@@ -138,11 +141,13 @@ boardContainer.addEventListener("click", function (e) {
 
   if (e.target.parentElement.classList.contains("button-semi-submit")) {
     modalAppointNotif.classList.toggle("hidden");
+    body.classList.add("lock-page");
   }
 
   // button confimation
   if (e.target.parentElement.classList.contains("button-confirmation")) {
     modalAppointNotif.classList.toggle("hidden");
+    body.classList.add("lock-page");
   }
 
   if (e.target.parentElement.classList.contains("button-confirm-final")) {
@@ -385,6 +390,7 @@ function getBoardTwoData(stopper) {
             type: "POST", //hide url
             url: `../../php/request/req-katalk-user.php`, //your form validation url
             dataType: "json",
+            data: { transactRndId: transactRndId },
             async: false,
             success: function (data) {
               // profile_img
@@ -562,7 +568,7 @@ function setterInfo(urlTransactId) {
       url: `${path}php/request/req-check-loggedin.php`, //your form validation url
       async: false,
       success: function (data) {
-        // console.log(data);
+        console.log(data);
 
         if (data == 1) {
           // if current the account matches the transact id
@@ -581,7 +587,7 @@ function setterInfo(urlTransactId) {
                   data: { transact_id: urlTransactId },
                   async: false,
                   success: function (data) {
-                    // console.log(data);
+                    console.log(data);
                     let currentBoardPage = data.board_page - 1;
                     changePage(currentBoardPage, boardSets, 1);
                     changeBoardProgress(currentBoardPage + 1);
@@ -600,6 +606,7 @@ function setterInfo(urlTransactId) {
                 $(`.${parent} .button-semi-submit`).addClass("hidden");
                 $(`.${parent} .button-next`).removeClass("hidden");
 
+                // tabulation
                 $.ajax({
                   type: "POST", //hide url
                   url: `${path}php/request/req-appoint-info.php`, //your form validation url
@@ -797,6 +804,8 @@ function ajaxCaller(currentBoardPage) {
         dataType: "json",
         async: false,
         success: function (data) {
+          console.log(data);
+
           // profile_img
           $(".ka-talk-box img").attr(
             "src",
@@ -947,9 +956,29 @@ function showSchedule(target, edit = false) {
   });
 }
 
+function spinnerActivate(parent, show) {
+  if (show) {
+    // remove hidden stopper
+    $(`.${parent} .stopper`).removeClass("hidden");
+    // remove hidden loading
+    $(`.${parent} .spinner`).removeClass("hidden");
+  } else {
+    // remove hidden stopper
+    $(`.${parent} .stopper`).addClass("hidden");
+    // remove hidden loading
+    $(`.${parent} .spinner`).addClass("hidden");
+  }
+}
+
 // SUBMIT APPOINTMENT
 $(".form-appoint-submit").on("submit", function (e) {
   e.preventDefault();
+
+  console.log("pressed");
+
+  let parentForm = "modal-appointment-confirmation";
+  // Show spinner
+  spinnerActivate(parentForm, true);
 
   $.ajax({
     type: "POST", //hide url
@@ -959,7 +988,7 @@ $(".form-appoint-submit").on("submit", function (e) {
     contentType: false,
     cache: false,
     processData: false,
-    async: false,
+    // async: false,
     success: function (data) {
       console.log(data);
 
@@ -979,10 +1008,9 @@ $(".form-appoint-submit").on("submit", function (e) {
           `.${parent} .modal-appointment-confirmation .modal-container`
         ).addClass("modal-error");
 
+        spinnerActivate(parentForm, false);
         return;
       }
-
-      $(`.${parent} .modal-appointment-confirmation`).addClass("hidden");
 
       let stopper = false;
 
@@ -994,10 +1022,17 @@ $(".form-appoint-submit").on("submit", function (e) {
 
         if (response.response == 0) {
           stopper = true;
+          spinnerActivate(parentForm, false);
+          $(`.${parent} .modal-appointment-confirmation`).addClass("hidden");
+          body.classList.remove("lock-page");
+          return;
         }
       });
 
       if (!stopper) {
+        $(`.${parent} .modal-appointment-confirmation`).addClass("hidden");
+        body.classList.remove("lock-page");
+
         $(`.${parent} .button-semi-submit`).addClass("hidden");
         $(`.${parent} .button-next`).removeClass("hidden");
 

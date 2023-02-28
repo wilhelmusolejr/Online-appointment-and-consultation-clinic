@@ -13,7 +13,11 @@ const modalLoginRegParent = document.querySelector(".modal-login-reg");
 const loginContainer = document.querySelector(".login-form-parent");
 const registerContainer = document.querySelector(".register-form-parent");
 
+const body = document.querySelector("body");
+
 headerNavContainer.addEventListener("click", function (e) {
+  // console.log(e.target);
+
   if (e.target.closest(".nav-button")) {
     e.preventDefault();
   }
@@ -29,6 +33,8 @@ headerNavContainer.addEventListener("click", function (e) {
 
   // Open login
   if (e.target.textContent == "login") {
+    body.classList.add("lock-page");
+
     modalLoginRegParent.classList.toggle("hidden");
     loginContainer.classList.remove("hidden");
     registerContainer.classList.add("hidden");
@@ -36,6 +42,8 @@ headerNavContainer.addEventListener("click", function (e) {
 
   // Open Register
   if (e.target.textContent == "register") {
+    body.classList.add("lock-page");
+
     modalLoginRegParent.classList.toggle("hidden");
     loginContainer.classList.add("hidden");
     registerContainer.classList.remove("hidden");
@@ -56,6 +64,7 @@ modalLoginRegParent.addEventListener("click", function (e) {
     e.target.classList.contains("overlay-black") ||
     e.target.classList.contains("button-back")
   ) {
+    body.classList.remove("lock-page");
     this.classList.add("hidden");
   }
 
@@ -66,11 +75,31 @@ modalLoginRegParent.addEventListener("click", function (e) {
   }
 });
 
+function spinnerActivate(parent, show) {
+  if (show) {
+    // remove hidden stopper
+    $(`.${parent} .stopper`).removeClass("hidden");
+    // remove hidden loading
+    $(`.${parent} .spinner`).removeClass("hidden");
+  } else {
+    // remove hidden stopper
+    $(`.${parent} .stopper`).addClass("hidden");
+    // remove hidden loading
+    $(`.${parent} .spinner`).addClass("hidden");
+  }
+}
+
 // LOGIN - Submit
 $(".form-login").on("submit", function (e) {
   e.preventDefault(); //prevent to reload the page
-
   let path = this.querySelector(".path").value;
+
+  console.log("pressed");
+
+  // disabled button
+  // $(`.form-login button`).prop("disabled", true);
+  let parentForm = "login-form-container";
+  spinnerActivate(parentForm, true);
 
   $.ajax({
     type: "post", //hide url
@@ -78,8 +107,6 @@ $(".form-login").on("submit", function (e) {
     data: $(".form-login").serialize(),
     dataType: "json",
     success: function (response) {
-      console.log(response);
-      console.log(response.response);
       if (response.response == 1) {
         let initialHref = location.href;
         location.href = initialHref;
@@ -101,6 +128,8 @@ $(".form-login").on("submit", function (e) {
             },
           });
         }
+
+        spinnerActivate("login-form-parent", false);
       }
     },
     error: function () {
@@ -154,6 +183,8 @@ $(`${passOneInput}`).on("keyup", function () {
 $(".form-register-manual").on("submit", function (e) {
   e.preventDefault(); //prevent to reload the page
 
+  let parentForm = "form-register-manual";
+
   let path = this.querySelector(".path").value;
 
   if (!isPasswordMatch || !isPasswordOk) {
@@ -162,6 +193,9 @@ $(".form-register-manual").on("submit", function (e) {
   }
   console.log("good");
 
+  // disabled button
+  $(`.${parentForm} button`).prop("disabled", true);
+
   $.ajax({
     type: "post", //hide url
     url: `${path}php/set/set-register-manual.php`, //your form validation url
@@ -169,6 +203,7 @@ $(".form-register-manual").on("submit", function (e) {
     dataType: "json",
     success: function (response) {
       console.log(response);
+
       if (response.response == "success") {
         $(".register-form-parent h2").html("Registration complete");
         $(".register-form-parent form").html(
@@ -198,6 +233,11 @@ $(".form-register-manual").on("submit", function (e) {
     },
     error: function () {
       console.log("ERROR at set register manual");
+    },
+    complete: function (response) {
+      if (response.response != "success") {
+        $(`.${parentForm} button`).prop("disabled", false);
+      }
     },
   });
 });
@@ -271,3 +311,28 @@ outsideProfileCon.addEventListener("mouseover", function (e) {
 // });
 
 // console.log("test");
+
+const header = document.querySelector("header");
+const navHeight = headerNavContainer.getBoundingClientRect().height;
+
+const stickyNav = function (entries) {
+  const [entry] = entries;
+
+  if (!entry.isIntersecting) {
+    headerNavContainer.style.position = "fixed";
+    headerNavContainer.style.backgroundColor = "white";
+    headerNavContainer.classList.add("nav-shadow");
+  } else {
+    headerNavContainer.style.position = "sticky";
+    headerNavContainer.style.backgroundColor = "#f5f5f5";
+    headerNavContainer.classList.remove("nav-shadow");
+  }
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
+});
+
+headerObserver.observe(header);
