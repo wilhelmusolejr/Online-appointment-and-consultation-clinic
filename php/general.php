@@ -15,7 +15,8 @@ function sendVerificationCode($userData, $veficationCode, $path) {
   require_once $path."api/phpmailer-api/src/PHPMailer.php";
   require_once $path."api/phpmailer-api/src/SMTP.php";
 
-  $link = "http://localhost/clinic/verify/verify-account.php?verif-code=".$veficationCode;
+  $website = "https://wmsu-dietitianconsult.online/";
+  $link = $website."/verify/verify-account.php?verif-code=".$veficationCode;
 
   $mail = new PHPMailer(true);
 
