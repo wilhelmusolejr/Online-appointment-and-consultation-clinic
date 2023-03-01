@@ -5,6 +5,8 @@ import {
   checkPasswordValidity,
 } from "../tools/functions.js";
 
+console.log("updated 3/1 8:15");
+
 // NAVIGATOR
 const headerNavContainer = document.querySelector("header .navigator-parent");
 const modalLoginRegParent = document.querySelector(".modal-login-reg");

@@ -6,9 +6,6 @@ session_start();
 
 $userData = $_POST['userData'];
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
 require_once $path."classes/user.class.php";
 require_once $path."php/general.php";
 
