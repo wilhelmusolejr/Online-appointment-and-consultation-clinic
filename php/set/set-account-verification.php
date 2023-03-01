@@ -5,40 +5,37 @@ $path = "../../";
 session_start();
 
 $userData = $_POST['userData'];
-echo "test";
-// ----------------------
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-// use PHPMailer\PHPMailer\PHPMailer;
-// use PHPMailer\PHPMailer\Exception;
+require_once $path."classes/user.class.php";
+require_once $path."php/general.php";
 
-// require_once $path."classes/user.class.php";
-// require_once $path."php/general.php";
+$randomInt = rand(1000,5000);
+function generateRandomString($length = 10) {
+  return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
+}
+$randomString = generateRandomString();
+$veficationCode = $randomString.$randomInt;  // OR: generateRandomString(24)
 
-// $randomInt = rand(1000,5000);
-// function generateRandomString($length = 10) {
-//   return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
-// }
-// $randomString = generateRandomString();
-// $veficationCode = $randomString.$randomInt;  // OR: generateRandomString(24)
+$user = new user;
 
-// $user = new user;
+$user -> first_name = $userData['first_name'];
+$user -> birthdate = $userData['birthdate']; 
 
-// $user -> first_name = $userData['first_name'];
-// $user -> birthdate = $userData['birthdate']; 
+$user -> email = $userData['email'];
+$user -> user_id = $user -> getLatestUserIdTwo();
+$user -> verification_code = $veficationCode;
 
-// $user -> email = $userData['email'];
-// $user -> user_id = $user -> getLatestUserIdTwo();
-// $user -> verification_code = $veficationCode;
+$result = $user -> setAccountVerification();
 
-// $result = $user -> setAccountVerification();
-
-// if(!$result) {
-//   echo "something went wrong";
-//   exit();
-// }
+if(!$result) {
+  echo "something went wrong";
+  exit();
+}
 
 
-// sendVerificationCode($userData, $veficationCode, $path);
+sendVerificationCode($userData, $veficationCode, $path);
 
 
 // ------------------
