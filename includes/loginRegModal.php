@@ -61,7 +61,7 @@
           </div>
         </form>
 
-        <?php require_once $path."includes/spinner.php" ?>
+        <?php require $path."includes/spinner.php" ?>
 
 
         <!-- alternative login -->
@@ -241,23 +241,28 @@
           <input type="hidden" name="submit" value="submit">
           <input type="hidden" name="via-gmail" value="false">
 
+
+          <div class="stopper hidden"></div>
+
           <!-- button submit -->
           <div class="text-center">
             <button class="button button-primary submit">Register</button>
           </div>
         </form>
 
+        <?php require $path."includes/spinner.php" ?>
+
         <!-- alternative login -->
-        <div class="alternative-login-parent flex-center hidden">
+        <!-- <div class="alternative-login-parent flex-center hidden">
           <p>Or login using: </p>
           <a href="#"><i class="fa-brands fa-google"></i></a>
           <a href="#"><i class="fa-brands fa-facebook"></i></a>
-        </div>
+        </div> -->
 
         <!-- signup button -->
-        <div class="signup-parent hidden">
+        <!-- <div class="signup-parent hidden">
           <p>Not a member? <a href="#">Sign up</a></p>
-        </div>
+        </div> -->
       </div>
     </div>
 

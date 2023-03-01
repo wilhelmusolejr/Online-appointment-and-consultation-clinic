@@ -1,18 +1,11 @@
 <?php
-
-require '..\functions\functions.php';
-
-  
-
+$path = "../";
+require $path.'functions/functions.php';
     //resume session here to fetch session values
     session_start();
-    /*
-        if user is not login then redirect to login page,
-        this is to prevent users from accessing pages that requires
-        authentication such as the dashboard
-    */
+
     if (!isset($_SESSION['logged-in'])){
-        header('location: ../login/login.php');
+        header('location: '.$path.'login/login.php');
     }
     //if the above code is false then html below will be displayed
 
@@ -34,76 +27,8 @@ require '..\functions\functions.php';
 </head>
 
 <body>
-  <div class="sidebar close">
-    <div class="logo-details">
-      <i class='fas fa-user-alt'></i>
-      <span class="logo_name">ADMIN</span>
-    </div>
-    <hr class="line">
-    <ul class="nav-links">
-      <li>
-        <a href="../dashboard.php">
-          <i class='fas fa-globe'></i>
-          <span class="link_name">Dashboard</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="../dashboard.php">Dashboard</a></li>
-        </ul>
-      </li>
-      <li>
-        <div class="iocn-link">
-          <a href="../specialist/patient.php">
-            <i class='fa-solid fa-user-doctor'></i>
-            <span class="link_name">Specialist</span>
-          </a>
-          <i class='bx bxs-chevron-down arrow'></i>
-        </div>
-        <ul class="sub-menu">
-          <li><a class="link_name" href="../specialist/patient.php" class="active">Specialist</a></li>
-          <li><a href="../speacialist/personal.php">Personal Information</a></li>
-          <li><a href="../speacialist/appointment.php">Appointment Information</a></li>
-          <li><a href="../speacialist/patient.php" class="active">Patient Handled</a></li>
-        </ul>
-      </li>
-      <li>
-        <div class="iocn-link">
-          <a href="#" class="active">
-            <i class='fas fa-user'></i>
-            <span class="link_name">Patient</span>
-          </a>
-          <i class='bx bxs-chevron-down arrow'></i>
-        </div>
-        <ul class="sub-menu">
-          <li><a class="link_name" href="../patient/patient.php" class="active">Patients</a></li>
-          <li><a href="patient.php">Patient Information</a></li>
-          <li><a href="pending-identification.php">Pending ID Verification</a></li>
-        </ul>
-      </li>
-      <li>
-        <div class="iocn-link">
-          <a href="../appointment/pending.php">
-            <i class='fas fa-building'></i>
-            <span class="link_name">Appointment</span>
-          </a>
-          <i class='bx bxs-chevron-down arrow'></i>
-        </div>
-        <ul class="sub-menu">
-          <li><a class="link_name" href="../appointment/pending.php">Appointment</a></li>
-          <li><a href="../appointment/pending.php">Pending Appointment</a></li>
-          <li><a href="../appointment/approved.php">Approved Appointment</a></li>
-        </ul>
-      </li>
-      <hr class="line">
-      <li class="logout-link">
-        <a href="../login/logout.php">
-          <i class='bx bx-log-out'></i>
-          <span class="link_name">Logout</span>
-        </a>
-        <ul class="sub-menu">
-          <li><a class="link_name" href="../login/logout.php">Logout</a></li>
-        </ul>
-      </li>
-  </div>
+  <?php require_once $path."includes/side-bar.php" ?>
+
   <section class="home-section">
     <i class='bx bx-menu'></i>
     <span class="text">MANAGE PATIENT</span>

@@ -1,4 +1,5 @@
 <?php 
+  $path = "";
 
   session_start();
 
@@ -26,7 +27,7 @@
 </head>
 
 <body>
-  <div class="sidebar close">
+  <!-- <div class="sidebar close">
     <div class="logo-details">
       <i class='fas fa-user-alt'></i>
       <span class="logo_name">ADMIN</span>
@@ -73,7 +74,7 @@
       </li>
       <li>
         <div class="iocn-link">
-          <a href="#">
+          <a>
             <i class='fas fa-building'></i>
             <span class="link_name">Appointment</span>
           </a>
@@ -95,7 +96,9 @@
           <li><a class="link_name" href="../admin2/login/logout.php">Logout</a></li>
         </ul>
       </li>
-  </div>
+  </div> -->
+  <?php require_once $path."includes/side-bar.php" ?>
+
   <section class="home-section">
     <i class='bx bx-menu'></i>
     <span class="text">DASHBOARD</span>
@@ -105,7 +108,7 @@
           <?php { ?>
           <div class="box">
             <div class="right-side">
-              <div class="number">0</div>
+              <div class="number">5</div>
               <div class="box-topic">TOTAL APPOINTMENT</div>
               <div class="time">Today</div>
             </div>
@@ -113,21 +116,25 @@
 
           <div class="box">
             <div class="right-side">
-              <div class="number">0</div>
-              <div class="box-topic">TOTAL APPOINTMENT</div>
+              <div class="number">25</div>
+              <div class="box-topic">TOTAL USER</div>
               <div class="time">Yesterday</div>
             </div>
           </div>
           <div class="box">
             <div class="right-side">
-              <div class="number">0</div>
-              <div class="box-topic">TOTAL APPOINTMENT</div>
+              <div class="number">8</div>
+              <div class="box-topic">TOTAL MONITORING</div>
               <div class="time">Last Seven Days</div>
             </div>
           </div> <?php
                  }?>
 
         </div>
+
+        <div id="container"></div>
+
+
         <div class="overview-boxes">
           <?php {?>
           <div class="chart">

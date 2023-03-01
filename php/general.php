@@ -22,27 +22,34 @@ function sendVerificationCode($userData, $veficationCode, $path) {
   $mail = new PHPMailer(true);
 
   $mail -> isSMTP();
-  $mail -> Host = 'smtp.gmail.com';
+  $mail -> Host = 'smtp.hostinger.com';
+  $mail -> Port = 587;
   $mail -> SMTPAuth = true;
-  $mail -> Username = 'kenny.sofer@gmail.com';
-  $mail -> Password = 'qlcdunfyqoqtghcw'; 
-  $mail -> SMTPSecure = 'ssl';
-  $mail -> Port = 465;
 
-  $mail -> setFrom('kenny.sofer@gmail.com');
+  $mail->Username = 'admin@wmsu-dietitianconsult.online';
+  $mail->Password = 'Qw09058222!';
+
+  $mail -> setFrom('admin@wmsu-dietitianconsult.online', 'WMSU Dietitian');
+  $mail -> addReplyTo('no-reply@wmsu-dietitianconsult.online');
+
   $mail -> addAddress($userData['email']);
-
   $mail -> isHTML(true);
+
   $mail -> Subject = "WMSU Dietitian | Account Verification";
   $mail -> Body = "
   <h1 style='text-transform: uppercase'>Welcome to the clinic!</h1>
   <br>
   <p>Hello <strong>".$userData['first_name']." ".$userData['last_name']."</strong>,</p>
+  <br>
   <p>Thanks for registering. To activate your account, please click on this <a href=".$link.">link</a> or copy/paste the link <br>provided below into the browser's address bar.</p>
   <a href='".$link."'>".$link."</a>
   ";
 
   $mail -> send();
+}
+
+function generateRandomString($length = 10) {
+  return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
 }
 
 // function setMultipleInputHelper($sql,$value, $id,$data) {

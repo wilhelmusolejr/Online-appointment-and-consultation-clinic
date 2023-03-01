@@ -630,7 +630,7 @@
                           <input type="checkbox" id="health-condition-one-other" name="self-condition"
                             value="health-condition-one-other">
                           <label for="health-condition-one-other">If others, specify</label>
-                          <input type="text" id="otherValue" name="self-condition-other" class="hidden" />
+                          <input type="text" id="otherValue" name="self-condition-other" class="hiddens" />
                         </div>
                       </div>
                     </div>
@@ -665,7 +665,7 @@
                           <input type="checkbox" id="health-condition-one-other" name="health-condition-one"
                             value="health-condition-one-other">
                           <label for="health-condition-one-other">If others, specify</label>
-                          <input type="text" id="otherValue" name="health-condition-one-other" class="hidden" />
+                          <input type="text" id="otherValue" name="health-condition-one-other" class="hiddens" />
                         </div>
                       </div>
                     </div>

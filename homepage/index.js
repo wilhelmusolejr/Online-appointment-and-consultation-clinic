@@ -78,6 +78,8 @@ modalLoginRegParent.addEventListener("click", function (e) {
 });
 
 function spinnerActivate(parent, show) {
+  console.log("test");
+
   if (show) {
     // remove hidden stopper
     $(`.${parent} .stopper`).removeClass("hidden");
@@ -195,8 +197,9 @@ $(".form-register-manual").on("submit", function (e) {
   }
   console.log("good");
 
+  spinnerActivate("register-form-container", true);
+
   // disabled button
-  $(`.${parentForm} button`).prop("disabled", true);
 
   $.ajax({
     type: "post", //hide url
@@ -215,6 +218,9 @@ $(".form-register-manual").on("submit", function (e) {
           </div>`
         );
 
+        // joshuayasil@gmail.com
+        spinnerActivate("register-form-container", false);
+
         // SET DATABASE FOR VERIFICATION
         $.ajax({
           type: "post", //hide url
@@ -231,6 +237,8 @@ $(".form-register-manual").on("submit", function (e) {
         $(".contact-info-form .form-error-message")
           .html("Email is already registered")
           .css("color", "red");
+
+        spinnerActivate("register-form-container", false);
       }
     },
     error: function () {
@@ -249,7 +257,7 @@ let outsideProfileCon = document.querySelector(
 );
 let floatingProfileCard = document.querySelector(".nav-profile-card");
 
-outsideProfileCon.addEventListener("mouseover", function (e) {
+outsideProfileCon.addEventListener("click", function (e) {
   floatingProfileCard.classList.toggle("hidden");
 });
 

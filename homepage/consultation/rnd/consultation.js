@@ -2,6 +2,20 @@
 
 let path = "../../../";
 
+function spinnerActivate(parent, show) {
+  if (show) {
+    // remove hidden stopper
+    $(`.${parent} .stopper`).removeClass("hidden");
+    // remove hidden loading
+    $(`.${parent} .spinner`).removeClass("hidden");
+  } else {
+    // remove hidden stopper
+    $(`.${parent} .stopper`).addClass("hidden");
+    // remove hidden loading
+    $(`.${parent} .spinner`).addClass("hidden");
+  }
+}
+
 // Progresss
 const one = document.querySelector(".one");
 const two = document.querySelector(".two");

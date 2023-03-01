@@ -17,9 +17,9 @@
   if(isset($_GET['profile-id'])) {
     $user -> user_id = $_GET['profile-id'];
     $userData = $user -> getUserData();
-
-    // print_r($userData);
   }
+
+  print_r($_SESSION);
 
   require_once $path.'includes/starterOne.php';  
 ?>
@@ -48,6 +48,8 @@
         <!-- account type -->
         <div class=" form-group">
           <div class="form-input-parent">
+
+            <?php if($_SESSION['user_loggedIn']['user_privilege'] != "rnd") { ?>
             <!-- account type -->
             <div class="form-input-box input-one">
               <label for="account-type" class="text-capital">Account type<span>*</span></label>
@@ -61,6 +63,7 @@
               </select>
               <p class="form-error-message hidden">Error</p>
             </div>
+            <?php } ?>
 
             <!-- Profile image -->
             <div class="form-input-box profile-image input-one">
@@ -86,7 +89,7 @@
             </div>
             <!-- middle name -->
             <div class="form-input-box">
-              <label for="middlename" class="text-capital">Middle name <span>*</span></label>
+              <label for="middlename" class="text-capital">Middle name </label>
               <input type="text" name="middlename" id="middlename" placeholder="Enter your middle name"
                 value="<?php echo $userData['middle_name'] ?>">
               <p class="form-error-message hidden">Error</p>

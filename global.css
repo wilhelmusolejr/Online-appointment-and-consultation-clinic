@@ -392,7 +392,7 @@ header .navigator-parent {
   z-index: 2;
 }
 .nav-shadow {
-  box-shadow: 2.5px 2.5px 250px #1a1a1a50;
+  box-shadow: 2.5px 2.5px 10px #1a1a1a50;
 }
 .navigator-parent a {
   color: var(--color-white-primary);
@@ -998,7 +998,7 @@ footer .nav-links {
 }
 
 .outside-profile > .profile-container:hover {
-  cursor: default;
+  cursor: pointer;
 }
 .outside-profile > .profile-container {
   position: relative;
