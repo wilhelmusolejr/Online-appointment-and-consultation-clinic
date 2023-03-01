@@ -35,7 +35,7 @@
     <!-- patient -->
     <li>
       <div class="iocn-link">
-        <a href="../admin2/patient/patient.php">
+        <a href="<?php echo $path."patient/patient.php" ?>">
           <i class='fas fa-user'></i>
           <span class="link_name">Patient</span>
         </a>

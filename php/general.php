@@ -29,7 +29,7 @@ function sendVerificationCode($userData, $veficationCode, $path) {
   $mail->Username = 'admin@wmsu-dietitianconsult.online';
   $mail->Password = 'Qw09058222!';
 
-  $mail -> setFrom('admin@wmsu-dietitianconsult.online', 'WMSU Dietitian');
+  $mail -> setFrom('account@wmsu-dietitianconsult.online', 'WMSU Dietitian');
   $mail -> addReplyTo('no-reply@wmsu-dietitianconsult.online');
 
   $mail -> addAddress($userData['email']);

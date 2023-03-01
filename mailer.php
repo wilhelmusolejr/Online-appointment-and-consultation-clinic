@@ -44,6 +44,4 @@ $mail -> Subject = "WMSU Dietitian | Account Verification";
 $mail -> isHTML(true);
 $mail -> Body = $text;
 
-if($mail -> send()) {
-  echo "Sent";
-}
+$mail -> send();

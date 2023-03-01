@@ -13,5 +13,6 @@ $userLoggedInData = $user -> getUserData();
 $verification = $user -> getAccountVerification();
 
 sendVerificationCode($userLoggedInData, $verification, $path);
-
+echo "success";
+exit();
 // echo 
