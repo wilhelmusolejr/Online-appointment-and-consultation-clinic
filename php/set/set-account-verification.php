@@ -4,14 +4,16 @@ $path = "../../";
 
 session_start();
 
-$userData = $_POST['userData'];
 require_once $path."classes/user.class.php";
 require_once $path."php/general.php";
+
+$userData = $_POST['userData'];
 
 $randomInt = rand(1000,5000);
 function generateRandomString($length = 10) {
   return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
 }
+
 $randomString = generateRandomString();
 $veficationCode = $randomString.$randomInt;  // OR: generateRandomString(24)
 
@@ -65,3 +67,5 @@ sendVerificationCode($userData, $veficationCode, $path);
 
 echo "success";
 exit();
+
+?>
