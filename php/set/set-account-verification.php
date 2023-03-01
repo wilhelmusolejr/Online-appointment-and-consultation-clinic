@@ -5,7 +5,6 @@ $path = "../../";
 session_start();
 
 $userData = $_POST['userData'];
-
 require_once $path."classes/user.class.php";
 require_once $path."php/general.php";
 
@@ -34,6 +33,9 @@ if(!$result) {
 
 
 sendVerificationCode($userData, $veficationCode, $path);
+
+
+// ------------------
 // $link = "http://localhost/clinic/verify/verify-account.php?verif-code=".$veficationCode;
 
 // $mail = new PHPMailer(true);
