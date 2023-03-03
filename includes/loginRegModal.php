@@ -54,6 +54,7 @@
           </div>
 
           <div class="stopper hidden"></div>
+          <?php require $path."includes/spinner.php" ?>
 
           <!-- button submit -->
           <div class="text-center">
