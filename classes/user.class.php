@@ -93,7 +93,7 @@ Class user{
         $query->bindParam(':email', $this-> email);
 
         if($query->execute()){
-            $data = $query->fetchAll();
+            $data = $query->fetch();
         }
         return $data;
     }
@@ -339,6 +339,18 @@ Class user{
 
         $query->bindParam(':user_id', $this-> user_id);
         $query->bindParam(':feedback', $this-> feedback);
+
+        if($query -> execute()) {
+            return true;
+        }
+        return false;
+    }
+
+    function deleteAllVerificationCode() {
+        $sql = "DELETE FROM tbl_user_email_verification where user_id = :user_id";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':user_id', $this-> user_id);
 
         if($query -> execute()) {
             return true;

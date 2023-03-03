@@ -49,7 +49,7 @@
               <label for="remember-account" class="cursor-pointer">Remember me</label>
             </div>
             <div>
-              <a href="#">Forgot password?</a>
+              <a class="forgot-password" href="#">Forgot password?</a>
             </div>
           </div>
 
@@ -61,11 +61,37 @@
           </div>
         </form>
 
-        <?php require $path."includes/spinner.php" ?>
+        <!-- form -->
+        <form method="post" class="form form-reset-password sizing-main hidden">
+
+          <!-- path -->
+          <input type="hidden" class="path" value="<?php echo $path ?>">
+          <p class="form-error-message"></p>
+
+          <!-- username -->
+          <div class="username-form form-group">
+            <div class="form-input-parent">
+              <div class="form-input-box">
+                <label for="username">Email address</label>
+                <input type="text" name="username" id="username" placeholder="Enter your email" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="stopper hidden"></div>
+          <?php require $path."includes/spinner.php" ?>
+
+
+          <!-- button submit -->
+          <div class="text-center">
+            <a class="button button-cancel ">Back</a>
+            <button type="submit" value="Login" name="login" class="button button-primary submit">Reset</button>
+          </div>
+        </form>
 
 
         <!-- alternative login -->
-        <div class="alternative-login-parent flex-center">
+        <div class="alternative-login-parent flex-center ">
           <p>Or login using: </p>
           <a href="<?php 
               $login = true;
@@ -75,13 +101,11 @@
         </div>
 
         <!-- signup button -->
-        <div class="signup-parent">
+        <div class="signup-parent ">
           <p>Not a member? <a href="#">Sign up</a></p>
         </div>
       </div>
     </div>
-
-
 
     <!-- Register form -->
     <div class="modal-form-parent register-form-parent flex-center hidden">
@@ -142,7 +166,7 @@
               <div class="form-input-box">
                 <label for="firstname" class="text-capital">First name <span>*</span></label>
                 <input type="text" name="firstname" id="firstname" required placeholder="Enter your first name"
-                  value="Meowers">
+                  value="<?php echo rand(10,1000) ?>">
                 <!-- <p class="form-error-message hidden">Error</p> -->
               </div>
               <!-- middle name -->

@@ -10,12 +10,10 @@ require_once $path."classes/user.class.php";
 if(!isset($_GET['verif-code'])) {
   header("location: ".$path."homepage");
   exit();
-} 
+}
 
 $user = new user;
-
 $user -> verification_code = $_GET['verif-code'];
-
 $result = $user -> getAccountVerification();
 
 if(!$result) {
@@ -26,11 +24,11 @@ if(!$result) {
 $user -> user_id = $result['user_id'];
 $user -> feedback = "VERIFIED";
 $result = $user -> updateAccountVerification();
+$result = $user -> deleteAllVerificationCode();
 
 if($result) {
   $response = "Activated successfully";
-} 
-
+}
 
 require_once $path.'includes/starterOne.php';
 ?>

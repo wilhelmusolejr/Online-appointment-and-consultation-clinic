@@ -1,23 +1,24 @@
 <?php 
   $path = "../../../";
 
-  // require_once $path.'classes/appoint.class.php';
-  // require_once $path.'classes/user.class.php';
+  session_start();
+
+  if(!isset($_SESSION['user_loggedIn'])) {
+    header('Location: '.$path.'homepage/index.php');
+  }
+
   require_once $path.'classes/consult.class.php';
 
   require_once $path.'tools/variables.php';
   $page_title = "Pending appointment";
-  // $consultation = 'nav-current';
+
   $pending = "active";
 
-  session_start();
 
   $consult = new consult;
   $consult -> rnd_id = $_SESSION['transact_rnd_id'];
 
   $listOfPending = $consult -> getListOfPendingAppoint();
-
-  // print_r($listOfPending);
 
   require_once $path.'includes/starterOne.php';  
 ?>

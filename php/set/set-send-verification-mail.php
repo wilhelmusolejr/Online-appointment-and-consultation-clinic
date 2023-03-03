@@ -10,9 +10,14 @@ require_once $path."php/general.php";
 $user = new user;
 $user -> user_id = $_POST['user_id'];
 $userLoggedInData = $user -> getUserData();
-$verification = $user -> getAccountVerification();
+// $verification = $user -> getAccountVerification();
 
-sendVerificationCode($userLoggedInData, $verification, $path);
+$veficationCode = generateVerifCode();
+$user -> verification_code = $veficationCode;
+
+$result = $user -> deleteAllVerificationCode();
+$result = $user -> setAccountVerification();
+
+emailSendEmailActivation($userLoggedInData, $veficationCode, $path);
 echo "success";
 exit();
-// echo 

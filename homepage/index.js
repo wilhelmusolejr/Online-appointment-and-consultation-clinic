@@ -54,10 +54,22 @@ headerNavContainer.addEventListener("click", function (e) {
 
 // LOGIN AND REGISTER
 modalLoginRegParent.addEventListener("click", function (e) {
-  // console.log(e.target);
-
   if (e.target.tagName == "A") {
     // e.preventDefault();
+  }
+
+  if (e.target.classList.contains("forgot-password")) {
+    $(".login-form-parent h2").text("Reset password");
+    $(".form-login").addClass("hidden");
+    $(".form-reset-password").removeClass("hidden");
+  }
+
+  if (e.target.classList.contains("button-cancel")) {
+    console.log("wiw");
+
+    $(".login-form-parent h2").text("login");
+    $(".form-login").removeClass("hidden");
+    $(".form-reset-password").addClass("hidden");
   }
 
   // Close nav
@@ -78,8 +90,6 @@ modalLoginRegParent.addEventListener("click", function (e) {
 });
 
 function spinnerActivate(parent, show) {
-  console.log("test");
-
   if (show) {
     // remove hidden stopper
     $(`.${parent} .stopper`).removeClass("hidden");
@@ -98,10 +108,7 @@ $(".form-login").on("submit", function (e) {
   e.preventDefault(); //prevent to reload the page
   let path = this.querySelector(".path").value;
 
-  console.log("pressed");
-
   // disabled button
-  // $(`.form-login button`).prop("disabled", true);
   let parentForm = "login-form-container";
   spinnerActivate(parentForm, true);
 
@@ -111,6 +118,8 @@ $(".form-login").on("submit", function (e) {
     data: $(".form-login").serialize(),
     dataType: "json",
     success: function (response) {
+      console.log(response);
+
       if (response.response == 1) {
         let initialHref = location.href;
         location.href = initialHref;
@@ -199,8 +208,6 @@ $(".form-register-manual").on("submit", function (e) {
 
   spinnerActivate("register-form-container", true);
 
-  // disabled button
-
   $.ajax({
     type: "post", //hide url
     url: `${path}php/set/set-register-manual.php`, //your form validation url
@@ -252,6 +259,47 @@ $(".form-register-manual").on("submit", function (e) {
   });
 });
 
+// FORGOT PASSWORD
+$(".form-reset-password").on("submit", function (e) {
+  e.preventDefault(); //prevent to reload the page
+
+  let parentForm = "form-reset-password";
+  let path = this.querySelector(".path").value;
+
+  spinnerActivate("form-reset-password", true);
+
+  $.ajax({
+    type: "post", //hide url
+    url: `${path}php/update/update-reset-password.php`, //your form validation url
+    data: $(".form-reset-password").serialize(),
+    success: function (response) {
+      console.log(response);
+
+      if (response == "Account is not yet registered") {
+        $(`.${parentForm} .form-error-message`).text(response);
+        spinnerActivate("form-reset-password", false);
+      }
+      if (response == "success") {
+        $(`.${parentForm} .form-error-message`).text(
+          "Reset password link has been sent to the email."
+        );
+        $(`.${parentForm} .form-error-message`).removeClass(
+          "form-error-message"
+        );
+
+        $(`.${parentForm} .username-form`).addClass("hidden");
+        $(`.${parentForm} .submit`).addClass("hidden");
+
+        spinnerActivate("form-reset-password", false);
+      }
+    },
+    error: function () {
+      console.log("ERROR at reset password");
+    },
+  });
+});
+
+//
 let outsideProfileCon = document.querySelector(
   ".outside-profile > .profile-container"
 );

@@ -33,7 +33,6 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
     exit();
   }
 } else { 
-  // Qw0905!Dummy
   require_once '../config.php';
 
   $login = true;

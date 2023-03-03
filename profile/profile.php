@@ -1,20 +1,19 @@
 <?php 
   $path = "../";
 
-  // require_once $path.'classes/appoint.class.php';
-  require_once $path.'classes/user.class.php';
-  // require_once $path.'classes/consult.class.php';
-
-  require_once $path.'tools/variables.php';
-  $page_title = "Consultation";
-  $consultation = 'nav-current';
-
   session_start();
   
   // check if user is logged in
   if(!isset($_SESSION['loggedIn'])) {
     header('Location: '.$path.'homepage/index.php');
   }
+
+  require_once $path.'classes/user.class.php';
+
+  require_once $path.'tools/variables.php';
+  $page_title = $_SESSION['user_loggedIn']['first_name'].' '.$_SESSION['user_loggedIn']['last_name'].' | '.$page_name;
+
+  
 
   if(isset($_GET['profile-id'])) {
     $user = new user;

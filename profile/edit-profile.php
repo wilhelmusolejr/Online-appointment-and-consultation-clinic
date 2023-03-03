@@ -1,16 +1,18 @@
 <?php 
   $path = "../";
 
-  // require_once $path.'classes/appoint.class.php';
+  session_start();
+
+  // check if user is logged in
+  if(!isset($_SESSION['user_loggedIn'])) {
+    header('Location: '.$path.'homepage/index.php');
+  }
+
   require_once $path.'classes/user.class.php';
   require_once $path.'php/general.php';
-  // require_once $path.'classes/consult.class.php';
 
   require_once $path.'tools/variables.php';
-  $page_title = "Edit Profile | Name";
-  // $consultation = 'nav-current';
-
-  session_start();
+  $page_title = "Edit Profile | ".$page_name;
 
   $user = new user;
 
@@ -18,8 +20,6 @@
     $user -> user_id = $_GET['profile-id'];
     $userData = $user -> getUserData();
   }
-
-  print_r($_SESSION);
 
   require_once $path.'includes/starterOne.php';  
 ?>

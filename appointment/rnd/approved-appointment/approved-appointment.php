@@ -1,21 +1,22 @@
 <?php 
   $path = "../../../";
 
+  session_start();
+
+  if(!isset($_SESSION['user_loggedIn'])) {
+    header('Location: '.$path.'homepage/index.php');
+  }
+
   require_once $path.'classes/consult.class.php';
 
   require_once $path.'tools/variables.php';
   $page_title = "Pending appointment";
-  // $consultation = 'nav-current';
+  
   $approved = "active";
-
-  session_start();
 
   $consult = new consult;
   $consult -> rnd_id = $_SESSION['transact_rnd_id'];
-
   $listOfApproved = $consult -> getApprovedAppoint();
-
-  // print_r(sizeof($listOfApproved));
 
   require_once $path.'includes/starterOne.php';  
 ?>

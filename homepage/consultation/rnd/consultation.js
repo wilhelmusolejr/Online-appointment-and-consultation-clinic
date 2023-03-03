@@ -2,6 +2,8 @@
 
 let path = "../../../";
 
+const body = document.querySelector("body");
+
 function spinnerActivate(parent, show) {
   if (show) {
     // remove hidden stopper
@@ -162,7 +164,8 @@ boardContainer.addEventListener("click", function (e) {
     e.target.parentElement.classList.contains("button-confirmation-boardThree")
   ) {
     modalNotifThree.classList.toggle("hidden");
-    console.log("complete?");
+
+    body.classList.add("lock-page");
   }
 
   if (e.target.parentElement.classList.contains("button-upload-confirmation")) {
@@ -172,6 +175,8 @@ boardContainer.addEventListener("click", function (e) {
       .closest(".consultation-checkpoint-stage ")
       .querySelector(".modal-notif-parent")
       .classList.remove("hidden");
+
+    body.classList.add("lock-page");
   }
 
   if (e.target.parentElement.classList.contains("button-confirm-finalFour")) {
@@ -187,32 +192,39 @@ boardContainer.addEventListener("click", function (e) {
 
   if (e.target.parentElement.classList.contains("button-confirm-finalThree")) {
     // button confirm final
-
     console.log("test");
+    spinnerActivate("modal-appointment-confirmation", true);
 
-    $(".button-confirmation-boardThree").remove();
-    e.target.parentElement.classList.toggle("hidden");
-    this.querySelector(".consultation-stage .button-next").classList.toggle(
-      "hidden"
-    );
-
-    modalAppointNotif.classList.add("hidden");
-
+    // REQUEST BOARD PAGE
     $.ajax({
       type: "POST", //hide url
       url: `../../../php/request/req-board-page.php`, //your form validation url
       dataType: "json",
       async: false,
       success: function (response) {
-        // console.log(response);
-
+        console.log("req board", response);
+        // SET BOARD PAGE
         $.ajax({
           type: "POST", //hide url
           url: `../../../php/set/set-board.php`, //your form validation url
           data: { board_page: response["board_page"] },
           async: false,
           success: function (response) {
-            console.log(response);
+            console.log("set board", response);
+
+            // SET CONSULT
+            $.ajax({
+              type: "POST", //hide url
+              url: `../../../php/set/set-consult-checkpoint.php`, //your form validation url
+              async: false,
+              success: function (response) {
+                console.log("set consult", response);
+              },
+              error: function () {
+                console.log("error set");
+                return;
+              },
+            });
           },
           error: function (response) {
             console.log("failed ");
@@ -224,24 +236,21 @@ boardContainer.addEventListener("click", function (e) {
       },
     });
 
-    $.ajax({
-      type: "POST", //hide url
-      url: `../../../php/set/set-consult-checkpoint.php`, //your form validation url
-      dataType: "json",
-      async: false,
-      success: function (response) {
-        console.log(response);
-      },
-      error: function () {
-        console.log("error set");
-      },
-    });
+    $(".button-confirmation-boardThree").remove();
+    e.target.parentElement.classList.toggle("hidden");
+    this.querySelector(".consultation-stage .button-next").classList.toggle(
+      "hidden"
+    );
+
+    modalAppointNotif.classList.add("hidden");
 
     $(".button-upload-confirmation").removeClass("hidden");
 
     changePage(currentBoardPage, boardSets, 1);
     changeBoardProgress(currentBoardPage + 1);
     ajaxCaller(currentBoardPage + 1);
+
+    body.classList.remove("lock-page");
   }
 
   // prev
@@ -275,6 +284,8 @@ boardContainer.addEventListener("click", function (e) {
       .forEach((modal) => {
         modal.classList.add("hidden");
       });
+
+    body.classList.remove("lock-page");
   }
 
   if (e.target.closest(".mini-button")) {
@@ -290,7 +301,6 @@ boardContainer.addEventListener("click", function (e) {
       boardContainer
         .querySelector(".list-schedule .schedule-add")
         .classList.remove("hidden");
-      console.log("plus");
 
       // ajax
     }
@@ -300,6 +310,8 @@ boardContainer.addEventListener("click", function (e) {
         .querySelector(".list-schedule .schedule-edit")
         .classList.remove("hidden");
     }
+
+    body.classList.add("lock-page");
   }
 
   // edit section - choosing of schedule
@@ -349,21 +361,15 @@ boardContainer.addEventListener("click", function (e) {
     e.preventDefault();
 
     let targetSchedId = parseInt(currentSched.getAttribute("data-schedule-id"));
-    console.log(targetSchedId);
+
+    spinnerActivate("edit-form-sched", true);
 
     $.ajax({
       type: "POST", //hide url
       url: `../../../php/delete/del-consult-sched.php`, //your form validation url
       data: { targetSched: targetSchedId },
       success: function (response) {
-        if (response) {
-          location.reload();
-        }
-        document
-          .querySelectorAll(".form-add-schedule input")
-          .forEach((input) => {
-            input.value = "";
-          });
+        location.reload();
       },
       error: function () {
         console.log("fail at ajax");
@@ -468,7 +474,7 @@ function getMessage() {
     url: `${path}php/request/req-getMessage.php`, //your form validation url
     dataType: "json",
     success: function (data) {
-      console.log(data);
+      // console.log(data);
 
       document.querySelector(".actual-message-container").innerHTML =
         generateMessageMarkUp(data.message, data.current_user);
@@ -638,20 +644,21 @@ ajaxCaller(currentBoardPage);
 $(".form-add-schedule").on("submit", function (e) {
   e.preventDefault();
 
+  // Show spinner
+  spinnerActivate("schedule-add", true);
+
   $.ajax({
     type: "POST", //hide url
     url: `../../../php/set/set-consult-schedule.php`, //your form validation url
     data: $(".form-add-schedule").serialize(),
-    async: false,
     success: function (response) {
-      console.log(response);
       document.querySelectorAll(".modal-parent").forEach((modal) => {
         modal.classList.add("hidden");
       });
 
-      document.querySelectorAll(".form-add-schedule input").forEach((input) => {
-        input.value = "";
-      });
+      // document.querySelectorAll(".form-add-schedule input").forEach((input) => {
+      //   input.value = "";
+      // });
 
       location.reload();
     },
@@ -664,6 +671,9 @@ $(".form-add-schedule").on("submit", function (e) {
 // EDIT SCHEDULE
 $(".edit-form-sched").on("submit", function (e) {
   e.preventDefault();
+
+  // Show spinner
+  spinnerActivate("edit-form-sched", true);
 
   $.ajax({
     type: "POST", //hide url
@@ -679,6 +689,8 @@ $(".edit-form-sched").on("submit", function (e) {
       document.querySelectorAll(".form-add-schedule input").forEach((input) => {
         input.value = "";
       });
+
+      spinnerActivate("edit-form-sched", false);
     },
     error: function () {
       console.log("fail at ajax");
@@ -803,58 +815,48 @@ function showSchedule(target, edit = false) {
 $(".upload-consult-result").on("submit", function (e) {
   e.preventDefault();
 
-  console.log("pressed");
+  spinnerActivate("upload-consult-result", true);
+
+  let parent = document.querySelector(".consultation-checkpoint-stage");
 
   $.ajax({
     type: "POST", //hide url
     url: `../../../php/set/set-file-consult-result.php`, //your form validation url
-    // data: $(".upload-consult-result").serialize(),
-
     data: new FormData(this),
     dataType: "json",
     contentType: false,
     cache: false,
     processData: false,
-
     success: function (data) {
       console.log(data);
-
-      let parent = document.querySelector(".consultation-checkpoint-stage");
-
-      parent.querySelector(" .modal-parent").classList.toggle("hidden");
-
       if (data.response == 1) {
-        parent.querySelector(".form-error-message").textContent = "";
-        parent.querySelector(
-          "input[name='appointment-referral']"
-        ).disabled = true;
-        // POSITIVE
-
-        $(".button-upload-confirmation").remove();
-        // e.target.parentElement.classList.toggle("hidden");
-
-        parent.querySelector(".button-next").classList.toggle("hidden");
-
         // set board to + 1
         $.ajax({
           type: "POST", //hide url
           url: `../../../php/request/req-board-page.php`, //your form validation url
           dataType: "json",
-          async: false,
           success: function (response) {
-            // console.log(response);
-
             // increment board page
             $.ajax({
               type: "POST", //hide url
               url: `../../../php/set/set-board.php`, //your form validation url
               data: { board_page: response["board_page"] },
-              async: false,
               success: function (response) {
                 console.log(response);
+                parent
+                  .querySelector(" .modal-parent")
+                  .classList.toggle("hidden");
+                parent.querySelector(".form-error-message").textContent = "";
+                parent.querySelector(
+                  "input[name='appointment-referral']"
+                ).disabled = true;
+                // POSITIVE
+                $(".button-upload-confirmation").remove();
+                parent.querySelector(".button-next").classList.toggle("hidden");
+                body.classList.remove("lock-page");
               },
               error: function (response) {
-                console.log("failed ");
+                console.log("failed");
               },
             });
           },
@@ -880,7 +882,9 @@ $(".upload-consult-result").on("submit", function (e) {
         // // add file to database
       } else {
         // NEGATIBO
+        parent.querySelector(" .modal-parent").classList.toggle("hidden");
         parent.querySelector(".form-error-message").textContent = data.message;
+        spinnerActivate("upload-consult-result", false);
       }
     },
     error: function (data) {

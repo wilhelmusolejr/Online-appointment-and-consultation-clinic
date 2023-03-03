@@ -3,19 +3,19 @@
 
   session_start();
 
+  if(!isset($_SESSION['user_loggedIn'])) {
+    header('Location: '.$path.'homepage/index.php');
+  }
+
   require_once $path.'classes/user.class.php';
   require_once $path.'classes/appoint.class.php';
+  
   require_once $path.'tools/variables.php';
   $page_title = "Appointment History";
-  // $home = "nav-current";
-
-  // print_r($_SESSION);
 
   $appoint = new appoint;
   $appoint -> user_id = $_SESSION['transact_client_id'];
-
   $result = $appoint -> getAppointTable();
-
 
   require_once $path.'includes/starterOne.php';
 ?>

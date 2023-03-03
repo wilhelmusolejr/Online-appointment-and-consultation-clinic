@@ -257,6 +257,8 @@
                           </div>
                         </div>
 
+                        <div class="stopper hidden"></div>
+
                         <!-- hidden - fox ajax -->
                         <input type="hidden" name="submit" value='true' id="submit">
                         <!-- button -->
@@ -264,9 +266,11 @@
                           <a class="button button-cancel">Go back</a>
                           <button type="submit" name='submit' value="submit"
                             class="button button-primary">Submit</button>
-
                         </div>
                       </form>
+
+                      <?php require $path."includes/spinner.php" ?>
+
 
                     </div>
 
@@ -301,6 +305,7 @@
 
                       <!-- edit -->
                       <div class="sched-edit-parent">
+
                         <?php foreach($cheduleInfo as $schedule ) { ?>
                         <form data-schedule-id="<?php echo $schedule['consult_schedule_id'] ?>"
                           class="form edit-form-sched hidden modal-body hidden" method="post">
@@ -329,6 +334,8 @@
                           <input type="hidden" name="targetSched" value='<?php echo $schedule['consult_schedule_id'] ?>'
                             id="submit">
 
+                          <div class="stopper hidden"></div>
+
                           <!-- button -->
                           <div class="modal-buttons flex-center hiddens">
                             <!-- <a class="button button-cancel ">Go back</a> -->
@@ -339,8 +346,12 @@
                               class="button button-primary button-submit ">UPDATE</button>
                           </div>
 
+                          <?php require $path."includes/spinner.php" ?>
+
                         </form>
                         <?php } ?>
+
+
                       </div>
 
                     </div>
@@ -450,6 +461,10 @@
                   <a type="submit" name='submit' value="submit" class="button button-primary">Submit</a>
                 </div>
               </div>
+
+              <div class="stopper hidden"></div>
+              <?php require $path."includes/spinner.php" ?>
+
             </div>
           </div>
 
@@ -556,7 +571,6 @@
           </div>
 
           <div class="form-button">
-
             <!-- prev -->
             <div class="button-prev">
               <button class="button">prev</button>
@@ -593,11 +607,13 @@
                   <button type="submit" name='submit' value="submit" class="button button-primary">Upload</button>
                 </div>
               </div>
+
+              <div class="stopper hidden"></div>
+              <?php require $path."includes/spinner.php" ?>
+
             </div>
           </div>
         </form>
-
-
 
       </div>
 

@@ -977,6 +977,7 @@ $(".form-appoint-submit").on("submit", function (e) {
   console.log("pressed");
 
   let parentForm = "modal-appointment-confirmation";
+
   // Show spinner
   spinnerActivate(parentForm, true);
 

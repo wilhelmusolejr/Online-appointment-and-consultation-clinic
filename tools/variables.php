@@ -7,4 +7,6 @@
     $faq = "";
     $about = "";
     $contact = "";
+
+    $page_name = "WMSU Dietitian Consult";
 ?>
