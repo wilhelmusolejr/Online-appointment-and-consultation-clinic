@@ -4,6 +4,7 @@ $path = "../../../";
 
 require_once $path.'classes/appoint.class.php';
 require_once $path.'classes/consult.class.php';
+require_once $path.'classes/user.class.php';
 
 //resume session here to fetch session values
 session_start();
@@ -22,7 +23,16 @@ $updateFeedback = $appoint -> updateAppointFeedback();
 // make algorithm
 
 // insert data to tbl_pending_appoint_rnd for RND to look for RND
-$consult -> rnd_id = $rndList = [3, 17, 8]; // temporary list
+$user = new user;
+$result = $user -> getAllRnd();
+$rnd_ids = [];
+foreach($result as $rnd) {
+  array_push($rnd_ids, $rnd['user_id']);
+}
+
+$consult -> rnd_id = $rnd_ids; // temporary list
 $setAppointRnd = $consult -> appointPendingRndStatus();
 
 header("Location:"." ".$path."admin/appointment/pending.php");
+
+?>

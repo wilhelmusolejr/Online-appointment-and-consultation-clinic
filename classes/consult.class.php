@@ -200,15 +200,8 @@ class consult {
         
     $values = [];
 
-    $index = 0;
     foreach($this -> rnd_id as $rnd_id) {
-      $index++;
-
-      if($index == 1) {
         array_push($values, "(NULL, $this->transact_id, '$rnd_id', 'CURRENT')");
-      } else {
-        array_push($values, "(NULL, $this->transact_id, '$rnd_id', 'PROGRESS')");
-      }
     }    
 
     $final = join(",", $values);
@@ -256,14 +249,19 @@ class consult {
     if($button == "accept") {
       // change current transact to accepted
       $sql = "UPDATE tbl_pending_appoint_rnd as appoint_rnd SET `status` = 
-      'ACCEPTED' WHERE pending_appoint_rnd_id = (SELECT pending_appoint_rnd_id
-      FROM tbl_pending_appoint_rnd WHERE status = 'CURRENT' AND transact_id = :transact_id);";
+      'ACCEPTED' WHERE rnd_id = :rnd_id AND transact_id = :transact_id;";
+
+      // $sql = "UPDATE tbl_pending_appoint_rnd as appoint_rnd SET `status` = 
+      // 'ACCEPTED' WHERE pending_appoint_rnd_id = (SELECT pending_appoint_rnd_id
+      // FROM tbl_pending_appoint_rnd WHERE status = 'CURRENT' AND transact_id = :transact_id);";
+
       $query=$this->db->connect()->prepare($sql);
 
       $query->bindParam(':transact_id', $this-> transact_id);
+      $query->bindParam(':rnd_id', $this-> rnd_id);
 
       if($query -> execute()) {
-        $sql = "DELETE FROM tbl_pending_appoint_rnd WHERE status = 'PROGRESS' 
+        $sql = "DELETE FROM tbl_pending_appoint_rnd WHERE status = 'CURRENT' 
         AND transact_id = :transact_id";
         $query=$this->db->connect()->prepare($sql);
         $query->bindParam(':transact_id', $this-> transact_id);

@@ -192,15 +192,16 @@ boardContainer.addEventListener("click", function (e) {
 
   if (e.target.parentElement.classList.contains("button-confirm-finalThree")) {
     // button confirm final
+    // board 3 -- final submission
     console.log("test");
-    spinnerActivate("modal-appointment-confirmation", true);
+    spinnerActivate("consultation-stage .modal-appointment-confirmation", true);
 
     // REQUEST BOARD PAGE
     $.ajax({
       type: "POST", //hide url
       url: `../../../php/request/req-board-page.php`, //your form validation url
       dataType: "json",
-      async: false,
+      // async: false,
       success: function (response) {
         console.log("req board", response);
         // SET BOARD PAGE
@@ -208,17 +209,33 @@ boardContainer.addEventListener("click", function (e) {
           type: "POST", //hide url
           url: `../../../php/set/set-board.php`, //your form validation url
           data: { board_page: response["board_page"] },
-          async: false,
+          // async: false,
           success: function (response) {
             console.log("set board", response);
-
             // SET CONSULT
             $.ajax({
               type: "POST", //hide url
               url: `../../../php/set/set-consult-checkpoint.php`, //your form validation url
-              async: false,
+              // async: false,
               success: function (response) {
                 console.log("set consult", response);
+
+                $(".button-confirmation-boardThree").remove();
+
+                e.target.parentElement.classList.toggle("hidden");
+
+                document
+                  .querySelector(".consultation-stage .button-next")
+                  .classList.toggle("hidden");
+
+                modalAppointNotif.classList.add("hidden");
+                $(".button-upload-confirmation").removeClass("hidden");
+                body.classList.remove("lock-page");
+
+                spinnerActivate(
+                  "consultation-stage .modal-appointment-confirmation",
+                  false
+                );
               },
               error: function () {
                 console.log("error set");
@@ -236,21 +253,9 @@ boardContainer.addEventListener("click", function (e) {
       },
     });
 
-    $(".button-confirmation-boardThree").remove();
-    e.target.parentElement.classList.toggle("hidden");
-    this.querySelector(".consultation-stage .button-next").classList.toggle(
-      "hidden"
-    );
-
-    modalAppointNotif.classList.add("hidden");
-
-    $(".button-upload-confirmation").removeClass("hidden");
-
-    changePage(currentBoardPage, boardSets, 1);
-    changeBoardProgress(currentBoardPage + 1);
-    ajaxCaller(currentBoardPage + 1);
-
-    body.classList.remove("lock-page");
+    // changePage(currentBoardPage, boardSets, 1);
+    // changeBoardProgress(currentBoardPage + 1);
+    // ajaxCaller(currentBoardPage + 1);
   }
 
   // prev
@@ -815,7 +820,7 @@ function showSchedule(target, edit = false) {
 $(".upload-consult-result").on("submit", function (e) {
   e.preventDefault();
 
-  spinnerActivate("upload-consult-result", true);
+  spinnerActivate("consultation-checkpoint-stage .upload-consult-result", true);
 
   let parent = document.querySelector(".consultation-checkpoint-stage");
 
@@ -854,6 +859,11 @@ $(".upload-consult-result").on("submit", function (e) {
                 $(".button-upload-confirmation").remove();
                 parent.querySelector(".button-next").classList.toggle("hidden");
                 body.classList.remove("lock-page");
+
+                spinnerActivate(
+                  "consultation-checkpoint-stage .upload-consult-result",
+                  false
+                );
               },
               error: function (response) {
                 console.log("failed");
@@ -865,21 +875,7 @@ $(".upload-consult-result").on("submit", function (e) {
           },
         });
 
-        // // set consult status to approved
-        // should have delete file below
-        // $.ajax({
-        //   type: "POST", //hide url
-        //   url: `../../../php/update/update-consult-result.php`, //your form validation url
-        //   async: false,
-        //   success: function (response) {
-        //     console.log(response);
-        //   },
-        //   error: function (response) {
-        //     console.log("failed ");
-        //   },
-        // });
-
-        // // add file to database
+        // add file to database
       } else {
         // NEGATIBO
         parent.querySelector(" .modal-parent").classList.toggle("hidden");

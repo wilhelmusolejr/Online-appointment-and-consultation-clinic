@@ -34,7 +34,7 @@ function emailSendEmailActivation($userData, $veficationCode, $path) {
 
   $mail = setMail();
 
-  $mail -> setFrom('account@wmsu-dietitianconsult.online', 'WMSU Dietitian');
+  $mail -> setFrom('admin@wmsu-dietitianconsult.online', 'WMSU Dietitian');
   $mail -> addReplyTo('no-reply@wmsu-dietitianconsult.online');
 
   $mail -> addAddress($userData['email']);
