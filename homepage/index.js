@@ -5,7 +5,7 @@ import {
   checkPasswordValidity,
 } from "../tools/functions.js";
 
-console.log("updated 3/1 8:30");
+console.log("updated 3/16 10:30pm");
 
 // NAVIGATOR
 const headerNavContainer = document.querySelector("header .navigator-parent");
