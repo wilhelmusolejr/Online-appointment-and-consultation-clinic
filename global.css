@@ -1178,6 +1178,10 @@ footer .nav-links {
   padding: 25px;
 }
 
+.side-bar a i {
+  color: white;
+}
+
 .side-bar p {
   color: white;
   letter-spacing: 1px;

@@ -25,7 +25,9 @@ $link = "https://www.youtube.com/watch?v=-ff3b66PyXo&list=LL&index=6";
 // <a href='".$link."'>".$link."</a>
 // ";
 
-$text = "random happinness";
+$email_set = 'sinobossmo@wmsu-dietitianconsult.online';
+
+$text = "random random march 15";
 
 $mail = new PHPMailer;
 $mail->isSMTP();
@@ -33,14 +35,15 @@ $mail->SMTPDebug = 2;
 $mail->Host = 'smtp.hostinger.com';
 $mail->Port = 587;
 $mail->SMTPAuth = true;
+$mail->SMTPSecure = 'tls';
 
-$mail->Username = 'emailing@wmsu-dietitianconsult.online';
-$mail->Password = 'Qw09058222@@';
+$mail->Username = $email_set;
+$mail->Password = 'Qw09058222@!';
 
-$mail -> setFrom('emailing@wmsu-dietitianconsult.online', 'WMSU Dietitian');
+$mail -> setFrom($email_set, 'WMSU Dietitian');
 $mail -> addReplyTo('no-reply@wmsu-dietitianconsult.online');
 
-$mail -> addAddress("johnyhalol@gmail.com");
+$mail -> addAddress("johnyhalo.l@gmail.com");
 $mail -> Subject = "WMSU Dietitian | Account Verification";
 
 $mail -> isHTML(true);
