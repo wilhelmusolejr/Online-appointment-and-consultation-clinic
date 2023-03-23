@@ -1,6 +1,19 @@
 {
   "dependencies": {
     "bootstrap": "^5.2.3",
-    "googleapis": "^110.0.0"
+    "chart.js": "^4.2.1",
+    "chartkick": "^5.0.1",
+    "googleapis": "^110.0.0",
+    "@cubejs-client/core": "^0.31.0"
+  },
+  "name": "chartjs-example",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "dev": "parcel src/index.html",
+    "build": "parcel build src/index.html"
+  },
+  "devDependencies": {
+    "parcel": "^2.6.2"
   }
 }

@@ -257,7 +257,8 @@
 
 .current-day {
   color: white;
-  background-color: #213b2b;
+  background-color: rgba(16, 54, 29, 0.448) !important;
+  border: 1px solid rgb(255, 255, 255);
   padding: 25px 45px !important;
 }
 .lock {
@@ -267,6 +268,200 @@
   color: rgb(141, 141, 141) !important;
 }
 
+.disabled {
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+
 .available {
   background-color: #213b2b;
+}
+
+/* food intake */
+.container-parent {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.container-parent .outer-container {
+  flex: 1;
+}
+
+#food-tab .container {
+  display: flex;
+  gap: 10px;
+
+  flex: 1;
+
+  margin-bottom: 10px;
+}
+
+#food-tab .form-input-parent {
+  display: flex;
+}
+
+#food-tab .breakfast-parent {
+  width: 100%;
+}
+
+.button-plus {
+  padding: 7px;
+  border-radius: 50%;
+
+  background-color: black;
+
+  cursor: pointer;
+}
+.button-plus .fa-plus {
+  color: white;
+}
+
+.breakfast-parent {
+  margin-bottom: 20px;
+}
+
+/* intervention */
+.divider {
+  /* background-color: var(--color-white-secondary); */
+  align-items: center;
+}
+
+.left {
+  /* background-color: var(--color-white-primary); */
+}
+.right {
+  /* background-color: green; */
+}
+
+.chart-parent {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chart {
+  padding: 50px;
+  flex: 1;
+
+  background-color: var(--color-white-primary);
+
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600&display=swap");
+
+.calendar {
+  font-family: "Manrope", sans-serif;
+  max-width: 300px;
+  margin: 30px auto;
+  padding: 20px;
+  box-sizing: border-box;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0px 0px 3px #dadada;
+}
+
+.calendar .calendar-dates,
+.calendar .calendar-day-name {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 8px;
+}
+
+.calendar .calendar-dates-day {
+  font-family: "Manrope", sans-serif;
+  font-size: 13px;
+  border: 1px solid #efefef;
+  padding: 4px;
+  box-sizing: border-box;
+  background: #f8f8f8;
+  border-radius: 4px;
+  color: #333;
+}
+
+.calendar-dates button {
+  padding: 4px !important;
+  color: unset !important;
+}
+
+.calendar .calendar-dates-day-empty {
+  background: none;
+  border: 0;
+  color: #dcdcdc !important;
+  min-height: 28px;
+}
+
+.calendar .calendar-day-name div {
+  text-align: center;
+  margin-bottom: 12px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.calendar .calendar-title {
+  padding-bottom: 16px;
+  text-align: center;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
+.calendar .calendar-dates-day.today-date {
+  background: #555 !important;
+  color: #fff;
+}
+
+.calendar #prevMonth,
+.calendar #nextMonth,
+.calendar #today {
+  padding: 2px 6px;
+  box-sizing: border-box;
+  font-family: "Manrope", sans-serif;
+  font-size: 20px;
+  line-height: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #333;
+}
+
+.calendar #today {
+  font-size: 13px;
+}
+
+.calendar .calendar-title-text {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.calendar .calendar-button-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* END OF MONITORING */
+.monitoring-end-parent {
+  padding: 50px 0;
+}
+
+.monitoring-end-parent .divider .form {
+  max-width: 450px;
+}
+.monitoring-end-parent .divider {
+  background-color: unset;
+}
+
+.monitoring-end-parent .buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 100px;
 }
