@@ -1,5 +1,6 @@
 <?php
   $path = "../../";
+  date_default_timezone_set('Asia/Manila');
 
   session_start();
 
@@ -11,6 +12,9 @@
   require_once $path.'tools/variables.php';
   $page_title = "Monitoring";
   $monitoring = "nav-current";
+
+  // $currentDate = date("Y-m-d");
+  $currentDate = "2023-03-30";
 
   $monitor = new monitor;
   // monitor_id=1&week=1&day=1
@@ -27,19 +31,25 @@
 
 
     $withData = false;
-    if($day && $day < $marketInfo['current_day']) {
+
+    if($day) {
       $monitor -> week_num = $week;
       $monitor -> day_num = $day; 
-
-      $withData = true;
       
-      $dayData = $monitor -> getDayData();
-      $dayDataPhysical = $monitor -> getDayPhysicalAction();
-      $dayDataSupplement = $monitor -> getDaySupplement();
-      $dayDataFoodIntake = $monitor -> getDayFoodIntake();
+      $result = $monitor -> getDayWeight();
+      if($result) {
+        $withData = true;
+
+        $dayData = $monitor -> getDayData();
+        $dayDataPhysical = $monitor -> getDayPhysicalAction();
+        $dayDataSupplement = $monitor -> getDaySupplement();
+        $dayDataFoodIntake = $monitor -> getDayFoodIntake();
+      }
     }
 
-
+    $monitor -> monitor_id = $_GET['monitor_id'];
+    $monitor -> week_num = $_GET['week'];
+    $dayDayData = $monitor -> getDayDayData();
   }
 
   require_once $path.'includes/starterOne.php';
@@ -80,25 +90,41 @@
 
         <!-- week 1 -->
         <li class="active">
-          <a href="monitoring.php?monitor_id=<?php echo $monitor_id ?>" class="text-uppercase">
+          <a href="monitoring.php?monitor_id=<?php echo $monitor_id ?>&week=<?php echo $marketInfo['current_week'] ?>"
+            class="text-uppercase">
             <p>Week 1</p> <i class="fa-solid fa-chevron-right hidden"></i>
           </a>
           <ul class="hiddens">
+            <?php $continueWeeklyResult = [] ?>
+            <?php for($i = 0; $i < 7; $i++) { 
+              $monitor -> week_num = $week;
+              $monitor -> day_num = $i + 1;
+              
+              $result = $monitor -> getDayWeight();
+              array_push($continueWeeklyResult, $result ? true:false);
 
-            <?php for($i = 1; $i <= 7; $i++) { 
-            $link = "monitoring.php?monitor_id=".$monitor_id."&"."week="."1"."&day=".$i."";
+              $targetDate = $dayDayData[$i]['day_date'];
+              $link = "monitoring.php?monitor_id=".$monitor_id."&"."week="."1"."&day=".($i+1)."";
             ?>
-            <li><a class="<?php echo $day == $i? "current-day ": "" ?> 
-            <?php echo $marketInfo['current_day'] < $i ? "lock": "available"?> " href="<?php echo $link ?>">Day
-                <?php echo $i ?>
-
-                <?php if($marketInfo['current_day'] < $i) { ?>
+            <li><a class="<?php echo $day == $i + 1? "current-day": "" ?> 
+            <?php echo $currentDate < $targetDate ? "lock": "available"?> " href="<?php echo $link ?>">Day
+                <?php echo $i + 1 ?>
+                <?php if(!$result) { ?>
+                <i class="fa-solid fa-exclamation"></i>
+                <?php } ?>
+                <?php if($currentDate < $targetDate) { ?>
                 <i class="fa-solid fa-lock"></i>
                 <?php } ?>
+              </a></li>
+            <?php } ?>
 
-                <?php } ?>
+            <li>
+              <a class="<?php echo array_sum($continueWeeklyResult) == 7 ? "":"lock" ?> <?php echo isset($_GET['intervention']) ? "current-day" : ""?>"
+                href="<?php echo "monitoring.php?monitor_id=".$monitor_id."&"."week="."1"."&intervention=true" ?>">Weekly
+                result</a>
+            </li>
 
-            <li><a class="lock" href="#">Weekly result</a></li>
+
           </ul>
         </li>
 
@@ -111,8 +137,6 @@
 
       </ul>
     </div>
-
-
 
     <!-- MAIN CONTENT  -->
     <div class="main-content">
@@ -174,19 +198,23 @@
           <h2 class="text-center text-uppercase">Monitoring system</h2>
         </div>
 
+
+        <?php if(!isset($_GET['intervention'])) {?>
         <!-- IF WEEK IS CLICKED -->
         <div class="week-outside-parent <?php echo $day ? "hidden" : "" ?>">
           <div class="week-list-day-parent">
 
-            <?php for($i = 1; $i <= 7; $i++) { 
-            $link = "monitoring.php?monitor_id=".$monitor_id."&"."week="."1"."&day=".$i."";
+            <?php for($i = 0; $i < 7; $i++) { 
+              $targetDate = $dayDayData[$i]['day_date'];
+
+              $link = "monitoring.php?monitor_id=".$monitor_id."&"."week="."1"."&day=".($i+1)."";
             ?>
 
             <!-- day 1 -->
             <a href="<?php echo $link ?>" class="week-list-day-item text-uppercase card flex-center 
-            <?php echo $marketInfo['current_day'] >= $i ? "current-date" : "disabled" ?> ">
+            <?php echo $currentDate >= $targetDate ? "current-date" : "disabled" ?> ">
               <p>Day</p>
-              <p><?php echo $i ?></p>
+              <p><?php echo $i + 1 ?></p>
             </a>
 
             <?php } ?>
@@ -253,10 +281,10 @@
             </div>
           </div>
         </div>
+        <?php } ?>
 
 
         <div class="<?php echo $day ? "" : "hidden"?> ">
-
 
           <?php if($withData) { ?>
           <!-- DAY  -->
@@ -419,8 +447,10 @@
                     <!-- left -->
                     <div class="form-input-parent">
 
+
+                      <!--  -->
                       <!-- breakfast -->
-                      <div class="breakfast-parent">
+                      <div class="food-intake-parent breakfast-parent">
                         <h3 class="food-header">Breakfast</h3>
 
                         <div class="container-parent">
@@ -490,7 +520,7 @@
                       </div>
 
                       <!-- Lunch -->
-                      <div class="breakfast-parent">
+                      <div class="food-intake-parent lunch-parent">
                         <h3 class="food-header">Lunch</h3>
 
                         <div class="container-parent">
@@ -560,7 +590,7 @@
                       </div>
 
                       <!-- Dinner -->
-                      <div class="breakfast-parent">
+                      <div class="food-intake-parent dinner-parent">
                         <h3 class="food-header">Dinner</h3>
 
                         <div class="container-parent">
@@ -630,7 +660,7 @@
                       </div>
 
                       <!-- Snacks -->
-                      <div class="breakfast-parent">
+                      <div class="food-intake-parent snacks-parent">
                         <h3 class="food-header">Snacks</h3>
 
                         <div class="container-parent">
@@ -698,7 +728,6 @@
                         </div>
 
                       </div>
-
 
                     </div>
 
@@ -890,11 +919,12 @@
           <!-- Form -->
           <form class="form form-appoint-submit <?php echo $marketInfo['board_page'] == 1 ? "" : "hidden" ?>"
             action="submitDayMonitor.php" method="post" enctype="multipart/form-data">
+            <input type="hidden" name='day' value="<?php echo $day ?>">
+            <input type="hidden" name='week' value="<?php echo $week ?>">
+            <input type="hidden" name='monitor_id' value="<?php echo $monitor_id ?>">
+
             <!-- Tab -->
             <div class="tabset">
-              <!-- Tab 5 -->
-              <input class='personal-tab hidden' type="radio" name="tabset" id="tab5" aria-controls="dunkles">
-              <label class='personal-tab hidden' for="tab5">Weight goal</label>
               <!-- Tab 1 -->
               <input type="radio" name="tabset" id="tab1" aria-controls="marzen" checked>
               <label for="tab1">Weight goal</label>
@@ -910,90 +940,6 @@
 
               <div class="tab-panels">
 
-                <!-- Personal Information -->
-                <section id="personal-tab" class="personal-tab tab-panel hidden">
-                  <!-- - Form Header -->
-                  <div class="form-header text-uppercase hidden">
-                    <h3>Personal Information</h3>
-                  </div>
-                  <!-- form parent -->
-                  <div class="divider">
-                    <!-- left -->
-                    <div class="form-input-parent">
-                      <!-- first name -->
-                      <div class="form-input-box input-two">
-                        <label for="firstname" class="text-capital">First name <span>*</span></label>
-                        <input type="text" name="firstname" id="firstname" value="test"
-                          placeholder="Enter your first name" required>
-                        <p class="form-error-message hidden">Error</p>
-                      </div>
-                      <!-- middle name -->
-                      <div class="form-input-box input-two">
-                        <label for="middlename" class="text-capital">Middle name </label>
-                        <input type="text" name="middlename" id="middlename" value="test"
-                          placeholder="Enter your middle name">
-                        <p class="form-error-message hidden">Error</p>
-                      </div>
-                      <!-- last name -->
-                      <div class="form-input-box input-two">
-                        <label for="lastname" class="text-capital">Last name <span>*</span></label>
-                        <input type="text" name="lastname" required id="lastname" value="test"
-                          placeholder="Enter your last name">
-                        <p class="form-error-message hidden">Error</p>
-                      </div>
-                      <!-- gender -->
-                      <div class="gender-form form-input-box input-two">
-                        <label for="gender" class="text-capital">Gender <span>*</span></label>
-                        <div class="gender-con radio-box flex-center">
-                          <div>
-                            <input type="radio" id="male" name="gender" value="Male" checked>
-                            <label for="male">Male</label>
-                          </div>
-                          <div>
-                            <input type="radio" id="female" name="gender" value="Female">
-                            <label for="female">Female</label>
-                          </div>
-                        </div>
-                        <p class="form-error-message hidden">Error</p>
-                      </div>
-                      <!-- birth date -->
-                      <div class="form-input-box input-two">
-                        <label for="birthdate" class="text-capital">Birthdate <span>*</span></label>
-                        <input type="date" required name="birthdate" id="birthdate" value="2002-01-01">
-                        <p class="form-error-message hidden">Error</p>
-                      </div>
-                      <!-- Relationship status -->
-                      <div class="form-input-box input-two">
-                        <label for="relationship-status">Relationship status <span>*</span></label>
-                        <input list="list-relationship" required name="relationship-status" id="relationship-status"
-                          placeholder="Diet meal plan" value="relationship status">
-                        <datalist id="list-relationship">
-                          <option value="Husbund">
-                          <option value="Mother">
-                        </datalist>
-                        <p class="form-error-message hidden">Error</p>
-                      </div>
-                    </div>
-                    <!-- right -->
-                    <div class="form-input-parent">
-                      <!-- Mobile -->
-                      <div class="form-input-box input-two">
-                        <label for="reg-mob" class="text-capital">Mobile number <span>*</span></label>
-                        <input type="text" name="reg-mob" required id="reg-mob" value="09972976807"
-                          placeholder="Enter your mobile number">
-                        <p class="form-error-message hidden">Error</p>
-                      </div>
-                      <!-- Email -->
-                      <div class="form-input-box input-two">
-                        <label for="reg-email" class="text-capital">Email address <span>*</span></label>
-                        <input type="email" required name="reg-email" id="reg-email" value="test@gmail.com"
-                          placeholder="Enter your middle name">
-                        <p class="form-error-message hidden">Error</p>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-
                 <!-- Consultation Information -->
                 <section id="consultation-tab" class="tab-panel">
                   <!-- - Form Header -->
@@ -1007,18 +953,16 @@
                       <!-- Desirable body weight -->
                       <div class="form-input-box input-two">
                         <label for="appoint-chief-complaint">Desirable Body Weight <span>*</span></label>
-                        <input type='number' name="appoint-chief-complaint" id="appoint-chief-complaint"
-                          placeholder="Enter your desirable body weight" value="101" disabled>
+                        <input type='number' name="desirable_body_weight" placeholder="Enter your desirable body weight"
+                          value="101" disabled>
                         <p class="form-error-message hidden">Error</p>
                       </div>
 
                       <!-- Current body weight -->
                       <div class="form-input-box input-two">
                         <label for="appoint-chief-complaint">Current Body Weight <span>*</span></label>
-                        <input type='number' name="appoint-chief-complaint" id="appoint-chief-complaint"
-                          placeholder="Enter your desirable body weight"
-                          value="<?php echo isset($dayData) ? $dayData['current_body_weight'] : "" ?>"
-                          <?php echo isset($dayData) ? "disabled":"" ?> required>
+                        <input type='number' name="current_body_weight" placeholder="Enter your desirable body weight"
+                          value="10" required>
                         <p class="form-error-message hidden">Error</p>
                       </div>
                     </div>
@@ -1046,33 +990,36 @@
                     <div class="form-input-parent">
 
                       <!-- breakfast -->
-                      <div class="breakfast-parent">
+                      <div class="food-intake-parent breakfast-parent">
                         <h3 class="food-header">Breakfast</h3>
 
                         <div class="container-parent">
                           <div class="outer-container">
+
+                            <!-- 1 -->
                             <div class="container">
+                              <input type="hidden" name="food-take-type[]" value="breakfast">
+
                               <!-- time -->
                               <div class="form-input-box input-two ">
-                                <label for="food-time">Time <span>*</span></label>
-                                <input type='time' name="food-bf-time" id="food-time">
-                                <p class="form-error-message hidden">Error</p>
+                                <label for="food-bf-time">Time <span>*</span></label>
+                                <input type='time' name="food-bf-time[]">
                               </div>
 
                               <!-- food consumed -->
                               <div class="form-input-box input-two ">
-                                <label for="food-time">Food consumed <span>*</span></label>
-                                <input type='text' name="food-bf-consume" id="food-time">
+                                <label for="food-bf-consume">Food consumed <span>*</span></label>
+                                <input type='text' name="food-bf-consume[]" value="food consume test 1">
                                 <p class="form-error-message hidden">Error</p>
                               </div>
 
                               <!-- Quantity -->
                               <div class="form-input-box input-two ">
                                 <label for="food-quantity">Quantity <span>*</span></label>
-                                <select id="food-quantity" name="food-quantity">
+                                <select id="food-quantity" name="food-quantity[]">
                                   <option value="volvo">Volvo</option>
                                   <option value="saab">Saab</option>
-                                  <option value="fiat">Fiat</option>
+                                  <option value="fiat" selected>Fiat</option>
                                   <option value="audi">Audi</option>
                                 </select>
                                 <p class="form-error-message hidden">Error</p>
@@ -1081,8 +1028,8 @@
                               <!-- Amount -->
                               <div class="form-input-box input-two ">
                                 <label for="food-amount">Amount <span>*</span></label>
-                                <select id="food-amount" name="food-amount">
-                                  <option value="volvo">Volvo</option>
+                                <select id="food-amount" name="food-amount[]">
+                                  <option value="volvo" selected>Volvo</option>
                                   <option value="saab">Saab</option>
                                   <option value="fiat">Fiat</option>
                                   <option value="audi">Audi</option>
@@ -1093,10 +1040,11 @@
                               <!-- Method of preparation -->
                               <div class="form-input-box input-two ">
                                 <label for="food-time">Method of preparation <span>*</span></label>
-                                <input type='text' name="food-bf-consume" id="food-time">
+                                <input type='text' name="food-bf-method[]" id="food-time" value="method test">
                                 <p class="form-error-message hidden">Error</p>
                               </div>
                             </div>
+
                           </div>
                           <div class="button-plus flex-center">
                             <i class="fa-solid fa-plus"></i>
@@ -1105,34 +1053,37 @@
 
                       </div>
 
-                      <!-- Lunch -->
-                      <div class="breakfast-parent">
+                      <!-- lunch -->
+                      <div class="food-intake-parent lunch-parent">
                         <h3 class="food-header">Lunch</h3>
 
                         <div class="container-parent">
                           <div class="outer-container">
+
+                            <!-- 1 -->
                             <div class="container">
+                              <input type="hidden" name="food-take-type[]" value="lunch">
+
                               <!-- time -->
                               <div class="form-input-box input-two ">
-                                <label for="food-time">Time <span>*</span></label>
-                                <input type='time' name="food-bf-time" id="food-time">
-                                <p class="form-error-message hidden">Error</p>
+                                <label for="food-bf-time">Time <span>*</span></label>
+                                <input type='time' name="food-bf-time[]">
                               </div>
 
                               <!-- food consumed -->
                               <div class="form-input-box input-two ">
-                                <label for="food-time">Food consumed <span>*</span></label>
-                                <input type='text' name="food-bf-consume" id="food-time">
+                                <label for="food-bf-consume">Food consumed <span>*</span></label>
+                                <input type='text' name="food-bf-consume[]" value="lunch food consume test 1">
                                 <p class="form-error-message hidden">Error</p>
                               </div>
 
                               <!-- Quantity -->
                               <div class="form-input-box input-two ">
                                 <label for="food-quantity">Quantity <span>*</span></label>
-                                <select id="food-quantity" name="food-quantity">
+                                <select id="food-quantity" name="food-quantity[]">
                                   <option value="volvo">Volvo</option>
                                   <option value="saab">Saab</option>
-                                  <option value="fiat">Fiat</option>
+                                  <option value="fiat" selected>Fiat</option>
                                   <option value="audi">Audi</option>
                                 </select>
                                 <p class="form-error-message hidden">Error</p>
@@ -1141,8 +1092,8 @@
                               <!-- Amount -->
                               <div class="form-input-box input-two ">
                                 <label for="food-amount">Amount <span>*</span></label>
-                                <select id="food-amount" name="food-amount">
-                                  <option value="volvo">Volvo</option>
+                                <select id="food-amount" name="food-amount[]">
+                                  <option value="volvo" selected>Volvo</option>
                                   <option value="saab">Saab</option>
                                   <option value="fiat">Fiat</option>
                                   <option value="audi">Audi</option>
@@ -1153,10 +1104,11 @@
                               <!-- Method of preparation -->
                               <div class="form-input-box input-two ">
                                 <label for="food-time">Method of preparation <span>*</span></label>
-                                <input type='text' name="food-bf-consume" id="food-time">
+                                <input type='text' name="food-bf-method[]" id="food-time" value="method test">
                                 <p class="form-error-message hidden">Error</p>
                               </div>
                             </div>
+
                           </div>
                           <div class="button-plus flex-center">
                             <i class="fa-solid fa-plus"></i>
@@ -1165,34 +1117,37 @@
 
                       </div>
 
-                      <!-- Dinner -->
-                      <div class="breakfast-parent">
+                      <!-- dinner -->
+                      <div class="food-intake-parent dinner-parent">
                         <h3 class="food-header">Dinner</h3>
 
                         <div class="container-parent">
                           <div class="outer-container">
+
+                            <!-- 1 -->
                             <div class="container">
+                              <input type="hidden" name="food-take-type[]" value="dinner">
+
                               <!-- time -->
                               <div class="form-input-box input-two ">
-                                <label for="food-time">Time <span>*</span></label>
-                                <input type='time' name="food-bf-time" id="food-time">
-                                <p class="form-error-message hidden">Error</p>
+                                <label for="food-bf-time">Time <span>*</span></label>
+                                <input type='time' name="food-bf-time[]">
                               </div>
 
                               <!-- food consumed -->
                               <div class="form-input-box input-two ">
-                                <label for="food-time">Food consumed <span>*</span></label>
-                                <input type='text' name="food-bf-consume" id="food-time">
+                                <label for="food-bf-consume">Food consumed <span>*</span></label>
+                                <input type='text' name="food-bf-consume[]" value="lunch food consume test 1">
                                 <p class="form-error-message hidden">Error</p>
                               </div>
 
                               <!-- Quantity -->
                               <div class="form-input-box input-two ">
                                 <label for="food-quantity">Quantity <span>*</span></label>
-                                <select id="food-quantity" name="food-quantity">
+                                <select id="food-quantity" name="food-quantity[]">
                                   <option value="volvo">Volvo</option>
                                   <option value="saab">Saab</option>
-                                  <option value="fiat">Fiat</option>
+                                  <option value="fiat" selected>Fiat</option>
                                   <option value="audi">Audi</option>
                                 </select>
                                 <p class="form-error-message hidden">Error</p>
@@ -1201,8 +1156,8 @@
                               <!-- Amount -->
                               <div class="form-input-box input-two ">
                                 <label for="food-amount">Amount <span>*</span></label>
-                                <select id="food-amount" name="food-amount">
-                                  <option value="volvo">Volvo</option>
+                                <select id="food-amount" name="food-amount[]">
+                                  <option value="volvo" selected>Volvo</option>
                                   <option value="saab">Saab</option>
                                   <option value="fiat">Fiat</option>
                                   <option value="audi">Audi</option>
@@ -1213,10 +1168,11 @@
                               <!-- Method of preparation -->
                               <div class="form-input-box input-two ">
                                 <label for="food-time">Method of preparation <span>*</span></label>
-                                <input type='text' name="food-bf-consume" id="food-time">
+                                <input type='text' name="food-bf-method[]" id="food-time" value="method test">
                                 <p class="form-error-message hidden">Error</p>
                               </div>
                             </div>
+
                           </div>
                           <div class="button-plus flex-center">
                             <i class="fa-solid fa-plus"></i>
@@ -1225,34 +1181,37 @@
 
                       </div>
 
-                      <!-- Snacks -->
-                      <div class="breakfast-parent">
+                      <!-- snacks -->
+                      <div class="food-intake-parent snacks-parent">
                         <h3 class="food-header">Snacks</h3>
 
                         <div class="container-parent">
                           <div class="outer-container">
+
+                            <!-- 1 -->
                             <div class="container">
+                              <input type="hidden" name="food-take-type[]" value="snacks">
+
                               <!-- time -->
                               <div class="form-input-box input-two ">
-                                <label for="food-time">Time <span>*</span></label>
-                                <input type='time' name="food-bf-time" id="food-time">
-                                <p class="form-error-message hidden">Error</p>
+                                <label for="food-bf-time">Time <span>*</span></label>
+                                <input type='time' name="food-bf-time[]">
                               </div>
 
                               <!-- food consumed -->
                               <div class="form-input-box input-two ">
-                                <label for="food-time">Food consumed <span>*</span></label>
-                                <input type='text' name="food-bf-consume" id="food-time">
+                                <label for="food-bf-consume">Food consumed <span>*</span></label>
+                                <input type='text' name="food-bf-consume[]" value="lunch food consume test 1">
                                 <p class="form-error-message hidden">Error</p>
                               </div>
 
                               <!-- Quantity -->
                               <div class="form-input-box input-two ">
                                 <label for="food-quantity">Quantity <span>*</span></label>
-                                <select id="food-quantity" name="food-quantity">
+                                <select id="food-quantity" name="food-quantity[]">
                                   <option value="volvo">Volvo</option>
                                   <option value="saab">Saab</option>
-                                  <option value="fiat">Fiat</option>
+                                  <option value="fiat" selected>Fiat</option>
                                   <option value="audi">Audi</option>
                                 </select>
                                 <p class="form-error-message hidden">Error</p>
@@ -1261,8 +1220,8 @@
                               <!-- Amount -->
                               <div class="form-input-box input-two ">
                                 <label for="food-amount">Amount <span>*</span></label>
-                                <select id="food-amount" name="food-amount">
-                                  <option value="volvo">Volvo</option>
+                                <select id="food-amount" name="food-amount[]">
+                                  <option value="volvo" selected>Volvo</option>
                                   <option value="saab">Saab</option>
                                   <option value="fiat">Fiat</option>
                                   <option value="audi">Audi</option>
@@ -1273,10 +1232,11 @@
                               <!-- Method of preparation -->
                               <div class="form-input-box input-two ">
                                 <label for="food-time">Method of preparation <span>*</span></label>
-                                <input type='text' name="food-bf-consume" id="food-time">
+                                <input type='text' name="food-bf-method[]" id="food-time" value="method test">
                                 <p class="form-error-message hidden">Error</p>
                               </div>
                             </div>
+
                           </div>
                           <div class="button-plus flex-center">
                             <i class="fa-solid fa-plus"></i>
@@ -1309,22 +1269,22 @@
                         <div class="gender-con radio-default">
                           <!-- Endomorph -->
                           <div>
-                            <input type="radio" checked id="body-type-endomorph" name="body-type[]" value="sedentary">
+                            <input type="radio" id="body-type-endomorph" name="physical-action" value="1" checked>
                             <label for="body-type-endomorph">Sedentary</label>
                           </div>
                           <!-- Ectomorph -->
                           <div>
-                            <input type="radio" id="body-type-ectomorph" name="body-type[]" value="light">
+                            <input type="radio" id="body-type-ectomorph" name="physical-action" value="2">
                             <label for="body-type-ectomorph">Light</label>
                           </div>
                           <!-- Mesomorph -->
                           <div>
-                            <input type="radio" id="body-type-mesomorph" name="body-type[]" value="moderate">
+                            <input type="radio" id="body-type-mesomorph" name="physical-action" value="3">
                             <label for="body-type-mesomorph">Moderate</label>
                           </div>
                           <!-- very active -->
                           <div>
-                            <input type="radio" id="body-type-vigorous" name="body-type[]" value="vigorous">
+                            <input type="radio" id="body-type-vigorous" name="physical-action" value="4">
                             <label for="body-type-vigorous">Very active or Vigorous</label>
                           </div>
                         </div>
@@ -1332,107 +1292,6 @@
                     </div>
                     <!-- right -->
                     <div class="form-input-parent hidden">
-                      <!-- Body type -->
-                      <div class="form-input-box form-radio-box">
-                        <p>Body type <span>*</span></p>
-                        <div class="gender-con radio-default">
-                          <!-- Endomorph -->
-                          <div>
-                            <input type="checkbox" checked id="body-type-endomorph" name="body-type[]"
-                              value="endomorph">
-                            <label for="body-type-endomorph">Endomorph</label>
-                          </div>
-                          <!-- Ectomorph -->
-                          <div>
-                            <input type="checkbox" id="body-type-ectomorph" name="body-type[]" value="ectomorph">
-                            <label for="body-type-ectomorph">Ectomorph</label>
-                          </div>
-                          <!-- Mesomorph -->
-                          <div>
-                            <input type="checkbox" id="body-type-mesomorph" name="body-type[]" value="mesomorph">
-                            <label for="body-type-mesomorph">Mesomorph</label>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Physical activity -->
-                      <div class="form-input-box form-radio-box">
-                        <p>Physical activity <span>*</span></p>
-                        <div class="gender-con radio-default">
-                          <!-- Sedentary -->
-                          <div>
-                            <input type="radio" id="physical-sedentary" name="physical-activity" value="sedentary"
-                              checked>
-                            <label for="physical-sedentary">Sedentary</label>
-                          </div>
-                          <!-- Light -->
-                          <div>
-                            <input type="radio" id="physical-light" name="physical-activity" value="light">
-                            <label for="physical-light">light</label>
-                          </div>
-                          <!-- Moderate -->
-                          <div>
-                            <input type="radio" id="physical-moderate" name="physical-activity" value="moderate">
-                            <label for="physical-moderate">Moderate</label>
-                          </div>
-                          <!-- Very active -->
-                          <div>
-                            <input type="radio" id="physical-very-active" name="physical-activity" value="very-active">
-                            <label for="physical-very-active">Very active</label>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Gain weight -->
-                      <div class="form-input-box form-radio-box">
-                        <p>Do you gain weight <span>*</span></p>
-                        <div class="gender-con radio-default">
-                          <!-- Sedentary -->
-                          <div>
-                            <input type="radio" checked id="gain-easily" name="gain-weight-level" value="easily">
-                            <label for="gain-easily">Easily</label>
-                          </div>
-                          <!-- Light -->
-                          <div>
-                            <input type="radio" id="gain-moderately" name="gain-weight-level" value="moderately">
-                            <label for="gain-moderately">Moderately</label>
-                          </div>
-                          <!-- Moderate -->
-                          <div>
-                            <input type="radio" id="gain-slowly" name="gain-weight-level" value="slowly">
-                            <label for="gain-slowly">Slowly</label>
-                          </div>
-                          <!-- Very active -->
-                          <div>
-                            <input type="radio" id="gain-very-slowly" name="gain-weight-level" value="very-slowly">
-                            <label for="gain-very-slowly">Very slowly</label>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Lose weight -->
-                      <div class="form-input-box form-radio-box ">
-                        <p>Do you lose weight <span>*</span></p>
-                        <div class="gender-con radio-default">
-                          <!-- Sedentary -->
-                          <div>
-                            <input type="radio" checked id="lose-easily" name="lose-weight-level" value="easily">
-                            <label for="lose-easily">Easily</label>
-                          </div>
-                          <!-- Light -->
-                          <div>
-                            <input type="radio" id="lose-moderately" name="lose-weight-level" value="moderately">
-                            <label for="lose-moderately">Moderately</label>
-                          </div>
-                          <!-- Moderate -->
-                          <div>
-                            <input type="radio" id="lose-slowly" name="lose-weight-level" value="slowly">
-                            <label for="lose-slowly">Slowly</label>
-                          </div>
-                          <!-- Very active -->
-                          <div>
-                            <input type="radio" id="lose-very-slowly" name="lose-weight-level" value="very-slowly">
-                            <label for="lose-very-slowly">Very slowly</label>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </section>
@@ -1451,10 +1310,8 @@
                       <div class="form-input-box ">
                         <label for="appoint-actual-weight">Are you taking any nutrional supplements?
                           <span>*</span></label>
-                        <input type="text" name="appoint-medical-current-med" id="appoint-medical-current-med"
-                          placeholder="E.g Ascorbic Acid"
-                          value="<?php echo isset($dayDataSupplement) ? $dayDataSupplement['supplement_name'] : "" ?>"
-                          <?php echo isset($dayDataSupplement) ? "disabled" : "" ?> required>
+                        <input type="text" name="supplement_name" id="appoint-medical-current-med"
+                          placeholder="E.g Ascorbic Acid" value="test supplement" required>
                         <p class="form-error-message hidden">Error</p>
                       </div>
                     </div>
@@ -1515,64 +1372,7 @@
           </form>
           <?php } ?>
 
-          <!-- INTERVENSION -->
-          <div class="intervension-parent <?php echo $marketInfo['board_page'] == 2 ? "" : "hidden" ?>">
-            <div class="divider card">
-              <div class="left">
-                <div class="chart-parent flex-center">
-                  <!-- one -->
-                  <div class="chart chart-one flex-center">
-                    <canvas id="myChart"></canvas>
-                  </div>
-                  <!-- two -->
-                  <div class="chart chart-two flex-center ">
-                    <canvas id="myCharts"></canvas>
-                  </div>
-                </div>
-              </div>
-              <div class="right">
-                <div class="greeting text-center">
-                  <h3>Hi, Sofia</h3>
-                  <p>You're on track this week.</p>
-                </div>
-                <div id="calendar" class="calendar">
-                  <div class="calendar-title">
-                    <div class="calendar-title-text"></div>
-                    <div class="calendar-button-group">
-                      <button id="prevMonth">&lt;</button>
-                      <button id="today">Today</button>
-                      <button id="nextMonth">&gt;</button>
-                    </div>
-                  </div>
-                  <div class="calendar-day-name"></div>
-                  <div class="calendar-dates"></div>
-                </div>
-              </div>
-            </div>
 
-            <div class="goal-container">
-              <h3 class="text-uppercase text-center card">Goals</h3>
-              <div class="goal-list-parent">
-                <!-- goal 1 -->
-                <div class="goal-list-item">
-                  <input type="checkbox">
-                  <p>Lost 1-2 lbs</p>
-                </div>
-
-                <!-- goal 1 -->
-                <div class="goal-list-item">
-                  <input type="checkbox">
-                  <p>Lost 1-2 lbs</p>
-                </div>
-
-                <!-- goal 1 -->
-                <div class="goal-list-item">
-                  <input type="checkbox">
-                  <p>Lost 1-2 lbs</p>
-                </div>
-              </div>
-            </div>
-          </div>
 
           <!-- END OF MONITORING -->
           <div class="monitoring-end-parent <?php echo $marketInfo['board_page'] == 3 ? "" : "hidden" ?>">
@@ -1627,6 +1427,47 @@
             <div class="buttons">
               <a href="#" class="button button-tertiary">Request for follow up</a>
               <a href="#" class="button button-primary">Request for F2F consultation</a>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="<?php echo isset($_GET['intervention']) ? "" : "hidden" ?>">
+          <!-- INTERVENSION -->
+          <div class="intervension-parent <?php echo $_GET['intervention'] == "true" ? "" : "hidden" ?>">
+            <div class="divider card">
+              <div class="left">
+                <div class="chart-parent flex-center">
+                  <!-- one -->
+                  <div class="chart chart-one flex-center">
+                    <canvas id="myChart"></canvas>
+                  </div>
+                  <!-- two -->
+                  <div class="chart chart-two flex-center ">
+                    <canvas id="myCharts"></canvas>
+                  </div>
+                </div>
+              </div>
+              <div class="right">
+                <div class="greeting text-center">
+                  <h3>Hi, Sofia</h3>
+                  <p>You're on track this week.</p>
+                </div>
+                <div id="calendar" class="calendar">
+                  <div class="calendar-title">
+                    <div class="calendar-title-text"></div>
+                    <div class="calendar-button-group">
+                      <button id="prevMonth">&lt;</button>
+                      <button id="today">Today</button>
+                      <button id="nextMonth">&gt;</button>
+                    </div>
+                  </div>
+                  <div class="calendar-day-name"></div>
+                  <div class="calendar-dates"></div>
+                </div>
+              </div>
             </div>
 
           </div>

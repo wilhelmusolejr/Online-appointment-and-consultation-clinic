@@ -301,7 +301,7 @@
   display: flex;
 }
 
-#food-tab .breakfast-parent {
+#food-tab .food-intake-parent {
   width: 100%;
 }
 
@@ -317,7 +317,7 @@
   color: white;
 }
 
-.breakfast-parent {
+.food-intake-parent {
   margin-bottom: 20px;
 }
 
@@ -464,4 +464,10 @@
   justify-content: space-between;
 
   margin-top: 100px;
+}
+
+/* circle */
+.fa-exclamation {
+  color: red !important;
+  font-size: 1.4rem;
 }

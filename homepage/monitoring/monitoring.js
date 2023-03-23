@@ -16,58 +16,65 @@ const foodTabParent = document.querySelector("#food-tab");
 
 foodTabParent.addEventListener("click", function (e) {
   if (e.target.classList.contains("fa-plus")) {
-    let containerParent = e.target.closest(".container-parent");
+    let containerParent = e.target.closest(".food-intake-parent");
+
+    let target = containerParent
+      .querySelector(".food-header")
+      .textContent.toLowerCase();
 
     containerParent.querySelector(".outer-container").insertAdjacentHTML(
       "beforeend",
       `
-    <div class="container">
-    <!-- time -->
-    <div class="form-input-box input-two ">
-      <label for="food-time">Time <span>*</span></label>
-      <input type='time' name="food-bf-time" id="food-time">
-      <p class="form-error-message hidden">Error</p>
-    </div>
+      <!-- 1 -->
+<div class="container">
+  <input type="hidden" name="food-take-type[]" value="${target}">
 
-    <!-- food consumed -->
-    <div class="form-input-box input-two ">
-      <label for="food-time">Food consumed <span>*</span></label>
-      <input type='text' name="food-bf-consume" id="food-time">
-      <p class="form-error-message hidden">Error</p>
-    </div>
-
-    <!-- Quantity -->
-    <div class="form-input-box input-two ">
-      <label for="food-quantity">Quantity <span>*</span></label>
-      <select id="food-quantity" name="food-quantity">
-        <option value="volvo">Volvo</option>
-        <option value="saab">Saab</option>
-        <option value="fiat">Fiat</option>
-        <option value="audi">Audi</option>
-      </select>
-      <p class="form-error-message hidden">Error</p>
-    </div>
-
-    <!-- Amount -->
-    <div class="form-input-box input-two ">
-      <label for="food-amount">Amount <span>*</span></label>
-      <select id="food-amount" name="food-amount">
-        <option value="volvo">Volvo</option>
-        <option value="saab">Saab</option>
-        <option value="fiat">Fiat</option>
-        <option value="audi">Audi</option>
-      </select>
-      <p class="form-error-message hidden">Error</p>
-    </div>
-
-    <!-- Method of preparation -->
-    <div class="form-input-box input-two ">
-      <label for="food-time">Method of preparation <span>*</span></label>
-      <input type='text' name="food-bf-consume" id="food-time">
-      <p class="form-error-message hidden">Error</p>
-    </div>
+  <!-- time -->
+  <div class="form-input-box input-two ">
+    <label for="food-bf-time">Time <span>*</span></label>
+    <input type='time' name="food-bf-time[]">
   </div>
-    `
+
+  <!-- food consumed -->
+  <div class="form-input-box input-two ">
+    <label for="food-bf-consume">Food consumed <span>*</span></label>
+    <input type='text' name="food-bf-consume[]" value="food consume test 1">
+    <p class="form-error-message hidden">Error</p>
+  </div>
+
+  <!-- Quantity -->
+  <div class="form-input-box input-two ">
+    <label for="food-quantity">Quantity <span>*</span></label>
+    <select id="food-quantity" name="food-quantity[]">
+      <option value="volvo">Volvo</option>
+      <option value="saab">Saab</option>
+      <option value="fiat" selected>Fiat</option>
+      <option value="audi">Audi</option>
+    </select>
+    <p class="form-error-message hidden">Error</p>
+  </div>
+
+  <!-- Amount -->
+  <div class="form-input-box input-two ">
+    <label for="food-amount">Amount <span>*</span></label>
+    <select id="food-amount" name="food-amount[]">
+      <option value="volvo" selected>Volvo</option>
+      <option value="saab">Saab</option>
+      <option value="fiat">Fiat</option>
+      <option value="audi">Audi</option>
+    </select>
+    <p class="form-error-message hidden">Error</p>
+  </div>
+
+  <!-- Method of preparation -->
+  <div class="form-input-box input-two ">
+    <label for="food-time">Method of preparation <span>*</span></label>
+    <input type='text' name="food-bf-method[]" id="food-time" value="method test">
+    <p class="form-error-message hidden">Error</p>
+  </div>
+</div>
+      
+      `
     );
   }
 });
@@ -254,7 +261,7 @@ const boardContainer = document.querySelector(".main-content");
 console.log(boardContainer);
 
 boardContainer.addEventListener("click", function (e) {
-  console.log(e.target);
+  // console.log(e.target);
 
   // submit form DAY
   if (e.target.classList.contains("button-semi")) {
