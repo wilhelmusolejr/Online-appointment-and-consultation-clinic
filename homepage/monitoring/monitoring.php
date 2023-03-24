@@ -13,18 +13,18 @@
   $page_title = "Monitoring";
   $monitoring = "nav-current";
 
-  // $currentDate = date("Y-m-d");
   $currentDate = "2023-03-30";
+  // $currentDate = date("Y-m-d");
 
   $monitor = new monitor;
-  // monitor_id=1&week=1&day=1
 
   if(isset($_GET['monitor_id'])) {
-    $monitor_id = isset($_GET['monitor_id']);
+    
+    $monitor_id = $_GET['monitor_id'];
     $week = isset($_GET['week']) ? $_GET['week'] : null;
     $day = isset($_GET['day']) ? $_GET['day'] : null;
 
-    $monitor -> monitor_id = 1;
+    $monitor -> monitor_id = $monitor_id;
 
     $listGoals = $monitor -> getGoals();
     $marketInfo = $monitor -> getMarketInfo();
@@ -78,6 +78,22 @@
 
   </header>
 
+  <!-- Set up your appointment -->
+  <form action="monitoring.php" class="form search-form" method="get">
+
+    <!-- search appoint id  -->
+    <div class="form-input-parent search-parent">
+      <div class="form-input-box">
+        <input type="number" name="monitor_id" placeholder="Enter your monitoring number">
+        <input type="hidden" name="week" value="1">
+        <button type="submit" value="submit" class="button-primary">Search</button>
+      </div>
+    </div>
+
+  </form>
+
+
+  <?php if(isset($_GET['monitor_id'])) { ?>
   <div class="side-bar-parent monitoring-parent ">
 
     <!-- SIDE BAR -->
@@ -97,17 +113,17 @@
           <ul class="hiddens">
             <?php $continueWeeklyResult = [] ?>
             <?php for($i = 0; $i < 7; $i++) { 
-              $monitor -> week_num = $week;
-              $monitor -> day_num = $i + 1;
-              
-              $result = $monitor -> getDayWeight();
-              array_push($continueWeeklyResult, $result ? true:false);
+          $monitor -> week_num = $week;
+          $monitor -> day_num = $i + 1;
+          
+          $result = $monitor -> getDayWeight();
+          array_push($continueWeeklyResult, $result ? true:false);
 
-              $targetDate = $dayDayData[$i]['day_date'];
-              $link = "monitoring.php?monitor_id=".$monitor_id."&"."week="."1"."&day=".($i+1)."";
-            ?>
+          $targetDate = $dayDayData[$i]['day_date'];
+          $link = "monitoring.php?monitor_id=".$monitor_id."&"."week="."1"."&day=".($i+1)."";
+        ?>
             <li><a class="<?php echo $day == $i + 1? "current-day": "" ?> 
-            <?php echo $currentDate < $targetDate ? "lock": "available"?> " href="<?php echo $link ?>">Day
+        <?php echo $currentDate < $targetDate ? "lock": "available"?> " href="<?php echo $link ?>">Day
                 <?php echo $i + 1 ?>
                 <?php if(!$result) { ?>
                 <i class="fa-solid fa-exclamation"></i>
@@ -205,14 +221,14 @@
           <div class="week-list-day-parent">
 
             <?php for($i = 0; $i < 7; $i++) { 
-              $targetDate = $dayDayData[$i]['day_date'];
+          $targetDate = $dayDayData[$i]['day_date'];
 
-              $link = "monitoring.php?monitor_id=".$monitor_id."&"."week="."1"."&day=".($i+1)."";
-            ?>
+          $link = "monitoring.php?monitor_id=".$monitor_id."&"."week="."1"."&day=".($i+1)."";
+        ?>
 
             <!-- day 1 -->
             <a href="<?php echo $link ?>" class="week-list-day-item text-uppercase card flex-center 
-            <?php echo $currentDate >= $targetDate ? "current-date" : "disabled" ?> ">
+        <?php echo $currentDate >= $targetDate ? "current-date" : "disabled" ?> ">
               <p>Day</p>
               <p><?php echo $i + 1 ?></p>
             </a>
@@ -447,7 +463,6 @@
                     <!-- left -->
                     <div class="form-input-parent">
 
-
                       <!--  -->
                       <!-- breakfast -->
                       <div class="food-intake-parent breakfast-parent">
@@ -478,26 +493,27 @@
                                 <p class="form-error-message hidden">Error</p>
                               </div>
 
-                              <!-- Quantity -->
-                              <div class="form-input-box input-two ">
-                                <label for="food-quantity">Quantity <span>*</span></label>
-                                <select id="food-quantity" name="food-quantity">
-                                  <option value="volvo">Volvo</option>
-                                  <option value="saab">Saab</option>
-                                  <option value="fiat">Fiat</option>
-                                  <option value="audi">Audi</option>
-                                </select>
-                                <p class="form-error-message hidden">Error</p>
-                              </div>
-
                               <!-- Amount -->
                               <div class="form-input-box input-two ">
                                 <label for="food-amount">Amount <span>*</span></label>
-                                <select id="food-amount" name="food-amount">
-                                  <option value="volvo">Volvo</option>
-                                  <option value="saab">Saab</option>
-                                  <option value="fiat">Fiat</option>
-                                  <option value="audi">Audi</option>
+                                <input type="text" name="food-amount" value="1" disabled>
+                                <!-- <select id="food-amount" name="">
+                              <option value="volvo">Volvo</option>
+                              <option value="saab">Saab</option>
+                              <option value="fiat">Fiat</option>
+                              <option value="audi">Audi</option>
+                            </select> -->
+                                <p class="form-error-message hidden">Error</p>
+                              </div>
+
+                              <!-- Quantity -->
+                              <div class="form-input-box input-two ">
+                                <label for="food-quantity">Quantity <span>*</span></label>
+                                <select id="food-quantity" name="food-quantity" disabled>
+                                  <option value="volvo">Piece</option>
+                                  <option value="saab">Once</option>
+                                  <option value="fiat">Kg</option>
+                                  <option value="audi" selected>Cup</option>
                                 </select>
                                 <p class="form-error-message hidden">Error</p>
                               </div>
@@ -548,26 +564,27 @@
                                 <p class="form-error-message hidden">Error</p>
                               </div>
 
-                              <!-- Quantity -->
-                              <div class="form-input-box input-two ">
-                                <label for="food-quantity">Quantity <span>*</span></label>
-                                <select id="food-quantity" name="food-quantity">
-                                  <option value="volvo">Volvo</option>
-                                  <option value="saab">Saab</option>
-                                  <option value="fiat">Fiat</option>
-                                  <option value="audi">Audi</option>
-                                </select>
-                                <p class="form-error-message hidden">Error</p>
-                              </div>
-
                               <!-- Amount -->
                               <div class="form-input-box input-two ">
                                 <label for="food-amount">Amount <span>*</span></label>
-                                <select id="food-amount" name="food-amount">
-                                  <option value="volvo">Volvo</option>
-                                  <option value="saab">Saab</option>
-                                  <option value="fiat">Fiat</option>
-                                  <option value="audi">Audi</option>
+                                <input type="text" name="food-amount" value="1" disabled>
+                                <!-- <select id="food-amount" name="">
+                              <option value="volvo">Volvo</option>
+                              <option value="saab">Saab</option>
+                              <option value="fiat">Fiat</option>
+                              <option value="audi">Audi</option>
+                            </select> -->
+                                <p class="form-error-message hidden">Error</p>
+                              </div>
+
+                              <!-- Quantity -->
+                              <div class="form-input-box input-two ">
+                                <label for="food-quantity">Quantity <span>*</span></label>
+                                <select id="food-quantity" name="food-quantity" disabled>
+                                  <option value="volvo">Piece</option>
+                                  <option value="saab">Once</option>
+                                  <option value="fiat">Kg</option>
+                                  <option value="audi" selected>Cup</option>
                                 </select>
                                 <p class="form-error-message hidden">Error</p>
                               </div>
@@ -618,26 +635,27 @@
                                 <p class="form-error-message hidden">Error</p>
                               </div>
 
-                              <!-- Quantity -->
-                              <div class="form-input-box input-two ">
-                                <label for="food-quantity">Quantity <span>*</span></label>
-                                <select id="food-quantity" name="food-quantity">
-                                  <option value="volvo">Volvo</option>
-                                  <option value="saab">Saab</option>
-                                  <option value="fiat">Fiat</option>
-                                  <option value="audi">Audi</option>
-                                </select>
-                                <p class="form-error-message hidden">Error</p>
-                              </div>
-
                               <!-- Amount -->
                               <div class="form-input-box input-two ">
                                 <label for="food-amount">Amount <span>*</span></label>
-                                <select id="food-amount" name="food-amount">
-                                  <option value="volvo">Volvo</option>
-                                  <option value="saab">Saab</option>
-                                  <option value="fiat">Fiat</option>
-                                  <option value="audi">Audi</option>
+                                <input type="text" name="food-amount" value="1" disabled>
+                                <!-- <select id="food-amount" name="">
+                              <option value="volvo">Volvo</option>
+                              <option value="saab">Saab</option>
+                              <option value="fiat">Fiat</option>
+                              <option value="audi">Audi</option>
+                            </select> -->
+                                <p class="form-error-message hidden">Error</p>
+                              </div>
+
+                              <!-- Quantity -->
+                              <div class="form-input-box input-two ">
+                                <label for="food-quantity">Quantity <span>*</span></label>
+                                <select id="food-quantity" name="food-quantity" disabled>
+                                  <option value="volvo">Piece</option>
+                                  <option value="saab">Once</option>
+                                  <option value="fiat">Kg</option>
+                                  <option value="audi" selected>Cup</option>
                                 </select>
                                 <p class="form-error-message hidden">Error</p>
                               </div>
@@ -688,26 +706,27 @@
                                 <p class="form-error-message hidden">Error</p>
                               </div>
 
-                              <!-- Quantity -->
-                              <div class="form-input-box input-two ">
-                                <label for="food-quantity">Quantity <span>*</span></label>
-                                <select id="food-quantity" name="food-quantity">
-                                  <option value="volvo">Volvo</option>
-                                  <option value="saab">Saab</option>
-                                  <option value="fiat">Fiat</option>
-                                  <option value="audi">Audi</option>
-                                </select>
-                                <p class="form-error-message hidden">Error</p>
-                              </div>
-
                               <!-- Amount -->
                               <div class="form-input-box input-two ">
                                 <label for="food-amount">Amount <span>*</span></label>
-                                <select id="food-amount" name="food-amount">
-                                  <option value="volvo">Volvo</option>
-                                  <option value="saab">Saab</option>
-                                  <option value="fiat">Fiat</option>
-                                  <option value="audi">Audi</option>
+                                <input type="text" name="food-amount" value="1" disabled>
+                                <!-- <select id="food-amount" name="">
+                              <option value="volvo">Volvo</option>
+                              <option value="saab">Saab</option>
+                              <option value="fiat">Fiat</option>
+                              <option value="audi">Audi</option>
+                            </select> -->
+                                <p class="form-error-message hidden">Error</p>
+                              </div>
+
+                              <!-- Quantity -->
+                              <div class="form-input-box input-two ">
+                                <label for="food-quantity">Quantity <span>*</span></label>
+                                <select id="food-quantity" name="food-quantity" disabled>
+                                  <option value="volvo">Piece</option>
+                                  <option value="saab">Once</option>
+                                  <option value="fiat">Kg</option>
+                                  <option value="audi" selected>Cup</option>
                                 </select>
                                 <p class="form-error-message hidden">Error</p>
                               </div>
@@ -1374,63 +1393,6 @@
 
 
 
-          <!-- END OF MONITORING -->
-          <div class="monitoring-end-parent <?php echo $marketInfo['board_page'] == 3 ? "" : "hidden" ?>">
-
-            <div class="greeting ">
-              <h3>Nice work Sofia!</h3>
-              <p>Congratulations on achieving your goals.</p>
-            </div>
-
-            <div class="divider">
-              <!-- left -->
-              <div class="goal-container">
-                <h3 class="text-uppercase text-center card">Goals</h3>
-                <div class="goal-list-parent">
-                  <!-- goal 1 -->
-                  <div class="goal-list-item">
-                    <input type="checkbox">
-                    <p>Lost 1-2 lbs</p>
-                  </div>
-
-                  <!-- goal 1 -->
-                  <div class="goal-list-item">
-                    <input type="checkbox">
-                    <p>Lost 1-2 lbs</p>
-                  </div>
-
-                  <!-- goal 1 -->
-                  <div class="goal-list-item">
-                    <input type="checkbox">
-                    <p>Lost 1-2 lbs</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- right -->
-              <div class="form">
-                <div class="form-input-parent flex-center">
-                  <!-- img -->
-                  <div class="list-rnd-box ka-talk-box grid-box card">
-                    <div class="list-rnd-image flex-center">
-                      <img src="../../uploads/dummy_user.jpg" alt="">
-                    </div>
-                    <div class="list-rnd-info text-center">
-                      <p class="assigned-rnd">LOADING</p>
-                      <a target="_blank" href="#" class="text-uppercase text-center profile-link">view profile</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="buttons">
-              <a href="#" class="button button-tertiary">Request for follow up</a>
-              <a href="#" class="button button-primary">Request for F2F consultation</a>
-            </div>
-
-          </div>
-
         </div>
 
 
@@ -1473,11 +1435,68 @@
           </div>
         </div>
 
+        <!-- END OF MONITORING -->
+        <div class="monitoring-end-parent <?php echo $marketInfo['board_page'] == 3 ? "" : "hiddens" ?>">
+
+          <div class="greeting ">
+            <h3>Nice work Sofia!</h3>
+            <p>Congratulations on achieving your goals.</p>
+          </div>
+
+          <div class="divider">
+            <!-- left -->
+            <div class="goal-container">
+              <h3 class="text-uppercase text-center card">Goals</h3>
+              <div class="goal-list-parent">
+                <!-- goal 1 -->
+                <div class="goal-list-item">
+                  <input type="checkbox">
+                  <p>Lost 1-2 lbs</p>
+                </div>
+
+                <!-- goal 1 -->
+                <div class="goal-list-item">
+                  <input type="checkbox">
+                  <p>Lost 1-2 lbs</p>
+                </div>
+
+                <!-- goal 1 -->
+                <div class="goal-list-item">
+                  <input type="checkbox">
+                  <p>Lost 1-2 lbs</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- right -->
+            <div class="form">
+              <div class="form-input-parent flex-center">
+                <!-- img -->
+                <div class="list-rnd-box ka-talk-box grid-box card">
+                  <div class="list-rnd-image flex-center">
+                    <img src="../../uploads/dummy_user.jpg" alt="">
+                  </div>
+                  <div class="list-rnd-info text-center">
+                    <p class="assigned-rnd">LOADING</p>
+                    <a target="_blank" href="#" class="text-uppercase text-center profile-link">view profile</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="buttons">
+            <a href="#" class="button button-tertiary">Request for follow up</a>
+            <a href="#" class="button button-primary">Request for F2F consultation</a>
+          </div>
+
+        </div>
+
       </div>
     </div>
 
   </div>
-
+  <?php } ?>
 
   <!-- footer -->
   <?php require_once $path.'includes/footer.php'; ?>

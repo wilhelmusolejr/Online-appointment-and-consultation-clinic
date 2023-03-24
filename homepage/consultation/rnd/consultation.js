@@ -258,6 +258,13 @@ boardContainer.addEventListener("click", function (e) {
     // ajaxCaller(currentBoardPage + 1);
   }
 
+  // request for monitor
+  if (e.target.classList.contains("button-tertiary")) {
+    e.preventDefault();
+
+    document.querySelector(".request-monitor").classList.remove("hidden");
+  }
+
   // prev
   if (e.target.parentElement.classList.contains("button-prev")) {
     e.preventDefault();
@@ -914,3 +921,34 @@ smsContainer.addEventListener("click", function (e) {
 function clientTabuate(parent, target, data) {
   parent.querySelector(`.${target}`).textContent = `${data}`;
 }
+
+// request monitor
+$(".form-request-monitor").on("submit", function (e) {
+  e.preventDefault();
+
+  spinnerActivate("solution-stage", true);
+
+  let parent = document.querySelector(".solution-stage");
+
+  $.ajax({
+    type: "POST", //hide url
+    url: `../../../php/set/set-request-monitoring.php`, //your form validation url
+    data: $(".form-request-monitor").serialize(),
+    // dataType: "json",
+    success: function (data) {
+      if (data) {
+        let parent = document.querySelector(".form-request-monitor");
+
+        parent.querySelector(".divider").innerHTML = `
+          <p class="text-center">Submitted successfully!</p>
+        `;
+        parent.querySelector(".divider").classList.add("flex-center");
+        parent.querySelector(".button-primary").classList.add("hidden");
+      }
+      spinnerActivate("solution-stage", false);
+    },
+    error: function (data) {
+      console.log("error");
+    },
+  });
+});

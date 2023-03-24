@@ -1,7 +1,8 @@
 <?php 
-require_once '../../classes/consult.class.php';
-require_once '../../classes/appoint.class.php';
+$path = "../../";
 
+require_once $path.'classes/consult.class.php';
+require_once $path.'classes/appoint.class.php';
 
 session_start();
 

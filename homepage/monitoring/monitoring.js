@@ -42,26 +42,27 @@ foodTabParent.addEventListener("click", function (e) {
     <p class="form-error-message hidden">Error</p>
   </div>
 
-  <!-- Quantity -->
-  <div class="form-input-box input-two ">
-    <label for="food-quantity">Quantity <span>*</span></label>
-    <select id="food-quantity" name="food-quantity[]">
-      <option value="volvo">Volvo</option>
-      <option value="saab">Saab</option>
-      <option value="fiat" selected>Fiat</option>
-      <option value="audi">Audi</option>
-    </select>
-    <p class="form-error-message hidden">Error</p>
-  </div>
-
   <!-- Amount -->
   <div class="form-input-box input-two ">
     <label for="food-amount">Amount <span>*</span></label>
-    <select id="food-amount" name="food-amount[]">
-      <option value="volvo" selected>Volvo</option>
+    <input type="text" name="food-amount" value="1" disabled>
+    <!-- <select id="food-amount" name="">
+      <option value="volvo">Volvo</option>
       <option value="saab">Saab</option>
       <option value="fiat">Fiat</option>
       <option value="audi">Audi</option>
+    </select> -->
+    <p class="form-error-message hidden">Error</p>
+  </div>
+
+  <!-- Quantity -->
+  <div class="form-input-box input-two ">
+    <label for="food-quantity">Quantity <span>*</span></label>
+    <select id="food-quantity" name="food-quantity" disabled>
+      <option value="volvo">Piece</option>
+      <option value="saab">Once</option>
+      <option value="fiat">Kg</option>
+      <option value="audi" selected>Cup</option>
     </select>
     <p class="form-error-message hidden">Error</p>
   </div>

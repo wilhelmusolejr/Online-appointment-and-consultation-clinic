@@ -1,6 +1,8 @@
 <?php 
     $path = "../../../";
-    
+
+    date_default_timezone_set('Asia/Manila');
+
     session_start();
 
     require_once $path.'classes/appoint.class.php';
@@ -659,7 +661,7 @@
             </div>
             <!-- middle -->
             <div>
-              <button class="button button-tertiary hidden">Request for monitoring</button>
+              <button class="button button-tertiary">Request for monitoring</button>
             </div>
             <!-- next -->
             <div class="">
@@ -668,6 +670,45 @@
             </div>
           </div>
         </form>
+
+        <!-- MODAl - ADD  -->
+        <div class="modal-parent modal-notif-parent modal-tool request-monitor overlay-black flex-center hidden">
+
+          <!-- modal -->
+          <div class="modal-container modal-notif-container sizing-secondary">
+            <!-- header -->
+            <div class="modal-header text-center">
+              <h2 class="text-uppercase">Request for monitoring</h2>
+            </div>
+            <!-- form -->
+            <form class="form form-request-monitor" method="post">
+              <div class="divider modal-body">
+                <div class="form-input-parent">
+                  <!-- Appointment date -->
+                  <div class="form-input-box input-one">
+                    <label for="appointment-date" class="text-capital">Appointment date <span>*</span></label>
+                    <input type="date" name="appointment-date" required id="appointment-date"
+                      min="<?php echo date("Y-m-d") ?>" value="2023-11-11">
+                  </div>
+                </div>
+              </div>
+
+              <div class="stopper hidden"></div>
+
+              <!-- hidden - fox ajax -->
+              <input type="hidden" name="submit" value='true' id="submit">
+              <!-- button -->
+              <div class="modal-buttons">
+                <a class="button button-cancel">Go back</a>
+                <button type="submit" name='submit' value="submit" class="button button-primary">Submit</button>
+              </div>
+            </form>
+
+            <?php require $path."includes/spinner.php" ?>
+
+          </div>
+
+        </div>
 
       </div>
 

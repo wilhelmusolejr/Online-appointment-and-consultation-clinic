@@ -12,6 +12,7 @@ class monitor {
 
   public $week_num;
   public $day_num;
+  public $day_date;
 
   public $monitor_day_id;
   public $current_body_weight;
@@ -26,6 +27,11 @@ class monitor {
   public $quanitity;
   public $amount;
   public $method;
+
+  public $monitor_week_id;
+
+  public $transact_id;
+  public $monitor_date;
 
   protected $db;
 
@@ -234,6 +240,146 @@ class monitor {
       return true;
     }
     return false;
+  }
+
+
+  function addRequestMonitor() {
+    $sql =  "INSERT INTO `tbl_monitor_pending` 
+    (`monitor_pending_id`, `transact_id`, `client_status`, `monitor_date`) 
+    VALUES (NULL, :transact_id, 'PENDING', :monitor_date)";
+    $query=$this->db->connect()->prepare($sql);
+
+    $query->bindParam(':transact_id', $this-> transact_id);
+    $query->bindParam(':monitor_date', $this-> monitor_date);
+
+    if($query->execute()){
+      return true;
+    }
+    return false;
+  }
+
+  function getPendingMonitor() {
+    $sql = "SELECT * FROM `tbl_monitor_pending` INNER JOIN tbl_transact 
+    ON tbl_monitor_pending.transact_id = tbl_transact.transact_id 
+    INNER JOIN tbl_transact_appoint ON tbl_transact_appoint.transact_id = tbl_transact.transact_id 
+    INNER JOIN tbl_transact_appoint_consult ON tbl_transact_appoint_consult.appoint_id = tbl_transact_appoint.appoint_id
+    WHERE tbl_transact.user_id = :user_id AND tbl_monitor_pending.client_status = 'PENDING';";
+    $query=$this->db->connect()->prepare($sql);
+
+    $query->bindParam(':user_id', $this-> user_id);
+
+    if($query->execute()){
+      $data = $query->fetchAll();
+    }
+    return $data;
+  }
+
+  function getPendingMonitorDate() {
+    $sql = 'SELECT * FROM `tbl_monitor_day` WHERE monitor_week_id = :monitor_week_id LIMIT 1;';
+    $query=$this->db->connect()->prepare($sql);
+  
+    if($query->execute()){
+      $data = $query->fetch();
+    }
+    return $data;
+  }
+
+
+  function monitorFeedback($button) {
+    if($button == "accept") {
+      $sql = "UPDATE tbl_monitor_pending SET `client_status` = 
+      'ACCEPTED' WHERE transact_id = :transact_id;";
+      $query=$this->db->connect()->prepare($sql);
+
+      $query->bindParam(':transact_id', $this-> transact_id);
+
+      if($query -> execute() ) {
+        return true;
+      } 
+      return false;
+    }
+  }
+
+  function setMonitoring() {
+    $sql = "INSERT INTO `tbl_monitor` (`monitor_id`, `transact_id`, `current_week`, `total_week`, `current_day`, `board_page`, `user_Id`, `rnd_id`) 
+    VALUES (NULL, :transact_id, '1', '2', '1', '1', :user_Id, :rnd_id);";
+    $query=$this->db->connect()->prepare($sql);
+
+    $query->bindParam(':transact_id', $this-> transact_id);
+    $query->bindParam(':user_Id', $this-> user_id);
+    $query->bindParam(':rnd_id', $this-> rnd_id);
+
+    if($query->execute()){
+      return true;
+    }
+    return false;
+  }
+
+  function getMonitoring() {
+    $sql = "SELECT * from tbl_monitor WHERE transact_id = :transact_id;";
+    $query=$this->db->connect()->prepare($sql);
+
+    $query->bindParam(':transact_id', $this-> transact_id);
+
+    if($query->execute()){
+      $data = $query->fetch();
+    }
+    return $data;
+  }
+
+  function setMonitorWeek() {
+    $sql = "INSERT INTO `tbl_monitor_week` 
+    (`monitor_week_id`, `monitor_id`, `week_num`) 
+    VALUES (NULL, :monitor_id, '1'), (NULL, :monitor_id, '2')";
+    $query=$this->db->connect()->prepare($sql);
+
+    $query->bindParam(':monitor_id', $this-> monitor_id);
+
+    if($query->execute()){
+      return true;
+    }
+    return false;
+  }
+
+  function getMonitorWeek() {
+    $sql = "SELECT * FROM tbl_monitor_week WHERE monitor_id = :monitor_id";
+    $query=$this->db->connect()->prepare($sql);
+
+    $query->bindParam(':monitor_id', $this-> monitor_id);
+
+    if($query->execute()){
+      $data = $query->fetchAll();
+    }
+    return $data;
+  }
+
+  function getMonitorDate() {
+    $sql = "SELECT * FROM tbl_monitor_pending WHERE transact_id = :transact_id";
+    $query=$this->db->connect()->prepare($sql);
+
+    $query->bindParam(':transact_id', $this-> transact_id);
+
+    if($query->execute()){
+      $data = $query->fetch();
+    }
+    return $data;
+  }
+
+  function setMonitorDays() {
+    $sql = "INSERT INTO `tbl_monitor_day` 
+    (`monitor_day_id`, `monitor_week_id`, `day_date`, `day_num`) 
+    VALUES (NULL, :monitor_week_id, :day_date, :day_num)";
+
+    $query=$this->db->connect()->prepare($sql);
+
+    $query->bindParam(':monitor_week_id', $this-> monitor_week_id);
+    $query->bindParam(':day_date', $this-> day_date);
+    $query->bindParam(':day_num', $this-> day_num);
+
+    if($query->execute()){
+      $data = $query->fetchAll();
+    }
+    return $data;
   }
 
 

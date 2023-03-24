@@ -1058,7 +1058,7 @@
               <button class="button">prev</button>
             </div>
             <!-- middle -->
-            <div>
+            <div class="hidden">
               <button class="button button-tertiary">Request for monitoring</button>
             </div>
             <!-- next -->
