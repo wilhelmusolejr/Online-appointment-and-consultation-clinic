@@ -1436,7 +1436,7 @@
         </div>
 
         <!-- END OF MONITORING -->
-        <div class="monitoring-end-parent <?php echo $marketInfo['board_page'] == 3 ? "" : "hiddens" ?>">
+        <div class="monitoring-end-parent <?php echo $marketInfo['board_page'] == 3 ? "" : "hidden" ?>">
 
           <div class="greeting ">
             <h3>Nice work Sofia!</h3>
