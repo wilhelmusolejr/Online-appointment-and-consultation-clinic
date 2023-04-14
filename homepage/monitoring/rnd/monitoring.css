@@ -1,0 +1,202 @@
+.divider {
+  align-items: flex-start !important;
+  flex: 1;
+}
+
+label {
+  display: block;
+}
+
+.current-date {
+  background-color: #4c673a !important;
+}
+
+/* setting goals */
+.outer-container {
+  flex: 1;
+}
+
+.goals-container .container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+
+  flex: 1;
+
+  margin-bottom: 10px;
+
+  border-radius: 5px;
+}
+
+.goals-container .container .form-button {
+  color: white;
+
+  flex: content;
+
+  cursor: pointer;
+}
+
+.goals-container .container .form-button .fa-plus {
+  border: 1px solid #00000025;
+  color: black;
+
+  background-color: whitesmoke;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+.goals-container .container .form-button .fa-trash {
+  border: 1px solid #00000025;
+  color: white;
+
+  background-color: red;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+.goals-container .container .form-button {
+  margin: 0;
+  gap: 0;
+}
+
+.form-button {
+  margin: 100px 0 20px 0;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.form-button > div {
+  flex: 1;
+  /* min-width: 250px; */
+
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form-button div:nth-of-type(1) {
+  justify-content: flex-start;
+}
+.form-button div:nth-of-type(2) {
+  justify-content: center;
+  flex: 2;
+}
+.form-button div:nth-of-type(3) {
+  justify-content: flex-end;
+}
+
+/* stage-two-parent */
+
+/* week parent */
+.week-list-day-parent {
+  display: flex;
+  gap: 10px;
+
+  margin: 30px 0;
+
+  width: 100%;
+}
+.week-list-day-item {
+  color: white;
+
+  flex: 1;
+
+  min-height: 30vh;
+  background-color: #4c673a86;
+
+  flex-direction: column;
+}
+.week-list-day-item p {
+  color: white;
+}
+
+.form-input-parent.ka-talk-parent {
+  justify-content: center;
+}
+
+/* modal */
+.modal-client-info .modal-container {
+  max-height: 85vh;
+  max-width: 80%;
+}
+
+.modal-notif-parent .modal-client-info {
+  max-width: 1400px;
+  max-height: 90vh;
+}
+
+.modal-container h3 {
+  font-size: clamp(2rem, 7vw, 3rem);
+}
+
+.modal-container h4 {
+  font-size: clamp(2rem, 7vw, 2rem);
+}
+
+.modal-header {
+  margin-bottom: 50px;
+}
+
+/* data */
+.modal-data {
+  overflow: auto;
+
+  display: flex;
+  flex-direction: column;
+  /* flex-wrap: wrap; */
+  gap: 20px;
+
+  max-height: 50vh;
+}
+
+.modal-data .data-container {
+  /* flex: 45%; */
+}
+
+.data-box {
+  padding: 10px 0 0 20px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.data-food-intake .data-box {
+  gap: 20px;
+}
+.data-box-item {
+  /* flex: 40%; */
+}
+
+.data-box h4 {
+  padding-left: 10px;
+}
+.data-box-data {
+  padding-left: 20px;
+
+  display: flex;
+  gap: 20px;
+}
+
+.modal-client-info .modal-buttons {
+  margin-top: 50px;
+}
+
+table,
+td,
+th {
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  padding: 15px;
+}

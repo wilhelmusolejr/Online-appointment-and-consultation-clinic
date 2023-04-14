@@ -133,11 +133,40 @@ const boardProgress = boardContainer.querySelector(".board-progress");
 boardContainer.addEventListener("click", function (e) {
   let currentBoardPage = getActiveBoard();
 
-  // console.log(e.target);
+  console.log(e.target);
   // console.log(document.querySelector("select[name='metric']"));
   // console.log($("select[name='metric']").val());
 
   // board 1
+
+  let allInputs = document.querySelectorAll(".form-appoint-submit input");
+  let submitAppointmentBtn = document.querySelector(".button-semi");
+
+  let canSubmit = [];
+
+  allInputs.forEach((input) => {
+    if (input.hasAttribute("required")) {
+      if (!input.value) {
+        submitAppointmentBtn.parentElement.classList.remove(
+          "button-semi-submit"
+        );
+        submitAppointmentBtn.classList.add("button-disabled");
+        // canSubmit = false;
+        canSubmit.push(false);
+      } else {
+        if (
+          canSubmit.every(function (input) {
+            return input == true;
+          })
+        ) {
+          submitAppointmentBtn.parentElement.classList.add(
+            "button-semi-submit"
+          );
+          submitAppointmentBtn.classList.remove("button-disabled");
+        }
+      }
+    }
+  });
 
   if (e.target.parentElement.classList.contains("button-semi-submit")) {
     modalAppointNotif.classList.toggle("hidden");
@@ -368,6 +397,10 @@ function getBoardTwoData(stopper) {
         $(`${boardParent} input[name='rdn-assigned']`).addClass(
           `status-${data.rnd_status.toLowerCase()}`
         );
+
+        if (data.appoint_status == "APPROVED") {
+          $(`${boardParent} .appoint-status-time span`).text(`Waiting for RND`);
+        }
 
         if (
           data.appoint_status == "APPROVED" &&

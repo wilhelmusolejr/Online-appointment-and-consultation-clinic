@@ -62,7 +62,6 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
   }
 }
 
-
 $_SESSION['loggedIn'] = true;
 
 $user -> user_id = $result['user_id'];
@@ -78,5 +77,5 @@ if($userLoggedInData['user_privilege'] == 'rnd') {
 }
 
 
-echo json_encode($response);
+header("Location: ".$path."homepage/index.php");
 exit();

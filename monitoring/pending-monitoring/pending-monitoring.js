@@ -81,19 +81,23 @@ modalParent.addEventListener("click", function (e) {
 
   // denaid
   if (e.target.classList.contains("button-denaid")) {
+    console.log(targetAppointNum, targetBtn);
+
     $.ajax({
       type: "POST", //hide url
-      url: `${path}php/set/set-appoint-feedback.php`, //your form validation url
-      // dataType: "json",
+      url: `${path}php/set/set-monitor-feedback.php`, //your form validation url
       data: { transact_id: targetAppointNum, targetBtn: targetBtn },
+      async: false,
       success: function (response) {
         console.log(response);
+        // if (response == "success") {
         $(".modal-container .button-cancel").addClass("hidden");
         $(".modal-container .button-accept").addClass("hidden");
         $(".modal-container .button-denaid").addClass("hidden");
         $(".modal-container .button-primary").removeClass("hidden");
-        $(".modal-container").addClass("modal-negative");
+        $(".modal-container").addClass("modal-positive");
         $(".modal-container p").text("Denaid successfully");
+        // }
       },
       error: function () {
         console.log("fail at ajax");
@@ -106,7 +110,7 @@ function generatePendingMarkUp(data) {
   let markUp = "";
 
   data.forEach((appoint) => {
-    console.log(appoint);
+    // console.log(appoint);
 
     markUp += `<tr>
           <td class="appointment-number">#${appoint.transact_id}</td>

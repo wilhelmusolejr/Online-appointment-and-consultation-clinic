@@ -937,6 +937,8 @@ $(".form-request-monitor").on("submit", function (e) {
     // dataType: "json",
     success: function (data) {
       if (data) {
+        console.log(data);
+
         let parent = document.querySelector(".form-request-monitor");
 
         parent.querySelector(".divider").innerHTML = `
@@ -944,6 +946,7 @@ $(".form-request-monitor").on("submit", function (e) {
         `;
         parent.querySelector(".divider").classList.add("flex-center");
         parent.querySelector(".button-primary").classList.add("hidden");
+        parent.querySelector(".button-cancel").textContent = "DONE";
       }
       spinnerActivate("solution-stage", false);
     },

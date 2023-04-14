@@ -59,11 +59,11 @@ $(".form-register-google").on("submit", function (e) {
     type: "post", //hide url
     url: `${path}php/set/set-register-manual.php`, //your form validation url
     data: $(".form-register-google").serialize(),
-    // dataType: "json",
-    success: function (response) {
-      console.log(response);
+    dataType: "json",
+    success: function (data) {
+      // console.log(data);
 
-      if (response == "success") {
+      if (data.response == "success") {
         $(".continue-register-parent h2").html("Registration completed!");
         $(".continue-register-container").html("");
       }

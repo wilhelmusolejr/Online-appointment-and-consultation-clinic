@@ -277,50 +277,6 @@
   background-color: #213b2b;
 }
 
-/* food intake */
-.container-parent {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.container-parent .outer-container {
-  flex: 1;
-}
-
-#food-tab .container {
-  display: flex;
-  gap: 10px;
-
-  flex: 1;
-
-  margin-bottom: 10px;
-}
-
-#food-tab .form-input-parent {
-  display: flex;
-}
-
-#food-tab .food-intake-parent {
-  width: 100%;
-}
-
-.button-plus {
-  padding: 7px;
-  border-radius: 50%;
-
-  background-color: black;
-
-  cursor: pointer;
-}
-.button-plus .fa-plus {
-  color: white;
-}
-
-.food-intake-parent {
-  margin-bottom: 20px;
-}
-
 /* intervention */
 .divider {
   /* background-color: var(--color-white-secondary); */
@@ -470,4 +426,83 @@
 .fa-exclamation {
   color: red !important;
   font-size: 1.4rem;
+}
+
+/* --------------------- */
+
+/* food intake */
+.container-parent {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.container-parent .outer-container {
+  flex: 1;
+}
+
+#food-tab .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  flex: 1;
+
+  margin-bottom: 10px;
+
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+
+  border-radius: 5px;
+
+  padding: 10px;
+  background-color: whitesmoke;
+}
+
+#food-tab .form-input-parent {
+  display: flex;
+}
+
+#food-tab .food-intake-parent {
+  width: 100%;
+}
+
+#food-tab .divider {
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 10px;
+}
+
+.button-plus {
+  padding: 7px;
+  border-radius: 50%;
+
+  background-color: black;
+
+  cursor: pointer;
+}
+.button-plus .fa-plus {
+  color: white;
+}
+
+.food-intake-parent {
+  margin-bottom: 20px;
+}
+
+/* food intake */
+.food-intake-parent .container .trash-parent {
+  background-color: red;
+  color: white;
+
+  flex: content;
+
+  border-radius: 50%;
+  padding: 10px;
+
+  cursor: pointer;
+}
+.food-intake-parent .fa-trash {
+  font-size: 1.8rem;
 }

@@ -8,6 +8,8 @@
     require_once $path.'classes/appoint.class.php';
     require_once $path.'classes/user.class.php';
     require_once $path.'classes/consult.class.php';
+    require_once $path.'classes/monitor.class.php';
+
 
     require_once $path.'tools/variables.php';
     $page_title = "Consultation";
@@ -24,6 +26,7 @@
     $appoint = new appoint;
     $consult = new consult;
     $clientData = new user;
+    $monitor = new monitor;
 
     // SEARCH BAR --- GET --- TO GENERATE 
     if(isset($_GET['transact_id'])) {
@@ -85,10 +88,15 @@
       if(isset($_SESSION['transact_rnd_id'])) {
         $clientData -> user_id = $_SESSION['transact_client_id'];
         $resultClientData = $clientData -> getUserData();
-        // print_r($resultClientData);
       }
+
+      if($board_page == 5) {
+        $monitor -> transact_id = $_SESSION['transact_id'];
+        $isExisting = $monitor -> checkRequestMonitorId();
+        // print_r("tite");
+      }
+
     }
-    // print_r($_SESSION);
 
     // getConsultInfo()
     require_once $path.'includes/starterOne.php';
@@ -661,7 +669,8 @@
             </div>
             <!-- middle -->
             <div>
-              <button class="button button-tertiary">Request for monitoring</button>
+              <button class="button button-tertiary">
+                <?php echo $isExisting['client_status'] != "PENDING" ? "Request for monitoring" : "PENDING MONITORING" ?></button>
             </div>
             <!-- next -->
             <div class="">
@@ -671,6 +680,7 @@
           </div>
         </form>
 
+        <?php if($isExisting['client_status'] != "PENDING") { ?>
         <!-- MODAl - ADD  -->
         <div class="modal-parent modal-notif-parent modal-tool request-monitor overlay-black flex-center hidden">
 
@@ -699,8 +709,8 @@
               <input type="hidden" name="submit" value='true' id="submit">
               <!-- button -->
               <div class="modal-buttons">
-                <a class="button button-cancel">Go back</a>
-                <button type="submit" name='submit' value="submit" class="button button-primary">Submit</button>
+                <a class="button button-cancel">Cancel</a>
+                <button type="submit" name='submit' value="submit" class="button button-primary">Monitor</button>
               </div>
             </form>
 
@@ -709,6 +719,10 @@
           </div>
 
         </div>
+        <?php } ?>
+
+
+
 
       </div>
 

@@ -2,6 +2,28 @@
 
 // import Chart from "../../node_modules/chart.js/auto";
 
+const body = document.querySelector("body");
+
+// modal
+const modalAppointNotif = document.querySelector(
+  ".modal-appointment-confirmation"
+);
+
+if (modalAppointNotif) {
+  modalAppointNotif.addEventListener("click", function (e) {
+    console.log("hidden");
+
+    if (
+      e.target.classList.contains("overlay-black") ||
+      e.target.classList.contains("button-cancel")
+    ) {
+      body.classList.remove("lock-page");
+      this.classList.toggle("hidden");
+    }
+  });
+}
+
+// =----------------------------------
 let sideBarElem = document.querySelector(".side-bar");
 
 sideBarElem.addEventListener("click", function (e) {
@@ -12,10 +34,14 @@ sideBarElem.addEventListener("click", function (e) {
   }
 });
 
+// =----------------------------------
+// food
 const foodTabParent = document.querySelector("#food-tab");
 
 foodTabParent.addEventListener("click", function (e) {
   if (e.target.classList.contains("fa-plus")) {
+    e.preventDefault();
+
     let containerParent = e.target.closest(".food-intake-parent");
 
     let target = containerParent
@@ -24,61 +50,63 @@ foodTabParent.addEventListener("click", function (e) {
 
     containerParent.querySelector(".outer-container").insertAdjacentHTML(
       "beforeend",
-      `
-      <!-- 1 -->
-<div class="container">
-  <input type="hidden" name="food-take-type[]" value="${target}">
+      `<div class="container">
+      <input type="hidden" name="food-take-type[]" value="${target}">
 
-  <!-- time -->
-  <div class="form-input-box input-two ">
-    <label for="food-bf-time">Time <span>*</span></label>
-    <input type='time' name="food-bf-time[]">
-  </div>
+      <!-- time -->
+      <div class="form-input-box input-two ">
+        <label for="food-bf-time">Time <span>*</span></label>
+        <input type='time' name="food-bf-time[]" value="02:00">
+      </div>
 
-  <!-- food consumed -->
-  <div class="form-input-box input-two ">
-    <label for="food-bf-consume">Food consumed <span>*</span></label>
-    <input type='text' name="food-bf-consume[]" value="food consume test 1">
-    <p class="form-error-message hidden">Error</p>
-  </div>
+      <!-- food consumed -->
+      <div class="form-input-box input-two ">
+        <label for="food-bf-consume">Food consumed <span>*</span></label>
+        <input type='text' name="food-bf-consume[]" value="food consume test 1">
+        <p class="form-error-message hidden">Error</p>
+      </div>
 
-  <!-- Amount -->
-  <div class="form-input-box input-two ">
-    <label for="food-amount">Amount <span>*</span></label>
-    <input type="text" name="food-amount" value="1" disabled>
-    <!-- <select id="food-amount" name="">
-      <option value="volvo">Volvo</option>
-      <option value="saab">Saab</option>
-      <option value="fiat">Fiat</option>
-      <option value="audi">Audi</option>
-    </select> -->
-    <p class="form-error-message hidden">Error</p>
-  </div>
+      <!-- Amount -->
+      <div class="form-input-box input-two ">
+        <label for="food-amount">Amount <span>*</span></label>
+        <input type="text" name="food-amount[]" value="1">
+        <p class="form-error-message hidden">Error</p>
+      </div>
 
-  <!-- Quantity -->
-  <div class="form-input-box input-two ">
-    <label for="food-quantity">Quantity <span>*</span></label>
-    <select id="food-quantity" name="food-quantity" disabled>
-      <option value="volvo">Piece</option>
-      <option value="saab">Once</option>
-      <option value="fiat">Kg</option>
-      <option value="audi" selected>Cup</option>
-    </select>
-    <p class="form-error-message hidden">Error</p>
-  </div>
+      <!-- Quantity -->
+      <div class="form-input-box input-two ">
+        <label for="food-quantity">Quantity <span>*</span></label>
+        <select id="food-quantity" name="food-quantity[]">
+          <option value="volvo">Piece</option>
+          <option value="saab">Once</option>
+          <option value="fiat">Kg</option>
+          <option value="audi">Cup</option>
+        </select>
+        <p class="form-error-message hidden">Error</p>
+      </div>
 
-  <!-- Method of preparation -->
-  <div class="form-input-box input-two ">
-    <label for="food-time">Method of preparation <span>*</span></label>
-    <input type='text' name="food-bf-method[]" id="food-time" value="method test">
-    <p class="form-error-message hidden">Error</p>
-  </div>
-</div>
-      
-      `
+      <!-- Method of preparation -->
+      <div class="form-input-box input-two ">
+        <label for="food-time">Method of preparation <span>*</span></label>
+        <input type='text' name="food-bf-method[]" id="food-time" value="method test">
+        <p class="form-error-message hidden">Error</p>
+      </div>
+
+      <!-- trash -->
+      <div class="form-input-box trash-parent">
+        <i class="fa-solid fa-trash"></i>
+      </div>
+
+    </div>`
     );
   }
+
+  if (e.target.classList.contains("fa-trash")) {
+    e.target.closest(".container").remove();
+  }
 });
+
+// =----------------------------------
 
 // CHARTING
 const ctx = document.getElementById("myChart");
@@ -259,7 +287,6 @@ setTimeout(function () {
 
 // BUTTON
 const boardContainer = document.querySelector(".main-content");
-console.log(boardContainer);
 
 boardContainer.addEventListener("click", function (e) {
   // console.log(e.target);

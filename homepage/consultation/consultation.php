@@ -283,8 +283,11 @@
                       <input list="list-complaints" name="appoint-chief-complaint" id="appoint-chief-complaint"
                         placeholder="Diet meal plan" required value="chief complaint">
                       <datalist id="list-complaints">
-                        <option value="Test">
-                        <option value="Test1">
+                        <option value="Diet Meal Plan">
+                        <option value="Nutrition Counseling">
+                        <option value="Weight Management">
+                        <option value="Dietary Management">
+                        <option value="Nutrition Counseling">
                       </datalist>
                       <p class="form-error-message hidden">Error</p>
                     </div>
@@ -292,14 +295,18 @@
                     <div class="form-input-box input-two">
                       <label for="appointment-date" class="text-capital">Appointment date <span>*</span></label>
                       <input type="date" name="appointment-date" id="appointment-date"
-                        placeholder="Enter your middle name" required value="2002-01-01">
+                        placeholder="Enter your middle name" required min="<?php echo date("Y-m-d") ?>"
+                        value="2002-01-01">
                       <p class="form-error-message hidden">Error</p>
+
                     </div>
                     <!-- Appointment time -->
                     <div class="form-input-box input-two">
                       <label for="appointment-time" class="text-capital">Appointment time <span>*</span></label>
-                      <input type="time" name="appointment-time" id="appointment-time" required value="01:00">
+                      <input type="time" name="appointment-time" id="appointment-time" min="08:00:00" max="17:00:00"
+                        required>
                       <p class="form-error-message hidden">Error</p>
+                      <!-- value="01:0s0" -->
                     </div>
                     <!-- Referral form -->
                     <div class="form-input-box input-two">
@@ -686,10 +693,11 @@
               <button class="button hidden" disabled>Submit</button>
             </div>
             <!-- next -->
-            <div class="button-semi-submit">
-              <a class="button button-semi button-primary">Submit
+            <div>
+              <a class="button button-semi button-disabled button-primary">Submit
               </a>
             </div>
+            <!-- class="button-semi-submit" -->
             <div class="button-next hidden">
               <a class="button button-primary">Next
               </a>
@@ -723,6 +731,7 @@
             <?php require_once $path."includes/spinner.php" ?>
 
           </div>
+
         </form>
 
       </div>
@@ -795,7 +804,7 @@
             <!-- middle -->
             <div>
               <p class="text-uppercase appoint-status-time"><i class="fa-regular fa-clock"></i>
-                <span>approximate 10 minutes</span>
+                <span>Waiting for appoinment approval</span>
               </p>
             </div>
             <!-- next -->

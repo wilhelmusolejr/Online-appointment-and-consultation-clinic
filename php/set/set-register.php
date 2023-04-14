@@ -45,10 +45,6 @@
 
     if(isset($_GET['code'])) {
       $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
-
-      // echo "<pre>";
-      // var_dump($token);
-      // echo "<pre>";
     } 
 
     if(isset($token['error']) != 'invalid_grant') {

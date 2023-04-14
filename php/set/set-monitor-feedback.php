@@ -2,7 +2,6 @@
 $path = "../../";
 
 require_once $path.'classes/monitor.class.php';
-require_once $path.'classes/appoint.class.php';
 
 session_start();
 
@@ -10,50 +9,42 @@ session_start();
 $monitor = new monitor;
 $monitor -> transact_id = $_POST['transact_id'];
 $monitor -> user_id = $_SESSION['user_loggedIn']['user_id'];
+$pendingMonitorDetails = $monitor -> getPendingMonitor();
 $monitor -> monitorFeedback($_POST['targetBtn']);
 
-$appoint = new appoint;
-$appoint -> transact_id = $_POST['transact_id'];
-$result = $appoint -> getAppointCheckpointStatus();
+if ($_POST['targetBtn'] == "accept") {
+  $monitor -> monitor_date = $pendingMonitorDetails[0]['monitor_date'];
+  $res = $monitor -> setMonitoring();
 
-$monitor -> rnd_id = $result['rnd_id'];
-
-$res = $monitor -> setMonitoring();
-
-
-if($res) {
-  if ($_POST['targetBtn'] == "accept") {
-
-    $latestMonitoring = $monitor -> getMonitoring();
-    $latestMonitorId = $latestMonitoring['monitor_id'];
-    // cleared
-    
-    $monitor -> monitor_id = $latestMonitorId;
-    $monitor -> setMonitorWeek();
-    // cleared
-    
-    $monitorWeek = $monitor -> getMonitorWeek();    
-    
-    // starting date
-    $monitorDate = $monitor -> getMonitorDate();
-    
-    $index = 1;
-    foreach($monitorWeek as $week) {
-      $monitor -> monitor_week_id = $week['week_num'];
-      for($x = 1; $x <= 7; $x++) {
-        $date = date_create($monitorDate['monitor_date']);
-        date_add($date,date_interval_create_from_date_string($index." days"));
-        $monitor -> day_date = date_format($date,"Y-m-d");
-        $monitor -> day_num = $index;
-        $monitor -> setMonitorDays();
-    
-        $index++;
-      }
-    }
+  $latestMonitoring = $monitor -> getMonitoring();
+  $latestMonitorId = $latestMonitoring['monitor_id'];
+  // cleared
   
-    echo $res;
+  $monitor -> monitor_id = $latestMonitorId;
+  $monitor -> setMonitorWeek();
+  // cleared
+  
+  $monitorWeek = $monitor -> getMonitorWeek();
+  
+  // starting date
+  $startingDate = $latestMonitoring['monitor_date'];
+  
+  $index = 1;
+  foreach($monitorWeek as $week) {
+    $monitor -> monitor_week_id = $week['monitor_week_id'];
+    for($x = 1; $x <= 7; $x++) {
+      $date = date_create($startingDate);
+      date_add($date, date_interval_create_from_date_string($index." days"));
+      $monitor -> date = date_format($date,"Y-m-d");
+      $monitor -> day_num = $x;
+      $monitor -> setMonitorDays();
+  
+      $index++;
+    }
   }
-  if ($_POST['targetBtn'] == "denaid") {
-    echo $res;
-  }
+
+  echo $res;
+}
+if ($_POST['targetBtn'] == "denaid") {
+  echo "wiw";
 }
