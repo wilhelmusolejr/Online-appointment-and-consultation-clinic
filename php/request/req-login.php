@@ -10,12 +10,14 @@ require_once $path."php/general.php";
 $response = array("response" => 1, "target" => null ,"message" => null);
 
 if(isset($_POST['username']) && isset($_POST['password'])) {
+
   $user = new user;
   $user -> via_googol = "false";
   $user -> email = validateInput($_POST['username']);
   $user -> pass = validateInput($_POST['password']);
   // print_r($user);
   $result = $user -> login();
+
   if(!$result) {
     $response['response'] = 0;
     $response['target'] = 'password';
@@ -77,5 +79,6 @@ if($userLoggedInData['user_privilege'] == 'rnd') {
 }
 
 
-header("Location: ".$path."homepage/index.php");
+echo json_encode($response);
+// header("Location: ".$path."homepage/index.php");
 exit();

@@ -118,7 +118,7 @@ $(".form-login").on("submit", function (e) {
     data: $(".form-login").serialize(),
     dataType: "json",
     success: function (response) {
-      console.log(response);
+      console.log(response.response);
 
       if (response.response == 1) {
         let initialHref = location.href;

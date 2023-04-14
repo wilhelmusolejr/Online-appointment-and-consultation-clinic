@@ -34,7 +34,7 @@
             and families about the importance of healthy food choices, physical activity, stress management, and disease
             prevention.
           </p>
-          <a href="consultation/consultation.php" class="button button-primary">Book now!</a>
+          <a href="consultation/consultation.php#board-parent" class="button button-primary">Book now!</a>
         </div>
         <div class="main-image">
           <img src="../asset/deleon.jpg" alt="" />
