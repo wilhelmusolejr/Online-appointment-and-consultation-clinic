@@ -8,33 +8,50 @@ $monitor = new monitor();
 
 $monitor -> monitor_id = $_SESSION['monitor_id'];
 $monitoringData = $monitor -> getMonitoringViaMonitorId();
-// print_r($_POST);
 
-// print_r($result['total_week'] + $_POST['num_extend_week']);
 $extendNumWeek = $_POST['num_extend_week'];
 
 // -----------------
+// 1. Update total_week
 // update total_week in tbl_monitor 
 $monitor -> monitor_id = $_POST['monitor_id'];
 $monitor -> total_week = $monitoringData['total_week'] + $extendNumWeek;
-// $monitor -> updateTotalWeekMonitoring();
+$monitor -> updateTotalWeekMonitoring();
 
 // -----------------
+// 2. Adds week_num
 // add week_num in tbl_monitor_week 
 $weekData = $monitor -> getMonitorWeek();
 $latestWeekNum = end($weekData)['week_num'];
-// print_r($extendNumWeek);
 
+$monitor -> week_num = $latestWeekNum;
+$listOfDays = $monitor -> getDayDayData();
+$startingDate = end($listOfDays)['date'];
+
+$index = 1;
 for ($i = 1; $i <= $extendNumWeek; $i++) {
-  // print_r($latestWeekNum + $i);
-  // print_r($weekData);
-  $monitor -> week_num = $latestWeekNum + $i;
-  // $monitor -> updateMonitorWeek();
+  $latestWeekNum++;
+  $monitor -> week_num = $latestWeekNum;
+  $monitor -> updateMonitorWeek();
+
+  $weekData = $monitor -> getMonitorWeek();
+  $latestWeekNum = end($weekData)['monitor_week_id'];
+  $monitor -> monitor_week_id = $latestWeekNum;
+
+  // 3. Add day 
+  // add new row in tbl_monitor_day 
+  for($x = 1; $x <= 7; $x++) {
+    $date = date_create($startingDate);
+    date_add($date, date_interval_create_from_date_string($index." days"));
+    
+    $monitor -> date = date_format($date,"Y-m-d");
+    $monitor -> day_num = $x;
+    $monitor -> setMonitorDays();
+
+    $index++;
+  }
 }
 
-// add new row in tbl_monitor_day 
-// $listOfDays = $monitor -> getDayDayData();
-// print_r($listOfDays);
 echo "success";
 exit();
 // if($res){

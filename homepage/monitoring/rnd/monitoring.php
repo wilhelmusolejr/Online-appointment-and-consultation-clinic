@@ -47,7 +47,13 @@
     // get overall data
     $monitoringData = $monitor -> getOverallDataMonitoring();
 
-    print_r($clientInfo);
+    // getting start and end date of monitoring
+    $monitor -> week_num = end($weekData)['week_num'];
+    $temporary = $monitor -> getDayDayData();
+
+    $monitor -> week_num = $week_num;
+
+    print_r(end($weekData)['monitor_week_id']);
   }
 
 
@@ -140,71 +146,95 @@
         </div>
 
         <!-- stage one -->
-        <div class="stage-one-parent hidden">
+        <div class="stage-one-parent <?php echo sizeof($listGoals) > 0? "hidden" : ""?>">
 
           <!-- form -->
-          <div class="form">
+          <form action="<?php echo $path."php/set/set-monitoring-goals.php" ?>" class="form form-monitoring-stage-one"
+            method="post">
+
+            <input type="hidden" name="monitor_id" value="<?php echo $monitor_id ?>">
+            <input type="hidden" name="week_num" value="<?php echo $monitorData['current_week'] ?>">
 
             <div class="divider">
 
               <!-- LEFT -->
               <div class="form-input-parent">
 
-                <!-- Appointment Numbuh -->
+                <!-- Monitoring number -->
+                <div class="form-input-box input-one">
+                  <label for="firstname">Monitoring number</label>
+                  <input type="text" name="transact_id" value="#<?php echo $monitor_id ?>" disabled>
+                </div>
+
+
                 <div class="form-input-box input-one">
                   <label for="firstname">Appointment number</label>
-                  <input type="text" name="transact_id" value="#LOADING" disabled>
+                  <input type="text" name="transact_id" value="#<?php echo $monitoringData['transact_id'] ?>" disabled>
                 </div>
 
-                <label class="form_label">Time duration</label>
-
-                <!-- Appointment Numbuh -->
+                <!-- Chief complaint -->
                 <div class="form-input-box input-one">
-                  <label for="firstname">Start <span>*</span></label>
-                  <input type="date" name="transact_id">
+                  <label for="firstname">Chief complaint</label>
+                  <input type="text" name="transact_id" value="<?php echo $monitoringData['chief_complaint'] ?>"
+                    disabled>
                 </div>
 
-                <!-- Appointment Numbuh -->
-                <div class="form-input-box input-one">
-                  <label for="firstname">End <span>*</span></label>
-                  <input type="date" name="transact_id">
-                </div>
-
-                <div class="form-input-box input-one">
-                  <label for="firstname">Desirable body weight <span>*</span></label>
-                  <input type="number" name="transact_id">
-
-                </div>
               </div>
 
               <!-- middle -->
               <div class="form-input-parent divider-grow">
 
-                <!-- Appointment Numbuh -->
-                <div class="form-input-box input-one">
-                  <label for="firstname">Chief complain</label>
-                  <input type="text" name="transact_id" value="LOADING" disabled>
-                </div>
+                <!-- TIME -->
+                <div class="form-input-box input-one time-container outer-container">
 
-                <label class="form_label input-one">Goals</label>
-
-                <div class="form-input-box input-one goals-container outer-container">
+                  <!-- <label class="form_label input-one">Time duration</label> -->
 
                   <!-- item -->
                   <div class="container">
-                    <input type="hidden" name="food-take-type[]" value="<?php echo $food ?>">
+
+                    <!-- Time start -->
+                    <div class="form-input-box input-one">
+                      <label for="firstname">Start </label>
+                      <input type="text" name="monitoring_date_start"
+                        value="<?php echo date("D, d M Y", strtotime($listOfDays[0]['date']))  ?>" disabled>
+                    </div>
+
+                    <!-- Time End -->
+                    <div class="form-input-box input-one">
+                      <label for="firstname">End </label>
+                      <input type="text" name="monitoring_date_end"
+                        value="<?php echo date("D, d M Y", strtotime(end($temporary)['date'])) ?>" disabled>
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <!-- DESIRABLE BODY WEIGHT -->
+                <div class="form-input-box input-one">
+                  <label for="firstname">Desirable body weight <span>*</span></label>
+                  <input type="number" name="monitoring_desirable_body_weight" required value="10">
+                </div>
+
+                <!-- GOALS -->
+                <div class="form-input-box input-one goals-container outer-container">
+
+                  <!-- <label class="form_label input-one">Goals</label> -->
+
+                  <!-- item -->
+                  <div class="container">
 
                     <!-- Specify goals -->
                     <div class="form-input-box input-two ">
                       <label for="food-bf-consume">Specify goals <span>*</span></label>
-                      <input type='text' name="food-bf-consume[]" value="food consume test 1">
+                      <input type='text' name="specify_goal_name[]" value="food consume test 1">
                       <p class="form-error-message hidden">Error</p>
                     </div>
 
                     <!-- Quantity -->
                     <div class="form-input-box input-two ">
-                      <label for="food-quantity">Quantity <span>*</span></label>
-                      <select id="food-quantity" name="food-quantity[]">
+                      <label for="food-quantity">Type <span>*</span></label>
+                      <select id="food-quantity" name="specify_goal_type[]">
                         <option value="volvo">Piece</option>
                         <option value="saab">Once</option>
                         <option value="fiat">Kg</option>
@@ -221,35 +251,6 @@
 
                   </div>
 
-                  <div class="container hidden">
-                    <input type="hidden" name="food-take-type[]" value="<?php echo $food ?>">
-
-                    <!-- Specify goals -->
-                    <div class="form-input-box input-two ">
-                      <label for="food-bf-consume">Specify goals <span>*</span></label>
-                      <input type='text' name="food-bf-consume[]" value="food consume test 1">
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
-
-                    <!-- Quantity -->
-                    <div class="form-input-box input-two ">
-                      <label for="food-quantity">Quantity <span>*</span></label>
-                      <select id="food-quantity" name="food-quantity[]">
-                        <option value="volvo">Piece</option>
-                        <option value="saab">Once</option>
-                        <option value="fiat">Kg</option>
-                        <option value="audi">Cup</option>
-                      </select>
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
-
-                    <!-- trash -->
-                    <div class="form-input-box form-button">
-                      <i class="fa-solid fa-trash"></i>
-                    </div>
-
-                  </div>
-
                 </div>
 
               </div>
@@ -258,44 +259,67 @@
               <div class="form-input-parent flex-center">
                 <!-- img -->
                 <div class="list-rnd-box ka-talk-box grid-box card">
-                  <div class="list-rnd-image flex-center">
-                    <img src="<?php echo $path ?>uploads/dummy_user.jpg" alt="">
+                  <div class="list-rnd-image flex-center ">
+                    <img src="<?php echo $path."uploads/".$clientInfo['profile_img'] ?>" alt="">
                   </div>
                   <div class="list-rnd-info text-center">
-                    <p class="assigned-rnd">DUMMY</p>
-                    <a target="_blank" href="#" class="text-uppercase text-center profile-link">view profile</a>
+                    <p class="assigned-rnd"><?php echo $clientInfo['first_name']." ".$clientInfo['last_name'] ?></p>
+                    <a target="_blank"
+                      href="<?php echo $path."profile/profile.php?profile-id=".$clientInfo['user_id'] ?>"
+                      class="text-uppercase text-center profile-link">view profile</a>
                   </div>
                 </div>
               </div>
 
             </div>
 
-          </div>
+            <!-- button -->
+            <div class="form-button">
 
-          <!-- button -->
-          <div class="form-button">
+              <!-- prev -->
+              <div class="button-prev ">
+                <button class="button hidden">prev</button>
+              </div>
+              <!-- middle -->
+              <div>
+                <a href="<?php echo $path."homepage/consultation/rnd/consultation.php?transact_id=".$clientInfo['transact_id'] ?>"
+                  class="button button-tertiary">Consultation result</a>
+              </div>
+              <!-- next -->
+              <div class="button-next">
+                <a class="button  button-next button-primary button-mini-submit">Submit
+                </a>
+              </div>
 
-            <!-- prev -->
-            <div class="button-prev ">
-              <button class="button hidden">prev</button>
-            </div>
-            <!-- middle -->
-            <div>
-              <a href="<?php echo $path ?>homepage/consultation/rnd/consultation.php?transact_id=215"
-                class="button button-tertiary">Consultation result</a>
-            </div>
-            <!-- next -->
-            <div class="button-next">
-              <button class="button  button-next button-primary" disabled>Submit
-              </button>
             </div>
 
-          </div>
+            <!-- MODAl - CONFIRMATION -->
+            <div
+              class="modal-parent modal-notif-parent modal-monitoring-one-confirmation overlay-black flex-center hidden">
+              <div class="modal-container modal-notif-container sizing-secondary">
+                <div class="modal-header text-center">
+                  <h2 class="text-uppercase">Sure ka bhie?</h2>
+                </div>
+                <p class="text-center">Mark the transaction complete. <br><em>This action cannot be reverted</em></p>
+                <div class="modal-buttons">
+                  <a class="button button-cancel">Go back</a>
+                  <div class="button-confirm-final button-confirm-finalFour">
+                    <button type="submit" name='submit' value="submit" class="button button-primary">Submit</button>
+                  </div>
+                </div>
+
+                <div class="stopper hidden"></div>
+                <?php require $path."includes/spinner.php" ?>
+
+              </div>
+            </div>
+
+          </form>
 
         </div>
 
         <!-- stage two -->
-        <div class="stage-two-parent">
+        <div class="stage-two-parent <?php echo sizeof($listGoals) > 0? "" : "hidden"?>">
 
           <!-- form -->
           <div class="form">
@@ -303,41 +327,56 @@
             <div class="divider">
 
               <!-- left -->
-              <div class="form-input-parent divider-grow">
+              <div class="form-input-parent divider-grow outer-left">
 
                 <div class="divider">
 
-                  <div class="form-input-parent">
-                    <!-- Appointment Numbuh -->
+                  <div class="form-input-parent monitoring-detail">
+
+                    <!-- Monitoring number -->
+                    <div class="form-input-box">
+                      <label for="firstname">Monitoring number</label>
+                      <input type="text" name="transact_id" value="#<?php echo $monitor_id ?>" disabled>
+                    </div>
+
+
+                    <div class="form-input-box">
+                      <label for="firstname">Appointment number</label>
+                      <input type="text" name="transact_id" value="#<?php echo $monitoringData['transact_id'] ?>"
+                        disabled>
+                    </div>
+
+                    <!-- Chief complaint -->
                     <div class="form-input-box">
                       <label for="firstname">Chief complaint</label>
                       <input type="text" name="transact_id" value="<?php echo $monitoringData['chief_complaint'] ?>"
                         disabled>
                     </div>
 
-                    <!-- Appointment Numbuh -->
-                    <div class="form-input-box">
+                    <!-- Target week -->
+                    <div class="form-input-box week-filter hidden">
                       <form class="form" action="monitoring.php" method="get">
 
                         <input type="hidden" name="monitor_id" value="<?php echo $monitor_id ?>">
 
-
-                        <label for="firstname" class="hiddens">l</label>
-                        <select name="week_num" id="week_num">
-                          <?php foreach($weekData as $week) { ?>
-                          <option value="<?php echo $week['week_num'] ?>"
-                            <?php echo $week_num == $week['week_num'] ? "selected" : "" ?>>
-                            <?php echo "Week ".$week['week_num'] ?>
-                          </option>
-                          <?php } ?>
-                          <!-- <option value="mercedes">Mercedes</option> -->
-                        </select>
+                        <div class="">
+                          <label for="firstname" class="hiddens">l</label>
+                          <select name="week_num" id="week_num">
+                            <?php foreach($weekData as $week) { ?>
+                            <option value="<?php echo $week['week_num'] ?>"
+                              <?php echo $week_num == $week['week_num'] ? "selected" : "" ?>>
+                              <?php echo "Week ".$week['week_num'] ?>
+                            </option>
+                            <?php } ?>
+                            <!-- <option value="mercedes">Mercedes</option> -->
+                          </select>
+                        </div>
                         <!-- button -->
                         <div class="form-button">
                           <!-- middle -->
                           <div>
-                            <button type="submit" class="button">Submit
-                              goals</button>
+                            <button type="submit" class="button button-primary">
+                              Submit</button>
                           </div>
 
                         </div>
@@ -349,45 +388,62 @@
 
                 </div>
 
-                <div class="week-list-day-parent">
+                <div class="divider week-list-parent">
+                  <div class="form-input-parent">
 
-                  <?php forEach($listOfDays as $day) { 
-                    $isBeyondDate = $currentDate < $day['date'];
-                  ?>
+                    <!-- Target week -->
+                    <div class="form-input-box week-filter hiddens">
+                      <form class="form" action="monitoring.php" method="get">
 
-                  <!-- day 1 -->
-                  <a data-day="<?php echo $day['day_num'] ?>"
-                    class="week-list-day-item text-uppercase card flex-center <?php echo  $isBeyondDate ? "lock" : "current-date" ?> cursor-pointer">
-                    <?php if($isBeyondDate) { ?>
-                    <i class="fa-solid fa-lock"></i>
-                    <?php } else { ?>
-                    <p>Day</p>
-                    <p><?php echo $day['day_num'] ?></p>
-                    <?php } ?>
-                  </a>
+                        <input type="hidden" name="monitor_id" value="<?php echo $monitor_id ?>">
 
-                  <?php } ?>
+                        <div class="">
+                          <label for="firstname" class="hidden">l</label>
+                          <select name="week_num" id="week_num">
+                            <?php foreach($weekData as $week) { ?>
+                            <option value="<?php echo $week['week_num'] ?>"
+                              <?php echo $week_num == $week['week_num'] ? "selected" : "" ?>>
+                              <?php echo "Week ".$week['week_num'] ?>
+                            </option>
+                            <?php } ?>
+                            <!-- <option value="mercedes">Mercedes</option> -->
+                          </select>
+                        </div>
+                        <!-- button -->
+                        <div class="form-button">
+                          <!-- middle -->
+                          <div>
+                            <button type="submit" class="button button-primary">
+                              Submit</button>
+                          </div>
 
+                        </div>
+                      </form>
 
-                  <!-- day 1 -->
-                  <a href="monitoring.php?monitor_id=1&week=1&day=1"
-                    class="week-list-day-item text-uppercase hidden card flex-center current-date">
-                    <p>Day</p>
-                    <p>1</p>
-                  </a>
+                    </div>
 
-                  <!-- day 2 -->
-                  <a href="monitoring.php?monitor_id=1&week=1&day=2"
-                    class="week-list-day-item text-uppercase hidden card flex-center ">
-                    <i class="fa-solid fa-lock"></i>
-                  </a>
-
-                  <!-- day 3 -->
-                  <div class="week-list-day-item text-uppercase hidden card flex-center ">
-                    <p>Day</p>
-                    <p>3</p>
                   </div>
 
+                  <div class="week-list-day-parent">
+
+                    <?php forEach($listOfDays as $day) { 
+  $isBeyondDate = $currentDate < $day['date'];
+?>
+
+                    <!-- day 1 -->
+                    <a data-day="<?php echo $day['day_num'] ?>"
+                      class="week-list-day-item text-uppercase card flex-center <?php echo  $isBeyondDate ? "lock" : "current-date" ?> cursor-pointer">
+                      <?php if($isBeyondDate) { ?>
+                      <i class="fa-solid fa-lock"></i>
+                      <?php } else { ?>
+                      <p>Day</p>
+                      <p><?php echo $day['day_num'] ?></p>
+                      <?php } ?>
+                    </a>
+
+                    <?php } ?>
+
+                  </div>
                 </div>
 
               </div>
@@ -418,7 +474,7 @@
             <!-- prev -->
             <div class="button-prev ">
               <button
-                class="button <?php echo $monitorData['board_page'] == 1? "button-extend":"button-disabled"?>">Extend
+                class="button button-fourth <?php echo $monitorData['board_page'] == 1? "button-extend":"button-disabled"?>">Extend
                 monitoring</button>
             </div>
             <!-- middle -->
@@ -622,8 +678,10 @@
 
               <form class="form">
 
+                <p style="margin-bottom: 10px;">Current number of weeks: <?php echo end($weekData)['week_num'] ?></p>
+
                 <div class="form-input-box input-two">
-                  <label for="reg-mob" class="text-capital">Number of weeks <span>*</span></label>
+                  <label for="reg-mob" class="text-capital">Number of weeks to extend <span>*</span></label>
                   <input type="number" name="num_extend_week" required id="num_extend_week" value="1"
                     placeholder="Enter your mobile number">
                 </div>
@@ -673,806 +731,6 @@
 
             <?php require_once $path."includes/spinner.php" ?>
 
-          </div>
-
-        </div>
-
-        <!-- IF WEEK IS CLICKED -->
-        <div class="week-outside-parent hidden">
-          <div class="week-list-day-parent">
-            <!-- day 1 -->
-            <div class="week-list-day-item text-uppercase card flex-center current-date">
-              <p>Day</p>
-              <p>1</p>
-            </div>
-
-            <!-- day 2 -->
-            <div class="week-list-day-item text-uppercase card flex-center ">
-              <p>Day</p>
-              <p>2</p>
-            </div>
-
-            <!-- day 3 -->
-            <div class="week-list-day-item text-uppercase card flex-center ">
-              <p>Day</p>
-              <p>3</p>
-            </div>
-
-            <!-- day 4 -->
-            <div class="week-list-day-item text-uppercase card flex-center ">
-              <p>Day</p>
-              <p>4</p>
-            </div>
-
-            <!-- day 5 -->
-            <div class="week-list-day-item text-uppercase card flex-center ">
-              <p>Day</p>
-              <p>5</p>
-            </div>
-
-            <!-- day 6 -->
-            <div class="week-list-day-item text-uppercase card flex-center ">
-              <p>Day</p>
-              <p>6</p>
-            </div>
-
-            <!-- day 7 -->
-            <div class="week-list-day-item text-uppercase card flex-center ">
-              <p>Day</p>
-              <p>7</p>
-            </div>
-
-          </div>
-
-          <div class="goal-container">
-            <h3 class="text-uppercase text-center card">Goals</h3>
-            <div class="goal-list-parent">
-
-              <?php foreach($listGoals as $goal) { ?>
-              <div class="goal-list-item">
-                <input type="checkbox" <?php echo $goal['goal_status'] ?> disabled>
-                <p><?php echo $goal['goal'] ?></p>
-              </div>
-              <?php } ?>
-            </div>
-          </div>
-        </div>
-
-        <!-- DAY  -->
-        <!-- SUBMITTING FORM for MONITORING -->
-        <!-- Form -->
-        <form action="php/set-appoint.php" method="post" class="form form-appoint-submit hidden"
-          enctype="multipart/form-data">
-          <!-- Tab -->
-          <div class="tabset">
-            <!-- Tab 5 -->
-            <input class='personal-tab hidden' type="radio" name="tabset" id="tab5" aria-controls="dunkles">
-            <label class='personal-tab hidden' for="tab5">Weight goal</label>
-            <!-- Tab 1 -->
-            <input type="radio" name="tabset" id="tab1" aria-controls="marzen" checked>
-            <label for="tab1">Weight goal</label>
-            <!-- Tab 2 -->
-            <input type="radio" name="tabset" id="tab2" aria-controls="rauchbier">
-            <label for="tab2">Food intake</label>
-            <!-- Tab 3 -->
-            <input type="radio" name="tabset" id="tab3" aria-controls="dunkles">
-            <label for="tab3">Physical activity</label>
-            <!-- Tab 4 -->
-            <input type="radio" name="tabset" id="tab4" aria-controls="dunkles">
-            <label for="tab4">Supplement intake</label>
-
-            <div class="tab-panels">
-
-              <!-- Personal Information -->
-              <section id="personal-tab" class="personal-tab tab-panel hidden">
-                <!-- - Form Header -->
-                <div class="form-header text-uppercase hidden">
-                  <h3>Personal Information</h3>
-                </div>
-                <!-- form parent -->
-                <div class="divider">
-                  <!-- left -->
-                  <div class="form-input-parent">
-                    <!-- first name -->
-                    <div class="form-input-box input-two">
-                      <label for="firstname" class="text-capital">First name <span>*</span></label>
-                      <input type="text" name="firstname" id="firstname" value="test"
-                        placeholder="Enter your first name" required>
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
-                    <!-- middle name -->
-                    <div class="form-input-box input-two">
-                      <label for="middlename" class="text-capital">Middle name </label>
-                      <input type="text" name="middlename" id="middlename" value="test"
-                        placeholder="Enter your middle name">
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
-                    <!-- last name -->
-                    <div class="form-input-box input-two">
-                      <label for="lastname" class="text-capital">Last name <span>*</span></label>
-                      <input type="text" name="lastname" required id="lastname" value="test"
-                        placeholder="Enter your last name">
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
-                    <!-- gender -->
-                    <div class="gender-form form-input-box input-two">
-                      <label for="gender" class="text-capital">Gender <span>*</span></label>
-                      <div class="gender-con radio-box flex-center">
-                        <div>
-                          <input type="radio" id="male" name="gender" value="Male" checked>
-                          <label for="male">Male</label>
-                        </div>
-                        <div>
-                          <input type="radio" id="female" name="gender" value="Female">
-                          <label for="female">Female</label>
-                        </div>
-                      </div>
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
-                    <!-- birth date -->
-                    <div class="form-input-box input-two">
-                      <label for="birthdate" class="text-capital">Birthdate <span>*</span></label>
-                      <input type="date" required name="birthdate" id="birthdate" value="2002-01-01">
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
-                    <!-- Relationship status -->
-                    <div class="form-input-box input-two">
-                      <label for="relationship-status">Relationship status <span>*</span></label>
-                      <input list="list-relationship" required name="relationship-status" id="relationship-status"
-                        placeholder="Diet meal plan" value="relationship status">
-                      <datalist id="list-relationship">
-                        <option value="Husbund">
-                        <option value="Mother">
-                      </datalist>
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
-                  </div>
-                  <!-- right -->
-                  <div class="form-input-parent">
-                    <!-- Mobile -->
-                    <div class="form-input-box input-two">
-                      <label for="reg-mob" class="text-capital">Mobile number <span>*</span></label>
-                      <input type="text" name="reg-mob" required id="reg-mob" value="09972976807"
-                        placeholder="Enter your mobile number">
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
-                    <!-- Email -->
-                    <div class="form-input-box input-two">
-                      <label for="reg-email" class="text-capital">Email address <span>*</span></label>
-                      <input type="email" required name="reg-email" id="reg-email" value="test@gmail.com"
-                        placeholder="Enter your middle name">
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
-                  </div>
-                </div>
-              </section>
-
-              <!-- Consultation Information -->
-              <section id="consultation-tab" class="tab-panel">
-                <!-- - Form Header -->
-                <div class="form-header text-uppercase hidden hidden">
-                  <h3>Consultation Information</h3>
-                </div>
-                <!-- form parent -->
-                <div class="divider">
-                  <!-- left -->
-                  <div class="form-input-parent">
-                    <!-- Desirable body weight -->
-                    <div class="form-input-box input-two">
-                      <label for="appoint-chief-complaint">Desirable Body Weight <span>*</span></label>
-                      <input type='number' name="appoint-chief-complaint" id="appoint-chief-complaint"
-                        placeholder="Enter your desirable body weight" required>
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
-
-                    <!-- Current body weight -->
-                    <div class="form-input-box input-two">
-                      <label for="appoint-chief-complaint">Current Body Weight <span>*</span></label>
-                      <input type='number' name="appoint-chief-complaint" id="appoint-chief-complaint"
-                        placeholder="Enter your desirable body weight" required>
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
-                  </div>
-                  <!-- right -->
-                  <div class="form-input-parent hidden">
-                    <!-- More Information -->
-                    <div class="form-input-box input-one">
-                      <label for="appointment-more-info" class="text-capital">More information</label>
-                      <textarea name="appointment-more-info" class="" id="appointment-more-info"
-                        placeholder="Give additional information about your chief complaint."></textarea>
-                    </div>
-                  </div>
-                </div>
-              </section>
-
-              <!-- Food Information -->
-              <section id="food-tab" class="tab-panel">
-                <!-- - Form Header -->
-                <div class="form-header text-uppercase hidden">
-                  <h3>Food Information</h3>
-                </div>
-                <!-- form parent -->
-                <div class="divider">
-                  <!-- left -->
-                  <div class="form-input-parent">
-
-                    <!-- breakfast -->
-                    <div class="breakfast-parent">
-                      <h3 class="food-header">Breakfast</h3>
-
-                      <div class="container-parent">
-                        <div class="outer-container">
-                          <div class="container">
-                            <!-- time -->
-                            <div class="form-input-box input-two ">
-                              <label for="food-time">Time <span>*</span></label>
-                              <input type='time' name="food-bf-time" id="food-time">
-                              <p class="form-error-message hidden">Error</p>
-                            </div>
-
-                            <!-- food consumed -->
-                            <div class="form-input-box input-two ">
-                              <label for="food-time">Food consumed <span>*</span></label>
-                              <input type='text' name="food-bf-consume" id="food-time">
-                              <p class="form-error-message hidden">Error</p>
-                            </div>
-
-                            <!-- Quantity -->
-                            <div class="form-input-box input-two ">
-                              <label for="food-quantity">Quantity <span>*</span></label>
-                              <select id="food-quantity" name="food-quantity">
-                                <option value="volvo">Volvo</option>
-                                <option value="saab">Saab</option>
-                                <option value="fiat">Fiat</option>
-                                <option value="audi">Audi</option>
-                              </select>
-                              <p class="form-error-message hidden">Error</p>
-                            </div>
-
-                            <!-- Amount -->
-                            <div class="form-input-box input-two ">
-                              <label for="food-amount">Amount <span>*</span></label>
-                              <select id="food-amount" name="food-amount">
-                                <option value="volvo">Volvo</option>
-                                <option value="saab">Saab</option>
-                                <option value="fiat">Fiat</option>
-                                <option value="audi">Audi</option>
-                              </select>
-                              <p class="form-error-message hidden">Error</p>
-                            </div>
-
-                            <!-- Method of preparation -->
-                            <div class="form-input-box input-two ">
-                              <label for="food-time">Method of preparation <span>*</span></label>
-                              <input type='text' name="food-bf-consume" id="food-time">
-                              <p class="form-error-message hidden">Error</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="button-plus flex-center">
-                          <i class="fa-solid fa-plus"></i>
-                        </div>
-                      </div>
-
-                    </div>
-
-                    <!-- Lunch -->
-                    <div class="breakfast-parent">
-                      <h3 class="food-header">Lunch</h3>
-
-                      <div class="container-parent">
-                        <div class="outer-container">
-                          <div class="container">
-                            <!-- time -->
-                            <div class="form-input-box input-two ">
-                              <label for="food-time">Time <span>*</span></label>
-                              <input type='time' name="food-bf-time" id="food-time">
-                              <p class="form-error-message hidden">Error</p>
-                            </div>
-
-                            <!-- food consumed -->
-                            <div class="form-input-box input-two ">
-                              <label for="food-time">Food consumed <span>*</span></label>
-                              <input type='text' name="food-bf-consume" id="food-time">
-                              <p class="form-error-message hidden">Error</p>
-                            </div>
-
-                            <!-- Quantity -->
-                            <div class="form-input-box input-two ">
-                              <label for="food-quantity">Quantity <span>*</span></label>
-                              <select id="food-quantity" name="food-quantity">
-                                <option value="volvo">Volvo</option>
-                                <option value="saab">Saab</option>
-                                <option value="fiat">Fiat</option>
-                                <option value="audi">Audi</option>
-                              </select>
-                              <p class="form-error-message hidden">Error</p>
-                            </div>
-
-                            <!-- Amount -->
-                            <div class="form-input-box input-two ">
-                              <label for="food-amount">Amount <span>*</span></label>
-                              <select id="food-amount" name="food-amount">
-                                <option value="volvo">Volvo</option>
-                                <option value="saab">Saab</option>
-                                <option value="fiat">Fiat</option>
-                                <option value="audi">Audi</option>
-                              </select>
-                              <p class="form-error-message hidden">Error</p>
-                            </div>
-
-                            <!-- Method of preparation -->
-                            <div class="form-input-box input-two ">
-                              <label for="food-time">Method of preparation <span>*</span></label>
-                              <input type='text' name="food-bf-consume" id="food-time">
-                              <p class="form-error-message hidden">Error</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="button-plus flex-center">
-                          <i class="fa-solid fa-plus"></i>
-                        </div>
-                      </div>
-
-                    </div>
-
-                    <!-- Dinner -->
-                    <div class="breakfast-parent">
-                      <h3 class="food-header">Dinner</h3>
-
-                      <div class="container-parent">
-                        <div class="outer-container">
-                          <div class="container">
-                            <!-- time -->
-                            <div class="form-input-box input-two ">
-                              <label for="food-time">Time <span>*</span></label>
-                              <input type='time' name="food-bf-time" id="food-time">
-                              <p class="form-error-message hidden">Error</p>
-                            </div>
-
-                            <!-- food consumed -->
-                            <div class="form-input-box input-two ">
-                              <label for="food-time">Food consumed <span>*</span></label>
-                              <input type='text' name="food-bf-consume" id="food-time">
-                              <p class="form-error-message hidden">Error</p>
-                            </div>
-
-                            <!-- Quantity -->
-                            <div class="form-input-box input-two ">
-                              <label for="food-quantity">Quantity <span>*</span></label>
-                              <select id="food-quantity" name="food-quantity">
-                                <option value="volvo">Volvo</option>
-                                <option value="saab">Saab</option>
-                                <option value="fiat">Fiat</option>
-                                <option value="audi">Audi</option>
-                              </select>
-                              <p class="form-error-message hidden">Error</p>
-                            </div>
-
-                            <!-- Amount -->
-                            <div class="form-input-box input-two ">
-                              <label for="food-amount">Amount <span>*</span></label>
-                              <select id="food-amount" name="food-amount">
-                                <option value="volvo">Volvo</option>
-                                <option value="saab">Saab</option>
-                                <option value="fiat">Fiat</option>
-                                <option value="audi">Audi</option>
-                              </select>
-                              <p class="form-error-message hidden">Error</p>
-                            </div>
-
-                            <!-- Method of preparation -->
-                            <div class="form-input-box input-two ">
-                              <label for="food-time">Method of preparation <span>*</span></label>
-                              <input type='text' name="food-bf-consume" id="food-time">
-                              <p class="form-error-message hidden">Error</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="button-plus flex-center">
-                          <i class="fa-solid fa-plus"></i>
-                        </div>
-                      </div>
-
-                    </div>
-
-                    <!-- Snacks -->
-                    <div class="breakfast-parent">
-                      <h3 class="food-header">Snacks</h3>
-
-                      <div class="container-parent">
-                        <div class="outer-container">
-                          <div class="container">
-                            <!-- time -->
-                            <div class="form-input-box input-two ">
-                              <label for="food-time">Time <span>*</span></label>
-                              <input type='time' name="food-bf-time" id="food-time">
-                              <p class="form-error-message hidden">Error</p>
-                            </div>
-
-                            <!-- food consumed -->
-                            <div class="form-input-box input-two ">
-                              <label for="food-time">Food consumed <span>*</span></label>
-                              <input type='text' name="food-bf-consume" id="food-time">
-                              <p class="form-error-message hidden">Error</p>
-                            </div>
-
-                            <!-- Quantity -->
-                            <div class="form-input-box input-two ">
-                              <label for="food-quantity">Quantity <span>*</span></label>
-                              <select id="food-quantity" name="food-quantity">
-                                <option value="volvo">Volvo</option>
-                                <option value="saab">Saab</option>
-                                <option value="fiat">Fiat</option>
-                                <option value="audi">Audi</option>
-                              </select>
-                              <p class="form-error-message hidden">Error</p>
-                            </div>
-
-                            <!-- Amount -->
-                            <div class="form-input-box input-two ">
-                              <label for="food-amount">Amount <span>*</span></label>
-                              <select id="food-amount" name="food-amount">
-                                <option value="volvo">Volvo</option>
-                                <option value="saab">Saab</option>
-                                <option value="fiat">Fiat</option>
-                                <option value="audi">Audi</option>
-                              </select>
-                              <p class="form-error-message hidden">Error</p>
-                            </div>
-
-                            <!-- Method of preparation -->
-                            <div class="form-input-box input-two ">
-                              <label for="food-time">Method of preparation <span>*</span></label>
-                              <input type='text' name="food-bf-consume" id="food-time">
-                              <p class="form-error-message hidden">Error</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="button-plus flex-center">
-                          <i class="fa-solid fa-plus"></i>
-                        </div>
-                      </div>
-
-                    </div>
-
-
-                  </div>
-
-                </div>
-
-
-              </section>
-
-              <!-- Physical Information -->
-              <section id="physical-tab" class="tab-panel">
-                <!-- - Form Header -->
-                <div class="form-header text-uppercase hidden">
-                  <h3>Physical Information</h3>
-                </div>
-                <!-- form parent -->
-                <div class="divider">
-                  <!-- left -->
-                  <div class="left-form form-input-parent">
-                    <!-- Body type -->
-                    <div class="form-input-box form-radio-box">
-                      <p>Activity level <span>*</span></p>
-                      <div class="gender-con radio-default">
-                        <!-- Endomorph -->
-                        <div>
-                          <input type="radio" checked id="body-type-endomorph" name="body-type[]" value="sedentary">
-                          <label for="body-type-endomorph">Sedentary</label>
-                        </div>
-                        <!-- Ectomorph -->
-                        <div>
-                          <input type="radio" id="body-type-ectomorph" name="body-type[]" value="light">
-                          <label for="body-type-ectomorph">Light</label>
-                        </div>
-                        <!-- Mesomorph -->
-                        <div>
-                          <input type="radio" id="body-type-mesomorph" name="body-type[]" value="moderate">
-                          <label for="body-type-mesomorph">Moderate</label>
-                        </div>
-                        <!-- very active -->
-                        <div>
-                          <input type="radio" id="body-type-vigorous" name="body-type[]" value="vigorous">
-                          <label for="body-type-vigorous">Very active or Vigorous</label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- right -->
-                  <div class="form-input-parent hidden  ">
-                    <!-- Body type -->
-                    <div class="form-input-box form-radio-box">
-                      <p>Body type <span>*</span></p>
-                      <div class="gender-con radio-default">
-                        <!-- Endomorph -->
-                        <div>
-                          <input type="checkbox" checked id="body-type-endomorph" name="body-type[]" value="endomorph">
-                          <label for="body-type-endomorph">Endomorph</label>
-                        </div>
-                        <!-- Ectomorph -->
-                        <div>
-                          <input type="checkbox" id="body-type-ectomorph" name="body-type[]" value="ectomorph">
-                          <label for="body-type-ectomorph">Ectomorph</label>
-                        </div>
-                        <!-- Mesomorph -->
-                        <div>
-                          <input type="checkbox" id="body-type-mesomorph" name="body-type[]" value="mesomorph">
-                          <label for="body-type-mesomorph">Mesomorph</label>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Physical activity -->
-                    <div class="form-input-box form-radio-box">
-                      <p>Physical activity <span>*</span></p>
-                      <div class="gender-con radio-default">
-                        <!-- Sedentary -->
-                        <div>
-                          <input type="radio" id="physical-sedentary" name="physical-activity" value="sedentary"
-                            checked>
-                          <label for="physical-sedentary">Sedentary</label>
-                        </div>
-                        <!-- Light -->
-                        <div>
-                          <input type="radio" id="physical-light" name="physical-activity" value="light">
-                          <label for="physical-light">light</label>
-                        </div>
-                        <!-- Moderate -->
-                        <div>
-                          <input type="radio" id="physical-moderate" name="physical-activity" value="moderate">
-                          <label for="physical-moderate">Moderate</label>
-                        </div>
-                        <!-- Very active -->
-                        <div>
-                          <input type="radio" id="physical-very-active" name="physical-activity" value="very-active">
-                          <label for="physical-very-active">Very active</label>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Gain weight -->
-                    <div class="form-input-box form-radio-box">
-                      <p>Do you gain weight <span>*</span></p>
-                      <div class="gender-con radio-default">
-                        <!-- Sedentary -->
-                        <div>
-                          <input type="radio" checked id="gain-easily" name="gain-weight-level" value="easily">
-                          <label for="gain-easily">Easily</label>
-                        </div>
-                        <!-- Light -->
-                        <div>
-                          <input type="radio" id="gain-moderately" name="gain-weight-level" value="moderately">
-                          <label for="gain-moderately">Moderately</label>
-                        </div>
-                        <!-- Moderate -->
-                        <div>
-                          <input type="radio" id="gain-slowly" name="gain-weight-level" value="slowly">
-                          <label for="gain-slowly">Slowly</label>
-                        </div>
-                        <!-- Very active -->
-                        <div>
-                          <input type="radio" id="gain-very-slowly" name="gain-weight-level" value="very-slowly">
-                          <label for="gain-very-slowly">Very slowly</label>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Lose weight -->
-                    <div class="form-input-box form-radio-box ">
-                      <p>Do you lose weight <span>*</span></p>
-                      <div class="gender-con radio-default">
-                        <!-- Sedentary -->
-                        <div>
-                          <input type="radio" checked id="lose-easily" name="lose-weight-level" value="easily">
-                          <label for="lose-easily">Easily</label>
-                        </div>
-                        <!-- Light -->
-                        <div>
-                          <input type="radio" id="lose-moderately" name="lose-weight-level" value="moderately">
-                          <label for="lose-moderately">Moderately</label>
-                        </div>
-                        <!-- Moderate -->
-                        <div>
-                          <input type="radio" id="lose-slowly" name="lose-weight-level" value="slowly">
-                          <label for="lose-slowly">Slowly</label>
-                        </div>
-                        <!-- Very active -->
-                        <div>
-                          <input type="radio" id="lose-very-slowly" name="lose-weight-level" value="very-slowly">
-                          <label for="lose-very-slowly">Very slowly</label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </section>
-
-              <!-- Medical Information -->
-              <section id="medical-tab" class="tab-panel">
-                <!-- - Form Header -->
-                <div class="form-header text-uppercase hidden">
-                  <h3>Medical Information</h3>
-                </div>
-                <!-- form parent -->
-                <div class="divider">
-                  <!-- left -->
-                  <div class="left-form form-input-parent">
-                    <!-- Current Medication -->
-                    <div class="form-input-box ">
-                      <label for="appoint-actual-weight">Are you taking any nutrional supplements?
-                        <span>*</span></label>
-                      <input type="text" name="appoint-medical-current-med" id="appoint-medical-current-med"
-                        placeholder="E.g Ascorbic Acid" required value="N/A">
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
-                  </div>
-                </div>
-              </section>
-
-            </div>
-          </div>
-
-          <div class="form-button">
-            <!-- prev -->
-            <div class="button-prev">
-              <button class="button hidden" disabled>prev</button>
-            </div>
-            <!-- middle -->
-            <div>
-              <button class="button hidden" disabled>Submit</button>
-            </div>
-            <!-- next -->
-            <div class="button-semi-submit">
-              <a class="button button-semi button-primary">Submit
-              </a>
-            </div>
-            <div class="button-next hidden">
-              <a class="button button-primary">Next
-              </a>
-            </div>
-
-
-          </div>
-
-          <!-- MODAl - CONFIRMATION -->
-          <div class="modal-parent modal-notif-parent modal-appointment-confirmation overlay-black flex-center hidden">
-
-            <!-- hidden - fox ajax -->
-            <input type="hidden" name="submit" value='true' id="submit">
-
-            <div class="modal-container modal-notif-container sizing-secondary">
-              <div class="modal-header text-center">
-                <h2 class="text-uppercase">Confirm appointment</h2>
-              </div>
-              <div class="modal-message">
-                <p class="text-center">message</p>
-              </div>
-              <div class="modal-buttons">
-                <a class="button button-cancel">Go back</a>
-                <button type="submit" name='submit' value="submit" class="button button-primary">Submit</button>
-              </div>
-
-              <div class="stopper hidden"></div>
-
-            </div>
-
-            <?php require_once $path."includes/spinner.php" ?>
-
-          </div>
-        </form>
-
-        <!-- INTERVENSION -->
-        <div class="intervension-parent hidden">
-          <div class="divider card">
-            <div class="left">
-              <div class="chart-parent flex-center">
-                <!-- one -->
-                <div class="chart chart-one flex-center">
-                  <canvas id="myChart"></canvas>
-                </div>
-                <!-- two -->
-                <div class="chart chart-two flex-center ">
-                  <canvas id="myCharts"></canvas>
-                </div>
-              </div>
-            </div>
-            <div class="right">
-              <div class="greeting text-center">
-                <h3>Hi, Sofia</h3>
-                <p>You're on track this week.</p>
-              </div>
-              <div id="calendar" class="calendar">
-                <div class="calendar-title">
-                  <div class="calendar-title-text"></div>
-                  <div class="calendar-button-group">
-                    <button id="prevMonth">&lt;</button>
-                    <button id="today">Today</button>
-                    <button id="nextMonth">&gt;</button>
-                  </div>
-                </div>
-                <div class="calendar-day-name"></div>
-                <div class="calendar-dates"></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="goal-container">
-            <h3 class="text-uppercase text-center card">Goals</h3>
-            <div class="goal-list-parent">
-              <!-- goal 1 -->
-              <div class="goal-list-item">
-                <input type="checkbox">
-                <p>Lost 1-2 lbs</p>
-              </div>
-
-              <!-- goal 1 -->
-              <div class="goal-list-item">
-                <input type="checkbox">
-                <p>Lost 1-2 lbs</p>
-              </div>
-
-              <!-- goal 1 -->
-              <div class="goal-list-item">
-                <input type="checkbox">
-                <p>Lost 1-2 lbs</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- END OF MONITORING -->
-        <div class="monitoring-end-parent hidden">
-
-          <div class="greeting ">
-            <h3>Nice work Sofia!</h3>
-            <p>Congratulations on achieving your goals.</p>
-          </div>
-
-          <div class="divider">
-            <!-- left -->
-            <div class="goal-container">
-              <h3 class="text-uppercase text-center card">Goals</h3>
-              <div class="goal-list-parent">
-                <!-- goal 1 -->
-                <div class="goal-list-item">
-                  <input type="checkbox">
-                  <p>Lost 1-2 lbs</p>
-                </div>
-
-                <!-- goal 1 -->
-                <div class="goal-list-item">
-                  <input type="checkbox">
-                  <p>Lost 1-2 lbs</p>
-                </div>
-
-                <!-- goal 1 -->
-                <div class="goal-list-item">
-                  <input type="checkbox">
-                  <p>Lost 1-2 lbs</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- right -->
-            <div class="form">
-              <div class="form-input-parent flex-center">
-                <!-- img -->
-                <div class="list-rnd-box ka-talk-box grid-box card">
-                  <div class="list-rnd-image flex-center">
-                    <img src="../../uploads/dummy_user.jpg" alt="">
-                  </div>
-                  <div class="list-rnd-info text-center">
-                    <p class="assigned-rnd">LOADING</p>
-                    <a target="_blank" href="#" class="text-uppercase text-center profile-link">view profile</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="buttons">
-            <a href="#" class="button button-tertiary">Request for follow up</a>
-            <a href="#" class="button button-primary">Request for F2F consultation</a>
           </div>
 
         </div>

@@ -1,3 +1,11 @@
+.outer-left {
+  flex-direction: column;
+}
+
+.week-list-parent {
+  flex-direction: column;
+}
+
 .divider {
   align-items: flex-start !important;
   flex: 1;
@@ -14,9 +22,12 @@ label {
 /* setting goals */
 .outer-container {
   flex: 1;
+
+  /* border: 1px solid black; */
+  /* padding: 10px; */
 }
 
-.goals-container .container {
+.outer-container .container {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -27,6 +38,9 @@ label {
   margin-bottom: 10px;
 
   border-radius: 5px;
+}
+
+.goals-container .container {
 }
 
 .goals-container .container .form-button {
@@ -88,14 +102,37 @@ label {
   justify-content: flex-end;
 }
 
+.monitoring-detail .form-input-box:nth-of-type(3) {
+  flex: 3 0 170px;
+}
+
 /* stage-two-parent */
+.stage-two-parent .form-input-box .form-button {
+  margin: 0;
+}
+
+.week-filter .form {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+
+  margin-top: 20px;
+}
+.week-filter select {
+  width: 200px;
+}
+
+.week-filter .form > div {
+  flex: 1;
+}
 
 /* week parent */
 .week-list-day-parent {
   display: flex;
   gap: 10px;
 
-  margin: 30px 0;
+  margin: 0;
 
   width: 100%;
 }
@@ -138,6 +175,10 @@ label {
 
 .modal-header {
   margin-bottom: 50px;
+}
+
+.header {
+  margin-bottom: 25px;
 }
 
 /* data */

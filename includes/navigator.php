@@ -17,7 +17,7 @@
       <?php echo $path."homepage/consultation/consultation.php" ?>">Consultation</a>
       </li>
       <li><a class="<?php echo $monitoring ?>" href="
-      <?php echo $path."homepage/monitoring/monitoring.php?monitor_id=1&week=1" ?>">Monitoring</a>
+      <?php echo $path."homepage/monitoring/monitoring.php" ?>">Monitoring</a>
       </li>
       <li>
         <a class="<?php echo $rnds ?>" href="<?php echo $path ?>homepage/rnds/rnds.php">RND<span

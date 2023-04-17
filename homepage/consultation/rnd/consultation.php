@@ -90,11 +90,17 @@
         $resultClientData = $clientData -> getUserData();
       }
 
+      $isExisting = array('client_status' => "BLANK");
       if($board_page == 5) {
         $monitor -> transact_id = $_SESSION['transact_id'];
         $isExisting = $monitor -> checkRequestMonitorId();
-        // print_r("tite");
+
+        if(!$isExisting) {
+          $isExisting = array('client_status' => "BLANK");
+        }
       }
+
+      print_r($isExisting);
 
     }
 
@@ -669,8 +675,21 @@
             </div>
             <!-- middle -->
             <div>
+
+              <?php switch($isExisting['client_status']) {
+                case "BLANK":
+                  $target = "Request for monitoring";
+                  break;
+                case "ACCEPTED":
+                  $target = "Monitoring accepted";
+                  break;
+                case "PENDING":
+                  $target = "Pending monitoring";
+                  break;
+              } ?>
+
               <button class="button button-tertiary">
-                <?php echo $isExisting['client_status'] != "PENDING" ? "Request for monitoring" : "PENDING MONITORING" ?></button>
+                <?php echo $target ?></button>
             </div>
             <!-- next -->
             <div class="">
@@ -680,7 +699,7 @@
           </div>
         </form>
 
-        <?php if($isExisting['client_status'] != "PENDING") { ?>
+        <?php if($isExisting['client_status'] != "ACCEPTED" && $isExisting['client_status'] != "PENDING") { ?>
         <!-- MODAl - ADD  -->
         <div class="modal-parent modal-notif-parent modal-tool request-monitor overlay-black flex-center hidden">
 
@@ -720,9 +739,6 @@
 
         </div>
         <?php } ?>
-
-
-
 
       </div>
 

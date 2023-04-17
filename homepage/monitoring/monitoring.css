@@ -1,6 +1,47 @@
+.header {
+  padding: 50px 0;
+}
+
 /* board */
 .main {
   flex-direction: column;
+}
+
+main {
+  background: linear-gradient(
+      0deg,
+      rgba(19, 42, 28, 0.7),
+      rgba(19, 42, 28, 0.7)
+    ),
+    url(../../asset/background-sample.jpg);
+  background-size: cover;
+  background-position: center;
+
+  position: relative;
+}
+main .sizing-secondary {
+  width: 90%;
+  min-height: 55vh !important;
+
+  display: flex;
+  align-items: center;
+}
+
+main .search-parent {
+  padding: 0;
+}
+
+main .flex-center {
+  justify-content: center;
+  align-items: center;
+}
+
+main input {
+  width: 250px !important;
+}
+
+.search-parent {
+  padding: 50px 0 20px 0;
 }
 
 .board-progress {
@@ -196,6 +237,30 @@
   color: white;
 }
 
+.side-info {
+  border: 1px solid black;
+  background-color: rgb(228, 253, 228);
+  border-radius: 10px;
+
+  margin: 0 25px;
+}
+.side-info li {
+  padding-left: 10px;
+}
+.side-info a {
+  display: inline;
+  padding: 0;
+  text-decoration: underline;
+  color: #4c673a;
+}
+.side-info a:hover {
+  background-color: transparent !important;
+}
+
+.side-info p {
+  color: black;
+}
+
 .main-content {
   background-color: #f5f5f5;
 }
@@ -230,6 +295,11 @@
 }
 
 /* goals */
+.goal-container .card {
+  border-radius: 0;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+}
 .goal-container h3 {
   color: white;
   background-color: var(--color-green-primary);
@@ -240,7 +310,8 @@
 .goal-list-parent {
   padding: 20px 50px;
   background-color: #80808021;
-  border-radius: 20px;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
 
   display: flex;
   flex-direction: column;
@@ -266,6 +337,10 @@
   pointer-events: none;
 
   color: rgb(141, 141, 141) !important;
+}
+
+.monitoring-result {
+  background-color: rgba(16, 54, 29, 0.448);
 }
 
 .disabled {
@@ -403,10 +478,6 @@
 }
 
 /* END OF MONITORING */
-.monitoring-end-parent {
-  padding: 50px 0;
-}
-
 .monitoring-end-parent .divider .form {
   max-width: 450px;
 }
@@ -449,7 +520,7 @@
 
   flex: 1;
 
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
 
   border-top: 1px solid rgba(0, 0, 0, 0.2);
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);

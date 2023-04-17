@@ -13,19 +13,18 @@ boardParent.addEventListener("click", function (e) {
     goalsContainer.insertAdjacentHTML(
       "beforeend",
       `<div class="container ">
-      <input type="hidden" name="food-take-type[]" value="<?php echo $food ?>">
 
       <!-- Specify goals -->
       <div class="form-input-box input-two ">
         <label for="food-bf-consume">Specify goals <span>*</span></label>
-        <input type='text' name="food-bf-consume[]" value="food consume test 1">
+        <input type='text' name="specify_goal_name[]" value="food consume test 1">
         <p class="form-error-message hidden">Error</p>
       </div>
 
       <!-- Quantity -->
       <div class="form-input-box input-two ">
-        <label for="food-quantity">Quantity <span>*</span></label>
-        <select id="food-quantity" name="food-quantity[]">
+        <label for="food-quantity">Type <span>*</span></label>
+        <select id="food-quantity" name="specify_goal_type[]">
           <option value="volvo">Piece</option>
           <option value="saab">Once</option>
           <option value="fiat">Kg</option>
@@ -49,6 +48,33 @@ boardParent.addEventListener("click", function (e) {
     e.target.closest(".container").remove();
   }
 });
+
+let boardParentOne = document.querySelector(".stage-one-parent");
+
+boardParentOne.addEventListener("click", function (e) {
+  // console.log(e.target);
+
+  if (
+    e.target.classList.contains("overlay-black") ||
+    e.target.classList.contains("button-cancel")
+  ) {
+    boardParentOne.querySelectorAll(".modal-parent").forEach((modal) => {
+      modal.classList.add("hidden");
+    });
+    body.classList.remove("lock-page");
+  }
+
+  if (e.target.classList.contains("button-mini-submit")) {
+    console.log("wiw");
+
+    boardParentOne
+      .querySelector(".modal-monitoring-one-confirmation")
+      .classList.remove("hidden");
+    body.classList.add("lock-page");
+  }
+});
+
+// --------
 
 let boardParentTwo = document.querySelector(".stage-two-parent");
 console.log(boardParentTwo);
@@ -76,8 +102,6 @@ boardParentTwo.addEventListener("click", function (e) {
 
   // update goals --- SUBMIT
   if (e.target.classList.contains("button-update-submit")) {
-    console.log("test");
-
     let modal = document.querySelector(".modal-update-goal");
 
     $.ajax({
@@ -138,8 +162,6 @@ boardParentTwo.addEventListener("click", function (e) {
 
   // extend monitoring --- SUBMIT
   if (e.target.classList.contains("button-extend-submit")) {
-    console.log("test");
-
     let modal = document.querySelector(".modal-extend-monitor");
 
     $.ajax({
@@ -172,8 +194,6 @@ boardParentTwo.addEventListener("click", function (e) {
 
   // end  monitoring --- SUBMIT
   if (e.target.classList.contains("button-end-submit")) {
-    console.log("test");
-
     let modal = document.querySelector(".modal-end-monitor");
 
     $.ajax({

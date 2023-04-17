@@ -80,6 +80,7 @@ class monitor {
     return $data;
   }
 
+  // goals
   // USED
   function getGoals() {
     $sql = "SELECT * FROM `tbl_monitor_client_goal` WHERE monitor_id = :monitor_id";
@@ -93,6 +94,25 @@ class monitor {
     return $data;
   }
 
+  function setGoals() {
+    $sql = "INSERT INTO `tbl_monitor_client_goal` 
+    (`monitor_client_goal_id`, `monitor_id`, `goal_name`, `goal_status`) 
+    VALUES ";
+
+    $markUp = [];
+    foreach($this -> goal_name as  $goal_name) {
+      array_push($markUp, "(NULL, $this->monitor_id, '$goal_name', '0')");
+    }
+
+    $text = join(",", $markUp);
+    $query=$this->db->connect()->prepare($sql.$text);
+
+    if($query->execute()){
+      return true;
+    }
+    return false;
+  }
+
   // USED
   function updateGoals() {
     $sql = "UPDATE `tbl_monitor_client_goal` SET `goal_status` = '1' WHERE `tbl_monitor_client_goal`.`monitor_client_goal_id` = (SELECT monitor_client_goal_id FROM tbl_monitor_client_goal WHERE goal_name = :goal_name);";
@@ -101,9 +121,9 @@ class monitor {
     $query->bindParam(':goal_name', $this-> goal_name);
  
     if($query->execute()){
-      $data = $query->fetch();
+      return true;
     }
-    return $data;
+    return false;
   }
 
   function getMonitoringClient() {
@@ -550,7 +570,6 @@ class monitor {
     }
     return $data;
   }
-
   
   // monitor_day_id	monitor_week_id	day_num	date
   function setMonitorDays() {

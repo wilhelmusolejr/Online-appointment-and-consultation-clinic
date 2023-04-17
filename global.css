@@ -129,6 +129,11 @@ a.button {
 .button-tertiary {
   background-color: #804375;
 }
+
+.button-fourth {
+  background-color: rgb(73, 73, 164);
+}
+
 .button-disabled {
   cursor: not-allowed;
   background-color: gray;

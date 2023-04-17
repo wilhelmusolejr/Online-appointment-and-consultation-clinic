@@ -13,8 +13,8 @@
   $page_title = "Monitoring";
   $monitoring = "nav-current";
 
-  // $currentDate = "2023-04-10";
-  $currentDate = date("Y-m-d");
+  $currentDate = "2023-04-25";
+  // $currentDate = date("Y-m-d");
 
   $monitor = new monitor;
 
@@ -48,40 +48,6 @@
 
     // rnd data
     $rndInfo = $monitor -> getMonitoringRnd();
-
-    // print_r($weekData);
-    $totalDays = count($weekData) * 7;
-
-
-    if($get_week != 1) {
-      $currentWeekMinusOne = $get_week - 1;
-      $monitor -> week_num = $currentWeekMinusOne;
-      $weekDataVerifier = $monitor -> getDayDayData();
-  
-      print_r($weekDataVerifier); 
-  
-      if($weekDataVerifier) {
-        $lastDayOfPrevWeek = end($weekDataVerifier)['date'];
-      } else {
-        // $currentDate = "2023-04-10";
-        $lastDayOfPrevWeek = "2050-01-01";
-      }
-    }
-
-    
-
-    for($i=0; $i < $totalDays; $i++) {
-
-      $date = date_create($monitoringDataBasic['monitor_date']);
-      date_add($date, date_interval_create_from_date_string($i." days"));
-      // print_r("\n");
-      // print_r(date_format($date,"Y-m-d"));
-    }
-    
-    $monitor -> week_num = $get_week;
-
-
-    // print_r($listOfDays);
   }
 
   require_once $path.'includes/starterOne.php';
@@ -108,11 +74,33 @@
     <!-- navigator -->
     <?php require_once $path.'includes/navigator.php'; ?>
 
+    <!-- main content hero header -->
+    <main class="<?php echo isset($_GET['monitor_id']) ? "hidden" :"" ?>">
+      <div class="sizing-secondary">
+        <div class="main-text text-center">
+          <!-- Set up your appointment -->
+          <form action="monitoring.php" class="form search-form flex-center" method="get">
+            <!-- search appoint id  -->
+            <div class="form-input-parent search-parent">
+              <div class="form-input-box">
+                <input type="number" name="monitor_id" placeholder="Enter your monitoring number">
+                <input type="hidden" name="week" value="1">
+                <button type="submit" value="submit" class="button-primary">Search</button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+    </main>
+
   </header>
 
-  <!-- Set up your appointment -->
-  <form action="monitoring.php" class="form search-form" method="get">
 
+  <?php if(isset($_GET['monitor_id'])) { ?>
+  <!-- Set up your appointment -->
+  <form action="monitoring.php" class="form search-form flex-center" method="get">
     <!-- search appoint id  -->
     <div class="form-input-parent search-parent">
       <div class="form-input-box">
@@ -123,6 +111,8 @@
     </div>
 
   </form>
+  <?php } ?>
+
 
 
   <?php if(isset($_GET['monitor_id'])) { ?>
@@ -132,79 +122,27 @@
     <div class="side-bar">
       <ul>
 
-        <li class="text-center">
-          <p>Monitoring #<?php echo $monitor_id ?></p>
-        </li>
+        <div class="side-info">
+          <!-- monitor id -->
+          <li class="text-centers">
+            <p>Monitoring <a
+                href="<?php echo "monitoring.php?monitor_id=".$monitor_id."&week=1" ?>">#<?php echo $monitor_id  ?></a>
+            </p>
+          </li>
 
-        <!-- week 1 -->
-        <li class="active hidden">
-          <a href="monitoring.php?monitor_id=<?php echo $monitor_id ?>&week=<?php echo $get_week ?>"
-            class="text-uppercase">
-            <p>Week 1</p> <i class="fa-solid fa-chevron-right hidden"></i>
-          </a>
+          <!-- appointment id -->
+          <li class="text-centers ">
+            <p>Appointment <a target="_blank"
+                href="<?php echo $path."homepage/consultation/consultation.php?transact_id=".$monitoringData['transact_id'] ?>">#<?php echo $monitoringData['transact_id'] ?></a>
+            </p>
+          </li>
 
-          <ul class="hiddens">
-            <!-- PENDING WORK -->
-            <!-- WEEKLY RESULT  -->
-            <?php $isAllFilledUp = 0; ?>
+          <!-- chief complaint -->
+          <li class="text-centers text-capital">
+            <p><?php echo $monitoringData['chief_complaint'] ?></p>
+          </li>
+        </div>
 
-            <?php foreach($listOfDays as $day) { 
-              
-              // to check if day is filled up
-              $monitor -> day_num = $day['day_num'];
-              $isFilledUp = $monitor -> getDayWeight();
-              
-              $isAllFilledUp += $isFilledUp ? true : false;
-
-              // to check if day is beyond target
-              $isBeyondDate = $currentDate < $day['date'];
-
-              // generate link for day
-              $link_day = "monitoring.php?monitor_id=".$monitor_id."&week=".$get_week."&day=".$day['day_num']."";
-            ?>
-            <li>
-              <a class="<?php echo $isBeyondDate ? "lock":"available" ?> <?php echo $get_day != null && $get_day == $day['day_num'] ? "current-day" : "" ?>"
-                href="<?php echo $link_day ?>">Day
-                <?php echo $day['day_num'] ?>
-                <!-- lock icon -->
-                <?php if($isBeyondDate) { ?>
-                <i class="fa-solid fa-lock"></i>
-                <?php } ?>
-
-                <!-- warning icon -->
-                <?php if(!$isBeyondDate && !$isFilledUp) { ?>
-                <i class="fa-solid fa-exclamation"></i>
-                <?php } ?>
-              </a>
-            </li>
-            <?php } ?>
-
-            <!-- https://www.youtube.com/watch?v=-X3STIvs8y4b -->
-
-            <li><a class="hidden available" href="#">Day 1</a></li>
-            <li><a class="hidden current-day " href="#">Day 2 <i class="fa-solid fa-lock"></i></a></li>
-            <li><a class="hidden lock" href="#">Day 3 <i class="fa-solid fa-lock"></i></a></li>
-            <li><a class="hidden lock" href="#">Day 4 <i class="fa-solid fa-lock"></i></a></li>
-            <li><a class="hidden lock" href="#">Day 5 <i class="fa-solid fa-lock"></i></a></li>
-            <li><a class="hidden lock" href="#">Day 6 <i class="fa-solid fa-lock"></i></a></li>
-            <li><a class="hidden lock" href="#">Day 7 <i class="fa-solid fa-lock"></i></a></li>
-
-            <li>
-              <?php $link_day = "monitoring.php?monitor_id=".$monitor_id."&week=".$get_week."&intervention=true"; ?>
-              <a class="<?php echo $isAllFilledUp < 7? "lock":"available" ?> <?php echo isset($_GET['intervention']) ? "current-day" : "" ?>"
-                href="<?php echo $link_day ?>">Weekly
-                result <?php if($isAllFilledUp < 7) { ?><i class="fa-solid fa-lock"></i><?php } ?></a>
-            </li>
-
-          </ul>
-        </li>
-
-        <!-- week 2 -->
-        <li class="approved-appointment <?php echo isset($approved) ? "active" :"" ?> hidden"><a
-            href="../approved-appointment/approved-appointment.php" class="text-uppercase">
-            <p>Week 2 </p> <i class="fa-solid fa-lock"></i>
-          </a>
-        </li>
 
         <?php foreach($weekData as $week) { ?>
         <!-- week 1 -->
@@ -274,7 +212,8 @@
         <?php } ?>
 
         <!-- Monitoring result  -->
-        <li class="<?php echo $monitoringDataBasic['board_page'] == 2 ? "" :  "active" ?>">
+        <li
+          class="<?php echo $monitoringDataBasic['board_page'] == 2 ? "" :  "lock" ?> <?php echo isset($_GET['monitor_result']) ? "active" : "" ?> monitoring-result">
           <a href="monitoring.php?monitor_id=<?php echo $monitor_id ?>&monitor_result=true" class="text-uppercase">
             <p>Monitoring result </p> <i
               class="fa-solid fa-lock <?php echo $monitoringDataBasic['board_page'] == 2 ? "hidden" : ""?>"></i>
@@ -288,7 +227,7 @@
       <div class="main-content-container card">
 
         <!-- Progress -->
-        <div class="board-progress">
+        <div class="board-progress hidden">
           <div class="main flex-center">
             <ul class="text-center">
               <!-- 1 -->
@@ -1061,6 +1000,10 @@
           <!-- DAY  -->
           <!-- SUBMITTING FORM for MONITORING -->
           <!-- Form -->
+          <p style="margin:50px 0 ">Date:
+            <?php echo 
+            date("D, d M Y", strtotime($listOfDays[$get_day - 1]['date']))
+            ?></p>
           <form class="form form-appoint-submit" action="submitDayMonitor.php" method="post"
             enctype="multipart/form-data">
 
@@ -1810,7 +1753,7 @@
               </div>
               <div class="right">
                 <div class="greeting text-center">
-                  <h3>Hi, Sofia</h3>
+                  <h3>Hi, <?php echo $_SESSION['user_loggedIn']['first_name'] ?></h3>
                   <p>You're on track this week.</p>
                 </div>
                 <div id="calendar" class="calendar">
@@ -1835,7 +1778,7 @@
         <div class="monitoring-end-parent <?php echo isset($_GET['monitor_result']) ? "" : "hidden" ?>">
 
           <div class="greeting ">
-            <h3>Nice work Sofia!</h3>
+            <h3>Nice work <?php echo $_SESSION['user_loggedIn']['first_name'] ?>!</h3>
             <p>Congratulations on achieving your goals.</p>
           </div>
 
@@ -1878,6 +1821,27 @@
 
         </div>
 
+      </div>
+    </div>
+
+    <!-- MODAl - OTHER ACCOUNT IS LOGGED IN -->
+    <div
+      class="modal-parent modal-notif-parent modal-oops-notif overlay-black flex-center <?php echo $monitoringData ? "hidden" : "" ?>">
+
+      <!-- hidden - fox ajax -->
+      <input type="hidden" name="submit" value='true' id="submit">
+
+      <div class="modal-container modal-notif-container sizing-secondary modal-wait">
+        <div class="modal-header text-center">
+          <h2 class="text-uppercase">Something went wrong</h2>
+        </div>
+        <div class="modal-message">
+          <p class="text-center">Monitoring number not found.
+          </p>
+        </div>
+        <div class="modal-buttons">
+          <a href="<?php echo "monitoring.php" ?>" class="button button-back">Go back</a>
+        </div>
       </div>
     </div>
 

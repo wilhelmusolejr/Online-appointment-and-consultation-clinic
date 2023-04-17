@@ -24,6 +24,22 @@ if (modalAppointNotif) {
 }
 
 // =----------------------------------
+
+// const modalError = document.querySelector(".modal-oops-notif");
+
+// modalError.addEventListener("click", function (e) {
+//   console.log(e.target);
+
+//   if (
+//     e.target.classList.contains("overlay-black") ||
+//     e.target.classList.contains("button-cancel")
+//   ) {
+//     body.classList.remove("lock-page");
+//     this.classList.toggle("hidden");
+//   }
+// });
+
+// =----------------------------------
 let sideBarElem = document.querySelector(".side-bar");
 
 sideBarElem.addEventListener("click", function (e) {
