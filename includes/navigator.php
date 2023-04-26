@@ -1,3 +1,14 @@
+<?php 
+  require_once $path.'classes/user.class.php';
+
+  if(isset($_SESSION['user_loggedIn'])) {
+    $user = new user;
+    $user -> user_id = $_SESSION['user_loggedIn']['user_id'];
+    $notification = $user -> getAllNotif();
+  }
+
+?>
+
 <div class="navigator-parent sizing-main">
   <!-- nav -->
   <nav class="nav-container ">
@@ -51,7 +62,7 @@
     <i class="fa-solid fa-bell"></i>
     <i class="fa-solid fa-comments"></i>
 
-    <div class="notification-bar-card hiddens">
+    <div class="notification-bar-card hidden">
       <h3>Notifications</h3>
 
       <ul class="notif-list">

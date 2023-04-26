@@ -309,6 +309,15 @@ outsideProfileCon.addEventListener("click", function (e) {
   floatingProfileCard.classList.toggle("hidden");
 });
 
+let outsideNotifCon = document.querySelector(".fa-bell");
+let floatingNotifCard = document.querySelector(".notification-bar-card");
+
+console.log(outsideNotifCon);
+
+outsideNotifCon.addEventListener("click", function (e) {
+  floatingNotifCard.classList.toggle("hidden");
+});
+
 // BMI CALCULATOR
 // const inputFeetTool = document.querySelector("#feet");
 // const inputInchesTool = document.querySelector("#inches");
