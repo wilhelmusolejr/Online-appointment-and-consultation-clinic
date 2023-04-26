@@ -114,7 +114,7 @@ $(".form-login").on("submit", function (e) {
 
   $.ajax({
     type: "post", //hide url
-    url: `${path}php/request/req-login.php`, //your form validation url
+    url: `${path}php/request/req-login-google.php`, //your form validation url
     data: $(".form-login").serialize(),
     dataType: "json",
     success: function (response) {

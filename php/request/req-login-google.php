@@ -80,5 +80,5 @@ if($userLoggedInData['user_privilege'] == 'rnd') {
 
 
 echo json_encode($response);
-header("Location: ".$path."homepage/index.php");
+// header("Location: ".$path."homepage/index.php");
 exit();
