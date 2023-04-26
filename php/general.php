@@ -4,7 +4,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 function validateInput($data) {
-  $data = trim($data);
+  $data = trim($data, " ");
   $data = stripslashes($data);
   $data = htmlspecialchars($data);
   return $data;

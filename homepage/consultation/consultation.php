@@ -36,6 +36,11 @@
 <link rel="stylesheet" href="status.css">
 <script type="module" src="../index.js" defer></script>
 <script src="consultation.js" defer></script>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js" defer></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js" defer></script>
 <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 <?php require_once $path.'includes/starterTwo.php'; ?>
 
@@ -169,13 +174,13 @@
             <input class='personal-tab hidden' type="radio" name="tabset" id="tab5" aria-controls="dunkles">
             <label class='personal-tab hidden' for="tab5">Personal Information</label>
             <!-- Tab 1 -->
-            <input type="radio" name="tabset" id="tab1" aria-controls="marzen" checked>
+            <input type="radio" name="tabset" id="tab1" aria-controls="marzen">
             <label for="tab1">Consultation Information</label>
             <!-- Tab 2 -->
             <input type="radio" name="tabset" id="tab2" aria-controls="rauchbier">
             <label for="tab2">Food Information</label>
             <!-- Tab 3 -->
-            <input type="radio" name="tabset" id="tab3" aria-controls="dunkles">
+            <input type="radio" name="tabset" id="tab3" aria-controls="dunkles" checked>
             <label for="tab3">Physical Information</label>
             <!-- Tab 4 -->
             <input type="radio" name="tabset" id="tab4" aria-controls="dunkles">
@@ -296,7 +301,7 @@
                       <label for="appointment-date" class="text-capital">Appointment date <span>*</span></label>
                       <input type="date" name="appointment-date" id="appointment-date"
                         placeholder="Enter your middle name" required min="<?php echo date("Y-m-d") ?>"
-                        value="2002-01-01">
+                        value="2023-10-11">
                       <p class="form-error-message hidden">Error</p>
 
                     </div>
@@ -304,7 +309,7 @@
                     <div class="form-input-box input-two">
                       <label for="appointment-time" class="text-capital">Appointment time <span>*</span></label>
                       <input type="time" name="appointment-time" id="appointment-time" min="08:00:00" max="17:00:00"
-                        required>
+                        value="09:00:00" required>
                       <p class="form-error-message hidden">Error</p>
                       <!-- value="01:0s0" -->
                     </div>
@@ -344,34 +349,43 @@
                   <!-- left -->
                   <div class="form-input-parent">
                     <!-- food allergies -->
-                    <div class="form-input-box input-two">
+                    <div class="form-input-box input-two food-allergy">
                       <label for="appoint-food-allergies">Do you have any food allergies? <span>*</span></label>
-                      <input type="text" name="appoint-food-allergies" id="appoint-food-allergies"
-                        placeholder="Peanut, Shrimp" required value="food allergy test">
+                      <div class="tooltip checkbox-container-parent">
+                        <input type="text" name="appoint-food-allergies" id="appoint-food-allergies"
+                          placeholder="E.g Peanut Shrimp" value="<?php echo $multipleInputSample ?>" required>
+                        <span class="tooltiptext"><?php echo $multipleInputMessage ?></span>
+                      </div>
                       <p class="form-error-message hidden">Error</p>
                     </div>
                     <!-- Foods you like -->
-                    <div class="form-input-box input-two">
+                    <div class="form-input-box input-two food-like">
                       <label for="appoint-food-like" class="text-capital">Foods you like <span>*</span></label>
-                      <input type="text" name="appoint-food-like" id="appoint-food-like" placeholder="E.g Salad, Egg"
-                        required value="food like test">
+                      <div class="tooltip checkbox-container-parent">
+                        <input type="text" name="appoint-food-like" id="appoint-food-like" placeholder="E.g Salad Egg"
+                          value="<?php echo $multipleInputSample ?>" required>
+                        <span class="tooltiptext"><?php echo $multipleInputMessage ?></span>
+                      </div>
                       <p class="form-error-message hidden">Error</p>
                     </div>
                     <!-- Foods you dislike -->
-                    <div class="form-input-box input-two">
+                    <div class="form-input-box input-two food-dislike">
                       <label for="appoint-food-like" class="text-capital">Foods you dislike <span>*</span></label>
-                      <input type="text" name="appoint-food-dislike" id="appoint-food-dislike"
-                        placeholder="E.g Seaweed, Fish" required value="food dislike test">
+                      <div class="tooltip checkbox-container-parent">
+                        <input type="text" name="appoint-food-dislike" id="appoint-food-dislike"
+                          placeholder="E.g Seaweed Fish" value="<?php echo $multipleInputSample ?>" required>
+                        <span class="tooltiptext"><?php echo $multipleInputMessage ?></span>
+                      </div>
                       <p class="form-error-message hidden">Error</p>
                     </div>
                     <!-- type of diet -->
                     <div class="form-input-box input-two">
                       <label for="appoint-type-diet">Are you on specific type of diet? <span>*</span></label>
-                      <input list="list-diet" name="appoint-type-diet" id="appoint-type-diet" placeholder="Vegan Diet"
-                        required value="food type diet test">
+                      <input list="list-diet" name="appoint-type-diet" id="appoint-type-diet" value="Vegan diet"
+                        required>
                       <datalist id="list-diet">
-                        <option value="Test">
-                        <option value="Test1">
+                        <option value="Vegan diet" selected>
+                        <option value="Idk diet">
                       </datalist>
                       <p class="form-error-message hidden">Error</p>
                     </div>
@@ -382,31 +396,17 @@
                     <div class="form-input-box form-radio-box">
                       <p>How often do you smoke <span>*</span></p>
                       <div class="gender-con radio-default">
-                        <!-- Daily -->
+
+                        <?php foreach($appoint -> getOftenessForm() as $data) {
+                          $name = "smoke-".$data['status_name']
+                        ?>
                         <div>
-                          <input type="radio" id="smoke-daily" checked name="smoke-level" value="1">
-                          <label for="smoke-daily">Daily</label>
+                          <input type="radio" id="<?php echo $name ?>" name="smoke-level"
+                            value="<?php echo $data['status_id'] ?>" required>
+                          <label for="<?php echo $name ?>"><?php echo $data['status_name'] ?></label>
                         </div>
-                        <!-- Weekly -->
-                        <div>
-                          <input type="radio" id="smoke-weekly" name="smoke-level" value="2">
-                          <label for="smoke-weekly">Weekly</label>
-                        </div>
-                        <!-- Monthly -->
-                        <div>
-                          <input type="radio" id="smoke-monthly" name="smoke-level" value="3">
-                          <label for="smoke-monthly">Monthly</label>
-                        </div>
-                        <!-- Ocassionally -->
-                        <div>
-                          <input type="radio" id="smoke-ocassionally" name="smoke-level" value="4">
-                          <label for="smoke-ocassionally">Ocassionally</label>
-                        </div>
-                        <!-- Never -->
-                        <div>
-                          <input type="radio" id="smoke-never" name="smoke-level" value="5">
-                          <label for="smoke-never">Never</label>
-                        </div>
+                        <?php } ?>
+
                       </div>
                     </div>
                     <!-- Drink liquor -->
@@ -415,31 +415,17 @@
                         <span>*</span>
                       </p>
                       <div class="gender-con radio-default">
-                        <!-- Daily -->
+
+                        <?php foreach($appoint -> getOftenessForm() as $data) {
+                          $name = "drink-".$data['status_name']
+                        ?>
                         <div>
-                          <input type="radio" id="drink-daily" name="drink-level" value="1">
-                          <label for="drink-daily">Daily</label>
+                          <input type="radio" id="<?php echo $name ?>" name="drink-level"
+                            value="<?php echo $data['status_id'] ?>" required>
+                          <label for="<?php echo $name ?>"><?php echo $data['status_name'] ?></label>
                         </div>
-                        <!-- Weekly -->
-                        <div>
-                          <input type="radio" checked id="drink-weekly" name="drink-level" value="2">
-                          <label for="drink-weekly">Weekly</label>
-                        </div>
-                        <!-- Monthly -->
-                        <div>
-                          <input type="radio" id="drink-monthly" name="drink-level" value="3">
-                          <label for="drink-monthly">Monthly</label>
-                        </div>
-                        <!-- Ocassionally -->
-                        <div>
-                          <input type="radio" id="drink-ocassionally" name="drink-level" value="4">
-                          <label for="drink-ocassionally">Ocassionally</label>
-                        </div>
-                        <!-- Never -->
-                        <div>
-                          <input type="radio" id="drink-never" name="drink-level" value="5">
-                          <label for="drink-never">Never</label>
-                        </div>
+                        <?php } ?>
+
                       </div>
                     </div>
                   </div>
@@ -481,105 +467,74 @@
                     </div>
                   </div>
                   <!-- right -->
-                  <div class="form-input-parent ">
+                  <div class="form-input-parent physical-body-type">
                     <!-- Body type -->
                     <div class="form-input-box form-radio-box">
                       <p>Body type <span>*</span></p>
                       <div class="gender-con radio-default">
-                        <!-- Endomorph -->
+
+                        <?php foreach($appoint -> getBodyTypeForm() as $data) { 
+                          $name = "body-type--".$data['body_type_name'];
+                        ?>
                         <div>
-                          <input type="checkbox" checked id="body-type-endomorph" name="body-type[]" value="endomorph">
-                          <label for="body-type-endomorph">Endomorph</label>
+                          <input type="checkbox" id="<?php echo $name ?>" name="body-type[]"
+                            value="<?php echo $data['physical_body_type_id'] ?>" required>
+                          <label for="<?php echo $name ?>"><?php echo $data['body_type_name'] ?></label>
                         </div>
-                        <!-- Ectomorph -->
-                        <div>
-                          <input type="checkbox" id="body-type-ectomorph" name="body-type[]" value="ectomorph">
-                          <label for="body-type-ectomorph">Ectomorph</label>
-                        </div>
-                        <!-- Mesomorph -->
-                        <div>
-                          <input type="checkbox" id="body-type-mesomorph" name="body-type[]" value="mesomorph">
-                          <label for="body-type-mesomorph">Mesomorph</label>
-                        </div>
+                        <?php } ?>
+
                       </div>
                     </div>
                     <!-- Physical activity -->
-                    <div class="form-input-box form-radio-box">
+                    <div class="form-input-box form-radio-box physical-activity">
                       <p>Physical activity <span>*</span></p>
                       <div class="gender-con radio-default">
-                        <!-- Sedentary -->
+
+                        <?php foreach($appoint -> getPhysicalActivtyForm() as $data) { 
+                          $name = "physical-".$data['physical_act_name'];
+                        ?>
                         <div>
-                          <input type="radio" id="physical-sedentary" name="physical-activity" value="sedentary"
-                            checked>
-                          <label for="physical-sedentary">Sedentary</label>
+                          <input type="radio" id="<?php echo $name ?>" name="physical-activity"
+                            value="<?php echo $data['physical_activity_id'] ?>" checked>
+                          <label for="<?php echo $name ?>"><?php echo $data['physical_act_name'] ?></label>
                         </div>
-                        <!-- Light -->
-                        <div>
-                          <input type="radio" id="physical-light" name="physical-activity" value="light">
-                          <label for="physical-light">light</label>
-                        </div>
-                        <!-- Moderate -->
-                        <div>
-                          <input type="radio" id="physical-moderate" name="physical-activity" value="moderate">
-                          <label for="physical-moderate">Moderate</label>
-                        </div>
-                        <!-- Very active -->
-                        <div>
-                          <input type="radio" id="physical-very-active" name="physical-activity" value="very-active">
-                          <label for="physical-very-active">Very active</label>
-                        </div>
+                        <?php } ?>
+
                       </div>
                     </div>
                     <!-- Gain weight -->
-                    <div class="form-input-box form-radio-box">
+                    <div class="form-input-box form-radio-box physical-weight-gain">
                       <p>Do you gain weight <span>*</span></p>
                       <div class="gender-con radio-default">
-                        <!-- Sedentary -->
+
+                        <?php foreach($appoint -> getWeightForm() as $data) { 
+                          $name = "gain-".$data['status_name'];
+                        ?>
                         <div>
-                          <input type="radio" checked id="gain-easily" name="gain-weight-level" value="easily">
-                          <label for="gain-easily">Easily</label>
+                          <input type="radio" id="<?php echo $name ?>" name="gain-weight-level"
+                            value="<?php echo $data['gain_lose_status_id'] ?>" checked>
+                          <label for="<?php echo $name ?>"><?php echo $data['status_name'] ?></label>
                         </div>
-                        <!-- Light -->
-                        <div>
-                          <input type="radio" id="gain-moderately" name="gain-weight-level" value="moderately">
-                          <label for="gain-moderately">Moderately</label>
-                        </div>
-                        <!-- Moderate -->
-                        <div>
-                          <input type="radio" id="gain-slowly" name="gain-weight-level" value="slowly">
-                          <label for="gain-slowly">Slowly</label>
-                        </div>
-                        <!-- Very active -->
-                        <div>
-                          <input type="radio" id="gain-very-slowly" name="gain-weight-level" value="very-slowly">
-                          <label for="gain-very-slowly">Very slowly</label>
-                        </div>
+                        <?php } ?>
+
                       </div>
                     </div>
                     <!-- Lose weight -->
-                    <div class="form-input-box form-radio-box ">
+                    <div class="form-input-box form-radio-box physical-weight-lose">
                       <p>Do you lose weight <span>*</span></p>
                       <div class="gender-con radio-default">
-                        <!-- Sedentary -->
+
+
+                        <?php foreach($appoint -> getWeightForm() as $data) { 
+                          $name = "lose-".$data['status_name'];
+                        ?>
                         <div>
-                          <input type="radio" checked id="lose-easily" name="lose-weight-level" value="easily">
-                          <label for="lose-easily">Easily</label>
+                          <input type="radio" id="<?php echo $name ?>" name="lose-weight-level"
+                            value="<?php echo $data['gain_lose_status_id'] ?>" checked>
+                          <label for="<?php echo $name ?>"><?php echo $data['status_name'] ?></label>
                         </div>
-                        <!-- Light -->
-                        <div>
-                          <input type="radio" id="lose-moderately" name="lose-weight-level" value="moderately">
-                          <label for="lose-moderately">Moderately</label>
-                        </div>
-                        <!-- Moderate -->
-                        <div>
-                          <input type="radio" id="lose-slowly" name="lose-weight-level" value="slowly">
-                          <label for="lose-slowly">Slowly</label>
-                        </div>
-                        <!-- Very active -->
-                        <div>
-                          <input type="radio" id="lose-very-slowly" name="lose-weight-level" value="very-slowly">
-                          <label for="lose-very-slowly">Very slowly</label>
-                        </div>
+                        <?php } ?>
+
                       </div>
                     </div>
                   </div>
@@ -597,82 +552,92 @@
                   <!-- left -->
                   <div class="left-form form-input-parent">
                     <!-- Current Medication -->
-                    <div class="form-input-box ">
+                    <div class="form-input-box medical-current-med">
                       <label for="appoint-actual-weight">Are you currently taking any medication? <span>*</span></label>
-                      <input type="text" name="appoint-medical-current-med" id="appoint-medical-current-med"
-                        placeholder="E.g Ascorbic Acid" required value="medical current test">
+                      <div class="tooltip checkbox-container-parent">
+                        <input type="text" name="appoint-medical-current-med" id="appoint-medical-current-med"
+                          placeholder="E.g Ascorbic Acid" value="<?php echo $multipleInputSample ?>" required>
+                        <span class="tooltiptext"><?php echo $multipleInputMessage ?></span>
+                      </div>
                       <p class="form-error-message hidden">Error</p>
                     </div>
                   </div>
                   <!-- right -->
                   <div class=" form-input-parent ">
                     <!-- health condition -->
-                    <div class="form-input-box form-radio-box">
-                      <p>Do you have any health condition or have been diagnosed in the past? <span>*</span></p>
-                      <div class="gender-con radio-default">
+                    <div class="form-input-box form-radio-box self-past-condition ">
+                      <label>Do you have any health condition or have been diagnosed in the past? <span>*</span></label>
+                      <div class="gender-con radio-default checkbox-container-parent">
                         <!-- Endomorph -->
                         <div>
-                          <input type="checkbox" checked id="self-conditions-diabetes" name="self-condition"
+                          <input type="checkbox" checked id="self-conditions-diabetes" name="self-condition[]"
                             value="Diabetes">
                           <label for="self-conditions-diabetes">Diabetes</label>
                         </div>
                         <!-- Ectomorph -->
                         <div>
-                          <input type="checkbox" id="self-conditions-hypertension" name="self-condition"
+                          <input type="checkbox" id="self-conditions-hypertension" name="self-condition[]"
                             value="Hypertension">
                           <label for="self-conditions-hypertension">Hypertension</label>
                         </div>
                         <!-- Mesomorph -->
                         <div>
-                          <input type="checkbox" id="self-conditions-obese" name="self-condition" value="Obese">
+                          <input type="checkbox" id="self-conditions-obese" name="self-condition[]" value="Obese">
                           <label for="self-conditions-obese">Obese</label>
                         </div>
                         <!-- Mesomorph -->
                         <div>
-                          <input type="checkbox" id="self-conditions-anemia" name="self-condition" value="Anemia">
+                          <input type="checkbox" id="self-conditions-anemia" name="self-condition[]" value="Anemia">
                           <label for="self-conditions-anemia">Anemia</label>
                         </div>
                         <!-- Mesomorph -->
-                        <div class="hidden">
-                          <input type="checkbox" id="health-condition-one-other" name="self-condition"
-                            value="health-condition-one-other">
-                          <label for="health-condition-one-other">If others, specify</label>
-                          <input type="text" id="otherValue" name="self-condition-other" class="hiddens" />
+                        <div class="hiddens ">
+                          <input type="checkbox" id="self-conditions-one-other">
+                          <label for="self-conditions-one-other">If others, specify</label>
+                          <div class="tooltip">
+                            <input type="text" id="self-conditions-otherValue" name="self-condition-other"
+                              value="<?php echo $multipleInputSample ?>" class="hiddens" />
+                            <span class="tooltiptext "><?php echo $multipleInputMessage ?></span>
+                          </div>
                         </div>
                       </div>
                     </div>
                     <!-- family condition -->
-                    <div class="form-input-box form-radio-box">
-                      <p>Is anyone in your family has any health condition in the past? <span>*</span></p>
-                      <div class="gender-con radio-default">
+                    <div class="form-input-box form-radio-box family-past-condition">
+                      <label>Is anyone in your family has any health condition in the past? <span>*</span></label>
+                      <div class="gender-con radio-default checkbox-container-parent">
                         <!-- Endomorph -->
                         <div>
-                          <input type="checkbox" checked id="family-conditions-diabetes" name="family-condition"
+                          <input type="checkbox" checked id="family-conditions-diabetes" name="family-condition[]"
                             value="Diabetes">
                           <label for="family-conditions-diabetes">Diabetes</label>
                         </div>
                         <!-- Ectomorph -->
                         <div>
-                          <input type="checkbox" id="family-conditions-hypertension" name="family-condition"
+                          <input type="checkbox" id="family-conditions-hypertension" name="family-condition[]"
                             value="Hypertension">
                           <label for="family-conditions-hypertension">Hypertension</label>
                         </div>
                         <!-- Mesomorph -->
                         <div>
-                          <input type="checkbox" id="family-conditions-obese" name="family-condition" value="Obese">
+                          <input type="checkbox" id="family-conditions-obese" name="family-condition[]" value="Obese">
                           <label for="family-conditions-obese">Obese</label>
                         </div>
                         <!-- Mesomorph -->
                         <div>
-                          <input type="checkbox" id="family-conditions-anemia" name="family-condition" value="Anemia">
+                          <input type="checkbox" id="family-conditions-anemia" name="family-condition[]" value="Anemia">
                           <label for="family-conditions-anemia">Anemia</label>
                         </div>
                         <!-- Mesomorph -->
-                        <div class="hidden">
-                          <input type="checkbox" id="health-condition-one-other" name="health-condition-one"
-                            value="health-condition-one-other">
-                          <label for="health-condition-one-other">If others, specify</label>
-                          <input type="text" id="otherValue" name="health-condition-one-other" class="hiddens" />
+                        <div class="hiddens ">
+                          <input type="checkbox" id="family-conditions-one-other">
+                          <label for="family-conditions-one-other">If others, specify</label>
+                          <div class="tooltip">
+                            <input type="text" id="family-conditions-otherValue" name="family-condition-one-other"
+                              class="hiddens" value="<?php echo $multipleInputSample ?>" />
+                            <span class="tooltiptext "><?php echo $multipleInputMessage ?></span>
+                          </div>
+
                         </div>
                       </div>
                     </div>
@@ -693,9 +658,11 @@
               <button class="button hidden" disabled>Submit</button>
             </div>
             <!-- next -->
-            <div>
+            <div class="tooltip">
               <a class="button button-semi button-disabled button-primary">Submit
               </a>
+              <!-- NEEDS WORK -->
+              <span class="tooltiptext ">Please fill up the necesarry form</span>
             </div>
             <!-- class="button-semi-submit" -->
             <div class="button-next hidden">

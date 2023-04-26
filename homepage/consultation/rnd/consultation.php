@@ -100,8 +100,6 @@
         }
       }
 
-      print_r($isExisting);
-
     }
 
     // getConsultInfo()

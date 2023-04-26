@@ -1,12 +1,31 @@
 <?php
-$path = "../";
-require $path.'functions/functions.php';
+  $path = "../";
 
-    session_start();
+  require $path.'functions/functions.php';
+  require_once $path."../classes/user.class.php";
 
-    if (!isset($_SESSION['logged-in'])){
-        header('location: '.$path.'login/login.php');
+  session_start();
+
+  if (!isset($_SESSION['logged-in'])){
+    header('location: '.$path.'login/login.php');
+  }
+
+  $current_page = $_SERVER['PHP_SELF'];
+
+
+  $user = new user;
+
+  // user
+  $allValidRnd = $user -> getAllRnd();
+
+  if(isset($_GET['search_text'])) {
+    if ($_GET['search_text'] == "") {
+      header("location: ".$current_page);
+      exit();
     }
+    $user -> search_string = $_GET['search_text'];
+    $allValidRnd = $user -> searchRnd();
+  }
 
 ?>
 <!DOCTYPE html>
@@ -17,6 +36,7 @@ require $path.'functions/functions.php';
   <meta charset="UTF-8">
   <!--<title> Drop Down Sidebar Menu | CodingLab </title>-->
   <link rel="stylesheet" href="../specialist/Specialist.css">
+  <link rel="stylesheet" href="<?php echo $path."global.css" ?>">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -28,125 +48,57 @@ require $path.'functions/functions.php';
 <body>
   <?php require_once $path."includes/side-bar.php" ?>
 
-
-  <section class="home-section">
+  <section class="home-section ">
     <i class='bx bx-menu'></i>
     <span class="text">MANAGE INSTRUCTOR</span>
+
     <div class="home-contents">
       <div class="table-containers">
+
+        <div class="divider-no-border table-tool-parent">
+          <form action="<?php echo $current_page ?>" method="get" class="search-parent">
+            <input type="text" name="search_text" placeholder="Search patient"
+              value="<?php echo isset($_GET['search_text']) ? $_GET['search_text'] : null ?>">
+            <button type="submit" class="button button-primary">SEARCH</button>
+          </form>
+
+          <a href="add-rnd.php" class="button button-primary add-instructor">
+            <i class="fas fa-user-plus"></i>
+            Add Instructor
+          </a>
+        </div>
+
         <table class="table">
-          <div class="table-heading">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>IMAGE</th>
+              <th>EMAIL ADDRESS</th>
+              <th>FULL NAME</th>
+              <th>PHONE NO.</th>
+            </tr>
+          </thead>
+          <tbody>
 
-            <?php
-                    {
-                    ?>
-            <span class="search">
-              <input type="text" placeholder=" Search instructor">
-              <i class="fa-solid fa-magnifying-glass"></i>
-            </span>
-            <span class="add-instructor">
-              <i class="fas fa-user-plus"></i>
-              <a href="addinstructor.php" class="button">Add Instructor</a>
-            </span>
-            <?php
-                    } ?>
-
-          </div>
-          <div class="divider-no-border"></div>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>IMAGE</th>
-                <th>EMAIL ADDRESS</th>
-                <th>FIRST NAME</th>
-                <th>MIDDLE NAME</th>
-                <th>LAST NAME</th>
-                <th>PHONE NO.</th>
-                <th>MODE</th>
-                <th class="action">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php
-
-                            if(!isset($_SESSION['table3'])){
-                                $_SESSION['table3'] = array(
-                                    "0" => array(
-                                        "image" => 'jpg',
-                                        "email_address" => 'maryjane@gwmsu.edu.ph',
-                                        "first_name" => 'Mary Jane',
-                                        "middle_name" => 'Radon',
-                                        "last_name" => 'Alfonso',
-                                        "phone_no." => '09474747474',
-                                        "mode" => 'IDLE'
-                                    ),
-                                    "1" => array(
-                                        "image" => 'jpg',
-                                        "email_address" => 'kim.jong@gwmsu.edu.ph',
-                                        "first_name" => 'Kim',
-                                        "middle_name" => 'Rand',
-                                        "last_name" => 'Jong-un',
-                                        "phone_no." => '095643729812',
-                                        "mode" => 'BUSY'
-                                    ),
-                                    "2" => array(
-                                        "image" => 'jpg',
-                                        "email_address" => 'josh.harg@gwmsu.edu.ph',
-                                        "first_name" => 'Joshua',
-                                        "middle_name" => 'Pilaez',
-                                        "last_name" => 'Hargado',
-                                        "phone_no." => '097442834123',
-                                        "mode" => 'AVAILABLE'
-                                    ),
-                                    "3" => array(
-                                        "image" => 'jpg',
-                                        "email_address" => 'michealranto2@gwmsu.edu.ph',
-                                        "first_name" => 'Micheal',
-                                        "middle_name" => 'Sanchez',
-                                        "last_name" => 'Ranto',
-                                        "phone_no." => '09562856123',
-                                        "mode" => 'AVAILABLE'
-                                    ),
-                                    "4" => array(
-                                        "image" => 'jpg',
-                                        "email_address" => 'maria3andrade@gwmsu.edu.ph',
-                                        "first_name" => 'Maria',
-                                        "middle_name" => 'Resitta',
-                                        "last_name" => 'Andrade',
-                                        "phone_no." => '09875632461',
-                                        "mode" => 'OFFLINE'
-                                    )
-                                );
-                            }
-
-                            //We will now fetch all the records in the array using loop
-                            //use as a counter, not required but suggested for the table
-                            $i = 1;
-                            //loop for each record found in the array
-                            foreach ($_SESSION['table3'] as $key => $value){ //start of loop
-                        ?>
-              <tr>
-                <!-- always use echo to output PHP values -->
-                <td><?php echo_safe($i); ?></td>
-                <td><?php echo_safe($value['image']); ?></td>
-                <td><?php echo_safe($value['email_address']); ?></td>
-                <td><?php echo_safe($value['first_name']); ?></td>
-                <td><?php echo_safe($value['middle_name']); ?></td>
-                <td><?php echo_safe($value['last_name']); ?></td>
-                <td><?php echo_safe($value['phone_no.']); ?></td>
-                <td><?php echo_safe($value['mode']); ?></td>
-                <td class="action">
-                  <a class="action-delete" href="#<?php echo($key);?>">DELETE</a>
-                </td>
-              </tr>
-              <?php
-                            $i++;
-                        //end of loop
-                        }
-                        ?>
-            </tbody>
+            <?php foreach($allValidRnd as $personel) { 
+                $img = $personel['profile_img'] == null ? "dummy_user.jpg" : $personel['profile_img'];
+              ?>
+            <tr>
+              <!-- ID -->
+              <td class="table-id"><a target="_blank"
+                  href="<?php echo $path."../profile/profile.php?profile-id=".$personel['user_id'] ?>">#<?php echo $personel['user_id'] ?></a>
+              </td>
+              <!-- IMG -->
+              <td class="table-patient-img"><img src="<?php echo $path."../uploads/".$img ?>" alt=""></td>
+              <td><?php echo $personel['email'] ?></td>
+              <td><?php echo $personel['first_name']." ".$personel['last_name'] ?></td>
+              <td><?php echo $personel['contact'] ?></td>
+            </tr>
+            <?php } ?>
+          </tbody>
+        </table>
       </div>
+    </div>
   </section>
 
   <script>

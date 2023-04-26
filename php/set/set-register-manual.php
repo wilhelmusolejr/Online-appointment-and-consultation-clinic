@@ -8,10 +8,12 @@
 
   $user = new user;
   $user -> via_googol = $_POST['via-gmail'] == "true" ? true : false;
+
   $user -> email = validateInput($_POST['reg-email']);
   $user -> pass = validateInput($_POST['reg-pass']);
   $user -> status = $_POST['via-gmail'] == "true" ? "VERIFIED" : "UNVERIFIED";
   $user -> user_type = $_POST['account-type'];
+  $user -> user_privilege = "client";
   $user -> first_name = validateInput($_POST['firstname']);
   $user -> middle_name = validateInput($_POST['middlename']);
   $user -> last_name = validateInput($_POST['lastname']);

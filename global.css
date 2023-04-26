@@ -245,8 +245,8 @@ input:invalid {
   padding-bottom: 10px;
 }
 .form-radio-box label {
-  font-weight: 400;
-  color: var(--color-white-faded-form-lbl);
+  /* font-weight: 400; */
+  /* color: var(--color-white-faded-form-lbl); */
 }
 .form-radio-box {
   justify-content: flex-start;
@@ -1313,4 +1313,54 @@ footer .nav-links {
     bottom: 20px;
     padding-bottom: 0;
   }
+}
+
+/* TOOL TIP */
+.tooltip {
+  position: relative;
+  /* display: inline-block; */
+  /* border-bottom: 1px dotted black; */
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 100%;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 120%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.form-button .tooltip .tooltiptext {
+  width: 100%;
+}
+
+.checkbox-container-parent ol {
+  margin-left: 10px;
+  padding-top: 5px;
+}
+.checkbox-container-parent p {
+  font-weight: 200;
+  padding-bottom: 5px;
 }

@@ -1,5 +1,7 @@
 "use strict";
 
+// const { elements } = require("chart.js");
+
 let path = "../../";
 
 const body = document.querySelector("body");
@@ -133,37 +135,114 @@ const boardProgress = boardContainer.querySelector(".board-progress");
 boardContainer.addEventListener("click", function (e) {
   let currentBoardPage = getActiveBoard();
 
-  console.log(e.target);
+  // console.log(e.target);
   // console.log(document.querySelector("select[name='metric']"));
   // console.log($("select[name='metric']").val());
 
   // board 1
+  let checkBoxSelfCondition = document.querySelector(
+    "#self-conditions-one-other"
+  );
+  let inputSelfCondition = document.querySelector(
+    "#self-conditions-otherValue"
+  );
 
-  let allInputs = document.querySelectorAll(".form-appoint-submit input");
+  let checkBoxFamilyCondition = document.querySelector(
+    "#family-conditions-one-other"
+  );
+  let inputFamilyCondition = document.querySelector(
+    "#family-conditions-otherValue"
+  );
+
+  try {
+    if (inputSelfCondition.value) {
+      checkBoxSelfCondition.checked = true;
+    } else {
+      checkBoxSelfCondition.checked = false;
+    }
+
+    if (inputFamilyCondition.value) {
+      checkBoxFamilyCondition.checked = true;
+    } else {
+      checkBoxFamilyCondition.checked = false;
+    }
+  } catch (error) {
+    console.log("aww");
+  }
+
+  // -------------------------------
+
+  let allInputsText = document.querySelectorAll(".form-appoint-submit input");
+  let allInputsRadio = document.querySelectorAll(
+    ".form-appoint-submit input[name='body-type[]']"
+  );
+
+  // console.log(allInputsRadio);
+
   let submitAppointmentBtn = document.querySelector(".button-semi");
 
+  let bodyTypeCounter = [];
+
+  // let canSubmit = getUniqueFromArray(canSubmit);
   let canSubmit = [];
 
-  allInputs.forEach((input) => {
+  allInputsText.forEach((input) => {
     if (input.hasAttribute("required")) {
-      if (!input.value) {
+      console.log("can submit");
+      console.log(canSubmit);
+      // console.log("body type");
+      // console.log(bodyTypeCounter);
+
+      // TEXT
+      if (input.type == "text") {
+        if (!input.value) {
+          canSubmit.push(false);
+        }
+      }
+
+      // RADIO
+      if (input.type == "radio") {
+        if ($("input[name=smoke-level]:checked").length == 0) {
+          canSubmit.push(false);
+        }
+
+        if ($("input[name=drink-level]:checked").length == 0) {
+          canSubmit.push(false);
+        }
+      }
+
+      // checkbox
+      if (input.type == "checkbox") {
+        if ($("input[name='body-type[]']:checked").length == 0) {
+          canSubmit.push(false);
+        }
+
+        if ($("input[name='self-condition[]']:checked").length == 0) {
+          canSubmit.push(false);
+        }
+
+        if ($("input[name='family-condition[]']:checked").length == 0) {
+          canSubmit.push(false);
+        }
+      }
+
+      // DECISION
+      if (canSubmit.length > 0) {
+        // console.log("cannot submit");
+
         submitAppointmentBtn.parentElement.classList.remove(
           "button-semi-submit"
         );
         submitAppointmentBtn.classList.add("button-disabled");
-        // canSubmit = false;
-        canSubmit.push(false);
+        document
+          .querySelector(".form-button .tooltiptext")
+          .classList.remove("hidden");
       } else {
-        if (
-          canSubmit.every(function (input) {
-            return input == true;
-          })
-        ) {
-          submitAppointmentBtn.parentElement.classList.add(
-            "button-semi-submit"
-          );
-          submitAppointmentBtn.classList.remove("button-disabled");
-        }
+        submitAppointmentBtn.parentElement.classList.add("button-semi-submit");
+        submitAppointmentBtn.classList.remove("button-disabled");
+        document
+          .querySelector(".form-button .tooltiptext")
+          .classList.add("hidden");
       }
     }
   });
@@ -364,7 +443,7 @@ function getBoardTwoData(stopper) {
       url: `../../php/request/request-appoint.php`, //your form validation url
       dataType: "json",
       success: function (data) {
-        console.log(data);
+        // console.log(data);
 
         // APPROVED, DECLINED, PENDING
         // Board parent
@@ -601,7 +680,7 @@ function setterInfo(urlTransactId) {
       url: `${path}php/request/req-check-loggedin.php`, //your form validation url
       async: false,
       success: function (data) {
-        console.log(data);
+        // console.log(data);
 
         if (data == 1) {
           // if current the account matches the transact id
@@ -611,6 +690,8 @@ function setterInfo(urlTransactId) {
             data: { transact_id: urlTransactId },
             async: false,
             success: function (data) {
+              // console.log(data);
+
               if (data == 1) {
                 // REDIRECT TO LAST TRANSACT
                 $.ajax({
@@ -620,7 +701,7 @@ function setterInfo(urlTransactId) {
                   data: { transact_id: urlTransactId },
                   async: false,
                   success: function (data) {
-                    console.log(data);
+                    // console.log(data);
                     let currentBoardPage = data.board_page - 1;
                     changePage(currentBoardPage, boardSets, 1);
                     changeBoardProgress(currentBoardPage + 1);
@@ -646,6 +727,10 @@ function setterInfo(urlTransactId) {
                   dataType: "json",
                   success: function (data) {
                     // console.log(data);
+
+                    document
+                      .querySelector(".button-semi")
+                      .classList.add("hidden");
 
                     // CONSULT
                     let consultInfo = data.consultInfo;
@@ -682,6 +767,8 @@ function setterInfo(urlTransactId) {
                       });
 
                     // FOOD
+                    let foodTab = document.querySelector("#food-tab");
+
                     let foodInfo = data.foodInfo;
                     tabulateThenDisabled(
                       "appoint-type-diet",
@@ -689,28 +776,56 @@ function setterInfo(urlTransactId) {
                     );
 
                     // allegy
-                    tabulateThenDisabled(
-                      "appoint-food-allergies",
-                      uniqueAndJoin(data.listFoodAllergy)
-                    );
+                    foodTab.querySelector(
+                      ".food-allergy .checkbox-container-parent"
+                    ).innerHTML = `<ol>${generateLiMarkUp(
+                      data.listFoodAllergy
+                    )}</ol>`;
 
                     // like
-                    tabulateThenDisabled(
-                      "appoint-food-like",
-                      uniqueAndJoin(data.listFoodLike)
-                    );
+                    // tabulateThenDisabled(
+                    //   "appoint-food-like",
+                    //   uniqueAndJoin(data.listFoodLike)
+                    // );
+                    foodTab.querySelector(
+                      ".food-like .checkbox-container-parent"
+                    ).innerHTML = `<ol>${generateLiMarkUp(
+                      data.listFoodLike
+                    )}</ol>`;
 
                     // dislike
-                    tabulateThenDisabled(
-                      "appoint-food-dislike",
-                      uniqueAndJoin(data.listFoodDislike)
-                    );
+                    foodTab.querySelector(
+                      ".food-dislike .checkbox-container-parent"
+                    ).innerHTML = `<ol>${generateLiMarkUp(
+                      data.listFoodDislike
+                    )}</ol>`;
 
                     disableCheckbox("smoke-level", foodInfo.smoke_level_id);
                     disableCheckbox("drink-level", foodInfo.drink_level_id);
 
                     //  PHYSICAL
                     let physicalInfo = data.physicalInfo;
+
+                    // gain weight
+                    disableCheckbox(
+                      "gain-weight-level",
+                      physicalInfo["gain_weight_level_id"]
+                    );
+
+                    // lose weight
+                    disableCheckbox(
+                      "lose-weight-level",
+                      physicalInfo["lose_weight_level_id"]
+                    );
+
+                    // physical
+                    disableCheckbox(
+                      "physical-activity",
+                      physicalInfo["physical_activity_id"]
+                    );
+
+                    // physical
+                    disableCheckbox("body-type[]", data.bodyTypeList);
 
                     tabulateThenDisabled(
                       "appoint-actual-weight",
@@ -721,50 +836,34 @@ function setterInfo(urlTransactId) {
                       physicalInfo.current_height
                     );
 
-                    // NEEDS FIXING
-                    // VALUE OF INPUT IN CHECK BOXES AND SQL QUERY
-                    // physical
-                    disableCheckbox(
-                      "physical-activity",
-                      physicalInfo.physical_activity_id
-                    );
-                    // gain weight
-                    disableCheckbox(
-                      "gain-weight-level",
-                      physicalInfo.gain_weight_level_id
-                    );
-                    // lose weight
-                    disableCheckbox(
-                      "lose-weight-level",
-                      physicalInfo.lose_weight_level_id
-                    );
-
-                    // bodytype
-                    document
-                      .querySelectorAll("input[name='body-type[]']")
-                      .forEach((elem) => {
-                        elem.checked = false;
-                        elem.disabled = true;
-                      });
-
                     // MEDICAL
-                    let medicalInfo = data.medicalInfo;
+                    let medicalTab = document.querySelector("#medical-tab");
 
+                    // ------------------
                     // current medication
-                    tabulateThenDisabled(
-                      "appoint-medical-current-med",
-                      medicalInfo.current_medication
-                    );
+                    medicalTab.querySelector(
+                      ".medical-current-med .checkbox-container-parent"
+                    ).innerHTML = `<ol>${generateLiMarkUp(
+                      data.listMedicalCurrentMed
+                    )}</ol>`;
 
-                    disableCheckbox(
-                      "self-condition",
-                      medicalInfo.self_past_condition_id
-                    );
+                    // ------------------
+                    // self past condition
+                    document.querySelector(
+                      ".self-past-condition .checkbox-container-parent"
+                    ).innerHTML = `<ol>${generateLiMarkUp(
+                      data.listMedicalSelf
+                    )}</ol>
+                    `;
 
-                    disableCheckbox(
-                      "family-condition",
-                      medicalInfo.family_past_condition_id
-                    );
+                    // ------------------
+                    // family past condition
+                    document.querySelector(
+                      ".family-past-condition .checkbox-container-parent"
+                    ).innerHTML = `<ol>${generateLiMarkUp(
+                      data.listMedicalFamily
+                    )}</ol>
+                    `;
                   },
                   error: function () {
                     console.log("ERROR at getting data");
@@ -1118,6 +1217,16 @@ function tabulateThenDisabled(target, data, type = "input") {
   $(`${type}[name='${target}']`).attr("disabled", true);
 }
 
+function generateLiMarkUp(data) {
+  let markUp = ``;
+
+  getUniqueFromArray(data).forEach((elem) => {
+    markUp += `<li><p>${elem}</p></li>`;
+  });
+
+  return markUp;
+}
+
 function getUniqueFromArray(data) {
   return [...new Set(data)];
 }
@@ -1131,10 +1240,17 @@ function uniqueAndJoin(data) {
 }
 
 function disableCheckbox(target, data) {
+  let arr = [];
+  if (Array.isArray(data)) {
+    arr = [...data];
+  } else {
+    arr.push(data);
+  }
+
   document.querySelectorAll(`input[name='${target}']`).forEach((elem) => {
     elem.disabled = true;
     elem.checked = false;
-    if (parseInt(elem.value) == data) {
+    if (arr.includes(parseInt(elem.value))) {
       elem.checked = true;
     }
   });

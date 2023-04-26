@@ -61,6 +61,19 @@ if(isset($_GET['transact_id']) || isset($_SESSION['transact_id'])) {
         array_push($bodyTypeList, $type['body_type_name']);
       }
 
+
+      // medical 
+      // current med
+      $currentMed = [];
+      $self_condition = [];
+      $family_condition = [];
+
+      foreach($appoint -> getMedicalInfoo() as $test) {
+        array_push($currentMed, $test['medical_name']);
+        array_push($self_condition, $test['self_past_name']);
+        array_push($family_condition, $test['family_past_name']);
+      }
+
       $data = array(
         "appointmentInfo" => $appointInfo,
         "consultInfo" => $consultInfo,
@@ -71,7 +84,10 @@ if(isset($_GET['transact_id']) || isset($_SESSION['transact_id'])) {
         "listFoodAllergy" => $listFoodAllergy,
         "listFoodLike" => $listFoodLike,
         "listFoodDislike" => $listFoodDislike,
-        "bodyTypeList" => $bodyTypeList
+        "bodyTypeList" => $bodyTypeList,
+        "listMedicalCurrentMed" => $currentMed,
+        "listMedicalSelf" => $self_condition,
+        "listMedicalFamily" => $family_condition
       );
 
       echo json_encode($data);

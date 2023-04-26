@@ -18,6 +18,8 @@
   $consult -> rnd_id = $_SESSION['transact_rnd_id'];
   $listOfApproved = $consult -> getApprovedAppoint();
 
+  // print_r($listOfApproved);
+
   require_once $path.'includes/starterOne.php';  
 ?>
 <link rel="stylesheet" href="approved-appointment.css" />
@@ -47,24 +49,24 @@
               <tr class="text-uppercase">
                 <th>Appointment number</th>
                 <th>Chief complaint</th>
-                <th>Appointment status</th>
-                <th>RND assigned</th>
+                <th>Date</th>
+                <th>Client</th>
               </tr>
               <?php foreach($listOfApproved as $transact) { 
                 date_default_timezone_set('Asia/Manila');
                 $mydate = strtotime($transact['appoint_date']." ".$transact['appoint_time']);
                 ?>
               <tr class="hiddens">
-                <td class="appointment-number">#<?php echo $transact['transact_id'] ?></td>
+                <td class="appointment-number"><a target="_blank"
+                    href="<?php echo $path."homepage/consultation/rnd/consultation.php?transact_id=".$transact['transact_id'] ?>">#<?php echo $transact['transact_id'] ?>
+                </td></a>
+
                 <td><?php echo $transact['chief_complaint'] ?></td>
                 <td>
-                  <?php echo date('F j, Y, g:i a', $mydate) ?>
+                  <?php echo date('D, d M Y, g:i a', $mydate) ?>
                 </td>
-                <td>
-                  <div class="button-parent flex-center">
-                    <a href="#" class="button button-accept">Accept</a>
-                    <a href="#" class="button button-denaid">Denaid</a>
-                  </div>
+                <td class="client_name">
+                  <?php echo $transact['first_name']." ".$transact['last_name'] ?>
                 </td>
               </tr>
               <?php } ?>

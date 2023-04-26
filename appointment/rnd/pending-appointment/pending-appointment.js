@@ -113,7 +113,7 @@ function generatePendingMarkUp(data) {
           <td>
               <div class="button-parent flex-center">
                 <a href="#" class="button button-accept">Accept</a>
-                <a href="#" class="button button-denaid">Denaid</a>
+                <a href="#" class="button button-denaid">Decline</a>
               </div>
           </td>
         </tr>

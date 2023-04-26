@@ -1,12 +1,33 @@
 <?php
-$path = "../";
-require $path.'functions/functions.php';
+  $path = "../";
+  
+  require $path.'functions/functions.php';
+  require_once $path."../classes/user.class.php";
+  require_once $path."../classes/appoint.class.php";
 
-    session_start();
 
-    if (!isset($_SESSION['logged-in'])){
-        header('location: '.$path.'login/login.php');
+  session_start();
+
+  if (!isset($_SESSION['logged-in'])){
+    header('location: '.$path.'login/login.php');
+  }  
+
+  $current_page = $_SERVER['PHP_SELF'];
+
+  $user = new user;
+  $appoint = new appoint;
+
+  // user
+  $allValidRnd = $user -> getAllRnd();
+
+  if(isset($_GET['search_text'])) {
+    if ($_GET['search_text'] == "") {
+      header("location: ".$current_page);
+      exit();
     }
+    $user -> search_string = $_GET['search_text'];
+    $allValidRnd = $user -> searchRnd();
+  }
 
 ?>
 <!DOCTYPE html>
@@ -17,6 +38,7 @@ require $path.'functions/functions.php';
   <meta charset="UTF-8">
   <!--<title> Drop Down Sidebar Menu | CodingLab </title>-->
   <link rel="stylesheet" href="../specialist/specialist.css">
+  <link rel="stylesheet" href="<?php echo $path."global.css" ?>">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -30,85 +52,60 @@ require $path.'functions/functions.php';
 
   <section class="home-section">
     <i class='bx bx-menu'></i>
-    <span class="text">MANAGE INSTRUCTOR</span>
+    <span class="text">MANAGE RND</span>
     <div class="home-contents">
       <div class="table-containers">
+
+        <div class="divider-no-border table-tool-parent">
+
+          <form action="<?php echo $current_page ?>" method="get" class="search-parent">
+            <input type="text" name="search_text" placeholder="Search patient"
+              value="<?php echo isset($_GET['search_text']) ? $_GET['search_text'] : null ?>">
+            <button type="submit" class="button button-primary">SEARCH</button>
+          </form>
+
+          <a class="button button-primary add-instructor hidden">
+            <i class="fas fa-user-plus"></i>
+            Add Instructor
+          </a>
+        </div>
+
+
+
         <table class="table">
-          <div class="table-heading">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>IMAGE</th>
+              <th>Full NAME</th>
+              <th>TOTAL PATIENT</th>
+            </tr>
+          </thead>
+          <tbody>
 
-            <?php
-                    {
-                    ?>
-            <span class="search">
-              <input type="text" placeholder=" Search instructor">
-              <i class="fa-solid fa-magnifying-glass"></i>
-            </span>
-            <span class="add-instructor">
-              <i class="fas fa-user-plus"></i>
-              <a href="addinstructor.php" class="button">Add Instructor</a>
-            </span>
-            <?php
-                    } ?>
+            <?php foreach($allValidRnd as $personel) { 
+                $img = $personel['profile_img'] == null ? "dummy_user.jpg" : $personel['profile_img'];
+                
+                $appoint -> rnd_id = $personel['user_id'];
+                $patient_handled = $appoint -> getTotalNumHandledPatient()[0];
+              ?>
+            <tr>
+              <!-- ID -->
+              <td class="table-id"><a target="_blank"
+                  href="<?php echo $path."../profile/profile.php?profile-id=".$personel['user_id'] ?>">#<?php echo $personel['user_id'] ?></a>
+              </td>
+              <!-- IMG -->
+              <td class="table-patient-img"><img src="<?php echo $path."../uploads/".$img ?>" alt=""></td>
+              <!-- full name -->
+              <td><?php echo $personel['first_name']." ".$personel['last_name'] ?></td>
+              <!-- total patient handled -->
+              <td><?php echo $patient_handled ?></td>
+            </tr>
+            <?php } ?>
+          </tbody>
 
-          </div>
-          <div class="divider-no-border"></div>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>IMAGE</th>
-                <th>TOTAL PATIENT</th>
-                <th class="action">ACTION</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php
-                            if(!isset($_SESSION['table2'])){
-                                $_SESSION['table2'] = array(
-                                    "0" => array(
-                                        "image" => 'jpg',
-                                        "total_patient" => '10',
-                                    ),
-                                    "1" => array(
-                                      "image" => 'jpg',
-                                      "total_patient" => '23',
-                                    ),
-                                    "2" => array(
-                                      "image" => 'jpg',
-                                      "total_patient" => '18',
-                                    ),
-                                    "3" => array(
-                                      "image" => 'jpg',
-                                      "total_patient" => '23'
-                                    ),
-                                    "4" => array(
-                                      "image" => 'jpg',
-                                      "total_patient" => '20'
-                                    )
-                                );
-                            }
+        </table>
 
-                            //We will now fetch all the records in the array using loop
-                            //use as a counter, not required but suggested for the table
-                            $i = 1;
-                            //loop for each record found in the array
-                            foreach ($_SESSION['table2'] as $key => $value){ //start of loop
-                        ?>
-              <tr>
-                <!-- always use echo to output PHP values -->
-                <td><?php echo_safe($i); ?></td>
-                <td><?php echo_safe($value['image']); ?></td>
-                <td><?php echo_safe($value['total_patient']); ?></td>
-                <td class="action">
-                  <a class="action-delete" href="#<?php echo($key);?>">DELETE</a>
-                </td>
-              </tr>
-              <?php
-                            $i++;
-                        //end of loop
-                        }
-                        ?>
-            </tbody>
       </div>
   </section>
 

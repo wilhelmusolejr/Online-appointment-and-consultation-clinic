@@ -58,3 +58,8 @@ Variables for board page to trigger
 7. Password     = Should also equal to the "Confirm password"
 8. Email        = Should be valid email
 9. 
+
+
+
+---------------------- CHECKPOINT ----------------------
+NEEDS WORK

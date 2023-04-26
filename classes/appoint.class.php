@@ -56,6 +56,11 @@ Class appoint{
     // board
     public $current_board_page;
 
+    // search
+    public $search_string;
+
+    public $rnd_id;
+
     protected $db;
 
     function __construct()
@@ -142,9 +147,26 @@ Class appoint{
     function getMedicalInfo() {
         $sql = "SELECT * FROM `tbl_transact_appoint_medical` LEFT JOIN tbl_transact_appoint on tbl_transact_appoint_medical.appoint_id = tbl_transact_appoint.appoint_id WHERE tbl_transact_appoint_medical.appoint_id = :appointId;";
         $query=$this->db->connect()->prepare($sql);
+
         $query->bindParam(':appointId', $this->appoint_id);
+        
         if($query->execute()){
             $data = $query->fetch();
+        }
+        return $data;
+    }
+
+    function getMedicalInfoo() {
+        $sql = "SELECT med_fam.family_past_name, med_self.self_past_name, med_cur.medical_name FROM tbl_transact_appoint_medical_family_past_con as med_fam 
+        INNER JOIN tbl_transact_appoint_medical_self_past_con as med_self ON med_self.appoint_id = med_fam.appoint_id 
+        INNER JOIN tbl_transact_appoint_medical_current_med as med_cur ON med_cur.appoint_id = med_fam.appoint_id 
+        WHERE med_cur.appoint_id = :appoint_id;";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':appoint_id', $this->appoint_id);
+
+        if($query->execute()){
+            $data = $query->fetchAll();
         }
         return $data;
     }
@@ -311,21 +333,47 @@ Class appoint{
     }
 
     function setMedicalInfo() {
-        $sql = "INSERT INTO `tbl_transact_appoint_medical` (`medical_id`, `appoint_id`, `current_medication`, 
-        `self_past_condition_id`, `family_past_condition_id`) VALUES (NULL, :appoint_id, :current_medication, :self_past_condition_id,
-         :family_past_condition_id)";
-        $query=$this->db->connect()->prepare($sql);
+        
+        if(sizeof($this -> medical_curent) >= 1) {
+            $sql = "INSERT INTO `tbl_transact_appoint_medical_current_med` (`medical_current_med_id`, `appoint_id`, `medical_name`) VALUES ";
 
-        $query->bindParam(':appoint_id', $this->appoint_id);
-        $query->bindParam(':current_medication', $this->medical_curent);
-        $query->bindParam(':self_past_condition_id', $this->medical_past_condition);
-        $query->bindParam(':family_past_condition_id', $this->medical_family_condition);
+            $values = [];
 
-        if($query->execute()){
-            return true;
+            foreach($this -> medical_curent as $name) {
+                array_push($values, "(NULL, $this->appoint_id, '$name')");
+            }
+
+            $final = join(",", $values);
+            $query=$this->db->connect()->prepare($sql.$final);
+            $query->execute();
         }
-        else{
-            return false;
+
+        if(sizeof($this -> medical_past_condition) >= 1) {
+            $sql = "INSERT INTO `tbl_transact_appoint_medical_self_past_con` (`medical_self_past_con_id`, `appoint_id`, `self_past_name`) VALUES ";
+
+            $values = [];
+
+            foreach($this -> medical_past_condition as $name) {
+                array_push($values, "(NULL, $this->appoint_id, '$name')");
+            }
+
+            $final = join(",", $values);
+            $query=$this->db->connect()->prepare($sql.$final);
+            $query->execute();
+        }
+
+        if(sizeof($this -> medical_family_condition) >= 1) {
+            $sql = "INSERT INTO `tbl_transact_appoint_medical_family_past_con` (`medical_family_past_con_id`, `appoint_id`, `family_past_name`) VALUES ";
+
+            $values = [];
+
+            foreach($this -> medical_family_condition as $name) {
+                array_push($values, "(NULL, $this->appoint_id, '$name')");
+            }
+
+            $final = join(",", $values);
+            $query=$this->db->connect()->prepare($sql.$final);
+            $query->execute();
         }
     }
 
@@ -469,8 +517,13 @@ Class appoint{
     }
 
     function getAppointTable() {
-        $sql = "SELECT * FROM tbl_transact INNER JOIN tbl_transact_appoint as transact_appoint ON tbl_transact.transact_id = transact_appoint.transact_id INNER JOIN tbl_transact_appoint_consult AS appoint_consult ON transact_appoint.appoint_id = appoint_consult.appoint_id INNER JOIN tbl_transact_appoint_checkpoint_appoint_status as ck_appoint_status ON tbl_transact.transact_id = ck_appoint_status.transact_id INNER JOIN tbl_transact_appoint_checkpoint_rnd_status AS ck_appoint_rnd_status ON tbl_transact.transact_id = ck_appoint_rnd_status.transact_id LEFT JOIN tbl_user_profile ON ck_appoint_rnd_status.rnd_id = tbl_user_profile.user_id WHERE tbl_transact.user_id
-         = :user_id;";
+        $sql = "SELECT * FROM tbl_transact 
+        INNER JOIN tbl_transact_appoint as transact_appoint ON tbl_transact.transact_id = transact_appoint.transact_id 
+        INNER JOIN tbl_transact_appoint_consult AS appoint_consult ON transact_appoint.appoint_id = appoint_consult.appoint_id 
+        INNER JOIN tbl_transact_appoint_checkpoint_appoint_status as ck_appoint_status ON tbl_transact.transact_id = ck_appoint_status.transact_id 
+        INNER JOIN tbl_transact_appoint_checkpoint_rnd_status AS ck_appoint_rnd_status ON tbl_transact.transact_id = ck_appoint_rnd_status.transact_id 
+        LEFT JOIN tbl_user_profile ON ck_appoint_rnd_status.rnd_id = tbl_user_profile.user_id 
+        WHERE tbl_transact.user_id = :user_id;";
         $query=$this->db->connect()->prepare($sql);
 
         $query->bindParam(':user_id', $this-> user_id);
@@ -516,6 +569,145 @@ Class appoint{
             return true;
         }
         return false;
+    }
+
+    function searchListAppointment() {
+        $search_string = $this -> search_string;
+
+        $sql = "SELECT * FROM tbl_transact 
+        INNER JOIN tbl_transact_appoint as transact_appoint ON tbl_transact.transact_id = transact_appoint.transact_id 
+        INNER JOIN tbl_transact_appoint_consult AS appoint_consult ON transact_appoint.appoint_id = appoint_consult.appoint_id 
+        INNER JOIN tbl_transact_appoint_checkpoint_appoint_status as ck_appoint_status ON tbl_transact.transact_id = ck_appoint_status.transact_id 
+        INNER JOIN tbl_transact_appoint_checkpoint_rnd_status AS ck_appoint_rnd_status ON tbl_transact.transact_id = ck_appoint_rnd_status.transact_id 
+        LEFT JOIN tbl_user_profile ON ck_appoint_rnd_status.rnd_id = tbl_user_profile.user_id 
+        WHERE tbl_transact.user_id = :user_id 
+        AND 
+        (chief_complaint LIKE '%".$search_string."%' 
+        OR first_name LIKE '%".$search_string."%' 
+        OR last_name LIKE '%".$search_string."%' 
+        OR tbl_transact.transact_id = :search_string
+        )";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':user_id', $this-> user_id);
+        $query->bindParam(':search_string', $this-> search_string);
+
+        if($query->execute()){
+            $data = $query->fetchAll();
+        }
+        return $data;
+    }
+
+    function totalAppointment() {
+        $sql = "SELECT COUNT(*) FROM `tbl_transact`";
+        $query=$this->db->connect()->prepare($sql);
+
+        if($query->execute()){
+            $data = $query->fetch();
+        }
+        return $data;
+    }
+
+    function getTotalNumAppointment() {
+        $sql = "SELECT COUNT(*) as total_appointment FROM `tbl_transact` 
+        INNER JOIN tbl_transact_appoint_checkpoint_rnd_status as tbl_transact_ck_rnd ON tbl_transact_ck_rnd.transact_id = tbl_transact.transact_id 
+        WHERE tbl_transact_ck_rnd.rnd_id = :rnd_id;";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':rnd_id', $this-> rnd_id);
+
+        if($query->execute()){
+            $data = $query->fetch();
+        }
+        return $data;
+    }
+
+    function getTotalNumActiveAppointment() {
+        $sql = "SELECT COUNT(*) as total_active_appointment FROM `tbl_transact` 
+        INNER JOIN tbl_transact_appoint_checkpoint_rnd_status as tbl_transact_ck_rnd ON tbl_transact_ck_rnd.transact_id = tbl_transact.transact_id 
+        WHERE tbl_transact_ck_rnd.rnd_id = :rnd_id AND tbl_transact.board_page < 5;";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':rnd_id', $this-> rnd_id);
+
+        if($query->execute()){
+            $data = $query->fetch();
+        }
+        return $data;
+    }
+
+    function getTotalNumHandledPatient() {
+        $sql = "SELECT COUNT(DISTINCT tbl_transact.user_id) as patient_handled FROM `tbl_transact` 
+        INNER JOIN tbl_transact_appoint_checkpoint_rnd_status as tbl_transact_ck_rnd ON tbl_transact_ck_rnd.transact_id = tbl_transact.transact_id 
+        WHERE tbl_transact_ck_rnd.rnd_id = :rnd_id;";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':rnd_id', $this-> rnd_id);
+
+        if($query->execute()){
+            $data = $query->fetch();
+        }
+        return $data;
+    }
+
+    function getStatAppointStatus() {
+        $data = [];
+
+        $target = ['APPROVED', 'PENDING', 'DECLINED'];
+
+        foreach($target as $targ) {
+            $sql = "SELECT COUNT(*) FROM `tbl_transact_appoint_checkpoint_appoint_status` 
+            WHERE appoint_status = '".$targ."'";
+
+            $query=$this->db->connect()->prepare($sql);
+            
+            if($query->execute()){
+                $result = $query->fetch();
+                array_push($data, $result);
+            }
+        }
+
+        return $data;
+    }
+
+    function getPhysicalActivtyForm() {
+        $sql = "SELECT * FROM `tbl_physical_activity` ";
+        $query=$this->db->connect()->prepare($sql);
+
+        if($query->execute()){
+            $result = $query->fetchAll();
+        }
+        return $result;
+    }
+
+    function getWeightForm() {
+        $sql = "SELECT * FROM tbl_weight_gain_lose_status";
+        $query=$this->db->connect()->prepare($sql);
+
+        if($query->execute()){
+            $result = $query->fetchAll();
+        }
+        return $result;
+    }
+
+    function getBodyTypeForm() {
+        $sql = "SELECT * FROM tbl_physical_body_type";
+        $query=$this->db->connect()->prepare($sql);
+
+        if($query->execute()){
+            $result = $query->fetchAll();
+        }
+        return $result;
+    }
+
+    function getOftenessForm() {
+        $sql = "SELECT * FROM tbl_transact_appoint_food_status";
+        $query=$this->db->connect()->prepare($sql);
+
+        if($query->execute()){
+            $result = $query->fetchAll();
+        }
+        return $result;
     }
 }
 

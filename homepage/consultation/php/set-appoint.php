@@ -7,6 +7,9 @@
 
   session_start();
 
+  // echo json_encode($_POST);
+  // exit();
+
   $resultTotal = array("errorResponse" => [], "transact_id" => null);
 
   if (!isset($_SESSION['user_loggedIn'])) {
@@ -70,11 +73,26 @@
       $appoint-> lose_weight_level = $_POST['lose-weight-level'];
   
       // medical
-      $appoint-> medical_curent = validateInput($_POST['appoint-medical-current-med']);
-      // $appoint-> medical_past_condition = $_POST['health-condition-one'];
-      $appoint-> medical_past_condition = 1;
-      // $appoint-> medical_family_condition = $_POST['health-condition-one'];
-      $appoint-> medical_family_condition = 1;
+      
+      $current_medication = [];
+      // current med
+      foreach(explode(",", $_POST['appoint-medical-current-med']) as $name) {
+        array_push($current_medication, validateInput($name));
+      }
+
+      // fam
+      foreach(explode(",", $_POST['family-condition-one-other']) as $name) {
+        array_push($_POST['family-condition'], validateInput($name));
+      }
+    
+      // self
+      foreach(explode(",", $_POST['self-condition-other']) as $name) {
+        array_push($_POST['self-condition'], validateInput($name));
+      }
+      
+      $appoint-> medical_curent = $current_medication;
+      $appoint-> medical_past_condition = $_POST['family-condition'];
+      $appoint-> medical_family_condition = $_POST['self-condition'];
       
       // client
       if($appoint-> appoint_for == 1) {

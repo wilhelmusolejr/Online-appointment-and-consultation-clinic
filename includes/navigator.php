@@ -107,7 +107,7 @@
             <p>Appointment</p>
           </a>
         </li>
-        <li><a href="#"><i class="fa-solid fa-tv"></i>
+        <li><a href="<?php echo $path."monitoring/rnd/monitoring-history.php" ?>"><i class="fa-solid fa-tv"></i>
             <p>Monitoring</p>
           </a>
         </li>

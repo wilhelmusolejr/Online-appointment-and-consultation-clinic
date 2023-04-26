@@ -11,7 +11,9 @@ $target = "profile_img";
 $file = $_FILES[$target];
 
 $target_dir = $path."uploads/";
-$result = array("response"=> 1,"message" => null);
+// $result = array("response"=> 1,"message" => null);
+$result = ['response' => 1, "message" => null];
+
 if($file['name'] != "") {
   $fileType = strtolower(pathinfo($file['name'],PATHINFO_EXTENSION));
 
@@ -47,11 +49,13 @@ if($file['name'] != "") {
   move_uploaded_file($_FILES[$target]['tmp_name'], $target_dir.$_FILES[$target]['name']);
 }
 
+
+
 $user = new user;
 
 $user -> user_id = intval($_POST['profile-id']);
 $user -> profile_img = $file['name'] == "" ? $_SESSION['user_loggedIn']['profile_img'] : $fileName;
-$user -> user_type = $_POST['account-type'];
+$user -> user_type = isset($_POST['account-type']) ? $_POST['account-type'] : "rnd";
 
 $user -> first_name = validateInput($_POST['firstname']);
 $user -> middle_name = validateInput($_POST['middlename']);
@@ -63,14 +67,16 @@ $user -> pass = $_POST['reg-pass-confirm'] == "" ? "" : $_POST['reg-pass-confirm
 
 // CHECK IF changepassword
 if($user -> pass) {
-  $result = $user -> updateUserAccount();
+  $results = $user -> updateUserAccount();
 }
 
-$result = $user -> updateUserProfile();
+$results = $user -> updateUserProfile();
 
-if($result) {
+if($results) {
   $userLoggedInData = $user -> getUserData();
   $_SESSION['user_loggedIn'] = $userLoggedInData;
+  // header("location: ".$path."profile/profile.php");
+  // exit();
 }
   
 

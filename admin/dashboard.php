@@ -7,6 +7,18 @@
     header('location: login/login.php');
   }
 
+  require_once $path."../classes/monitor.class.php";
+  require_once $path."../classes/appoint.class.php";
+  require_once $path."../classes/user.class.php";
+
+  $appoint = new appoint;
+  $totalAppoint = $appoint -> totalAppointment()[0];
+
+  $monitor = new monitor;
+  $totalMonitor = $monitor -> totalMonitoring()[0];
+
+  $user = new user;
+  $totalPatient = $user -> totalUsers()[0];
 ?>
 
 <!DOCTYPE html>
@@ -17,12 +29,15 @@
   <meta charset="UTF-8">
   <!--<title> Drop Down Sidebar Menu | CodingLab </title>-->
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="<?php echo $path."global.css" ?>">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" defer></script>
+  <script type="module" src="<?php echo $path ?>../node_modules/chart.js/dist/chart.umd.js" defer></script>
+  <script src="dashboard.js" defer></script>
   <title>Admin</title>
 </head>
 
@@ -97,7 +112,7 @@
         </ul>
       </li>
   </div> -->
-  <?php require_once $path."includes/side-bar.php" ?>
+  <?php require_once "includes/side-bar.php" ?>
 
   <section class="home-section">
     <i class='bx bx-menu'></i>
@@ -106,26 +121,31 @@
       <div class="name">
         <div class="overview-boxes">
           <?php { ?>
+
+          <!-- Total patient -->
           <div class="box">
             <div class="right-side">
-              <div class="number">5</div>
-              <div class="box-topic">TOTAL APPOINTMENT</div>
-              <div class="time">Today</div>
+              <div class="number"><?php echo $totalPatient ?></div>
+              <div class="box-topic">TOTAL PATIENT</div>
+              <div class="time hidden">Yesterday</div>
             </div>
           </div>
 
+          <!-- Total appoinement -->
           <div class="box">
             <div class="right-side">
-              <div class="number">25</div>
-              <div class="box-topic">TOTAL USER</div>
-              <div class="time">Yesterday</div>
+              <div class="number"><?php echo $totalAppoint ?></div>
+              <div class="box-topic">TOTAL APPOINTMENT</div>
+              <div class="time hidden">Today</div>
             </div>
           </div>
+
+          <!-- Total monitoring -->
           <div class="box">
             <div class="right-side">
-              <div class="number">8</div>
+              <div class="number"><?php echo $totalMonitor ?></div>
               <div class="box-topic">TOTAL MONITORING</div>
-              <div class="time">Last Seven Days</div>
+              <div class="time hidden">Last Seven Days</div>
             </div>
           </div> <?php
                  }?>
@@ -137,9 +157,11 @@
 
         <div class="overview-boxes">
           <?php {?>
-          <div class="chart">
+          <div class="chart chart-one flex-center">
+            <canvas id="sex"></canvas>
           </div>
-          <div class="chart">
+          <div class="chart chart-two flex-center">
+            <canvas id="appointment"></canvas>
           </div>
           <?php
              }?>

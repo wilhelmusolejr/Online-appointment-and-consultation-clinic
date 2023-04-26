@@ -85,8 +85,9 @@ $(".form-edit-profile").on("submit", function (e) {
     contentType: false,
     cache: false,
     processData: false,
-    async: false,
     success: function (response) {
+      console.log(response);
+
       // FILE CHECKING
       if (response.response == 0) {
         $(`.profile-image .form-error-message`).html(response.message);

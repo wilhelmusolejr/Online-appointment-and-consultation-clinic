@@ -36,6 +36,8 @@ class monitor {
 
   public $goal_name;
 
+  public $search_string;
+
   protected $db;
 
   function __construct() {
@@ -576,7 +578,6 @@ class monitor {
     $sql = "INSERT INTO `tbl_monitor_day` 
     (`monitor_day_id`, `monitor_week_id`, `day_num`, `date`) 
     VALUES (NULL, :monitor_week_id, :day_num, :date)";
-
     $query=$this->db->connect()->prepare($sql);
 
     $query->bindParam(':monitor_week_id', $this-> monitor_week_id);
@@ -587,6 +588,56 @@ class monitor {
       return true;
     }
     return false;
+  }
+
+  function getMonitorTable() {
+    $sql = "SELECT * FROM `tbl_monitor` 
+    INNER JOIN tbl_transact ON tbl_transact.transact_id = tbl_monitor.transact_id 
+    INNER JOIN tbl_transact_appoint_checkpoint_rnd_status as tbl_transact_ck_rnd ON tbl_transact_ck_rnd.transact_id = tbl_monitor.transact_id 
+    INNER JOIN tbl_transact_appoint ON tbl_transact_appoint.transact_id = tbl_monitor.transact_id 
+    INNER JOIN tbl_transact_appoint_consult ON tbl_transact_appoint_consult.appoint_id = tbl_transact_appoint.appoint_id 
+    WHERE tbl_transact_ck_rnd.rnd_id = :rnd_id;";
+    $query=$this->db->connect()->prepare($sql);
+
+    $query->bindParam(':rnd_id', $this-> rnd_id);
+
+    if($query->execute()){
+      $data = $query->fetchAll();
+    }
+    return $data;
+  }
+
+  function searchListMonitor() {
+    $search_string = $this -> search_string;
+
+    $sql = "SELECT * FROM `tbl_monitor` 
+    INNER JOIN tbl_transact ON tbl_transact.transact_id = tbl_monitor.transact_id 
+    INNER JOIN tbl_transact_appoint_checkpoint_rnd_status as tbl_transact_ck_rnd ON tbl_transact_ck_rnd.transact_id = tbl_monitor.transact_id 
+    INNER JOIN tbl_transact_appoint ON tbl_transact_appoint.transact_id = tbl_monitor.transact_id 
+    INNER JOIN tbl_transact_appoint_consult ON tbl_transact_appoint_consult.appoint_id = tbl_transact_appoint.appoint_id 
+    WHERE tbl_transact_ck_rnd.rnd_id = :rnd_id 
+    AND 
+    (tbl_monitor.monitor_id = :search_string 
+    OR tbl_transact_appoint_consult.chief_complaint LIKE '%".$search_string."%');";
+    $query=$this->db->connect()->prepare($sql);
+
+    $query->bindParam(':rnd_id', $this-> rnd_id);
+    $query->bindParam(':search_string', $this-> search_string);
+
+    if($query->execute()){
+      $data = $query->fetchAll();
+    }
+    return $data;
+  }
+
+  function totalMonitoring() {
+    $sql = "SELECT COUNT(*) FROM `tbl_monitor`";
+    $query=$this->db->connect()->prepare($sql);
+
+    if($query->execute()){
+        $data = $query->fetch();
+    }
+    return $data;
   }
 
 

@@ -1,8 +1,3 @@
-.sizing-secondary {
-  width: 90%;
-  padding: 50px 0;
-}
-
 table,
 th,
 td {
@@ -27,11 +22,7 @@ th {
 }
 td {
   font-size: clamp(1.6rem, 5vw, 1.8rem);
-  padding: 25px 0;
-}
-
-.client_name {
-  width: 20%;
+  padding: 20px 0;
 }
 
 .appointment-number a {
@@ -68,14 +59,6 @@ td p.card {
   background-color: #e5b1b1;
 }
 
-.button-accept {
-  background-color: #35c949;
-  margin-right: 10px;
-}
-.button-denaid {
-  background-color: #c93535;
-}
-
 /* search  */
 .search-form {
   width: 100%;
@@ -99,15 +82,4 @@ td p.card {
 }
 .search-parent .form-input-box button {
   border-radius: 0;
-}
-
-.modal-appointment-confirmation a.button-cancel {
-  color: black !important;
-}
-
-.modal-positive {
-  background-color: #effff4;
-}
-.modal-negative {
-  background-color: #fff0ef;
 }

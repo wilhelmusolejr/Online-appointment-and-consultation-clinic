@@ -11,6 +11,7 @@ Class user{
     public $pass;
     public $status;
 
+    public $user_privilege;
     public $user_type;
     public $first_name;
     public $middle_name;
@@ -29,6 +30,9 @@ Class user{
 
     public $verification_code;
 
+    public $search_string;
+
+
     protected $db;
 
     function __construct() {
@@ -36,7 +40,9 @@ Class user{
     }
 
     function getAllRnd() {
-        $sql = "SELECT * FROM tbl_user_profile WHERE user_privilege = 'rnd'";
+        $sql = "SELECT * FROM tbl_user_profile 
+        INNER JOIN tbl_user_acc_info ON tbl_user_acc_info.user_id = tbl_user_profile.user_id 
+        WHERE user_privilege = 'rnd'";
         $query=$this->db->connect()->prepare($sql);
 
         if($query->execute()){
@@ -111,10 +117,11 @@ Class user{
     function register() {
         $sql = "INSERT INTO `tbl_user_profile` (`user_id`, `user_privilege`, `user_type`,
         `first_name`, `middle_name`, `last_name`, `contact`, `gender`, `birthdate`, `profile_img`) 
-        VALUES (NULL, 'client', :user_type, :first_name, :middle_name, :last_name, :contact, 
+        VALUES (NULL, :user_privilege, :user_type, :first_name, :middle_name, :last_name, :contact, 
             :gender, :birthdate, NULL)";
         $query=$this->db->connect()->prepare($sql);
 
+        $query->bindParam(':user_privilege', $this-> user_privilege);
         $query->bindParam(':user_type', $this-> user_type);
         $query->bindParam(':first_name', $this-> first_name);
         $query->bindParam(':middle_name', $this-> middle_name);
@@ -139,6 +146,26 @@ Class user{
                 return true;
             }
             return false;
+        }
+        return false;
+    }
+
+    function updateProfileImage() {
+        $sql = "UPDATE `tbl_user_profile` SET `profile_img` = :profile_img 
+        WHERE `tbl_user_profile`.`user_id` = 
+        (SELECT user_id FROM tbl_user_profile 
+        WHERE first_name = :first_name
+        AND last_name = :last_name 
+        AND birthdate = :birthdate);";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':profile_img', $this-> profile_img);
+        $query->bindParam(':first_name', $this-> first_name);
+        $query->bindParam(':last_name', $this-> last_name);
+        $query->bindParam(':birthdate', $this-> birthdate);
+
+        if($query->execute()) {
+            return true;
         }
         return false;
     }
@@ -366,6 +393,94 @@ Class user{
             return true;
         }
         return false;
+    }
+
+    function totalUsers() {
+        $sql = "SELECT COUNT(*) FROM `tbl_user_profile` 
+        INNER JOIN tbl_user_acc_info ON tbl_user_acc_info.user_id = tbl_user_profile.user_id 
+        WHERE user_privilege = 'client' AND tbl_user_acc_info.status = 'VERIFIED';";
+        $query=$this->db->connect()->prepare($sql);
+    
+        if($query->execute()){
+            $data = $query->fetch();
+        }
+        return $data;
+    }
+
+    function getAllValidPatient() {
+        $sql = "SELECT tbl_user_profile.*, tbl_user_acc_info.*, tbl_user_identification.status as id_status  FROM `tbl_user_profile` 
+        INNER JOIN tbl_user_acc_info ON tbl_user_acc_info.user_id = tbl_user_profile.user_id 
+        LEFT JOIN tbl_user_identification ON tbl_user_identification.user_id = tbl_user_profile.user_id 
+        WHERE user_privilege = 'client' 
+        AND tbl_user_acc_info.status = 'VERIFIED';";
+        $query=$this->db->connect()->prepare($sql);
+
+        if($query->execute()){
+            $data = $query->fetchAll();
+        }
+        return $data;
+    }
+
+
+    function searchPatient() {
+        $search_string = $this -> search_string;
+
+        $sql = "SELECT tbl_user_profile.*, tbl_user_acc_info.*, tbl_user_identification.status as id_status  FROM `tbl_user_profile` 
+        INNER JOIN tbl_user_acc_info ON tbl_user_acc_info.user_id = tbl_user_profile.user_id 
+        LEFT JOIN tbl_user_identification ON tbl_user_identification.user_id = tbl_user_profile.user_id 
+        WHERE user_privilege = 'client' 
+        AND tbl_user_acc_info.status = 'VERIFIED' AND 
+        (tbl_user_acc_info.email LIKE '%".$search_string."%' 
+        OR tbl_user_profile.first_name LIKE '%".$search_string."%' 
+        OR tbl_user_profile.last_name LIKE '%".$search_string."%')
+        ";
+        $query=$this->db->connect()->prepare($sql);
+
+        if($query->execute()){
+            $data = $query->fetchAll();
+        }
+        return $data;
+    }
+
+    function searchRnd() {
+        $search_string = $this -> search_string;
+
+        $sql = "SELECT * FROM tbl_user_profile 
+        INNER JOIN tbl_user_acc_info ON tbl_user_acc_info.user_id = tbl_user_profile.user_id 
+        WHERE user_privilege = 'rnd' 
+        AND (tbl_user_profile.first_name LIKE '%".$search_string."%' 
+        OR tbl_user_profile.last_name LIKE '%".$search_string."%' 
+        OR tbl_user_acc_info.email LIKE '%".$search_string."%' 
+        OR tbl_user_profile.contact LIKE '%".$search_string."%' 
+        OR tbl_user_profile.user_id = '%".$search_string."%');";
+        $query=$this->db->connect()->prepare($sql);
+
+        if($query->execute()){
+            $data = $query->fetchAll();
+        }
+        return $data;
+    }
+
+    function getSexStatistics() {
+        $data = [];
+
+        $sql = "SELECT COUNT(*) as female_count FROM `tbl_user_profile` WHERE gender = 2;";
+        $query=$this->db->connect()->prepare($sql);
+
+        if($query->execute()){
+            $result = $query->fetch();
+            array_push($data, $result[0]);
+        }
+
+        $sql = "SELECT COUNT(*) as male_count FROM `tbl_user_profile` WHERE gender = 1;";
+        $query=$this->db->connect()->prepare($sql);
+
+        if($query->execute()){
+            $result = $query->fetch();
+            array_push($data, $result[0]);
+        }
+
+        return $data;
     }
 }
 

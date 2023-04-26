@@ -231,9 +231,12 @@ class consult {
 
   // get approved appointment
   function getApprovedAppoint() {
-    $sql = "SELECT * FROM `tbl_transact_appoint_checkpoint_rnd_status` as ck_rnd_status INNER JOIN tbl_transact ON ck_rnd_status.transact_id = tbl_transact.transact_id 
-    INNER JOIN tbl_transact_appoint as transact_appoint ON tbl_transact.transact_id = transact_appoint.transact_id INNER JOIN tbl_transact_appoint_consult as appoint_consult 
-    ON transact_appoint.appoint_id = appoint_consult.appoint_id WHERE ck_rnd_status.rnd_id = :rnd_id AND ck_rnd_status.rnd_status = 'APPROVED';";
+    $sql = "SELECT * FROM `tbl_transact_appoint_checkpoint_rnd_status` as ck_rnd_status 
+    INNER JOIN tbl_transact ON ck_rnd_status.transact_id = tbl_transact.transact_id 
+    INNER JOIN tbl_transact_appoint as transact_appoint ON tbl_transact.transact_id = transact_appoint.transact_id 
+    INNER JOIN tbl_transact_appoint_consult as appoint_consult ON transact_appoint.appoint_id = appoint_consult.appoint_id 
+    INNER JOIN tbl_transact_appoint_client ON transact_appoint.appoint_id = tbl_transact_appoint_client.appoint_id 
+    WHERE ck_rnd_status.rnd_id = :rnd_id AND ck_rnd_status.rnd_status = 'APPROVED';";
     $query=$this->db->connect()->prepare($sql);
   
     $query->bindParam(':rnd_id', $this-> rnd_id);

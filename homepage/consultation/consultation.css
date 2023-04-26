@@ -203,7 +203,7 @@ section.board-parent {
   gap: 20px;
 }
 .form-button > div {
-  flex: 1;
+  /* flex: 1; */
   /* min-width: 250px; */
 
   display: flex;
