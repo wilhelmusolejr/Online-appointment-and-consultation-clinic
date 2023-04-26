@@ -709,6 +709,19 @@ Class appoint{
         }
         return $result;
     }
+
+    function getApprovedAppointment() {
+        $sql = "SELECT * FROM `tbl_transact` 
+        INNER JOIN tbl_transact_appoint ON tbl_transact_appoint.transact_id = tbl_transact.transact_id 
+        INNER JOIN tbl_transact_appoint_consult ON tbl_transact_appoint_consult.appoint_id = tbl_transact_appoint.appoint_id 
+        INNER JOIN tbl_user_profile ON tbl_user_profile.user_id = tbl_transact.user_id;";
+        $query=$this->db->connect()->prepare($sql);
+
+        if($query->execute()){
+            $result = $query->fetchAll();
+        }
+        return $result;
+    }
 }
 
 ?>
