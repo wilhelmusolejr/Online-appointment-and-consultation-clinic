@@ -4,10 +4,17 @@
   session_start();
 
   require_once $path.'classes/user.class.php';
+  require_once $path."classes/monitor.class.php";
+  require_once $path."classes/appoint.class.php";
   require_once $path.'tools/variables.php';
   
   $page_title = "Homepage";
   $home = "nav-current";
+
+  $user = new user;
+  $totalPatient = $user -> totalUsers()[0];
+  $allValidRnd = $user -> getAllRnd();
+
 
   require_once $path.'includes/starterOne.php';
 ?>
@@ -48,12 +55,12 @@
   <div class="data-info-parent flex-center">
     <div class="data-info-container flex-center text-uppercase text-center">
       <div class="data-info-box flex-center card">
-        <h3>18</h3>
+        <h3><?php echo sizeof($allValidRnd) ?></h3>
         <p>RND<span class="text-initial">s</span></p>
       </div>
       <div class="data-info-box flex-center card">
-        <h3>18</h3>
-        <p>RND<span class="text-initial">s</span></p>
+        <h3><?php echo $totalPatient ?></h3>
+        <p>Patient<span class="text-initial">s</span></p>
       </div>
     </div>
   </div>
