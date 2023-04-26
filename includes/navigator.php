@@ -51,20 +51,17 @@
     <i class="fa-solid fa-bell"></i>
     <i class="fa-solid fa-comments"></i>
 
-    <div class="notification-bar-card hidden">
+    <div class="notification-bar-card hiddens">
       <h3>Notifications</h3>
 
       <ul class="notif-list">
-        <li class="notif-item"><a href="#">
-            <p class="notif-name">You have assigned to a new appointment</p>
-            <p class="notif-time">1 hour ago</p>
+        <?php foreach($notification as $notif) { ?>
+        <li class="notif-item"><a href="<?php echo $notif['link'] ?>">
+            <p class="notif-name"><?php echo $notif['message'] ?></p>
+            <p class="notif-time"><?php echo $notif['created_at']?></p>
           </a>
         </li>
-        <li class="notif-item"><a href="#">
-            <p class="notif-name">You have assigned to a new appointment</p>
-            <p class="notif-time">1 hour ago</p>
-          </a>
-        </li>
+        <?php } ?>
       </ul>
 
       <div class="notif-show-all text-center">

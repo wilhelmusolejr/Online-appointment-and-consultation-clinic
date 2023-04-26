@@ -5,8 +5,16 @@
 
   require_once $path.'classes/user.class.php';
   require_once $path.'tools/variables.php';
+  
   $page_title = "Homepage";
   $home = "nav-current";
+
+  $user = new user;
+  $user -> user_id = $_SESSION['user_loggedIn']['user_id'];
+  $notification = $user -> getAllNotif();
+
+  print_r($notification);
+
 
   require_once $path.'includes/starterOne.php';
 ?>

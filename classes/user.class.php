@@ -482,6 +482,19 @@ Class user{
 
         return $data;
     }
+
+
+    function getAllNotif() {
+        $sql = "SELECT * FROM tbl_notification WHERE user_id = :user_id";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':user_id', $this-> user_id);
+
+        if($query->execute()){
+            $data = $query->fetchAll();
+        }
+        return $data;
+    }
 }
 
 ?>

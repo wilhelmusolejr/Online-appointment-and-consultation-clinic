@@ -1024,7 +1024,7 @@ footer .nav-links {
   box-shadow: 0 10px 25px 10px rgba(0, 0, 0, 0.2);
 
   position: absolute;
-  top: 90px;
+  top: 100%;
   right: 90px;
 }
 
@@ -1080,9 +1080,10 @@ footer .nav-links {
 }
 
 /* notification */
-.fa-comments {
+.nav-communication {
   position: relative;
 }
+
 .notification-bar-card {
   background-color: var(--color-white-secondary);
 
@@ -1097,8 +1098,8 @@ footer .nav-links {
   box-shadow: 0 10px 25px 10px rgba(0, 0, 0, 0.2);
 
   position: absolute;
-  top: 90px;
-  left: 90px;
+  top: 140%;
+  right: 0;
 }
 
 .notification-bar-card h3 {
