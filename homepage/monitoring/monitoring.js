@@ -177,7 +177,7 @@ $.ajax({
   type: "POST", //hide url
   url: `${path}php/request/req-physical-level.php`, //your form validation url
   dataType: "json",
-  data: { data: message },
+  // data: { data: message },
   success: function (data) {
     new Chart(ctxs, {
       type: "bar",
