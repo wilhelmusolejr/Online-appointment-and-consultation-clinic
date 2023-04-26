@@ -14,8 +14,8 @@ function generatePendingMarkUp(data) {
           <td>${appoint.referral_form_id}</td>
           <td>${appoint.referral_form_id}</td>
           <td class="action">
-            <a class="action-accept" href="../php/update/update-pending-appoint-status.php?transact_id=${appoint.transact_id}">ACCEPT</a>
-            <a class="action-declined" href="#">DECLINE</a>
+            <a class="action-accept" href="../php/update/update-pending-appoint-status.php?transact_id=${appoint.transact_id}&button=accept">ACCEPT</a>
+            <a class="action-declined" href="../php/update/update-pending-appoint-status.php?transact_id=${appoint.transact_id}&button=decline">DECLINE</a>
           </td>
         </tr>
       `;

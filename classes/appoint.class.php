@@ -61,6 +61,8 @@ Class appoint{
 
     public $rnd_id;
 
+    public $btnFeedback;
+
     protected $db;
 
     function __construct()
@@ -559,16 +561,30 @@ Class appoint{
     }
 
     function updateAppointFeedback() {
-        $sql = "UPDATE tbl_transact_appoint_checkpoint_appoint_status SET
-         appoint_status = 'APPROVED' WHERE transact_id = :transact_id;";
-        $query=$this->db->connect()->prepare($sql);
 
-        $query->bindParam(':transact_id', $this-> transact_id);
+        if($this -> btnFeedback == "APPROVED") {
+            $sql = "UPDATE tbl_transact_appoint_checkpoint_appoint_status SET
+            appoint_status = 'APPROVED' WHERE transact_id = :transact_id;";
+           $query=$this->db->connect()->prepare($sql);
+   
+           $query->bindParam(':transact_id', $this-> transact_id);
+   
+           if($query->execute()){
+               return true;
+           }
+           return false;
+        } else {
+            $sql = "UPDATE tbl_transact_appoint_checkpoint_appoint_status SET
+         appoint_status = 'DECLINED' WHERE transact_id = :transact_id;";
+            $query=$this->db->connect()->prepare($sql);
 
-        if($query->execute()){
-            return true;
+            $query->bindParam(':transact_id', $this-> transact_id);
+
+            if($query->execute()){
+                return true;
+            }
+            return false;
         }
-        return false;
     }
 
     function searchListAppointment() {
@@ -721,6 +737,20 @@ Class appoint{
             $result = $query->fetchAll();
         }
         return $result;
+    }
+
+    function declineRnd() {
+        $sql = "UPDATE `tbl_transact_appoint_checkpoint_rnd_status` 
+        SET `rnd_status` = 'DECLINED' 
+        WHERE transact_id = :transact_id;";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':transact_id', $this-> transact_id);
+
+        if($query->execute()){
+            return true;
+        }
+        return false;
     }
 }
 

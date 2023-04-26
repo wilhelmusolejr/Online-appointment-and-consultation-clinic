@@ -68,7 +68,8 @@
                 <div class="modal-buttons flex-center">
                   <a class="button button-cancel">Go back</a>
                   <button type="submit" name='submit' value="submit" class="button button-accept ">Accept</button>
-                  <button type="submit" name='submit' value="submit" class="button button-denaid hidden">Denaid</button>
+                  <button type="submit" name='submit' value="submit"
+                    class="button button-denaid hidden">Decline</button>
                   <a href="<?php echo $_SERVER['PHP_SELF'] ?>" class="button button-primary hidden">Done</a>
                 </div>
               </div>

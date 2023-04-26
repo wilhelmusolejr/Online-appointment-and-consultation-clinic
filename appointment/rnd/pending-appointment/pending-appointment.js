@@ -93,7 +93,7 @@ modalParent.addEventListener("click", function (e) {
         $(".modal-container .button-denaid").addClass("hidden");
         $(".modal-container .button-primary").removeClass("hidden");
         $(".modal-container").addClass("modal-negative");
-        $(".modal-container p").text("Denaid successfully");
+        $(".modal-container p").text("Declined successfully");
       },
       error: function () {
         console.log("fail at ajax");

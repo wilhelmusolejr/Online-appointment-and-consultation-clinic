@@ -58,7 +58,7 @@
   </div>
 
   <!-- communication -->
-  <div class="nav-communication <?php echo isset($_SESSION['loggedIn'])? "": "hidden" ?>">
+  <div class="nav-communication hidden <?php echo isset($_SESSION['loggedIn'])? "": "hidden" ?>">
     <i class="fa-solid fa-bell"></i>
     <i class="fa-solid fa-comments"></i>
 

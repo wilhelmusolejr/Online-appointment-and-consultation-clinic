@@ -11,7 +11,6 @@ $target = "profile_img";
 $file = $_FILES[$target];
 
 $target_dir = $path."uploads/";
-// $result = array("response"=> 1,"message" => null);
 $result = ['response' => 1, "message" => null];
 
 if($file['name'] != "") {

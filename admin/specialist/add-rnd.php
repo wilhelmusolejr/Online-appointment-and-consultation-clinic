@@ -10,38 +10,80 @@
     header('location: '.$path.'login/login.php');
   }
 
+  $user = new user;
   $current_page = $_SERVER['PHP_SELF'];
 
-  $user = new user;
+  $fileError = ['response' => 1, "message" => null];
+  $emailError = ['response' => 1, "message" => null];
+
 
   $isRegistered = 0;
   if(isset($_POST['submit'])) {
-    // print_r($_POST);
+    $target = "profile_image";
+    $file = $_FILES[$target];
 
-    $user -> user_type = "instructor";
-    $user -> user_privilege = "rnd";
-    $user -> first_name = $_POST['first_name'];
-    $user -> middle_name = $_POST['middle_name'];
-    $user -> last_name = $_POST['last_name'];
-    $user -> contact = $_POST['phone_num'];
-    $user -> gender = $_POST['gender'];
-    $user -> birthdate = $_POST['birthdate'];
+    $target_dir = $path."../uploads/";
+  
+    if($file['name'] != "") {
+      $fileType = strtolower(pathinfo($file['name'],PATHINFO_EXTENSION));
     
+      if($file['size'] > 5000000) {
+        $fileError["response"] = 0; 
+        $fileError['message'] = "Your file is too large, only 5mb below.";
+      }
+      
+      // Allow certain file formats
+      if($fileType != "jpg" && $fileType != "png" && $fileType != "jpeg"
+      && $fileType != "pdf" && $fileType != "docx" &&
+      $fileType != "doc" && $fileType != "") {
+        $fileError["response"] = 0; 
+        $fileError['message'] = "Only JPG, JPEG, PNG, PDF, and DOC file types are allowed.";
+      }
+    }
+
     $user -> email = $_POST['email_add'];
-    $user -> pass = $_POST['password'];
-    $user -> status = "VERIFIED";
+    if($user -> checkIfEmailIsregistered()) {
+        $emailError["response"] = 0; 
+        $emailError['message'] = "Account is already registered.";
+    }
 
-    $result = $user -> register();
-    // $result = 1;
+    if($fileError['response'] != 0 && $emailError['response'] != 0) {
+      $user -> user_type = "instructor";
+      $user -> user_privilege = "rnd";
+      $user -> first_name = $_POST['first_name'];
+      $user -> middle_name = $_POST['middle_name'];
+      $user -> last_name = $_POST['last_name'];
+      $user -> contact = $_POST['phone_num'];
+      $user -> gender = $_POST['gender'];
+      $user -> birthdate = $_POST['birthdate'];
+      
+      $user -> email = $_POST['email_add'];
+      $user -> pass = $_POST['password'];
+      $user -> status = "VERIFIED";
 
-    if($result) {
-      print_r("good");
-      $user -> profile_img = $_POST['profile_image'];
-      $result = $user -> updateProfileImage();
-      if($result) {
-        $isRegistered = 1;
-        header("location: personal.php");
-        exit();
+      $resultOne = $user -> register();
+
+      if($resultOne) {
+        // good
+          $firstName = $_SESSION['user_loggedIn']['first_name'];
+          $lastName = $_SESSION['user_loggedIn']['last_name'];
+          $rand = rand(10,100);
+
+          $temp = explode(".", $file["name"]);
+          $fileName = 'profile_img'.'_file_'.$firstName.'_'.$lastName.'_'.$rand.'.' . end($temp);
+          $_FILES[$target]['name'] = $fileName;
+
+          move_uploaded_file($_FILES[$target]['tmp_name'], $target_dir.$_FILES[$target]['name']);
+
+
+        $user -> profile_img = $file['name'] == "" ? NULL : $fileName;
+
+        $resultTwo = $user -> updateProfileImage();
+        if($resultTwo) {
+          $isRegistered = 1;
+          header("location: personal.php");
+          exit();
+        }
       }
     }
   }
@@ -80,7 +122,7 @@
           <h2>Add instructor</h2>
         </div>
 
-        <form action="<?php echo $current_page ?>" method="post" class="form">
+        <form action="<?php echo $current_page ?>" method="post" class="form" enctype="multipart/form-data">
 
           <div class="form-group-parent-parent">
 
@@ -88,7 +130,7 @@
             <div class="input-parent profile-image">
               <label for="profile_image">Profile image <span>*</span></label>
               <input type="file" id="profile_image" name="profile_image" required>
-              <p class="error-text"></p>
+              <p class="error-text"><?php echo $fileError['response'] == 0 ? $fileError['message'] : ""?></p>
             </div>
 
             <div class="form-group">
@@ -142,6 +184,7 @@
               <div class="input-parent">
                 <label for="email_add">Email address <span>*</span></label>
                 <input type="email" id="email_add" name="email_add" value="jenny.hackerman@gmail.com">
+                <p class="error-text"><?php echo $emailError['response'] == 0 ? $emailError['message'] : ""?></p>
               </div>
             </div>
 

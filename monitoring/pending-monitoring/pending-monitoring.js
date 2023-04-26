@@ -96,7 +96,7 @@ modalParent.addEventListener("click", function (e) {
         $(".modal-container .button-denaid").addClass("hidden");
         $(".modal-container .button-primary").removeClass("hidden");
         $(".modal-container").addClass("modal-positive");
-        $(".modal-container p").text("Denaid successfully");
+        $(".modal-container p").text("Decline successfully");
         // }
       },
       error: function () {
