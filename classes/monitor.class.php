@@ -35,6 +35,7 @@ class monitor {
   public $monitor_date;
 
   public $goal_name;
+  public $monitor_client_goal_id;
 
   public $search_string;
 
@@ -117,10 +118,10 @@ class monitor {
 
   // USED
   function updateGoals() {
-    $sql = "UPDATE `tbl_monitor_client_goal` SET `goal_status` = '1' WHERE `tbl_monitor_client_goal`.`monitor_client_goal_id` = (SELECT monitor_client_goal_id FROM tbl_monitor_client_goal WHERE goal_name = :goal_name);";
+    $sql = "UPDATE `tbl_monitor_client_goal` SET `goal_status` = '1' WHERE `tbl_monitor_client_goal`.`monitor_client_goal_id` = :monitor_client_goal_id;";
     $query=$this->db->connect()->prepare($sql);
 
-    $query->bindParam(':goal_name', $this-> goal_name);
+    $query->bindParam(':monitor_client_goal_id', $this-> monitor_client_goal_id);
  
     if($query->execute()){
       return true;

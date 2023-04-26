@@ -53,7 +53,7 @@
 
     $monitor -> week_num = $week_num;
 
-    print_r(end($weekData)['monitor_week_id']);
+    // print_r(end($weekData)['monitor_week_id']);
   }
 
 
@@ -632,10 +632,12 @@
                 <div class="form-input-box form-radio-box">
                   <div class="gender-con radio-default">
 
-                    <?php foreach($listGoals as $goal) { ?>
+                    <?php foreach($listGoals as $goal) {
+                      // print_r($goal);
+                      ?>
                     <div>
                       <input type="checkbox" id="body-type-endomorph<?php echo $goal['monitor_client_goal_id'] ?>"
-                        name="body-type[]" value="<?php echo $goal['goal_name'] ?>"
+                        name="body-type[]" value="<?php echo $goal['monitor_client_goal_id'] ?>"
                         <?php echo $goal['goal_status'] == 1? "checked disabled" : "" ?>>
                       <label
                         for="body-type-endomorph<?php echo $goal['monitor_client_goal_id'] ?>"><?php echo $goal['goal_name'] ?></label>

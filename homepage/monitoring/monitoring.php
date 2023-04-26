@@ -144,7 +144,9 @@
         </div>
 
 
-        <?php foreach($weekData as $week) { ?>
+        <?php foreach($weekData as $week) { 
+          // print_r($week);
+          ?>
         <!-- week 1 -->
         <li class="<?php echo $get_week == $week['week_num'] ? "active" :  "" ?>">
           <a href="monitoring.php?monitor_id=<?php echo $monitor_id ?>&week=<?php echo $week['week_num'] ?>"

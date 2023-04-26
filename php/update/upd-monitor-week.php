@@ -1,5 +1,6 @@
 <?php 
 $path = "../../";
+
 require_once $path.'classes/monitor.class.php';
 
 session_start();
@@ -35,8 +36,8 @@ for ($i = 1; $i <= $extendNumWeek; $i++) {
   $monitor -> updateMonitorWeek();
 
   $weekData = $monitor -> getMonitorWeek();
-  $latestWeekNum = end($weekData)['monitor_week_id'];
-  $monitor -> monitor_week_id = $latestWeekNum;
+  $latestWeekId = end($weekData)['monitor_week_id'];
+  $monitor -> monitor_week_id = $latestWeekId;
 
   // 3. Add day 
   // add new row in tbl_monitor_day 
