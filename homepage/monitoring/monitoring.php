@@ -23,6 +23,10 @@
     $get_week = isset($_GET['week']) ? $_GET['week'] : null;
     $get_day = isset($_GET['day']) ? $_GET['day'] : null;
 
+    if(isset($_SESSION['transact_rnd_id'])) {
+      header('Location: '.$path.'homepage/monitoring/rnd/monitoring.php?monitor_id='.$monitor_id.'&week_num=1');
+    }
+
     // setting variabales
     $monitor -> monitor_id = $monitor_id;
     $monitor -> week_num = $get_week;

@@ -17,7 +17,6 @@
   $monitor -> rnd_id = $_SESSION['transact_rnd_id'];
   $result = $monitor -> getMonitorTable();
 
-  // print_r($result);
 
   if(isset($_GET['search_text'])) {
     $monitor -> search_string = $_GET['search_text'];

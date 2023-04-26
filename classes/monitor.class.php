@@ -608,6 +608,23 @@ class monitor {
     return $data;
   }
 
+
+  function getMonitorTableUser() {
+    $sql = "SELECT * FROM `tbl_monitor` 
+    INNER JOIN tbl_transact ON tbl_transact.transact_id = tbl_monitor.transact_id 
+    INNER JOIN tbl_transact_appoint ON tbl_transact_appoint.transact_id = tbl_monitor.transact_id 
+    INNER JOIN tbl_transact_appoint_consult ON tbl_transact_appoint_consult.appoint_id = tbl_transact_appoint.appoint_id 
+    WHERE tbl_transact.user_id = :user_id;";
+    $query=$this->db->connect()->prepare($sql);
+
+    $query->bindParam(':user_id', $this-> user_id);
+
+    if($query->execute()){
+      $data = $query->fetchAll();
+    }
+    return $data;
+  }
+
   function searchListMonitor() {
     $search_string = $this -> search_string;
 
