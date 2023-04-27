@@ -174,13 +174,13 @@
             <input class='personal-tab hidden' type="radio" name="tabset" id="tab5" aria-controls="dunkles">
             <label class='personal-tab hidden' for="tab5">Personal Information</label>
             <!-- Tab 1 -->
-            <input type="radio" name="tabset" id="tab1" aria-controls="marzen">
+            <input type="radio" name="tabset" id="tab1" aria-controls="marzen" checked>
             <label for="tab1">Consultation Information</label>
             <!-- Tab 2 -->
             <input type="radio" name="tabset" id="tab2" aria-controls="rauchbier">
             <label for="tab2">Food Information</label>
             <!-- Tab 3 -->
-            <input type="radio" name="tabset" id="tab3" aria-controls="dunkles" checked>
+            <input type="radio" name="tabset" id="tab3" aria-controls="dunkles">
             <label for="tab3">Physical Information</label>
             <!-- Tab 4 -->
             <input type="radio" name="tabset" id="tab4" aria-controls="dunkles">
@@ -284,9 +284,9 @@
                   <div class="form-input-parent">
                     <!-- Chief complaint -->
                     <div class="form-input-box input-one">
-                      <label for="appoint-chief-complaint">Chief complaint <span>*</span></label>
+                      <label for="appoint-chief-complaint">Nutrional Concern <span>*</span></label>
                       <input list="list-complaints" name="appoint-chief-complaint" id="appoint-chief-complaint"
-                        placeholder="Diet meal plan" required value="chief complaint">
+                        placeholder="Diet meal plan" required>
                       <datalist id="list-complaints">
                         <option value="Diet Meal Plan">
                         <option value="Nutrition Counseling">
@@ -300,8 +300,7 @@
                     <div class="form-input-box input-two">
                       <label for="appointment-date" class="text-capital">Appointment date <span>*</span></label>
                       <input type="date" name="appointment-date" id="appointment-date"
-                        placeholder="Enter your middle name" required min="<?php echo date("Y-m-d") ?>"
-                        value="2023-10-11">
+                        placeholder="Enter your middle name" required min="<?php echo date("Y-m-d") ?>">
                       <p class="form-error-message hidden">Error</p>
 
                     </div>
@@ -309,7 +308,7 @@
                     <div class="form-input-box input-two">
                       <label for="appointment-time" class="text-capital">Appointment time <span>*</span></label>
                       <input type="time" name="appointment-time" id="appointment-time" min="08:00:00" max="17:00:00"
-                        value="09:00:00" required>
+                        required>
                       <p class="form-error-message hidden">Error</p>
                       <!-- value="01:0s0" -->
                     </div>
@@ -332,7 +331,7 @@
                     <div class="form-input-box input-one">
                       <label for="appointment-more-info" class="text-capital">More information</label>
                       <textarea name="appointment-more-info" class="" id="appointment-more-info"
-                        placeholder="Give additional information about your chief complaint."></textarea>
+                        placeholder="Give additional information about your Nutrional Concern."></textarea>
                     </div>
                   </div>
                 </div>
@@ -353,7 +352,7 @@
                       <label for="appoint-food-allergies">Do you have any food allergies? <span>*</span></label>
                       <div class="tooltip checkbox-container-parent">
                         <input type="text" name="appoint-food-allergies" id="appoint-food-allergies"
-                          placeholder="E.g Peanut Shrimp" value="<?php echo $multipleInputSample ?>" required>
+                          placeholder="E.g Peanut, Shrimp" value="<?php echo $multipleInputSample ?>" required>
                         <span class="tooltiptext"><?php echo $multipleInputMessage ?></span>
                       </div>
                       <p class="form-error-message hidden">Error</p>
@@ -362,7 +361,7 @@
                     <div class="form-input-box input-two food-like">
                       <label for="appoint-food-like" class="text-capital">Foods you like <span>*</span></label>
                       <div class="tooltip checkbox-container-parent">
-                        <input type="text" name="appoint-food-like" id="appoint-food-like" placeholder="E.g Salad Egg"
+                        <input type="text" name="appoint-food-like" id="appoint-food-like" placeholder="E.g Salad, Egg"
                           value="<?php echo $multipleInputSample ?>" required>
                         <span class="tooltiptext"><?php echo $multipleInputMessage ?></span>
                       </div>
@@ -373,7 +372,7 @@
                       <label for="appoint-food-like" class="text-capital">Foods you dislike <span>*</span></label>
                       <div class="tooltip checkbox-container-parent">
                         <input type="text" name="appoint-food-dislike" id="appoint-food-dislike"
-                          placeholder="E.g Seaweed Fish" value="<?php echo $multipleInputSample ?>" required>
+                          placeholder="E.g Seaweed, Fish" value="<?php echo $multipleInputSample ?>" required>
                         <span class="tooltiptext"><?php echo $multipleInputMessage ?></span>
                       </div>
                       <p class="form-error-message hidden">Error</p>
@@ -381,11 +380,15 @@
                     <!-- type of diet -->
                     <div class="form-input-box input-two">
                       <label for="appoint-type-diet">Are you on specific type of diet? <span>*</span></label>
-                      <input list="list-diet" name="appoint-type-diet" id="appoint-type-diet" value="Vegan diet"
-                        required>
+                      <input list="list-diet" name="appoint-type-diet" id="appoint-type-diet" required>
                       <datalist id="list-diet">
-                        <option value="Vegan diet" selected>
-                        <option value="Idk diet">
+                        <option value="Veganism diet" selected>
+                        <option value="Fasting diet">
+                        <option value="Ketogenic diet">
+                        <option value="Gluten-free diet">
+                        <option value="Low-fat diet">
+
+
                       </datalist>
                       <p class="form-error-message hidden">Error</p>
                     </div>
@@ -446,10 +449,10 @@
                     <div class="form-input-box need-metric">
                       <label for="appoint-actual-weight">Actual weight <span>*</span></label>
                       <input type="number" class="need-metrics" min='0' name="appoint-actual-weight"
-                        id="appoint-actual-weight" placeholder="Enter your actual weight" required value="1">
+                        id="appoint-actual-weight" placeholder="E.g 60" required>
                       <select name="metric" class="metric">
-                        <option value="kg">KG</option>
-                        <option value="lbs">LBS</option>
+                        <option value="kg">kg</option>
+                        <option value="lbs">lbs</option>
                       </select>
                       <p class="form-error-message hidden">Error</p>
                     </div>
@@ -457,11 +460,11 @@
                     <div class="form-input-box need-metric">
                       <label for="appoint-current-height" class="text-capital">Current height <span>*</span></label>
                       <input type="number" min='0' name="appoint-current-height" id="appoint-current-height"
-                        placeholder="Enter your current height" required value="1">
+                        placeholder="E.g 170" required>
                       <select name="metric" class="metric">
                         <option value="">ft</option>
                         <option value="spider">m</option>
-                        <option value="goldfish">cm</option>
+                        <option value="goldfish" selected>cm</option>
                       </select>
                       <p class="form-error-message hidden">Error</p>
                     </div>
@@ -478,7 +481,7 @@
                         ?>
                         <div>
                           <input type="checkbox" id="<?php echo $name ?>" name="body-type[]"
-                            value="<?php echo $data['physical_body_type_id'] ?>" required>
+                            value="<?php echo $data['physical_body_type_id'] ?>" checked required>
                           <label for="<?php echo $name ?>"><?php echo $data['body_type_name'] ?></label>
                         </div>
                         <?php } ?>
@@ -495,7 +498,7 @@
                         ?>
                         <div>
                           <input type="radio" id="<?php echo $name ?>" name="physical-activity"
-                            value="<?php echo $data['physical_activity_id'] ?>" checked>
+                            value="<?php echo $data['physical_activity_id'] ?>">
                           <label for="<?php echo $name ?>"><?php echo $data['physical_act_name'] ?></label>
                         </div>
                         <?php } ?>
@@ -512,7 +515,7 @@
                         ?>
                         <div>
                           <input type="radio" id="<?php echo $name ?>" name="gain-weight-level"
-                            value="<?php echo $data['gain_lose_status_id'] ?>" checked>
+                            value="<?php echo $data['gain_lose_status_id'] ?>">
                           <label for="<?php echo $name ?>"><?php echo $data['status_name'] ?></label>
                         </div>
                         <?php } ?>
@@ -530,7 +533,7 @@
                         ?>
                         <div>
                           <input type="radio" id="<?php echo $name ?>" name="lose-weight-level"
-                            value="<?php echo $data['gain_lose_status_id'] ?>" checked>
+                            value="<?php echo $data['gain_lose_status_id'] ?>">
                           <label for="<?php echo $name ?>"><?php echo $data['status_name'] ?></label>
                         </div>
                         <?php } ?>
@@ -553,10 +556,11 @@
                   <div class="left-form form-input-parent">
                     <!-- Current Medication -->
                     <div class="form-input-box medical-current-med">
-                      <label for="appoint-actual-weight">Are you currently taking any medication? <span>*</span></label>
+                      <label for="appoint-actual-weight">Medication that you are currently taking <span>*</span></label>
                       <div class="tooltip checkbox-container-parent">
                         <input type="text" name="appoint-medical-current-med" id="appoint-medical-current-med"
-                          placeholder="E.g Ascorbic Acid" value="<?php echo $multipleInputSample ?>" required>
+                          placeholder="E.g Ascorbic Acid, Vitamin D" value="<?php echo $multipleInputSample ?>"
+                          required>
                         <span class="tooltiptext"><?php echo $multipleInputMessage ?></span>
                       </div>
                       <p class="form-error-message hidden">Error</p>
@@ -570,8 +574,7 @@
                       <div class="gender-con radio-default checkbox-container-parent">
                         <!-- Endomorph -->
                         <div>
-                          <input type="checkbox" checked id="self-conditions-diabetes" name="self-condition[]"
-                            value="Diabetes">
+                          <input type="checkbox" id="self-conditions-diabetes" name="self-condition[]" value="Diabetes">
                           <label for="self-conditions-diabetes">Diabetes</label>
                         </div>
                         <!-- Ectomorph -->
@@ -596,7 +599,7 @@
                           <label for="self-conditions-one-other">If others, specify</label>
                           <div class="tooltip">
                             <input type="text" id="self-conditions-otherValue" name="self-condition-other"
-                              value="<?php echo $multipleInputSample ?>" class="hiddens" />
+                              value="<?php echo $multipleInputSample ?>" placeholder="E.g Ulcer, UTI" class="hiddens" />
                             <span class="tooltiptext "><?php echo $multipleInputMessage ?></span>
                           </div>
                         </div>
@@ -604,11 +607,11 @@
                     </div>
                     <!-- family condition -->
                     <div class="form-input-box form-radio-box family-past-condition">
-                      <label>Is anyone in your family has any health condition in the past? <span>*</span></label>
+                      <label>Do your family has any health condition in the past? <span>*</span></label>
                       <div class="gender-con radio-default checkbox-container-parent">
                         <!-- Endomorph -->
                         <div>
-                          <input type="checkbox" checked id="family-conditions-diabetes" name="family-condition[]"
+                          <input type="checkbox" id="family-conditions-diabetes" name="family-condition[]"
                             value="Diabetes">
                           <label for="family-conditions-diabetes">Diabetes</label>
                         </div>
@@ -634,7 +637,7 @@
                           <label for="family-conditions-one-other">If others, specify</label>
                           <div class="tooltip">
                             <input type="text" id="family-conditions-otherValue" name="family-condition-one-other"
-                              class="hiddens" value="<?php echo $multipleInputSample ?>" />
+                              class="hiddens" value="<?php echo $multipleInputSample ?>" placeholder="E.g Ulcer, UTI" />
                             <span class="tooltiptext "><?php echo $multipleInputMessage ?></span>
                           </div>
 
@@ -684,7 +687,7 @@
                 <h2 class="text-uppercase">Confirm appointment</h2>
               </div>
               <div class="modal-message">
-                <p class="text-center">message</p>
+                <p class="text-center">Are you sure you want to submit this form?</p>
               </div>
               <div class="modal-buttons">
                 <a class="button button-cancel">Go back</a>
@@ -724,7 +727,7 @@
               </div>
               <!-- chief complaint -->
               <div class="form-input-box input-one">
-                <label for="firstname">Chief complaint</label>
+                <label for="firstname">Nutrional Concern</label>
                 <input type="text" name="appoint-chief-complaint" value="LOADING" disabled>
               </div>
               <!-- Date appointment submitted -->
@@ -818,7 +821,7 @@
             <div class="form-input-parent divider-grow">
               <!-- Appointment Numbuh -->
               <div class="form-input-box input-one">
-                <label for="firstname">Chief complaint</label>
+                <label for="firstname">Nutrional Concern</label>
                 <input type="text" name="appoint-chief-complaint" value="LOADING" disabled>
               </div>
 
@@ -929,7 +932,7 @@
             <div class="form-input-parent divider-grow">
               <!-- Appointment Numbuh -->
               <div class="form-input-box input-one">
-                <label for="firstname">Chief complaint</label>
+                <label for="firstname">Nutrional Concern</label>
                 <input type="text" name="appoint-chief-complaint" value="LOADING" disabled>
               </div>
             </div>
@@ -998,7 +1001,7 @@
             <div class="form-input-parent divider-grow">
               <!-- Appointment Numbuh -->
               <div class="form-input-box input-one">
-                <label for="appoint-chief-complaint">Chief complaint</label>
+                <label for="appoint-chief-complaint">Nutrional Concern</label>
                 <input type="text" name="appoint-chief-complaint" value="LOADING" disabled>
               </div>
             </div>

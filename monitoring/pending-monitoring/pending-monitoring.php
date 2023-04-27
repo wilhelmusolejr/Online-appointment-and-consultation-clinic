@@ -43,7 +43,7 @@
               <thead>
                 <tr class="text-uppercase">
                   <th>Appointment number</th>
-                  <th>Chief complaint</th>
+                  <th>Nutrional Concern</th>
                   <th>Monitoring date</th>
                   <th>Action</th>
                 </tr>
@@ -62,11 +62,11 @@
 
               <div class="modal-container modal-notif-container sizing-secondary ">
                 <div class="modal-header text-center">
-                  <h2 class="text-uppercase">Are you sure?</h2>
+                  <h2 class="text-uppercase">Confirm monitoring</h2>
                 </div>
-                <p class="text-center">message</p>
+                <p class="text-center">LOADING</p>
                 <div class="modal-buttons flex-center">
-                  <a class="button button-cancel">Go back</a>
+                  <a class="button button-cancel">Cancel</a>
                   <button type="submit" name='submit' value="submit" class="button button-accept ">Accept</button>
                   <button type="submit" name='submit' value="submit"
                     class="button button-denaid hidden">Decline</button>

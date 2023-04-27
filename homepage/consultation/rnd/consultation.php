@@ -466,9 +466,10 @@
           <div class="modal-parent modal-notif-parent modal-appointment-confirmation overlay-black flex-center hidden">
             <div class="modal-container modal-notif-container sizing-secondary">
               <div class="modal-header text-center">
-                <h2 class="text-uppercase">Sure ka bhie?</h2>
+                <h2 class="text-uppercase">End consultation</h2>
               </div>
-              <p class="text-center">Mark the transaction complete. <br><em>This action cannot be reverted</em></p>
+              <!-- <p class="text-center">Mark the transaction complete. <br><em>This action cannot be reverted</em></p> -->
+              <p class="text-center">Are you sure you want to end this consultation?</p>
               <div class="modal-buttons">
                 <a class="button button-cancel">Go back</a>
                 <div class="button-confirm-final button-confirm-finalThree">
@@ -496,6 +497,7 @@
                   <h3 class="text-uppercase">Personal information</h3>
                   <p>Full name: <span class="client-fullName">LOADING</span></p>
                   <p>Birthdate: <span class="client-birthdate">LOADING</span></p>
+                  <p>Age: <span class="client-age">LOADING</span></p>
                   <p>Sex: <span class="client-sex">LOADING</span></p>
                 </div>
 
@@ -525,7 +527,7 @@
                 </div>
 
                 <!-- Consultation information -->
-                <div class="data-container data-nutritional">
+                <div class="data-container data-nutritional hidden">
                   <h3 class="text-uppercase">Nutritional information</h3>
                   <p>Referral form: <a href="#">test.pdf</a></p>
                   <p>Medical form: <a href="#">test.pdf</a></p>
@@ -612,9 +614,10 @@
           <div class="modal-parent modal-notif-parent modal-appointment-confirmation overlay-black flex-center hidden">
             <div class="modal-container modal-notif-container sizing-secondary">
               <div class="modal-header text-center">
-                <h2 class="text-uppercase">Sure ka bhie?</h2>
+                <h2 class="text-uppercase">Upload file</h2>
               </div>
-              <p class="text-center">Mark the transaction complete. <br><em>This action cannot be reverted</em></p>
+              <!-- <p class="text-center">Mark the transaction complete. <br><em>This action cannot be reverted</em></p> -->
+              <p class="text-center">Are you sure you want to upload this file?</p>
               <div class="modal-buttons">
                 <a class="button button-cancel">Go back</a>
                 <div class="button-confirm-final button-confirm-finalFour">
@@ -715,7 +718,7 @@
                   <div class="form-input-box input-one">
                     <label for="appointment-date" class="text-capital">Appointment date <span>*</span></label>
                     <input type="date" name="appointment-date" required id="appointment-date"
-                      min="<?php echo date("Y-m-d") ?>" value="2023-11-11">
+                      min="<?php echo date("Y-m-d") ?>">
                   </div>
                 </div>
               </div>

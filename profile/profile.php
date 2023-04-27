@@ -13,8 +13,6 @@
   require_once $path.'tools/variables.php';
   $page_title = $_SESSION['user_loggedIn']['first_name'].' '.$_SESSION['user_loggedIn']['last_name'].' | '.$page_name;
 
-  
-
   if(isset($_GET['profile-id'])) {
     $user = new user;
     $user -> user_id = $_GET['profile-id'];
@@ -82,11 +80,13 @@
                 <label for="gender" class="text-capital">Gender</label>
                 <div class="gender-con radio-box flex-center">
                   <div>
-                    <input type="radio" id="male" name="gender" value="Male" checked disabled>
+                    <input type="radio" id="male" name="gender" value="Male"
+                      <?php echo $userData['gender'] == 1 ? "checked" : "" ?> disabled>
                     <label for="male">Male</label>
                   </div>
                   <div>
-                    <input type="radio" id="female" name="gender" value="Female" disabled>
+                    <input type="radio" id="female" name="gender" value="Female"
+                      <?php echo $userData['gender'] == 1 ? "" : "checked" ?> disabled>
                     <label for="female">Female</label>
                   </div>
                 </div>

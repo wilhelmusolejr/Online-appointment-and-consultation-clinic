@@ -21,6 +21,8 @@
     $userData = $user -> getUserData();
   }
 
+  print_r($userData);
+
   require_once $path.'includes/starterOne.php';  
 ?>
 <link rel="stylesheet" href="profile.css" />
@@ -107,12 +109,12 @@
               <div class="gender-con radio-box flex-center">
                 <div>
                   <input type="radio" id="reg-male" name="gender" required value="Male"
-                    <?php echo isset($userData['gender']) == "male" ? "checked":""?>>
+                    <?php echo $userData['gender'] == "1" ? "checked":""?>>
                   <label for="reg-male">Male</label>
                 </div>
                 <div>
                   <input type="radio" id="reg-female" name="gender" required value="Female"
-                    <?php echo isset($userData['gender']) == "female" ? "checked":""?>>
+                    <?php echo $userData['gender'] == "2" ? "checked":""?>>
                   <label for="reg-female">Female</label>
                 </div>
               </div>

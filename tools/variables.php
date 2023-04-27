@@ -11,6 +11,6 @@
 
     $page_name = "WMSU Dietitian Consult";
 
-    $multipleInputMessage = "Put space in between for multiple inputs. Eg. \"Example1 Example2\"";
-    $multipleInputSample = "Example1, Example 2"
+    $multipleInputMessage = "Put comma in between for multiple inputs. Eg. \"Example1, Example2\".";
+    $multipleInputSample = ""
 ?>

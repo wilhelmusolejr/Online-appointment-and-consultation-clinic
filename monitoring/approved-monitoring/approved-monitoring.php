@@ -49,7 +49,7 @@
                 <tr class="text-uppercase">
                   <th>MONITORING NUMBER</th>
                   <th>APPOINTMENT NUMBER</th>
-                  <th>CHIEF COMPLAINT</th>
+                  <th>Nutrional Concern</th>
                   <th>MONITOR DATE</th>
                   <th>CURRENT WEEK</th>
                 </tr>

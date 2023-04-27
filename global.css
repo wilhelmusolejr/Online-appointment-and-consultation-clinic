@@ -537,9 +537,14 @@ section {
   background-color: var(--color-white-secondary);
 
   border-radius: 10px;
+  /* width: 200px; */
 }
 .list-rnd-container img {
-  max-width: 100%;
+  /* width: 250px; */
+  height: 400px;
+  object-fit: contain;
+  object-position: center;
+  /* max-width: 500px; */
 }
 
 .list-rnd-info p {

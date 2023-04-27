@@ -48,7 +48,7 @@
             <table>
               <tr class="text-uppercase">
                 <th>Appointment number</th>
-                <th>Chief complaint</th>
+                <th>Nutrional Concern</th>
                 <th>Date</th>
                 <th>Client</th>
               </tr>

@@ -91,5 +91,6 @@ if(isset($_GET['transact_id']) || isset($_SESSION['transact_id'])) {
       );
 
       echo json_encode($data);
+      // echo print_r($data);
   }
 }

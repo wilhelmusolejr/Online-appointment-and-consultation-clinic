@@ -9,21 +9,26 @@
   }
 
   require_once $path."classes/monitor.class.php";
+  require_once $path."classes/appoint.class.php";
+
   require_once $path.'tools/variables.php';
   $page_title = "Monitoring";
   $monitoring = "nav-current";
 
-  $currentDate = "2023-04-25";
-  // $currentDate = date("Y-m-d");
+  $currentDate = date("Y-m-d");
 
   $monitor = new monitor;
+  $appoint = new appoint;
 
   if(isset($_GET['monitor_id'])) {
     $monitor_id = $_GET['monitor_id'];
     $get_week = isset($_GET['week']) ? $_GET['week'] : null;
     $get_day = isset($_GET['day']) ? $_GET['day'] : null;
+    $monitor_result = isset($_GET['monitor_result']) ? $_GET['monitor_result'] : null ;
+    $_SESSION['monitor_id'] = $monitor_id;
+    $_SESSION['get_week'] = $get_week;
 
-    if(isset($_SESSION['transact_rnd_id'])) {
+    if($_SESSION['user_loggedIn']['user_privilege'] == "rnd") {
       header('Location: '.$path.'homepage/monitoring/rnd/monitoring.php?monitor_id='.$monitor_id.'&week_num=1');
     }
 
@@ -52,6 +57,9 @@
 
     // rnd data
     $rndInfo = $monitor -> getMonitoringRnd();
+
+
+    print_r($monitoringData['desirable_body_weight']);
   }
 
   require_once $path.'includes/starterOne.php';
@@ -288,6 +296,9 @@
           <h2 class="text-center text-uppercase">Monitoring system</h2>
         </div>
 
+        <p class="<?php echo $monitor_result == null || $get_day == null? "hidden" : "" ?>">
+          <?php echo date("D, d M Y", strtotime($listOfDays[0]['date']))." >>> ".date("D, d M Y", strtotime(end($listOfDays)['date'])) ?>
+        </p>
 
         <?php if(!isset($_GET['intervention'])) { ?>
         <!-- IF WEEK IS CLICKED -->
@@ -311,52 +322,6 @@
             </a>
 
             <?php } ?>
-
-            <div class="hidden">
-              <!-- day 1 -->
-              <a href="monitoring.php?monitor_id=1&week=1&day=1"
-                class="week-list-day-item text-uppercase card flex-center current-date">
-                <p>Day</p>
-                <p>1</p>
-              </a>
-
-              <!-- day 2 -->
-              <a href="monitoring.php?monitor_id=1&week=1&day=2"
-                class="week-list-day-item text-uppercase card flex-center ">
-                <p>Day</p>
-                <p>2</p>
-              </a>
-
-              <!-- day 3 -->
-              <div class="week-list-day-item text-uppercase card flex-center ">
-                <p>Day</p>
-                <p>3</p>
-              </div>
-
-              <!-- day 4 -->
-              <div class="week-list-day-item text-uppercase card flex-center ">
-                <p>Day</p>
-                <p>4</p>
-              </div>
-
-              <!-- day 5 -->
-              <div class="week-list-day-item text-uppercase card flex-center ">
-                <p>Day</p>
-                <p>5</p>
-              </div>
-
-              <!-- day 6 -->
-              <div class="week-list-day-item text-uppercase card flex-center ">
-                <p>Day</p>
-                <p>6</p>
-              </div>
-
-              <!-- day 7 -->
-              <div class="week-list-day-item text-uppercase card flex-center ">
-                <p>Day</p>
-                <p>7</p>
-              </div>
-            </div>
 
           </div>
 
@@ -383,6 +348,11 @@
           <!-- DAY  -->
           <!-- SUBMITTING FORM for MONITORING -->
           <!-- Form -->
+          <p style="margin:50px 0 ">Date:
+            <?php echo 
+            date("D, d M Y", strtotime($listOfDays[$get_day - 1]['date']))
+            ?></p>
+
           <form class="form form-appoint-submit" action="submitDayMonitor.php" method="post"
             enctype="multipart/form-data">
             <!-- Tab -->
@@ -502,8 +472,10 @@
                       <!-- Desirable body weight -->
                       <div class="form-input-box input-two">
                         <label for="appoint-chief-complaint">Desirable Body Weight <span>*</span></label>
-                        <input type='number' name="appoint-chief-complaint" id="appoint-chief-complaint"
-                          placeholder="Enter your desirable body weight" value="101" disabled>
+                        <input type='text' name="appoint-chief-complaint" id="appoint-chief-complaint"
+                          placeholder="Enter your desirable body weight"
+                          value="<?php echo $monitoringData['desirable_body_weight'] == null ? "NO DATA YET" : $monitoringData['desirable_body_weight']."kg" ?>"
+                          disabled>
                         <p class="form-error-message hidden">Error</p>
                       </div>
 
@@ -839,30 +811,21 @@
                       <div class="form-input-box form-radio-box">
                         <p>Activity level <span>*</span></p>
                         <div class="gender-con radio-default">
-                          <!-- Endomorph -->
+
+
+                          <?php foreach($appoint -> getPhysicalActivtyForm() as $data) {
+                          $name = "physical-".$data['physical_act_name'];
+                        ?>
                           <div>
-                            <input type="radio" checked id="body-type-endomorph" name="body-type[]" value="sedentary"
-                              <?php echo $dayDataPhysical['physical_level'] == 1 ? "checked" : "disabled"?>>
-                            <label for="body-type-endomorph">Sedentary</label>
+                            <input type="radio" id="<?php echo $name ?>" name="physical-action"
+                              value="<?php echo $data['physical_activity_id'] ?>"
+                              <?php echo $dayDataPhysical['physical_level'] == $data['physical_activity_id'] ? "checked" : ""?>
+                              disabled>
+                            <label for="<?php echo $name ?>"><?php echo $data['physical_act_name'] ?></label>
                           </div>
-                          <!-- Ectomorph -->
-                          <div>
-                            <input type="radio" id="body-type-ectomorph" name="body-type[]" value="light"
-                              <?php echo $dayDataPhysical['physical_level'] == 2 ? "checked" : "disabled"?>>
-                            <label for="body-type-ectomorph">Light</label>
-                          </div>
-                          <!-- Mesomorph -->
-                          <div>
-                            <input type="radio" id="body-type-mesomorph" name="body-type[]" value="moderate"
-                              <?php echo $dayDataPhysical['physical_level'] == 3 ? "checked" : "disabled"?>>
-                            <label for="body-type-mesomorph">Moderate</label>
-                          </div>
-                          <!-- very active -->
-                          <div>
-                            <input type="radio" id="body-type-vigorous" name="body-type[]" value="vigorous"
-                              <?php echo $dayDataPhysical['physical_level'] == 4 ? "checked" : "disabled"?>>
-                            <label for="body-type-vigorous">Very active or Vigorous</label>
-                          </div>
+                          <?php } ?>
+
+
                         </div>
                       </div>
                     </div>
@@ -985,7 +948,7 @@
                     <div class="left-form form-input-parent">
                       <!-- Current Medication -->
                       <div class="form-input-box ">
-                        <label for="supplement_name">Are you taking any nutrional supplements?
+                        <label for="supplement_name">What nutrional supplements did you take for this day?
                           <span>*</span></label>
                         <input type="text" name="appoint-medical-current-med" id="appoint-medical-current-med"
                           placeholder="E.g Ascorbic Acid"
@@ -1135,8 +1098,10 @@
                       <!-- Desirable body weight -->
                       <div class="form-input-box input-two">
                         <label for="appoint-chief-complaint">Desirable Body Weight <span>*</span></label>
-                        <input type='number' name="appoint-chief-complaint" id="appoint-chief-complaint"
-                          placeholder="Enter your desirable body weight" value="101" disabled>
+                        <input type='text' name="appoint-chief-complaint" id="appoint-chief-complaint"
+                          placeholder="Enter your desirable body weight"
+                          value="<?php echo $monitoringData['desirable_body_weight'] == null ? "NO DATA YET" : $monitoringData['desirable_body_weight']."kg" ?>"
+                          disabled>
                         <p class="form-error-message hidden">Error</p>
                       </div>
 
@@ -1529,6 +1494,7 @@
                       <div class="form-input-box form-radio-box">
                         <p>Activity level <span>*</span></p>
                         <div class="gender-con radio-default">
+
                           <!-- Endomorph -->
                           <div>
                             <input type="radio" checked id="body-type-endomorph" name="physical_action"
@@ -1550,6 +1516,7 @@
                             <input type="radio" id="body-type-vigorous" name="physical_action" value="vigorous">
                             <label for="body-type-vigorous">Very active or Vigorous</label>
                           </div>
+
                         </div>
                       </div>
                     </div>
@@ -1749,18 +1716,22 @@
                 <div class="chart-parent flex-center">
                   <!-- one -->
                   <div class="chart chart-one flex-center">
-                    <canvas id="myChart"></canvas>
+                    <canvas id="physical"></canvas>
                   </div>
                   <!-- two -->
-                  <div class="chart chart-two flex-center ">
-                    <canvas id="myCharts"></canvas>
+                  <div class="chart chart-two flex-center hiddens">
+                    <canvas id="bodyWeight"></canvas>
+                  </div>
+                  <!-- three -->
+                  <div class="chart chart-two flex-center hiddens">
+                    <canvas id="foodFrequency"></canvas>
                   </div>
                 </div>
               </div>
-              <div class="right">
+              <div class="right hiddens">
                 <div class="greeting text-center">
                   <h3>Hi, <?php echo $_SESSION['user_loggedIn']['first_name'] ?></h3>
-                  <p>You're on track this week.</p>
+                  <p>Your track for this week.</p>
                 </div>
                 <div id="calendar" class="calendar">
                   <div class="calendar-title">
@@ -1820,9 +1791,9 @@
             </div>
           </div>
 
-          <div class="buttons">
-            <a href="#" class="button button-tertiary">Request for follow up</a>
-            <a href="#" class="button button-primary">Request for F2F consultation</a>
+          <div class="buttons ">
+            <a href="#" class="button button-tertiary hidden">Request for follow up</a>
+            <a href="#" class="button button-primary hidden">Request for F2F consultation</a>
           </div>
 
         </div>

@@ -1,12 +1,21 @@
 <?php 
     session_start();
 
-    require_once '../../tools/variables.php';
+    $path = "../../";
+
+
+    require_once $path."classes/user.class.php";
+    require_once $path.'tools/variables.php';
     $page_title = "Consultation";
     $rnds = 'nav-current';
-    $path = "../../"  ;
 
     require_once $path.'includes/starterOne.php';
+
+    $user = new user;
+
+    // user
+    $allValidRnd = $user -> getAllRnd();
+
 ?>
 <link rel="stylesheet" href="rnds.css" />
 <script type="module" src="../index.js" defer></script>
@@ -29,63 +38,22 @@
     </div>
 
     <div class="list-rnd-container flex-center grid-container">
-      <!-- 1 -->
-      <div class="list-rnd-box grid-box card">
-        <div class="list-rnd-image">
-          <img src="../../asset/deleon.jpg" alt="">
-        </div>
-        <div class="list-rnd-info">
-          <p>Gregory Yames RND</p>
-        </div>
-      </div>
-      <!-- 2 -->
-      <div class="list-rnd-box grid-box card">
-        <div class="list-rnd-image">
-          <img src="../../asset/doctor-bulk-billing-doctors-chapel-hill-health-care-medical-3.png" alt="">
-        </div>
-        <div class="list-rnd-info">
-          <p>Gregory Yames RND</p>
-        </div>
-      </div>
-      <!-- 3 -->
-      <div class="list-rnd-box grid-box card">
-        <div class="list-rnd-image">
-          <img src="../../asset/doctor-bulk-billing-doctors-chapel-hill-health-care-medical-3.png" alt="">
-        </div>
-        <div class="list-rnd-info">
-          <p>Gregory Yames RND</p>
-        </div>
-      </div>
-    </div>
 
-    <div class="list-rnd-container flex-center grid-container">
-      <!-- 1 -->
+      <?php foreach($allValidRnd as $rnd) {
+        $img = $rnd['profile_img'] == null ? "dummy_user.jpg" : $rnd['profile_img'];
+        $img_link =  $path."uploads/".$img;
+        ?>
       <div class="list-rnd-box grid-box card">
         <div class="list-rnd-image">
-          <img src="../../asset/doctor-bulk-billing-doctors-chapel-hill-health-care-medical-3.png" alt="">
+          <a href="<?php echo $path."profile/profile.php?profile-id=".$rnd['user_id'] ?>"><img
+              src="<?php echo $img_link ?>" alt=""></a>
         </div>
         <div class="list-rnd-info">
-          <p>Gregory Yames RND</p>
+          <p>RND <?php echo $rnd['first_name']." ".$rnd['last_name'] ?></p>
         </div>
       </div>
-      <!-- 2 -->
-      <div class="list-rnd-box grid-box card">
-        <div class="list-rnd-image">
-          <img src="../../asset/doctor-bulk-billing-doctors-chapel-hill-health-care-medical-3.png" alt="">
-        </div>
-        <div class="list-rnd-info">
-          <p>Gregory Yames RND</p>
-        </div>
-      </div>
-      <!-- 3 -->
-      <div class="list-rnd-box grid-box card">
-        <div class="list-rnd-image">
-          <img src="../../asset/doctor-bulk-billing-doctors-chapel-hill-health-care-medical-3.png" alt="">
-        </div>
-        <div class="list-rnd-info">
-          <p>Gregory Yames RND</p>
-        </div>
-      </div>
+      <?php } ?>
+
     </div>
 
   </section>

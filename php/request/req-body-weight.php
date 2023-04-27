@@ -15,8 +15,10 @@ $data = [];
 
 for($i = 1; $i <= 7; $i++) {
   $monitor -> day_num = $i;
-  $dayDataPhysical = $monitor -> getDayPhysicalAction();
-  array_push($data, $dayDataPhysical['physical_level']);
+  $dayDataPhysical = $monitor -> getDayWeight();
+  array_push($data, $dayDataPhysical['current_body_weight']);
 }
 
 echo json_encode($data);
+
+// print_r($data);

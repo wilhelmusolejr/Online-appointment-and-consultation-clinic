@@ -579,6 +579,7 @@ function ajaxCaller(currentBoardPage) {
           let parent = document.querySelector(".modal-client-info");
 
           let clientInfo = data.clientInfo;
+
           // name
           clientTabuate(
             parent,
@@ -587,8 +588,24 @@ function ajaxCaller(currentBoardPage) {
           );
           // birthdate
           clientTabuate(parent, "client-birthdate", clientInfo.birthdate);
+
+          const getAge = (birthDate) =>
+            Math.floor(
+              (new Date() - new Date(birthDate).getTime()) / 3.15576e10
+            );
+
+          // age
+          clientTabuate(
+            parent,
+            "client-age",
+            `${getAge(clientInfo.birthdate)} years old`
+          );
           // sex
-          clientTabuate(parent, "client-sex", clientInfo.gender);
+          clientTabuate(
+            parent,
+            "client-sex",
+            clientInfo.gender == 1 ? "Male" : "Female"
+          );
 
           let physicalInfo = data.physicalInfo;
           // height
@@ -605,16 +622,30 @@ function ajaxCaller(currentBoardPage) {
           // referral download
           document.querySelector(
             ".referral-form-download"
-          ).href = `${path}php/request/download.php?file=${consultInfo.referral_form_id}`;
-          document.querySelector(
-            ".referral-form-download"
           ).textContent = `${consultInfo.referral_form_id}`;
-          document.querySelector(
-            ".medical-form-download"
-          ).href = `${path}php/request/download.php?file=${consultInfo.medical_record_id}`;
+          if (consultInfo.referral_form_id) {
+            document.querySelector(
+              ".referral-form-download"
+            ).href = `${path}php/request/download.php?file=${consultInfo.referral_form_id}`;
+          } else {
+            document
+              .querySelector(".referral-form-download")
+              .closest("p").innerHTML = "Referral form: NO FILE UPLOADED";
+          }
+
+          // medical form
           document.querySelector(
             ".medical-form-download"
           ).textContent = `${consultInfo.medical_record_id}`;
+          if (consultInfo.medical_record_id) {
+            document.querySelector(
+              ".referral-form-download"
+            ).href = `${path}php/request/download.php?file=${consultInfo.medical_record_id}`;
+          } else {
+            document
+              .querySelector(".medical-form-download")
+              .closest("p").innerHTML = "Medical form: NO FILE UPLOADED";
+          }
 
           //
         },

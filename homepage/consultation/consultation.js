@@ -188,8 +188,8 @@ boardContainer.addEventListener("click", function (e) {
 
   allInputsText.forEach((input) => {
     if (input.hasAttribute("required")) {
-      console.log("can submit");
-      console.log(canSubmit);
+      // console.log("can submit");
+      // console.log(canSubmit);
       // console.log("body type");
       // console.log(bodyTypeCounter);
 
@@ -766,10 +766,26 @@ function setterInfo(urlTransactId) {
                         elem.disabled = true;
                       });
 
+                    // PERSONAL
+                    let personalTab = document.querySelector("#personal-tab");
+
+                    let personalInfo = data.clientInfo;
+
+                    tabulateThenDisabled("firstname", personalInfo.first_name);
+                    tabulateThenDisabled(
+                      "middlename",
+                      personalInfo.middle_name
+                    );
+                    tabulateThenDisabled("lastname", personalInfo.last_name);
+                    tabulateThenDisabled("reg-mob", personalInfo.mobile_num);
+                    tabulateThenDisabled("reg-email", personalInfo.email_add);
+                    tabulateThenDisabled("reg-email", personalInfo.email_add);
+
                     // FOOD
                     let foodTab = document.querySelector("#food-tab");
 
                     let foodInfo = data.foodInfo;
+
                     tabulateThenDisabled(
                       "appoint-type-diet",
                       foodInfo.type_diet_id
@@ -783,10 +799,6 @@ function setterInfo(urlTransactId) {
                     )}</ol>`;
 
                     // like
-                    // tabulateThenDisabled(
-                    //   "appoint-food-like",
-                    //   uniqueAndJoin(data.listFoodLike)
-                    // );
                     foodTab.querySelector(
                       ".food-like .checkbox-container-parent"
                     ).innerHTML = `<ol>${generateLiMarkUp(
@@ -980,7 +992,9 @@ function ajaxCaller(currentBoardPage) {
         url: `${path}php/request/req-get-video-link.php`, //your form validation url
         dataType: "json",
         success: function (data) {
-          document.querySelector(".button-join").href = data.videocall_link;
+          // document.querySelector(".button-join").href = data.videocall_link;
+          document.querySelector(".button-join").href =
+            "https://meet.google.com/joy-vuiv-yhb";
         },
         error: function (data) {
           console.log("ERROR at getting RND gmeet");

@@ -126,19 +126,13 @@ foodTabParent.addEventListener("click", function (e) {
 // =----------------------------------
 
 // CHARTING
-const physical = document.getElementById("myChart");
-const ctxs = document.getElementById("myCharts");
+const physical = document.getElementById("physical");
+const bodyWeight = document.getElementById("bodyWeight");
+const foodFrequency = document.getElementById("foodFrequency");
 
-const days = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
+const days = ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7"];
 
+// PHYSICAL
 $.ajax({
   type: "POST", //hide url
   url: `${path}php/request/req-physical-level.php`, //your form validation url
@@ -173,48 +167,61 @@ $.ajax({
   },
 });
 
+// BODY WEIGHT
+$.ajax({
+  type: "POST", //hide url
+  url: `${path}php/request/req-body-weight.php`, //your form validation url
+  dataType: "json",
+  // data: { data: message },
+  success: function (data) {
+    console.log(data);
+
+    new Chart(bodyWeight, {
+      type: "line",
+      data: {
+        labels: days,
+        datasets: [
+          {
+            label: "Body Weight",
+            data: data,
+            fill: false,
+            borderColor: "rgb(75, 192, 192)",
+            tension: 0.1,
+          },
+        ],
+      },
+    });
+  },
+  error: function () {
+    console.log("ERROR at setting message");
+  },
+});
+
+// FOOD FREQUENCY
+let food = ["Breakfast", "Lunch", "Dinner", "Snacks"];
 $.ajax({
   type: "POST", //hide url
   url: `${path}php/request/req-physical-level.php`, //your form validation url
   dataType: "json",
   // data: { data: message },
   success: function (data) {
-    new Chart(ctxs, {
-      type: "bar",
+    new Chart(foodFrequency, {
+      type: "pie",
       data: {
-        labels: days,
+        labels: food,
         datasets: [
           {
-            label: "XXX",
+            label: "Food activity frequency",
             data: data,
             backgroundColor: [
-              "rgba(255, 99, 132, 0.2)",
-              "rgba(255, 159, 64, 0.2)",
-              "rgba(255, 205, 86, 0.2)",
-              "rgba(75, 192, 192, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-              "rgba(153, 102, 255, 0.2)",
-              "rgba(201, 203, 207, 0.2)",
-            ],
-            borderColor: [
               "rgb(255, 99, 132)",
-              "rgb(255, 159, 64)",
-              "rgb(255, 205, 86)",
-              "rgb(75, 192, 192)",
               "rgb(54, 162, 235)",
-              "rgb(153, 102, 255)",
-              "rgb(201, 203, 207)",
+              "rgb(255, 205, 86)",
+              "rgb(258, 125, 86)",
             ],
-            borderWidth: 1,
+            hoverOffset: 4,
           },
         ],
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true,
-          },
-        },
       },
     });
   },
@@ -295,7 +302,7 @@ function plotDays() {
 function highlightCurrentDate() {
   dateItems = document.querySelectorAll(".calendar-dates-day");
   if (dateElement && dateItems[currentDate.$D - 1]) {
-    dateItems[currentDate.$D - 1].classList.add("today-date");
+    dateItems[currentDate.$D - 1].classList.add("today-dates");
   }
 }
 

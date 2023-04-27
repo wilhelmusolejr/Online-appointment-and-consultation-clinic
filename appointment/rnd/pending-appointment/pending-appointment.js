@@ -18,6 +18,10 @@ tableContainer.addEventListener("click", function (e) {
     modalParent.querySelector(".button-accept").classList.remove("hidden");
     modalParent.querySelector(".button-denaid").classList.add("hidden");
 
+    modalParent.querySelector(
+      "p"
+    ).innerHTML = `Are you sure you want to accept this appointment? Press the green button to continue.`;
+
     targetAppointNum = parseInt(
       e.target
         .closest("tr")
@@ -33,6 +37,10 @@ tableContainer.addEventListener("click", function (e) {
     modalParent.classList.remove("hidden");
     modalParent.querySelector(".button-denaid").classList.remove("hidden");
     modalParent.querySelector(".button-accept").classList.add("hidden");
+
+    modalParent.querySelector(
+      "p"
+    ).innerHTML = `Are you sure you want to decline this appointment? Press the red button to close the prompt.`;
 
     targetAppointNum = parseInt(
       e.target
@@ -70,7 +78,7 @@ modalParent.addEventListener("click", function (e) {
         $(".modal-container .button-denaid").addClass("hidden");
         $(".modal-container .button-primary").removeClass("hidden");
         $(".modal-container").addClass("modal-positive");
-        $(".modal-container p").text("Added successfully");
+        $(".modal-container p").text("Accepted successfully");
         // }
       },
       error: function () {

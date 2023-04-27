@@ -18,6 +18,9 @@ tableContainer.addEventListener("click", function (e) {
     modalParent.querySelector(".button-accept").classList.remove("hidden");
     modalParent.querySelector(".button-denaid").classList.add("hidden");
 
+    modalParent.querySelector("p").innerHTML =
+      "You are about to accept our monitoring service. Press the green button to continue.";
+
     targetAppointNum = parseInt(
       e.target
         .closest("tr")
@@ -33,6 +36,9 @@ tableContainer.addEventListener("click", function (e) {
     modalParent.classList.remove("hidden");
     modalParent.querySelector(".button-denaid").classList.remove("hidden");
     modalParent.querySelector(".button-accept").classList.add("hidden");
+
+    modalParent.querySelector("p").innerHTML =
+      "You are about to decline our monitoring service. Press the red button to close the prompt.";
 
     targetAppointNum = parseInt(
       e.target
@@ -96,7 +102,7 @@ modalParent.addEventListener("click", function (e) {
         $(".modal-container .button-denaid").addClass("hidden");
         $(".modal-container .button-primary").removeClass("hidden");
         $(".modal-container").addClass("modal-positive");
-        $(".modal-container p").text("Decline successfully");
+        $(".modal-container p").text("Declined successfully");
         // }
       },
       error: function () {
@@ -119,7 +125,7 @@ function generatePendingMarkUp(data) {
           <td>
               <div class="button-parent flex-center">
                 <a href="#" class="button button-accept">Accept</a>
-                <a href="#" class="button button-denaid">Denaid</a>
+                <a href="#" class="button button-denaid">Decline</a>
               </div>
           </td>
         </tr>

@@ -57,10 +57,11 @@ require_once $path.'../classes/appoint.class.php';
             <thead>
               <tr>
                 <th>APPOINTMENT NUMBER</th>
-                <th>CHIEF COMPLAINT</th>
+                <th>NUTRIONAL CONCERN</th>
                 <th>APPOINTMENT DATE</th>
                 <th>REFERRAL FORM</th>
-                <th>ID STATUS</th>
+                <th>MEDICAL FORM</th>
+                <!-- <th>ID STATUS</th> -->
                 <th class="action">Action</th>
               </tr>
             </thead>

@@ -7,6 +7,10 @@
     header('Location: '.$path.'homepage/index.php');
   }
 
+  if($_SESSION['user_loggedIn']['user_privilege'] == "client") {
+    header('Location: '.$path.'homepage/monitoring/monitoring.php?monitor_id='.$monitor_id.'&week_num=1');
+  }
+
   require_once $path."classes/monitor.class.php";
   require_once $path.'tools/variables.php';
   $page_title = "Monitoring";
