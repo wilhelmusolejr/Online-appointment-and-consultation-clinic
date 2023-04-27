@@ -59,7 +59,7 @@
     $rndInfo = $monitor -> getMonitoringRnd();
 
 
-    print_r($monitoringData['desirable_body_weight']);
+    // print_r($monitoringData['desirable_body_weight']);
   }
 
   require_once $path.'includes/starterOne.php';
