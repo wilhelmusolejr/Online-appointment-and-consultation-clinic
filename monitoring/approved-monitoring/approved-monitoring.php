@@ -60,7 +60,7 @@
                   <!-- monitoring -->
                   <td class="appointment-number">
                     <a
-                      href="<?php echo $path."homepage/monitoring/rnd/monitoring.php?monitor_id=".$transact['monitor_id']."&week_num=1" ?>">#<?php echo $transact['monitor_id'] ?></a>
+                      href="<?php echo $path."homepage/monitoring/monitoring.php?monitor_id=".$transact['monitor_id']."&week_num=1" ?>">#<?php echo $transact['monitor_id'] ?></a>
                   </td>
                   <!-- appointment -->
                   <td class="appointment-number"><a

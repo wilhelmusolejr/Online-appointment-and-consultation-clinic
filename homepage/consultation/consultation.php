@@ -243,11 +243,14 @@
                     <!-- Relationship status -->
                     <div class="form-input-box input-two">
                       <label for="relationship-status">Relationship status <span>*</span></label>
-                      <input list="list-relationship" required name="relationship-status" id="relationship-status"
-                        placeholder="Diet meal plan" value="relationship status">
+                      <input list="list-relationship" name="relationship-status" id="relationship-status"
+                        placeholder="Specify relationship">
                       <datalist id="list-relationship">
                         <option value="Husbund">
+                        <option value="Brother">
+                        <option value="Sister">
                         <option value="Mother">
+                        <option value="Relative">
                       </datalist>
                       <p class="form-error-message hidden">Error</p>
                     </div>
@@ -446,22 +449,26 @@
                   <!-- left -->
                   <div class="left-form form-input-parent">
                     <!-- Actual weight -->
-                    <div class="form-input-box need-metric">
+                    <div class="form-input-box need-metric tooltip">
                       <label for="appoint-actual-weight">Actual weight <span>*</span></label>
                       <input type="number" class="need-metrics" min='0' name="appoint-actual-weight"
                         id="appoint-actual-weight" placeholder="E.g 60" required>
-                      <select name="metric" class="metric">
+                      <span class="tooltiptext"><?php echo $tootTipWeight ?></span>
+
+                      <select name="metric" class="metric hidden">
                         <option value="kg">kg</option>
                         <option value="lbs">lbs</option>
                       </select>
                       <p class="form-error-message hidden">Error</p>
                     </div>
                     <!-- Current height -->
-                    <div class="form-input-box need-metric">
+                    <div class="form-input-box need-metric tooltip">
                       <label for="appoint-current-height" class="text-capital">Current height <span>*</span></label>
                       <input type="number" min='0' name="appoint-current-height" id="appoint-current-height"
                         placeholder="E.g 170" required>
-                      <select name="metric" class="metric">
+                      <span class="tooltiptext"><?php echo $tootTipHeight ?></span>
+
+                      <select name="metric" class="metric hidden">
                         <option value="">ft</option>
                         <option value="spider">m</option>
                         <option value="goldfish" selected>cm</option>

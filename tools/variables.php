@@ -12,5 +12,7 @@
     $page_name = "WMSU Dietitian Consult";
 
     $multipleInputMessage = "Put comma in between for multiple inputs. Eg. \"Example1, Example2\".";
-    $multipleInputSample = ""
+    $multipleInputSample = "";
+    $tootTipWeight = "Weight in kilogram";
+    $tootTipHeight = "Height in centimeter";
 ?>

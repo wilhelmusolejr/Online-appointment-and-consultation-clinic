@@ -32,7 +32,7 @@
 
     <div class="tool-container flex-center grid-container">
       <!-- 1 -->
-      <div class="tool-box grid-box card">
+      <div class="tool-box grid-box card ">
         <div class="tool-container-box card">
 
           <div class="tool-header text-center">
@@ -77,7 +77,7 @@
         </div>
       </div>
       <!-- 1 -->
-      <div class="tool-box grid-box card">
+      <div class="tool-box grid-box card hidden">
         <div class="tool-container-box card">
 
           <div class="tool-header text-center">
@@ -122,7 +122,7 @@
         </div>
       </div>
       <!-- 1 -->
-      <div class="tool-box grid-box card">
+      <div class="tool-box grid-box card hidden">
         <div class="tool-container-box card">
 
           <div class="tool-header text-center">

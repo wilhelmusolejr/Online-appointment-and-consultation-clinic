@@ -771,6 +771,9 @@ function setterInfo(urlTransactId) {
 
                     let personalInfo = data.clientInfo;
 
+                    console.log(personalInfo);
+                    personalInfo.relationship_status = "0";
+
                     tabulateThenDisabled("firstname", personalInfo.first_name);
                     tabulateThenDisabled(
                       "middlename",
@@ -778,9 +781,14 @@ function setterInfo(urlTransactId) {
                     );
                     tabulateThenDisabled("lastname", personalInfo.last_name);
                     tabulateThenDisabled("reg-mob", personalInfo.mobile_num);
-                    tabulateThenDisabled("reg-email", personalInfo.email_add);
+                    tabulateThenDisabled("birthdate", personalInfo.birthdate);
+                    tabulateThenDisabled(
+                      "relationship-status",
+                      personalInfo.relationship_status
+                    );
                     tabulateThenDisabled("reg-email", personalInfo.email_add);
 
+                    birthdate;
                     // FOOD
                     let foodTab = document.querySelector("#food-tab");
 

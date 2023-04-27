@@ -7,9 +7,6 @@
 
   session_start();
 
-  // echo json_encode($_POST);
-  // exit();
-
   $resultTotal = array("errorResponse" => [], "transact_id" => null);
 
   if (!isset($_SESSION['user_loggedIn'])) {
@@ -77,17 +74,26 @@
       $current_medication = [];
       // current med
       foreach(explode(",", $_POST['appoint-medical-current-med']) as $name) {
-        array_push($current_medication, validateInput($name));
+        $word = validateInput($name);
+        if($word != "") {
+          array_push($current_medication, $word);
+        }
       }
 
       // fam
       foreach(explode(",", $_POST['family-condition-one-other']) as $name) {
-        array_push($_POST['family-condition'], validateInput($name));
+        $word = validateInput($name);
+        if($word != "") {
+          array_push($_POST['family-condition'], $word);
+        }
       }
-    
+
       // self
       foreach(explode(",", $_POST['self-condition-other']) as $name) {
-        array_push($_POST['self-condition'], validateInput($name));
+        $word = validateInput($name);
+        if($word != "") {
+          array_push($_POST['self-condition'], $word);
+        }
       }
       
       $appoint-> medical_curent = $current_medication;
