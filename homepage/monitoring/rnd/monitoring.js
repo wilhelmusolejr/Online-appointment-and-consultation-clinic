@@ -17,19 +17,7 @@ boardParent.addEventListener("click", function (e) {
       <!-- Specify goals -->
       <div class="form-input-box input-two ">
         <label for="food-bf-consume">Specify goals <span>*</span></label>
-        <input type='text' name="specify_goal_name[]" value="food consume test 1">
-        <p class="form-error-message hidden">Error</p>
-      </div>
-
-      <!-- Quantity -->
-      <div class="form-input-box input-two ">
-        <label for="food-quantity">Type <span>*</span></label>
-        <select id="food-quantity" name="specify_goal_type[]">
-          <option value="volvo">Piece</option>
-          <option value="saab">Once</option>
-          <option value="fiat">Kg</option>
-          <option value="audi">Cup</option>
-        </select>
+        <input type='text' name="specify_goal_name[]" placeholder="E.g Exercise daily" required>
         <p class="form-error-message hidden">Error</p>
       </div>
 

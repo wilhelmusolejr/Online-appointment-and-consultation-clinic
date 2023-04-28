@@ -58,9 +58,9 @@
   </div>
 
   <!-- communication -->
-  <div class="nav-communication hidden <?php echo isset($_SESSION['loggedIn'])? "": "hidden" ?>">
+  <div class="nav-communication  <?php echo isset($_SESSION['loggedIn'])? "": "hidden" ?>">
     <i class="fa-solid fa-bell"></i>
-    <i class="fa-solid fa-comments"></i>
+    <i class="fa-solid fa-comments hidden"></i>
 
     <div class="notification-bar-card hidden">
       <h3>Notifications</h3>
@@ -75,7 +75,7 @@
         <?php } ?>
       </ul>
 
-      <div class="notif-show-all text-center">
+      <div class="notif-show-all text-center hidden">
         <a class='text-uppercase' href="<?php echo $path."notification/notification.php" ?>">See all</a>
       </div>
     </div>

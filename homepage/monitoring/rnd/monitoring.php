@@ -217,7 +217,7 @@
                 <!-- DESIRABLE BODY WEIGHT -->
                 <div class="form-input-box input-one">
                   <label for="firstname">Desirable body weight <span>*</span></label>
-                  <input type="number" name="monitoring_desirable_body_weight" required value="10">
+                  <input type="number" name="monitoring_desirable_body_weight" placeholder="E.g 100kg" required>
                 </div>
 
                 <!-- GOALS -->
@@ -231,19 +231,7 @@
                     <!-- Specify goals -->
                     <div class="form-input-box input-two ">
                       <label for="food-bf-consume">Specify goals <span>*</span></label>
-                      <input type='text' name="specify_goal_name[]" value="food consume test 1">
-                      <p class="form-error-message hidden">Error</p>
-                    </div>
-
-                    <!-- Quantity -->
-                    <div class="form-input-box input-two ">
-                      <label for="food-quantity">Type <span>*</span></label>
-                      <select id="food-quantity" name="specify_goal_type[]">
-                        <option value="volvo">Piece</option>
-                        <option value="saab">Once</option>
-                        <option value="fiat">Kg</option>
-                        <option value="audi">Cup</option>
-                      </select>
+                      <input type='text' name="specify_goal_name[]" placeholder="E.g Exercise daily" required>
                       <p class="form-error-message hidden">Error</p>
                     </div>
 
@@ -302,7 +290,7 @@
               class="modal-parent modal-notif-parent modal-monitoring-one-confirmation overlay-black flex-center hidden">
               <div class="modal-container modal-notif-container sizing-secondary">
                 <div class="modal-header text-center">
-                  <h2 class="text-uppercase">Sure ka bhie?</h2>
+                  <h2 class="text-uppercase">Submit monitoring</h2>
                 </div>
                 <p class="text-center">Mark the transaction complete. <br><em>This action cannot be reverted</em></p>
                 <div class="modal-buttons">

@@ -611,9 +611,39 @@ function ajaxCaller(currentBoardPage) {
 
           let physicalInfo = data.physicalInfo;
           // height
-          clientTabuate(parent, "client-height", physicalInfo.current_height);
+          clientTabuate(
+            parent,
+            "client-height",
+            `${physicalInfo.current_height}cm`
+          );
           // weight
-          clientTabuate(parent, "client-weight", physicalInfo.actual_weight);
+          clientTabuate(
+            parent,
+            "client-weight",
+            `${physicalInfo.actual_weight}kg`
+          );
+
+          // bmi
+          let bmi_num =
+            [
+              physicalInfo.actual_weight /
+                physicalInfo.current_height /
+                physicalInfo.current_height,
+            ] * 10000;
+
+          let bmi_text = "";
+
+          if (bmi_num <= 18.5) {
+            bmi_text = "Underweight";
+          } else if (bmi_num > 18.5 && bmi_num <= 24.9) {
+            bmi_text = "Normal Weight";
+          } else if (bmi_num > 24.9 && bmi_num <= 29.9) {
+            bmi_text = "Overweight";
+          } else {
+            bmi_text = "Obesity";
+          }
+
+          clientTabuate(parent, "client-bmi", `${bmi_text}`);
 
           // contact
           clientTabuate(parent, "client-phone", clientInfo.mobile_num);

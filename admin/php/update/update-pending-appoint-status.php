@@ -31,7 +31,13 @@ if($_GET['button'] == "accept") {
   $rnd_ids = [];
   foreach($result as $rnd) {
     array_push($rnd_ids, $rnd['user_id']);
+
+    // $appoint -> user_id = $rnd['user_id'];
+    // $appoint -> message = "There is new appointment";
+    // $appoint -> link = "http://wmsu-dietitianconsult.online/appointment/rnd/approved-appointment/approved-appointment.php";
+    // $appoint -> pushNotification();  
   }
+
   
   $consult -> rnd_id = $rnd_ids; // temporary list
   $setAppointRnd = $consult -> appointPendingRndStatus();

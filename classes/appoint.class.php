@@ -63,6 +63,9 @@ Class appoint{
 
     public $btnFeedback;
 
+    public $message;
+    public $link;
+
     protected $db;
 
     function __construct()
@@ -746,6 +749,21 @@ Class appoint{
         $query=$this->db->connect()->prepare($sql);
 
         $query->bindParam(':transact_id', $this-> transact_id);
+
+        if($query->execute()){
+            return true;
+        }
+        return false;
+    }
+
+    function pushNotification() {
+        $sql = "INSERT INTO `tbl_notification` (`tbl_notif_id`, `user_id`, `message`, `is_read`, `created_at`, `link`) 
+        VALUES (NULL, :user_id, :message, '0', current_timestamp(), :link)";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':user_id', $this-> transact_id);
+        $query->bindParam(':message', $this-> message);
+        $query->bindParam(':link', $this-> link);
 
         if($query->execute()){
             return true;

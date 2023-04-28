@@ -39,6 +39,8 @@ class monitor {
 
   public $search_string;
 
+  public $desirable_bodyWeight;
+
   protected $db;
 
   function __construct() {
@@ -109,6 +111,19 @@ class monitor {
 
     $text = join(",", $markUp);
     $query=$this->db->connect()->prepare($sql.$text);
+
+    if($query->execute()){
+      return true;
+    }
+    return false;
+  }
+
+  function updateDesirableBodyWeight() {
+    $sql = "UPDATE `tbl_monitor` SET `desirable_body_weight` = :desirable_bodyWeight WHERE `tbl_monitor`.`monitor_id` = :monitor_id;";
+    $query=$this->db->connect()->prepare($sql);
+    
+    $query->bindParam(':desirable_bodyWeight', $this-> desirable_bodyWeight);
+    $query->bindParam(':monitor_id', $this-> monitor_id);
 
     if($query->execute()){
       return true;

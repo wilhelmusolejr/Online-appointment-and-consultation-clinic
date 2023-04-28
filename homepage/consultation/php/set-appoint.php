@@ -161,8 +161,7 @@
       $res = $appoint->setMedicalInfo();
       $res = $appoint->setAppointCheckpointStatus();
       $res = $appoint->setRndStatus();
-  
-      
+
       $_SESSION['transact_id'] = $appoint -> getTransactLatest();
       $_GET['transact_id'] = $_SESSION['transact_id'];
       $resultTotal['transact_id'] = $_SESSION['transact_id'];

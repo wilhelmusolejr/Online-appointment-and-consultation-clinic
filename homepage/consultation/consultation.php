@@ -492,7 +492,7 @@
                         ?>
                         <div>
                           <input type="checkbox" id="<?php echo $name ?>" name="body-type[]"
-                            value="<?php echo $data['physical_body_type_id'] ?>" checked required>
+                            value="<?php echo $data['physical_body_type_id'] ?>" required>
                           <label for="<?php echo $name ?>"><?php echo $data['body_type_name'] ?></label>
                         </div>
                         <?php } ?>

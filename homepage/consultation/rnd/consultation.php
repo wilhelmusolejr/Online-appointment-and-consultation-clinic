@@ -517,6 +517,7 @@
                   <h3 class="text-uppercase">Health information</h3>
                   <p>Current height: <span class="client-height">LOADING</span></p>
                   <p>Current weight: <span class="client-weight">LOADING</span></p>
+                  <p>BMI: <span class="client-bmi">LOADING</span></p>
                 </div>
 
 
