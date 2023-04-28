@@ -116,7 +116,7 @@
     <!-- search appoint id  -->
     <div class="form-input-parent search-parent">
       <div class="form-input-box">
-        <input type="number" name="monitor_id" placeholder="Enter your monitoring number">
+        <input type="number" name="monitor_id" placeholder="Enter your monitoring number" required>
         <input type="hidden" name="week" value="1">
         <button type="submit" value="submit" class="button-primary">Search</button>
       </div>
@@ -134,7 +134,7 @@
     <div class="side-bar">
       <ul>
 
-        <div class="side-info">
+        <div class="side-info <?php echo $monitoringData ? "" : "hidden"?>">
           <!-- monitor id -->
           <li class="text-centers">
             <p>Monitoring <a

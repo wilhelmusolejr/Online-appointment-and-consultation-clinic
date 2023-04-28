@@ -558,7 +558,9 @@ function ajaxCaller(currentBoardPage) {
         url: `${path}php/request/req-get-video-link.php`, //your form validation url
         dataType: "json",
         success: function (data) {
-          document.querySelector(".button-join").href = data.videocall_link;
+          // document.querySelector(".button-join").href = data.videocall_link;
+          document.querySelector(".button-join").href =
+            "https://meet.google.com/joy-vuiv-yhb";
         },
         error: function (data) {
           console.log("ERROR at getting RND gmeet");

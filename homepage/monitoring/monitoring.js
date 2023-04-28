@@ -199,12 +199,15 @@ $.ajax({
 
 // FOOD FREQUENCY
 let food = ["Breakfast", "Lunch", "Dinner", "Snacks"];
+
 $.ajax({
   type: "POST", //hide url
-  url: `${path}php/request/req-physical-level.php`, //your form validation url
+  url: `${path}php/request/req-food-frequency.php`, //your form validation url
   dataType: "json",
   // data: { data: message },
   success: function (data) {
+    console.log(data);
+
     new Chart(foodFrequency, {
       type: "pie",
       data: {
@@ -226,7 +229,7 @@ $.ajax({
     });
   },
   error: function () {
-    console.log("ERROR at setting message");
+    console.log("ERROR at getting");
   },
 });
 

@@ -17,6 +17,10 @@
     $consult = new consult;
     $clientData = new user;
 
+    if(!isset($_SESSION['user_loggedIn'])) {
+      header('Location: '.$path.'homepage/index.php');
+    }
+
     // move the user to rnd page if the user is RND
     if(isset($_SESSION['user_loggedIn'])) {
       if($_SESSION['user_loggedIn']['user_privilege'] == "rnd") {

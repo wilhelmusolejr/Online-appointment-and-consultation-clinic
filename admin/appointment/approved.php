@@ -47,7 +47,7 @@
             <?php
                     {
                     ?>
-            <span class="search">
+            <span class="search hidden">
               <input type="text" placeholder=" Search appointment">
               <i class="fa-solid fa-magnifying-glass"></i>
             </span>

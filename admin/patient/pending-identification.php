@@ -18,6 +18,7 @@ require $path.'functions/functions.php';
   <meta charset="UTF-8">
   <!--<title> Drop Down Sidebar Menu | CodingLab </title>-->
   <link rel="stylesheet" href="../patient/patient.css">
+  <link rel="stylesheet" href="<?php echo $path."global.css" ?>">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -42,7 +43,7 @@ require $path.'functions/functions.php';
             <?php
                     {
                     ?>
-            <span class="search">
+            <span class="search hidden">
               <input type="text" placeholder=" Search patient">
               <i class="fa-solid fa-magnifying-glass"></i>
             </span>

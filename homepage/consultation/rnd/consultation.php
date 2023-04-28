@@ -15,6 +15,9 @@
     $page_title = "Consultation";
     $consultation = 'nav-current';
 
+    if(!isset($_SESSION['user_loggedIn'])) {
+      header('Location: '.$path.'homepage/index.php');
+    }
 
     if($_SESSION['user_loggedIn']['user_privilege'] == 'client') {
       header('Location: ../consultation.php?transact_id='.$_GET['transact_id']);
