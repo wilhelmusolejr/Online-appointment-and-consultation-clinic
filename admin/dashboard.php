@@ -42,76 +42,6 @@
 </head>
 
 <body>
-  <!-- <div class="sidebar close">
-    <div class="logo-details">
-      <i class='fas fa-user-alt'></i>
-      <span class="logo_name">ADMIN</span>
-    </div>
-    <hr class="line">
-    <ul class="nav-links">
-      <li>
-        <a href="dashboard.php" class="active">
-          <i class='fas fa-globe'></i>
-          <span class="link_name">Dashboard</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="dashboard.php" class="active">Dashboard</a></li>
-        </ul>
-      </li>
-      <li>
-        <div class="iocn-link">
-          <a href="../admin2/specialist/personal.php">
-            <i class='fa-solid fa-user-doctor'></i>
-            <span class="link_name">Specialist</span>
-          </a>
-          <i class='bx bxs-chevron-down arrow'></i>
-        </div>
-        <ul class="sub-menu">
-          <li><a class="link_name" href="../admin2/specialist/personal.php">Specialist</a></li>
-          <li><a href="../admin2/specialist/personal.php">Personal Information</a></li>
-          <li><a href="../admin2/specialist/appointment.php">Appointment Information</a></li>
-          <li><a href="../admin2/specialist/patient.php">Patient Handled</a></li>
-        </ul>
-      </li>
-      <li>
-        <div class="iocn-link">
-          <a href="../admin2/patient/patient.php">
-            <i class='fas fa-user'></i>
-            <span class="link_name">Patient</span>
-          </a>
-          <i class='bx bxs-chevron-down arrow'></i>
-        </div>
-        <ul class="sub-menu">
-          <li><a class="link_name" href="../admin2/patient/patient.php">Patients</a></li>
-          <li><a href="../admin2/patient/patient.php">Patient Information"</a></li>
-          <li><a href="../admin2/patient/pending.php">Pending ID Verification</a></li>
-        </ul>
-      </li>
-      <li>
-        <div class="iocn-link">
-          <a>
-            <i class='fas fa-building'></i>
-            <span class="link_name">Appointment</span>
-          </a>
-          <i class='bx bxs-chevron-down arrow'></i>
-        </div>
-        <ul class="sub-menu">
-          <li><a class="link_name" href="../admin2/appointment/pending.php">Appointment</a></li>
-          <li><a href="appointment/pending.php">Pending Appointment</a></li>
-          <li><a href="appointment/approved.php">Approved Appointment</a></li>
-        </ul>
-      </li>
-      <hr class="line">
-      <li class="logout-link">
-        <a href="../admin2/login/logout.php">
-          <i class='bx bx-log-out'></i>
-          <span class="link_name">Logout</span>
-        </a>
-        <ul class="sub-menu">
-          <li><a class="link_name" href="../admin2/login/logout.php">Logout</a></li>
-        </ul>
-      </li>
-  </div> -->
   <?php require_once "includes/side-bar.php" ?>
 
   <section class="home-section">
@@ -157,11 +87,19 @@
 
         <div class="overview-boxes">
           <?php {?>
+          <!-- sex -->
           <div class="chart chart-one flex-center">
             <canvas id="sex"></canvas>
           </div>
+
+          <!-- appointment -->
           <div class="chart chart-two flex-center">
             <canvas id="appointment"></canvas>
+          </div>
+
+          <!-- date -->
+          <div class="chart chart-two flex-center hidden">
+            <canvas id="dateStat"></canvas>
           </div>
           <?php
              }?>

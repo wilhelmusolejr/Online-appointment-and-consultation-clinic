@@ -258,7 +258,8 @@
           <div class="remember-form form-group">
             <div class="form-input-parent">
               <input type="checkbox" name="reg-terms" id="reg-terms" checked required>
-              <label for="reg-terms" class="cursor-pointer">I agree to the <a class="hiddens" href="#">Terms of
+              <label for="reg-terms" class="cursor-pointer">I agree to the <a target="_blank" class="hiddens"
+                  href="<?php echo $path."terms-condition.php" ?>">Terms of
                   Services and Privacy Policy</a>.</label>
             </div>
           </div>

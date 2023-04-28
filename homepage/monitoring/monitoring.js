@@ -152,6 +152,7 @@ $.ajax({
             borderWidth: 1,
           },
         ],
+        // labels: ["a", "b", "c", "d"],
       },
       options: {
         scales: {
