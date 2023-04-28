@@ -17,9 +17,6 @@
     $consult = new consult;
     $clientData = new user;
 
-    if(!isset($_SESSION['user_loggedIn'])) {
-      header('Location: '.$path.'homepage/index.php');
-    }
 
     // move the user to rnd page if the user is RND
     if(isset($_SESSION['user_loggedIn'])) {
@@ -481,7 +478,7 @@
                     </div>
                   </div>
                   <!-- right -->
-                  <div class="form-input-parent physical-body-type">
+                  <div class="form-input-parent physical-body-type tooltip">
                     <!-- Body type -->
                     <div class="form-input-box form-radio-box">
                       <p>Body type <span>*</span></p>
@@ -496,6 +493,9 @@
                           <label for="<?php echo $name ?>"><?php echo $data['body_type_name'] ?></label>
                         </div>
                         <?php } ?>
+
+                        <span class="tooltiptext"><?php echo $tootTipHeight ?></span>
+
 
                       </div>
                     </div>

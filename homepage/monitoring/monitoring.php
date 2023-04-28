@@ -4,10 +4,6 @@
 
   session_start();
 
-  if(!isset($_SESSION['user_loggedIn'])) {
-    header('Location: '.$path.'homepage/index.php');
-  }
-
   require_once $path."classes/monitor.class.php";
   require_once $path."classes/appoint.class.php";
 
