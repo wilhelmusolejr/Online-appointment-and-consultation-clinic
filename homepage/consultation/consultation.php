@@ -478,11 +478,11 @@
                     </div>
                   </div>
                   <!-- right -->
-                  <div class="form-input-parent physical-body-type tooltip">
+                  <div class="form-input-parent physical-body-type ">
                     <!-- Body type -->
-                    <div class="form-input-box form-radio-box">
+                    <div class="form-input-box form-radio-box ">
                       <p>Body type <span>*</span></p>
-                      <div class="gender-con radio-default">
+                      <div class="gender-con radio-default ">
 
                         <?php foreach($appoint -> getBodyTypeForm() as $data) { 
                           $name = "body-type--".$data['body_type_name'];
@@ -493,9 +493,6 @@
                           <label for="<?php echo $name ?>"><?php echo $data['body_type_name'] ?></label>
                         </div>
                         <?php } ?>
-
-                        <span class="tooltiptext"><?php echo $tootTipHeight ?></span>
-
 
                       </div>
                     </div>
