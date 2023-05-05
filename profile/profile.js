@@ -1,5 +1,7 @@
 "use strict";
 
+const { Chart } = require("chart.js");
+
 let path = "../";
 
 let profileContainer = document.querySelector(".profile-page-container");

@@ -3,33 +3,6 @@
   padding: 50px 0;
 }
 
-table,
-th,
-td {
-  border: 1px solid black;
-  border-collapse: collapse;
-}
-
-table {
-  width: 100%;
-}
-
-th {
-  background-color: var(--color-green-primary);
-
-  padding: 40px 0;
-
-  font-size: clamp(1.6rem, 5vw, 1.8rem);
-  color: white;
-  font-weight: 400;
-
-  letter-spacing: 2px;
-}
-td {
-  font-size: clamp(1.6rem, 5vw, 1.8rem);
-  padding: 25px 0;
-}
-
 .client_name {
   width: 20%;
 }

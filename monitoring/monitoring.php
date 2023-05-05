@@ -55,7 +55,7 @@
       </form>
     </div>
 
-    <table>
+    <table id="example" class="display">
       <tr class="text-uppercase">
         <th>Appointment number</th>
         <th>Chief complaint</th>

@@ -30,7 +30,7 @@ function getAllPendingAppoint() {
     url: `${path}php/request/req-all-pending-appoint.php`,
     dataType: "json",
     success: function (data) {
-      console.log(data);
+      // console.log(data);
 
       // tabulate data in table
       document.querySelector("tbody").innerHTML = generatePendingMarkUp(data);

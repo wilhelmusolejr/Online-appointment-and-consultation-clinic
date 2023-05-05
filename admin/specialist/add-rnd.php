@@ -133,16 +133,23 @@
               <p class="error-text"><?php echo $fileError['response'] == 0 ? $fileError['message'] : ""?></p>
             </div>
 
+            <!-- profile image -->
+            <div class="input-parent profile-image">
+              <label for="profile_image">Communication link <span>*</span></label>
+              <input type="text" id="communication_link" name="communication_link"
+                placeholder="https://meet.google.com/uiz-mywk-ghb" required>
+            </div>
+
             <div class="form-group">
               <!-- profile first name -->
               <div class="input-parent">
                 <label for="first_name">First name <span>*</span></label>
-                <input type="text" id="first_name" name="first_name" value="Jenny">
+                <input type="text" id="first_name" name="first_name" value="Jenny" required>
               </div>
 
               <!-- profile middle name -->
               <div class="input-parent">
-                <label for="middle_name">Middle name <span>*</span></label>
+                <label for="middle_name">Middle name</label>
                 <input type="text" id="middle_name" name="middle_name" value="Hackerman">
               </div>
             </div>
@@ -151,7 +158,7 @@
               <!-- profile last name -->
               <div class="input-parent">
                 <label for="last_name">Last name <span>*</span></label>
-                <input type="text" id="last_name" name="last_name" value="Hackerman">
+                <input type="text" id="last_name" name="last_name" value="Hackerman" required>
               </div>
 
               <!-- profile last name -->
@@ -164,11 +171,11 @@
             <div class="input-parent radio-parent">
               <label for="gender">Gender <span>*</span></label>
               <div>
-                <input type="radio" id="gender_male" name="gender" value="male" checked>
+                <input type="radio" id="gender_male" name="gender" value="male" checked required>
                 <label for="gender_male">Male</label><br>
               </div>
               <div>
-                <input type="radio" id="gender_female" name="gender" value="femail">
+                <input type="radio" id="gender_female" name="gender" value="femail" required>
                 <label for="gender_female">Female</label><br>
               </div>
             </div>
@@ -177,13 +184,13 @@
               <!-- profile phone number -->
               <div class="input-parent">
                 <label for="phone_num">Phone number <span>*</span></label>
-                <input type="text" id="phone_num" name="phone_num" value="09972976807">
+                <input type="text" id="phone_num" name="phone_num" value="09972976807" required>
               </div>
 
               <!-- profile email number -->
               <div class="input-parent">
                 <label for="email_add">Email address <span>*</span></label>
-                <input type="email" id="email_add" name="email_add" value="jenny.hackerman@gmail.com">
+                <input type="email" id="email_add" name="email_add" value="jenny.hackerman@gmail.com" required>
                 <p class="error-text"><?php echo $emailError['response'] == 0 ? $emailError['message'] : ""?></p>
               </div>
             </div>
@@ -192,13 +199,13 @@
               <!-- profile password -->
               <div class="input-parent">
                 <label for="password">Password <span>*</span></label>
-                <input type="password" id="password" name="password" value="qw09058222">
+                <input type="password" id="password" name="password" value="qw09058222" required>
               </div>
 
               <!-- profile confirm password -->
               <div class="input-parent">
                 <label for="confirm_password">Confirm Password <span>*</span></label>
-                <input type="password" id="confirm_password" name="confirm_password" value="qw09058222">
+                <input type="password" id="confirm_password" name="confirm_password" value="qw09058222" required>
               </div>
             </div>
           </div>

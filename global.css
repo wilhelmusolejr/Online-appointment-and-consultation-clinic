@@ -1095,6 +1095,9 @@ footer .nav-links {
   border-radius: 20px;
   width: 350px;
   min-height: 450px;
+  max-height: 500px;
+
+  overflow-y: scroll;
 
   display: flex;
   flex-direction: column;
@@ -1121,7 +1124,8 @@ footer .nav-links {
 }
 .notif-item {
   border-bottom: 1px solid black;
-  padding: 10px 20px;
+
+  position: relative;
 }
 .notif-item:hover {
   background-color: #277043;
@@ -1369,4 +1373,88 @@ footer .nav-links {
 .checkbox-container-parent p {
   font-weight: 200;
   padding-bottom: 5px;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+table {
+  width: 100%;
+}
+
+th {
+  background-color: var(--color-green-primary);
+
+  padding: 30px !important;
+  text-align: center;
+
+  font-size: clamp(1.6rem, 5vw, 1.8rem);
+  color: white;
+  font-weight: 400;
+
+  letter-spacing: 2px;
+}
+
+td {
+  font-size: clamp(1.6rem, 5vw, 1.8rem);
+  padding: 20px 0;
+}
+
+.checkbox-parent {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+
+  gap: 10px;
+}
+
+.checkbox-parent input {
+  width: min-content;
+  padding: 20px;
+}
+
+.nav-communication {
+  position: relative;
+}
+
+.notif-num-container {
+  background-color: rgba(255, 0, 0, 0.9);
+  width: 25px;
+  height: 25px;
+
+  border-radius: 50%;
+
+  position: absolute;
+  top: -5px;
+  right: -10px;
+}
+
+.notif-num-container .notif-num {
+  color: white;
+}
+
+.notif-list .divider {
+  align-items: center;
+}
+
+.notif-item a {
+  padding: 20px;
+}
+
+.notif-item .isRead {
+  width: 15px;
+  height: 15px;
+
+  border-radius: 50%;
+
+  background-color: rgba(255, 0, 0, 0.9);
+}
+
+.button-small {
+  padding: 5px 10px;
 }

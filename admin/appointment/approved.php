@@ -29,6 +29,14 @@
     integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+
+  <!-- DATA TABLES -->
+  <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.5.1.js" defer></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js" defer></script>
+
+  <script src="table.js" defer></script>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Appointment</title>
 </head>
@@ -40,56 +48,39 @@
     <i class='bx bx-menu'></i>
     <span class="text">MANAGE INSTRUCTOR</span>
     <div class="home-contents">
-      <div class="table-containers">
-        <table class="table">
-          <div class="table-heading">
-
-            <?php
-                    {
-                    ?>
-            <span class="search hidden">
-              <input type="text" placeholder=" Search appointment">
-              <i class="fa-solid fa-magnifying-glass"></i>
-            </span>
-            <?php
-                    } ?>
-
-          </div>
-          <div class="divider-no-border"></div>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>APPOINTMENT NUMBER</th>
-                <th>CHIEF COMPLAINT</th>
-                <th>APPOINTMENT DATE</th>
-                <th>PATIENT NAME</th>
-                <th>DOCTOR NAME</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-
-              <?php foreach($approvedAppoint as $appoint) { 
+      <table id="example" class="table display">
+        <thead>
+          <tr>
+            <th>APPOINTMENT NUMBER</th>
+            <th>CHIEF COMPLAINT</th>
+            <th>APPOINTMENT DATE</th>
+            <th>PATIENT NAME</th>
+            <th>DOCTOR NAME</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach($approvedAppoint as $appoint) { 
               
               // $img = $patient['profile_img'] == null ? "dummy_user.jpg" : $patient['profile_img'];
               // $idStatus = $patient['id_status'] == null ? "UNVERIFIED" : $patient['id_status'];
               
               ?>
-              <tr class="hiddens">
-                <td class="table-id"><a
-                    href="<?php echo $path."../homepage/consultation/consultation.php?transact_id=".$appoint['transact_id'] ?>">#<?php echo $appoint['transact_id'] ?></a>
-                </td>
-                <td><?php echo $appoint['chief_complaint'] ?></td>
-                <td><?php echo $appoint['appoint_date_submitted'] ?></td>
-                <td><?php echo $appoint['first_name']." ".$appoint['last_name'] ?></td>
-                <td><?php echo $appoint['contact'] ?></td>
-                <td><?php echo $appoint['board_page'] == 5 ? "Completed" : "Ongoing" ?></td>
-              </tr>
-              <?php } ?>
+          <tr class="hiddens">
+            <td class="table-id">
+              <p>#<?php echo $appoint['transact_id'] ?></p>
+            </td>
+            <td><?php echo $appoint['chief_complaint'] ?></td>
+            <td><?php echo $appoint['appoint_date_submitted'] ?></td>
+            <td><?php echo $appoint['first_name']." ".$appoint['last_name'] ?></td>
+            <td><?php echo $appoint['contact'] ?></td>
+            <td><?php echo $appoint['board_page'] == 5 ? "Completed" : "Ongoing" ?></td>
+          </tr>
+          <?php } ?>
 
 
-            </tbody>
-      </div>
+        </tbody>
+    </div>
   </section>
 
   <script>

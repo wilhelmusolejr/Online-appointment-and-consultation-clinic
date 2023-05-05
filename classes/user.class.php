@@ -32,6 +32,10 @@ Class user{
 
     public $search_string;
 
+    public $transact_id;
+
+    public $receiveNotifEmail;
+
 
     protected $db;
 
@@ -44,6 +48,21 @@ Class user{
         INNER JOIN tbl_user_acc_info ON tbl_user_acc_info.user_id = tbl_user_profile.user_id 
         WHERE user_privilege = 'rnd'";
         $query=$this->db->connect()->prepare($sql);
+
+        if($query->execute()){
+            $data = $query->fetchAll();
+        }
+        return $data;
+    }
+
+    function getAllPreferredRnd() {
+        $sql = "SELECT * FROM `tbl_preferred_rnd` 
+        INNER JOIN tbl_transact_appoint ON tbl_transact_appoint.appoint_id = tbl_preferred_rnd.appoint_id 
+        INNER JOIN tbl_transact ON tbl_transact.transact_id = tbl_transact_appoint.transact_id 
+        WHERE tbl_transact.transact_id = :transact_id;";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':transact_id', $this-> transact_id);
 
         if($query->execute()){
             $data = $query->fetchAll();
@@ -116,9 +135,9 @@ Class user{
 
     function register() {
         $sql = "INSERT INTO `tbl_user_profile` (`user_id`, `user_privilege`, `user_type`,
-        `first_name`, `middle_name`, `last_name`, `contact`, `gender`, `birthdate`, `profile_img`) 
+        `first_name`, `middle_name`, `last_name`, `contact`, `gender`, `birthdate`, `profile_img`, `receiveNotifEmail`) 
         VALUES (NULL, :user_privilege, :user_type, :first_name, :middle_name, :last_name, :contact, 
-            :gender, :birthdate, NULL)";
+            :gender, :birthdate, NULL, 1)";
         $query=$this->db->connect()->prepare($sql);
 
         $query->bindParam(':user_privilege', $this-> user_privilege);
@@ -192,7 +211,7 @@ Class user{
     function updateUserProfile() {
         $sql = "UPDATE tbl_user_profile SET user_type = :user_type, first_name = :first_name, middle_name =
          :middle_name, last_name = :last_name, contact = :contact, gender = :gender, 
-         birthdate = :birthdate, profile_img = :profile_img WHERE user_id = :user_id";
+         birthdate = :birthdate, profile_img = :profile_img, receiveNotifEmail = :receiveNotifEmail WHERE user_id = :user_id";
         $query=$this->db->connect()->prepare($sql);
 
         $query->bindParam(':user_type', $this-> user_type);
@@ -204,6 +223,7 @@ Class user{
         $query->bindParam(':birthdate', $this-> birthdate);
         $query->bindParam(':user_id', $this-> user_id);
         $query->bindParam(':profile_img', $this-> profile_img);
+        $query->bindParam(':receiveNotifEmail', $this-> receiveNotifEmail);
         
         if($query->execute()) {
             return true;
@@ -485,7 +505,7 @@ Class user{
 
 
     function getAllNotif() {
-        $sql = "SELECT * FROM tbl_notification WHERE user_id = :user_id";
+        $sql = "SELECT * FROM tbl_notification WHERE user_id = :user_id ORDER BY created_at DESC";
         $query=$this->db->connect()->prepare($sql);
 
         $query->bindParam(':user_id', $this-> user_id);
@@ -494,6 +514,31 @@ Class user{
             $data = $query->fetchAll();
         }
         return $data;
+    }
+
+    function getAllUnreadNotif() {
+        $sql = "SELECT * FROM tbl_notification WHERE user_id = :user_id AND is_read = 0";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':user_id', $this-> user_id);
+
+        if($query->execute()){
+            $data = $query->fetchAll();
+        }
+        return $data;
+    }
+
+
+    function resetNotif() {
+        $sql = "UPDATE tbl_notification SET is_read = 1 WHERE is_read = 0 AND user_id = :user_id;";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':user_id', $this-> user_id);
+
+        if($query -> execute()) {
+            return true;
+        }
+        return false;
     }
 }
 

@@ -21,7 +21,7 @@
     $userData = $user -> getUserData();
   }
 
-  print_r($userData);
+  // print_r($userData);
 
   require_once $path.'includes/starterOne.php';  
 ?>
@@ -169,6 +169,22 @@
             <div class="confirm-password form-input-box">
               <label for="reg-pass-confirm" class="text-capital">New Password</label>
               <input type="password" name="reg-pass-confirm" id="reg-pass-confirm" placeholder="Confirm your password">
+              <p class="form-error-message"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Account Info -->
+        <div class="account-info-form form-group">
+          <div class="form-group-header text-uppercase">
+            <p>Setting</p>
+          </div>
+          <div class="form-input-parent">
+            <!-- Current password -->
+            <div class="password form-input-box checkbox-parent ">
+              <input type="checkbox" name="receive_mail" id="receive_mail"
+                <?php echo $userData['receiveNotifEmail'] == 1 ? "checked" : "" ?>>
+              <label for="receive_mail" class="text-capital cursor-pointer">Receive notification by email</label>
               <p class="form-error-message"></p>
             </div>
           </div>

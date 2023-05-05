@@ -612,6 +612,7 @@ class monitor {
     INNER JOIN tbl_transact_appoint_checkpoint_rnd_status as tbl_transact_ck_rnd ON tbl_transact_ck_rnd.transact_id = tbl_monitor.transact_id 
     INNER JOIN tbl_transact_appoint ON tbl_transact_appoint.transact_id = tbl_monitor.transact_id 
     INNER JOIN tbl_transact_appoint_consult ON tbl_transact_appoint_consult.appoint_id = tbl_transact_appoint.appoint_id 
+    INNER JOIN tbl_user_profile ON tbl_user_profile.user_id = tbl_transact.user_id 
     WHERE tbl_transact_ck_rnd.rnd_id = :rnd_id;";
     $query=$this->db->connect()->prepare($sql);
 

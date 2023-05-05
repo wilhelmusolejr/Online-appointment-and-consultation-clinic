@@ -16,6 +16,8 @@
 <?php require_once $path.'includes/starterTwo.php'; ?>
 
 <body>
+  <p class="path_locator hidden"><?php echo $path ?></p>
+
   <header>
     <!-- website tag -->
     <?php require_once $path.'includes/websitetag.php'; ?>

@@ -1,13 +1,5 @@
-<?php 
-  require_once $path.'classes/user.class.php';
+<p class="path_locator hidden"><?php echo $path ?></p>
 
-  if(isset($_SESSION['user_loggedIn'])) {
-    $user = new user;
-    $user -> user_id = $_SESSION['user_loggedIn']['user_id'];
-    $notification = $user -> getAllNotif();
-  }
-
-?>
 
 <div class="navigator-parent sizing-main">
   <!-- nav -->
@@ -58,7 +50,7 @@
   </div>
 
   <!-- communication -->
-  <div class="nav-communication hidden <?php echo isset($_SESSION['loggedIn'])? "": "hidden" ?>">
+  <div class="nav-communication <?php echo isset($_SESSION['loggedIn'])? "": "hidden" ?>">
     <i class="fa-solid fa-bell"></i>
     <i class="fa-solid fa-comments hidden"></i>
 
@@ -66,18 +58,23 @@
       <h3>Notifications</h3>
 
       <ul class="notif-list">
-        <?php foreach($notification as $notif) { ?>
-        <li class="notif-item"><a href="<?php echo $notif['link'] ?>">
-            <p class="notif-name"><?php echo $notif['message'] ?></p>
-            <p class="notif-time"><?php echo $notif['created_at']?></p>
+        <li class="notif-item hidden">
+          <a class="divider" href="https://google.com">
+            <div>
+              <p class="divider-grow">Test</p>
+              <p class="notif-time">4 hours ago</p>
+            </div>
+            <span class="isRead"></span>
           </a>
         </li>
-        <?php } ?>
       </ul>
 
       <div class="notif-show-all text-center hidden">
         <a class='text-uppercase' href="<?php echo $path."notification/notification.php" ?>">See all</a>
       </div>
+    </div>
+
+    <div class="notif-num-container flex-center ">
     </div>
   </div>
 

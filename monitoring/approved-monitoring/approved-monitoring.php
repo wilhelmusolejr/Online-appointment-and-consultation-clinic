@@ -22,8 +22,8 @@
   require_once $path.'includes/starterOne.php';  
 ?>
 <link rel="stylesheet" href="approved-monitoring.css" />
-<script src="pending-monitoring.js" defer></script>
 <script type="module" src="<?php echo $path."homepage/index.js" ?>" defer></script>
+<script src="approved-monitoring.js" defer></script>
 <script src="../side-bar.js" defer></script>
 <?php require_once $path.'includes/starterTwo.php'; ?>
 
@@ -44,7 +44,7 @@
         <section class="pending-appoint-parent sizing-secondary text-center">
 
           <div class="pending-appoint-container flex-center grid-container">
-            <table>
+            <table id="example" class="display">
               <thead>
                 <tr class="text-uppercase">
                   <th>MONITORING NUMBER</th>
@@ -59,12 +59,14 @@
                 <tr>
                   <!-- monitoring -->
                   <td class="appointment-number">
-                    <a
-                      href="<?php echo $path."homepage/monitoring/monitoring.php?monitor_id=".$transact['monitor_id']."&week=1" ?>">#<?php echo $transact['monitor_id'] ?></a>
+                    <a class="button button-primary button-small"
+                      href="<?php echo $path."homepage/monitoring/monitoring.php?monitor_id=".$transact['monitor_id']."&week=1" ?>">See
+                      more</a>
                   </td>
                   <!-- appointment -->
-                  <td class="appointment-number"><a
-                      href="<?php echo $path."homepage/consultation/rnd/consultation.php?transact_id=".$transact['transact_id'] ?>">#<?php echo $transact['transact_id'] ?></a>
+                  <td class="appointment-number"><a class="button button-primary button-small"
+                      href="<?php echo $path."homepage/consultation/rnd/consultation.php?transact_id=".$transact['transact_id'] ?>">See
+                      more</a>
                   </td>
                   <!-- chief complaint -->
                   <td><?php echo $transact['chief_complaint'] ?></td>

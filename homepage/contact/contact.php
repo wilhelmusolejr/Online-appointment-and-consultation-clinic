@@ -14,6 +14,8 @@
 
 
 <body>
+  <p class="path_locator hidden"><?php echo $path ?></p>
+
   <!-- HEADER -->
   <header>
     <!-- website tag -->

@@ -23,8 +23,8 @@
   require_once $path.'includes/starterOne.php';  
 ?>
 <link rel="stylesheet" href="approved-appointment.css" />
-<script src="approved-appointment.js" defer></script>
 <script type="module" src="<?php echo $path."homepage/index.js" ?>" defer></script>
+<script src="approved-appointment.js" defer></script>
 <script src="../side-bar.js" defer></script>
 <?php require_once $path.'includes/starterTwo.php'; ?>
 
@@ -44,56 +44,35 @@
         <!-- SECTION - List of RND -->
         <section class="pending-appoint-parent sizing-secondary text-center">
 
-          <div class="pending-appoint-container flex-center grid-container">
-            <table>
+          <table id="example" class="display">
+            <thead>
               <tr class="text-uppercase">
                 <th>Appointment number</th>
                 <th>Nutrional Concern</th>
-                <th>Date</th>
                 <th>Client</th>
+                <th>Date</th>
               </tr>
-              <?php foreach($listOfApproved as $transact) { 
+            </thead>
+            <?php foreach($listOfApproved as $transact) { 
                 date_default_timezone_set('Asia/Manila');
                 $mydate = strtotime($transact['appoint_date']." ".$transact['appoint_time']);
                 ?>
-              <tr class="hiddens">
-                <td class="appointment-number"><a target="_blank"
-                    href="<?php echo $path."homepage/consultation/rnd/consultation.php?transact_id=".$transact['transact_id'] ?>">#<?php echo $transact['transact_id'] ?>
-                </td></a>
+            <tr class="hiddens">
+              <td class="appointment-number"><a class="button button-primary button-small" target="_blank"
+                  href="<?php echo $path."homepage/consultation/rnd/consultation.php?transact_id=".$transact['transact_id'] ?>">See
+                  more</a></td>
 
-                <td><?php echo $transact['chief_complaint'] ?></td>
-                <td>
-                  <?php echo date('D, d M Y, g:i a', $mydate) ?>
-                </td>
-                <td class="client_name">
-                  <?php echo $transact['first_name']." ".$transact['last_name'] ?>
-                </td>
-              </tr>
-              <?php } ?>
-            </table>
+              <td><?php echo $transact['chief_complaint'] ?></td>
+              <td class="client_name">
+                <?php echo $transact['first_name']." ".$transact['last_name'] ?>
+              </td>
+              <td>
+                <?php echo date('D, d M Y, g:i a', $mydate) ?>
+              </td>
 
-            <!-- MODAL -->
-            <!-- MODAl - CONFIRMATION -->
-            <div
-              class="modal-parent modal-notif-parent modal-appointment-confirmation overlay-black flex-center  hidden">
-
-              <!-- hidden - fox ajax -->
-              <input type="hidden" name="submit" value='true' id="submit">
-
-              <div class="modal-container modal-notif-container sizing-secondary ">
-                <div class="modal-header text-center">
-                  <h2 class="text-uppercase">Are you sure?</h2>
-                </div>
-                <p class="text-center">message</p>
-                <div class="modal-buttons flex-center">
-                  <a class="button button-cancel">Go back</a>
-                  <button type="submit" name='submit' value="submit" class="button button-accept ">Accept</button>
-                  <button type="submit" name='submit' value="submit" class="button button-denaid hidden">Denaid</button>
-                  <a href="<?php echo $_SERVER['PHP_SELF'] ?>" class="button button-primary hidden">Done</a>
-                </div>
-              </div>
-            </div>
-          </div>
+            </tr>
+            <?php } ?>
+          </table>
 
 
         </section>

@@ -66,6 +66,8 @@ Class appoint{
     public $message;
     public $link;
 
+    public $preferred_rnd;
+
     protected $db;
 
     function __construct()
@@ -421,11 +423,34 @@ Class appoint{
         return $data['appoint_id'];
     }
 
+    function setPreferredRnd() {
+        $sql = "INSERT INTO `tbl_preferred_rnd` (`preferred_rnd_id`, `appoint_id`, `rnd_id`) 
+        VALUES ";
+
+        $values = [];
+
+        foreach($this -> preferred_rnd as $rnd) {
+            array_push($values, "(NULL, $this->appoint_id, '$rnd')");
+        }
+
+        $final = join(",", $values);
+        $query=$this->db->connect()->prepare($sql.$final);
+
+        if($query->execute()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     function getTransactLatest() {
         $sql = "SELECT * FROM tbl_transact WHERE user_id = :user_id ORDER BY transact_id DESC LIMIT 1;";
 
         $query=$this->db->connect()->prepare($sql);
+       
         $query->bindParam(':user_id', $this->user_id);
+
         if($query->execute()){
             $data = $query->fetch();
         }
@@ -553,8 +578,11 @@ Class appoint{
 
 
     function getAllPendingAppoint() {
-        $sql = "SELECT * FROM tbl_transact INNER JOIN tbl_transact_appoint ON tbl_transact.transact_id = tbl_transact_appoint.transact_id INNER JOIN tbl_transact_appoint_consult as appoint_consult ON tbl_transact_appoint.appoint_id = appoint_consult.appoint_id INNER JOIN tbl_transact_appoint_checkpoint_appoint_status as ck_pending_appoint ON tbl_transact.transact_id = ck_pending_appoint.transact_id WHERE
-         ck_pending_appoint.appoint_status = 'PENDING';";
+        $sql = "SELECT * FROM tbl_transact 
+        INNER JOIN tbl_transact_appoint ON tbl_transact.transact_id = tbl_transact_appoint.transact_id 
+        INNER JOIN tbl_transact_appoint_consult as appoint_consult ON tbl_transact_appoint.appoint_id = appoint_consult.appoint_id 
+        INNER JOIN tbl_transact_appoint_checkpoint_appoint_status as ck_pending_appoint ON tbl_transact.transact_id = ck_pending_appoint.transact_id 
+        WHERE ck_pending_appoint.appoint_status = 'PENDING' ORDER BY tbl_transact.transact_id DESC;";
         $query=$this->db->connect()->prepare($sql);
 
         if($query->execute()){
@@ -762,6 +790,21 @@ Class appoint{
         $query=$this->db->connect()->prepare($sql);
 
         $query->bindParam(':user_id', $this-> transact_id);
+        $query->bindParam(':message', $this-> message);
+        $query->bindParam(':link', $this-> link);
+
+        if($query->execute()){
+            return true;
+        }
+        return false;
+    }
+
+    function notifSetAppointment() {
+        $sql = "INSERT INTO `tbl_notification` (`tbl_notif_id`, `user_id`, `message`, `is_read`, `created_at`, `link`) 
+        VALUES (NULL, :user_id, :message, '0', current_timestamp(), :link)";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':user_id', $this-> user_id);
         $query->bindParam(':message', $this-> message);
         $query->bindParam(':link', $this-> link);
 

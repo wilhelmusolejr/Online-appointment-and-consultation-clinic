@@ -2,10 +2,14 @@
   $path = "../../../";
 
   require_once $path.'classes/appoint.class.php';
+  require_once $path.'classes/email.class.php';
   require_once $path.'php/general.php';
   require_once $path.'classes/database.php';
 
   session_start();
+
+  // echo json_encode($_POST);
+  // exit();
 
   $resultTotal = array("errorResponse" => [], "transact_id" => null);
 
@@ -152,6 +156,7 @@
       $appoint-> consul_referal = $_FILES['appointment-referral']['name'] != "" ? $_FILES['appointment-referral']['name']: null;
       $appoint-> consul_record = $_FILES['appointment-medical']['name'] != "" ? $_FILES['appointment-medical']['name']: null;
       $appoint-> consul_more_info = isset($_POST['appointment-more-info']) ? validateInput($_POST['appointment-more-info']): null;
+      $appoint-> preferred_rnd = $_POST['preferred-rnd'];
 
       $res = $appoint->setAppoint();
       $res = $appoint->setConsultInfo();
@@ -161,8 +166,42 @@
       $res = $appoint->setMedicalInfo();
       $res = $appoint->setAppointCheckpointStatus();
       $res = $appoint->setRndStatus();
+      $res = $appoint->setPreferredRnd();
 
-      $_SESSION['transact_id'] = $appoint -> getTransactLatest();
+      $latestTransact = $appoint -> getTransactLatest();
+
+      $user = $_SESSION['user_loggedIn'];
+      $website = "wmsu-dietitianconsult.online/";
+
+      $notifLink = "homepage/consultation/consultation.php?transact_id=".$latestTransact;
+      $anchorAppoint = "#".$latestTransact;
+
+      // NOTIF MAIL
+      if($user['receiveNotifEmail'] == 1) {
+        $mail = new mail;
+        $mail -> receiver = $user['email'];
+        $mail -> subject = "WMSU Dietitian | #".$latestTransact." Appointment Received";
+        $mail -> content = "
+        <div class='container-message-parent'>
+          <br>
+          <p>Dear Mr/Ms ".$user['last_name'].",</p>
+          <p>You have successfully sent your appointment
+          request with appointment <a href='".$website.$notifLink."'>".$anchorAppoint."</a>. Your
+          request is pending for approval. Kindly wait for
+          further updates.</p>
+          <br>
+        </div>";
+        $mail -> body = $mail -> finalTemplate();
+  
+        $mail -> sendingEmail();
+      }
+
+      // NOTIF APP
+      $appoint -> message = "Your appointment request with appointment ".$anchorAppoint." is pending for approval.";
+      $appoint -> link = $notifLink;   
+      $appoint -> notifSetAppointment();
+
+      $_SESSION['transact_id'] = $latestTransact;
       $_GET['transact_id'] = $_SESSION['transact_id'];
       $resultTotal['transact_id'] = $_SESSION['transact_id'];
 

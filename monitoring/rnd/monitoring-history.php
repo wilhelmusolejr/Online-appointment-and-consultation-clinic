@@ -48,7 +48,7 @@
       <h2 class="text-uppercase">Monitoring History</h2>
     </div>
 
-    <div class="appointment-container flex-center grid-container">
+    <div class="appointment-container flex-center grid-container hidden ">
       <!-- Set up your appointment -->
       <form action="monitoring-history.php?" class="form search-form" method="get">
         <!-- search appoint id  -->
@@ -62,25 +62,33 @@
       </form>
     </div>
 
-    <table>
-      <tr class="text-uppercase">
-        <th>Monitoring number</th>
-        <th>Appointment number</th>
-        <th>Chief complaint</th>
-        <th>Monitor date</th>
-        <th>Current Week</th>
-      </tr>
+    <table id="example" class="display">
+      <thead>
+        <tr class="text-uppercase">
+          <th>Monitoring number</th>
+          <th>Appointment number</th>
+          <th>Full Name</th>
+          <th>Chief complaint</th>
+          <th>Monitor date</th>
+          <th>Current Week</th>
+        </tr>
+      </thead>
       <?php foreach($result as $transact) { ?>
       <tr>
         <!-- monitoring -->
         <td class="appointment-number">
-          <a
-            href="<?php echo $path."homepage/monitoring/rnd/monitoring.php?monitor_id=".$transact['monitor_id']."&week_num=1" ?>">#<?php echo $transact['monitor_id'] ?></a>
+          <a class="button button-primary button-small"
+            href="<?php echo $path."homepage/monitoring/rnd/monitoring.php?monitor_id=".$transact['monitor_id']."&week_num=1" ?>">See
+            more</a>
         </td>
         <!-- appointment -->
-        <td class="appointment-number"><a
-            href="<?php echo $path."homepage/consultation/rnd/consultation.php?transact_id=".$transact['transact_id'] ?>">#<?php echo $transact['transact_id'] ?></a>
+        <td class="appointment-number">
+          <a class="button button-primary button-small"
+            href="<?php echo $path."homepage/consultation/rnd/consultation.php?transact_id=".$transact['transact_id'] ?>">See
+            more</a>
         </td>
+        <!-- Full name -->
+        <td><?php echo $transact['first_name']." ".$transact['last_name'] ?></td>
         <!-- chief complaint -->
         <td><?php echo $transact['chief_complaint'] ?></td>
         <!-- monitor date -->

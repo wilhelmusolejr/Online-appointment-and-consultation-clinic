@@ -24,11 +24,12 @@
         header("location: rnd/consultation.php");
       }
     }
+
+    $user = new user;
+    $rndList = $user -> getAllRnd();
+
+    // print_r($rndList);
     
-    // SEARCH BAR --- GET --- TO GENERATE 
-    // print_r($_GET);
-    // print_r($_SESSION);
-    // print_r($consultResultData);
 
     require_once $path.'includes/starterOne.php';
 ?>
@@ -46,6 +47,8 @@
 <?php require_once $path.'includes/starterTwo.php'; ?>
 
 <body>
+  <p class="path_locator hidden"><?php echo $path ?></p>
+
   <header>
     <!-- website tag -->
     <?php require_once $path.'includes/websitetag.php'; ?>
@@ -284,13 +287,14 @@
                 </div>
                 <!-- form parent -->
                 <div class="divider">
+
                   <!-- left -->
-                  <div class="form-input-parent">
+                  <div class="form-input-parent divider-grow">
                     <!-- Chief complaint -->
                     <div class="form-input-box input-one">
                       <label for="appoint-chief-complaint">Nutrional Concern <span>*</span></label>
                       <input list="list-complaints" name="appoint-chief-complaint" id="appoint-chief-complaint"
-                        placeholder="Diet meal plan" required>
+                        placeholder="Diet meal plan" value="<?php echo $sampleText ?>" required>
                       <datalist id="list-complaints">
                         <option value="Diet Meal Plan">
                         <option value="Nutrition Counseling">
@@ -304,15 +308,16 @@
                     <div class="form-input-box input-two">
                       <label for="appointment-date" class="text-capital">Appointment date <span>*</span></label>
                       <input type="date" name="appointment-date" id="appointment-date"
-                        placeholder="Enter your middle name" required min="<?php echo date("Y-m-d") ?>">
+                        placeholder="Enter your middle name" value="<?php echo $randomDate ?>" required
+                        min="<?php echo date("Y-m-d") ?>">
                       <p class="form-error-message hidden">Error</p>
 
                     </div>
                     <!-- Appointment time -->
                     <div class="form-input-box input-two">
                       <label for="appointment-time" class="text-capital">Appointment time <span>*</span></label>
-                      <input type="time" name="appointment-time" id="appointment-time" min="08:00:00" max="17:00:00"
-                        required>
+                      <input type="time" name="appointment-time" id="appointment-time" value="<?php echo $randomTime ?>"
+                        min="08:00:00" max="17:00:00" required>
                       <p class="form-error-message hidden">Error</p>
                       <!-- value="01:0s0" -->
                     </div>
@@ -329,8 +334,9 @@
                       <p class="form-error-message"></p>
                     </div>
                   </div>
-                  <!-- right -->
-                  <div class="form-input-parent">
+
+                  <!-- middle -->
+                  <div class="form-input-parent divider-grow">
                     <!-- More Information -->
                     <div class="form-input-box input-one">
                       <label for="appointment-more-info" class="text-capital">More information</label>
@@ -338,6 +344,30 @@
                         placeholder="Give additional information about your Nutrional Concern."></textarea>
                     </div>
                   </div>
+
+                  <!-- right -->
+                  <div class="form-input-parent">
+                    <!-- family condition -->
+                    <div class="form-input-box form-radio-box family-past-condition">
+                      <label>Preferred RND <span>*</span></label>
+                      <div class="gender-con radio-default checkbox-container-parent">
+
+
+                        <?php foreach($rndList as $rnd) {
+                          $id = "rnd-".$rnd['user_id'];
+                          ?>
+                        <div>
+                          <input type="checkbox" id="<?php echo $id ?>" name="preferred-rnd[]"
+                            value="<?php echo $rnd['user_id']?>">
+                          <label
+                            for="<?php echo $id ?>"><?php echo "RND ".$rnd['first_name']." ".$rnd['last_name'] ?></label>
+                        </div>
+                        <?php } ?>
+                      </div>
+                    </div>
+                  </div>
+
+
                 </div>
               </section>
 
@@ -384,15 +414,14 @@
                     <!-- type of diet -->
                     <div class="form-input-box input-two">
                       <label for="appoint-type-diet">Are you on specific type of diet? <span>*</span></label>
-                      <input list="list-diet" name="appoint-type-diet" id="appoint-type-diet" required>
+                      <input list="list-diet" name="appoint-type-diet" id="appoint-type-diet"
+                        value="<?php echo $sampleText ?>" required>
                       <datalist id="list-diet">
                         <option value="Veganism diet" selected>
                         <option value="Fasting diet">
                         <option value="Ketogenic diet">
                         <option value="Gluten-free diet">
                         <option value="Low-fat diet">
-
-
                       </datalist>
                       <p class="form-error-message hidden">Error</p>
                     </div>
@@ -409,7 +438,7 @@
                         ?>
                         <div>
                           <input type="radio" id="<?php echo $name ?>" name="smoke-level"
-                            value="<?php echo $data['status_id'] ?>" required>
+                            value="<?php echo $data['status_id'] ?>" <?php echo $isRadio ? "checked" : "" ?> required>
                           <label for="<?php echo $name ?>"><?php echo $data['status_name'] ?></label>
                         </div>
                         <?php } ?>
@@ -428,7 +457,7 @@
                         ?>
                         <div>
                           <input type="radio" id="<?php echo $name ?>" name="drink-level"
-                            value="<?php echo $data['status_id'] ?>" required>
+                            value="<?php echo $data['status_id'] ?>" <?php echo $isRadio ? "checked" : "" ?> required>
                           <label for="<?php echo $name ?>"><?php echo $data['status_name'] ?></label>
                         </div>
                         <?php } ?>
@@ -453,7 +482,7 @@
                     <div class="form-input-box need-metric tooltip">
                       <label for="appoint-actual-weight">Actual weight <span>*</span></label>
                       <input type="number" class="need-metrics" min='0' name="appoint-actual-weight"
-                        id="appoint-actual-weight" placeholder="E.g 60" required>
+                        id="appoint-actual-weight" placeholder="E.g 60" value=<?php echo $inputWeight ?> required>
                       <span class="tooltiptext"><?php echo $tootTipWeight ?></span>
 
                       <select name="metric" class="metric hidden">
@@ -466,7 +495,7 @@
                     <div class="form-input-box need-metric tooltip">
                       <label for="appoint-current-height" class="text-capital">Current height <span>*</span></label>
                       <input type="number" min='0' name="appoint-current-height" id="appoint-current-height"
-                        placeholder="E.g 170" required>
+                        placeholder="E.g 170" value=<?php echo $inputHeight ?> required>
                       <span class="tooltiptext"><?php echo $tootTipHeight ?></span>
 
                       <select name="metric" class="metric hidden">
@@ -482,17 +511,21 @@
                     <!-- Body type -->
                     <div class="form-input-box form-radio-box ">
                       <p>Body type <span>*</span></p>
-                      <div class="gender-con radio-default ">
 
-                        <?php foreach($appoint -> getBodyTypeForm() as $data) { 
+                      <div class="gender-con radio-default tooltip">
+
+                        <?php $index = 0; foreach($appoint -> getBodyTypeForm() as $data) { 
                           $name = "body-type--".$data['body_type_name'];
                         ?>
-                        <div>
+                        <div class="  ">
                           <input type="checkbox" id="<?php echo $name ?>" name="body-type[]"
                             value="<?php echo $data['physical_body_type_id'] ?>" required>
                           <label for="<?php echo $name ?>"><?php echo $data['body_type_name'] ?></label>
                         </div>
-                        <?php } ?>
+                        <?php $index++; } ?>
+
+                        <span class="tooltiptext"><img style="width:500px" src="../../uploads/body_types_visual.jpg"
+                            alt=""></span>
 
                       </div>
                     </div>
@@ -506,7 +539,7 @@
                         ?>
                         <div>
                           <input type="radio" id="<?php echo $name ?>" name="physical-activity"
-                            value="<?php echo $data['physical_activity_id'] ?>">
+                            value="<?php echo $data['physical_activity_id'] ?>" <?php echo $isRadio ? "checked" : "" ?>>
                           <label for="<?php echo $name ?>"><?php echo $data['physical_act_name'] ?></label>
                         </div>
                         <?php } ?>
@@ -523,7 +556,7 @@
                         ?>
                         <div>
                           <input type="radio" id="<?php echo $name ?>" name="gain-weight-level"
-                            value="<?php echo $data['gain_lose_status_id'] ?>">
+                            value="<?php echo $data['gain_lose_status_id'] ?>" <?php echo $isRadio ? "checked" : "" ?>>
                           <label for="<?php echo $name ?>"><?php echo $data['status_name'] ?></label>
                         </div>
                         <?php } ?>
@@ -541,7 +574,7 @@
                         ?>
                         <div>
                           <input type="radio" id="<?php echo $name ?>" name="lose-weight-level"
-                            value="<?php echo $data['gain_lose_status_id'] ?>">
+                            value="<?php echo $data['gain_lose_status_id'] ?>" <?php echo $isRadio ? "checked" : "" ?>>
                           <label for="<?php echo $name ?>"><?php echo $data['status_name'] ?></label>
                         </div>
                         <?php } ?>
@@ -607,7 +640,7 @@
                           <label for="self-conditions-one-other">If others, specify</label>
                           <div class="tooltip">
                             <input type="text" id="self-conditions-otherValue" name="self-condition-other"
-                              value="<?php echo $multipleInputSample ?>" placeholder="E.g Ulcer, UTI" class="hiddens" />
+                              placeholder="E.g Ulcer, UTI" class="hiddens" />
                             <span class="tooltiptext "><?php echo $multipleInputMessage ?></span>
                           </div>
                         </div>
@@ -645,7 +678,7 @@
                           <label for="family-conditions-one-other">If others, specify</label>
                           <div class="tooltip">
                             <input type="text" id="family-conditions-otherValue" name="family-condition-one-other"
-                              class="hiddens" value="<?php echo $multipleInputSample ?>" placeholder="E.g Ulcer, UTI" />
+                              class="hiddens" placeholder="E.g Ulcer, UTI" />
                             <span class="tooltiptext "><?php echo $multipleInputMessage ?></span>
                           </div>
 
@@ -661,8 +694,8 @@
 
           <div class="form-button">
             <!-- prev -->
-            <div class="button-prev">
-              <button class="button hidden" disabled>prev</button>
+            <div class="button-tab-next">
+              <a class="button button-primary">Next</a>
             </div>
             <!-- middle -->
             <div>

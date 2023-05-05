@@ -75,6 +75,9 @@
 <?php require_once $path.'includes/starterTwo.php'; ?>
 
 <body>
+  <p class="path_locator hidden"><?php echo $path ?></p>
+
+
   <!-- HEADER -->
   <header>
     <!-- website tag -->
@@ -181,6 +184,7 @@
 
               // generate link for day
               $link_day = "monitoring.php?monitor_id=".$monitor_id."&week=".$get_week."&day=".$day['day_num']."";
+
             ?>
             <li>
               <a class="<?php echo $isBeyondDate ? "lock":"available" ?> <?php echo $get_day != null && $get_day == $day['day_num'] ? "current-day" : "" ?>"
@@ -236,57 +240,6 @@
     <div class="main-content ">
       <div class="main-content-container card">
 
-        <!-- Progress -->
-        <div class="board-progress hidden">
-          <div class="main flex-center">
-            <ul class="text-center">
-              <!-- 1 -->
-              <li data-board-page="1" class="current">
-                <i class="icon uil uil-capture"></i>
-                <div class="progress one">
-                  <p>1</p>
-                  <i class="uil uil-check"></i>
-                </div>
-                <p class="text">Assessment</p>
-              </li>
-              <!-- - -->
-              <li data-board-page="2" class="small-checkpoint">
-                <i class="icon uil uil-clipboard-notes"></i>
-                <div class="progress two">
-                  <!-- <p>2</p> -->
-                  <i class="uil uil-check"></i>
-                </div>
-              </li>
-              <!-- 2 -->
-              <li data-board-page="3">
-                <i class="icon uil uil-credit-card"></i>
-                <div class="progress three">
-                  <p>2</p>
-                  <i class="uil uil-check"></i>
-                </div>
-                <p class="text">Intervention</p>
-              </li>
-              <!-- - -->
-              <li data-board-page="4" class="small-checkpoint">
-                <i class="icon uil uil-exchange"></i>
-                <div class="progress four">
-                  <!-- <p>4</p> -->
-                  <i class="uil uil-check"></i>
-                </div>
-              </li>
-              <!-- 3 -->
-              <li data-board-page="5">
-                <i class="icon uil uil-map-marker"></i>
-                <div class="progress five">
-                  <p>3</p>
-                  <i class="uil uil-check"></i>
-                </div>
-                <p class="text">Outcome</p>
-              </li>
-            </ul>
-          </div>
-        </div>
-
         <!-- page header -->
         <div class="header">
           <h2 class="text-center text-uppercase">Monitoring system</h2>
@@ -302,19 +255,55 @@
           <div class="week-list-day-parent">
 
             <?php foreach($listOfDays as $day) { 
+
+              // to check if day is filled up
+              $monitor -> day_num = $day['day_num'];
+              $isFilledUp = $monitor -> getDayWeight();
+              $dayDataPhysical = $monitor -> getDayPhysicalAction();
+              $dayDataSupplement = $monitor -> getDaySupplement();
+              $dayDataFoodIntake = $monitor -> getDayFoodIntake();
+
+              $physicalLevel = "";
+              if($isFilledUp) {
+                switch($dayDataPhysical['physical_level']) {
+                  case 1:
+                    $physicalLevel = "Sedentary";
+                    break;
+                  case 2:
+                    $physicalLevel = "Light";
+                    break;
+                  case 3:
+                    $physicalLevel = "Moderate";
+                    break;
+                  case 4:
+                    $physicalLevel = "Very active";
+                    break;
+                }
+              }
               
               // to check if day is beyond target
               $isBeyondDate = $currentDate >= $day['date'];
 
               // generate link for day
               $link_day = "monitoring.php?monitor_id=".$monitor_id."&week=".$get_week."&day=".$day['day_num']."";
+
         ?>
 
             <!-- day 1 -->
-            <a href="<?php echo $link_day ?>" class="week-list-day-item text-uppercase card flex-center 
-        <?php echo $isBeyondDate ? "current-date" : "disabled" ?> ">
+            <a href="<?php echo $link_day ?>"
+              class="week-list-day-item card <?php echo $isFilledUp? "":"flex-center " ?> 
+        <?php echo $isBeyondDate ? "current-date" : "disabled" ?> <?php echo $isBeyondDate && !$isFilledUp ? "card-red" : "" ?>">
+              <?php if($isFilledUp) {?>
+              <p class="text-center text-uppercase">Day <?php echo $day['day_num'] ?></p>
+              <div class="card-data">
+                <p>Weight: <?php echo $isFilledUp['current_body_weight'] ?>kg</p>
+                <p>Activity: <?php echo $physicalLevel ?></p>
+                <p>Supplement: <?php echo $dayDataSupplement['supplement_name'] ?></p>
+              </div>
+              <?php } else { ?>
               <p>Day</p>
               <p><?php echo $day['day_num'] ?></p>
+              <?php } ?>
             </a>
 
             <?php } ?>

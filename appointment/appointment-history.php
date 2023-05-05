@@ -28,12 +28,17 @@
 ?>
 <link rel="stylesheet" href="<?php echo $path."homepage/index.css"?>" />
 <link rel="stylesheet" href="appointment-history.css">
+
 <script type="module" src="<?php echo $path."homepage/index.js" ?>" defer>
 </script>
 <script src="appointment-history.js" defer></script>
+
 <?php require_once $path.'includes/starterTwo.php'; ?>
 
 <body>
+  <p class="path_locator hidden"><?php echo $path ?></p>
+
+
   <!-- HEADER -->
   <header>
     <!-- website tag -->
@@ -49,7 +54,7 @@
       <h2 class="text-uppercase">appointment history</h2>
     </div>
 
-    <div class="appointment-container flex-center grid-container">
+    <div class="appointment-container flex-center grid-container hidden">
       <!-- Set up your appointment -->
       <form action="appointment-history.php?" class="form search-form" method="get">
         <!-- search appoint id  -->
@@ -63,37 +68,45 @@
       </form>
     </div>
 
-    <table>
-      <tr class="text-uppercase">
-        <th>Appointment number</th>
-        <th>Chief complaint</th>
-        <th>Appointment status</th>
-        <th>RND assigned</th>
-      </tr>
-      <?php foreach($result as $transact) { ?>
-      <tr>
-        <td class="appointment-number"><a
-            href="<?php echo $path."homepage/consultation/consultation.php?transact_id=".$transact['transact_id'] ?>">#<?php echo $transact['transact_id'] ?></a>
-        </td>
-        <td><?php echo $transact['chief_complaint'] ?></td>
-        <td>
-          <p class="status-<?php echo strtolower($transact['appoint_status']) ?> card">
-            <?php echo $transact['appoint_status'] ?></p>
-        </td>
-        <?php if($transact['rnd_status'] == 'APPROVED') { ?>
-        <td><a href="<?php echo $path."profile/profile.php?profile-id=".$transact['user_id'] ?>">RND
-            <?php echo $transact['first_name']." ".$transact['last_name'] ?></a></td>
-        <?php } else { ?>
-        <td>
-          <p class="status-pending card">PENDING</p>
-        </td>
+    <table id="example" class="display">
+      <thead>
+        <tr class="text-uppercase">
+          <th>Appointment number</th>
+          <th>Chief complaint</th>
+          <th>Appointment status</th>
+          <th>RND assigned</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach($result as $transact) { ?>
+        <tr>
+          <td class="appointment-number"><a class="button button-primary button-small"
+              href="<?php echo $path."homepage/consultation/consultation.php?transact_id=".$transact['transact_id'] ?>">See
+              more</a>
+          </td>
+          <td><?php echo $transact['chief_complaint'] ?></td>
+          <td>
+            <p class="status-<?php echo strtolower($transact['appoint_status']) ?> card">
+              <?php echo $transact['appoint_status'] ?></p>
+          </td>
+          <?php if($transact['rnd_status'] == 'APPROVED') { ?>
+          <td><a href="<?php echo $path."profile/profile.php?profile-id=".$transact['user_id'] ?>">RND
+              <?php echo $transact['first_name']." ".$transact['last_name'] ?></a></td>
+          <?php } else { ?>
+          <td>
+            <p class="status-pending card">PENDING</p>
+          </td>
+          <?php } ?>
+        </tr>
         <?php } ?>
-      </tr>
-      <?php } ?>
+      </tbody>
     </table>
+
     </div>
 
   </section>
+
+
 
   <!-- footer -->
   <?php require_once $path.'includes/footer.php'; ?>

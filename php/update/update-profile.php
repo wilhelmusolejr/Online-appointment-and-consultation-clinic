@@ -7,6 +7,9 @@ require_once $path."php/general.php";
 
 session_start();
 
+// echo json_encode($_POST);
+// exit();
+
 $target = "profile_img";
 $file = $_FILES[$target];
 
@@ -63,6 +66,7 @@ $user -> gender = $_POST['gender'] == "Male"? 1 : 2;
 $user -> birthdate = $_POST['birthdate'];
 $user -> contact = $_POST['reg-mob'];
 $user -> pass = $_POST['reg-pass-confirm'] == "" ? "" : $_POST['reg-pass-confirm'];
+$user -> receiveNotifEmail = isset($_POST['receive_mail']) ? 1 : 0;
 
 // CHECK IF changepassword
 if($user -> pass) {

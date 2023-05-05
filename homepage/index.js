@@ -1,11 +1,13 @@
 "use strict";
 
+let path = document.querySelector(".path_locator").textContent;
+
 import {
   checkPasswordMatch,
   checkPasswordValidity,
 } from "../tools/functions.js";
 
-console.log("updated 3/28 10:30pm");
+// console.log("updated 3/28 10:30pm");
 
 // NAVIGATOR
 const headerNavContainer = document.querySelector("header .navigator-parent");
@@ -18,10 +20,28 @@ const registerContainer = document.querySelector(".register-form-parent");
 const body = document.querySelector("body");
 
 headerNavContainer.addEventListener("click", function (e) {
-  // console.log(e.target);
+  console.log(e.target);
 
   if (e.target.closest(".nav-button")) {
     e.preventDefault();
+  }
+
+  // notif bell
+  if (e.target.classList.contains("fa-bell")) {
+    console.log("bell is clicked");
+
+    $.ajax({
+      type: "post", //hide url
+      url: `${path}php/update/upd-notification-resets.php`, //your form validation url
+      // data: $(".form-login").serialize(),
+      // dataType: "json",
+      success: function (response) {
+        console.log("reset");
+      },
+      error: function () {
+        console.log("Cannot reset");
+      },
+    });
   }
 
   // Open nav amd Close
@@ -403,3 +423,63 @@ const headerObserver = new IntersectionObserver(stickyNav, {
 });
 
 headerObserver.observe(header);
+
+function generateTemplateNotif(data) {
+  let markUp = "";
+
+  data.forEach((list) => {
+    markUp += `
+        <li class="notif-item hiddens">
+          <a class="divider" href="${
+            path +
+            "php/update/upd-notif-clicked.php?notif_id=" +
+            list.tbl_notif_id
+          }">
+            <div>
+              <p class="divider-grow">${list.message}</p>
+              <p class="notif-time">${list.created_at}</p>
+            </div>
+            <span class="${list.is_read == 0 ? "isRead" : ""}"></span>
+          </a>
+        </li>
+    `;
+  });
+
+  return markUp;
+}
+
+function getMessage() {
+  $.ajax({
+    type: "post", //hide url
+    url: `${path}php/request/req-notification.php`, //your form validation url
+    // data: $(".form-login").serialize(),
+    dataType: "json",
+    success: function (data) {
+      // console.log(data);
+
+      document.querySelector(".notif-list").innerHTML =
+        generateTemplateNotif(data);
+
+      let notifNum = data.filter((x) => x.is_read == 0).length;
+
+      if (notifNum == 0) {
+        document.querySelector(".notif-num-container").classList.add("hidden");
+      } else {
+        document
+          .querySelector(".notif-num-container")
+          .classList.remove("hidden");
+        document.querySelector(".notif-num-container").innerHTML = `
+        <p class="notif-num">${notifNum}</p>
+        `;
+      }
+    },
+    error: function () {
+      console.log("ERROR at getting notification");
+    },
+    complete: function () {
+      setTimeout(getMessage, 3000);
+    },
+  });
+}
+
+getMessage();

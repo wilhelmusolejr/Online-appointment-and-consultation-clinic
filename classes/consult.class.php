@@ -214,11 +214,11 @@ class consult {
 
   // List of pending appointments
   function getListOfPendingAppoint() {
-    $sql = "SELECT * FROM `tbl_pending_appoint_rnd` as pending_appoint INNER JOIN 
-    tbl_transact_appoint as transact_appoint ON pending_appoint.transact_id =
-     transact_appoint.transact_id INNER JOIN tbl_transact_appoint_consult as appoint_consult
-      ON appoint_consult.appoint_id = transact_appoint.appoint_id WHERE rnd_id = :rnd_id AND status
-       = 'CURRENT';";
+    $sql = "SELECT * FROM `tbl_pending_appoint_rnd` as pending_appoint 
+    INNER JOIN tbl_transact_appoint as transact_appoint ON pending_appoint.transact_id = transact_appoint.transact_id 
+    INNER JOIN tbl_transact_appoint_consult as appoint_consult ON appoint_consult.appoint_id = transact_appoint.appoint_id 
+    INNER JOIN tbl_transact_appoint_client on tbl_transact_appoint_client.appoint_id = transact_appoint.appoint_id 
+    WHERE rnd_id = :rnd_id AND status = 'CURRENT';";
     $query=$this->db->connect()->prepare($sql);
 
     $query->bindParam(':rnd_id', $this-> rnd_id);

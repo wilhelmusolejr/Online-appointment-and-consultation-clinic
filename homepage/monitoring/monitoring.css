@@ -577,3 +577,14 @@ main input {
 .food-intake-parent .fa-trash {
   font-size: 1.8rem;
 }
+
+.card-data {
+  margin-top: 10px;
+}
+.card-data p {
+  font-size: 1.5rem;
+}
+
+.card-red {
+  background-color: rgb(118, 61, 61);
+}

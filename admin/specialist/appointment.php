@@ -43,6 +43,14 @@
     integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+
+  <!-- DATA TABLES -->
+  <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.5.1.js" defer></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js" defer></script>
+
+  <script src="table.js" defer></script>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin</title>
 </head>
@@ -58,7 +66,7 @@
 
         <div class="divider-no-border table-tool-parent">
 
-          <form action="<?php echo $current_page ?>" method="get" class="search-parent">
+          <form action="<?php echo $current_page ?>" method="get" class="search-parent hidden">
             <input type="text" name="search_text" placeholder="Search patient"
               value="<?php echo isset($_GET['search_text']) ? $_GET['search_text'] : null ?>">
             <button type="submit" class="button button-primary">SEARCH</button>
@@ -70,7 +78,7 @@
           </a>
         </div>
 
-        <table class="table">
+        <table id="example" class="table display">
           <thead>
             <tr>
               <th>ID</th>
@@ -91,8 +99,8 @@
               ?>
             <tr>
               <!-- always use echo to output PHP values -->
-              <td class="table-id"><a target="_blank"
-                  href="<?php echo $path."../profile/profile.php?profile-id=".$personel['user_id'] ?>">#<?php echo $personel['user_id'] ?></a>
+              <td class="table-id"><a class="button button-small button-primary"
+                  href="<?php echo $path."../profile/profile.php?profile-id=".$personel['user_id'] ?>">View profile</a>
               </td>
               <td class="table-patient-img"><img src="<?php echo $path."../uploads/".$img ?>" alt=""></td>
               <td><?php echo $personel['first_name']." ".$personel['last_name'] ?></td>

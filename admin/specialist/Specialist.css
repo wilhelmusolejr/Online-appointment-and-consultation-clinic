@@ -276,15 +276,6 @@
 .button:hover {
   opacity: 0.9;
 }
-a.button {
-  width: 100%;
-  padding: 10px;
-  margin: 8px 0;
-  border-radius: 6px;
-  box-sizing: border-box;
-  border: 0;
-  text-decoration: none;
-}
 
 .active {
   background-color: #3a7e58;
@@ -420,7 +411,7 @@ th {
   border: 1px solid;
   text-align: center;
 }
-td a {
+/* td a {
   padding: 5px 10px;
   font-size: 12px;
   border-radius: 5px;
@@ -428,7 +419,7 @@ td a {
   text-decoration: none;
   text-transform: uppercase;
   color: white;
-}
+} */
 
 a.action-delete {
   background-color: red;

@@ -154,3 +154,7 @@ function getPendingAppoint() {
 }
 
 getPendingAppoint();
+
+$(document).ready(function () {
+  $("#example").DataTable();
+});

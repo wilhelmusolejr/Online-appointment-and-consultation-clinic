@@ -132,10 +132,17 @@ function changeBoardProgress(currentPage) {
 const boardSets = boardContainer.querySelectorAll(".board-page");
 const boardProgress = boardContainer.querySelector(".board-progress");
 
+const setOfTabSet = boardContainer.querySelector(".tabset");
+const eachTab = setOfTabSet.querySelectorAll("input[name='tabset']");
+
+console.log(eachTab);
+
+const tabsName = ["tab1", "tab2", "tab3", "tab4"];
+
 boardContainer.addEventListener("click", function (e) {
   let currentBoardPage = getActiveBoard();
 
-  // console.log(e.target);
+  console.log(e.target);
   // console.log(document.querySelector("select[name='metric']"));
   // console.log($("select[name='metric']").val());
 
@@ -165,6 +172,32 @@ boardContainer.addEventListener("click", function (e) {
       checkBoxFamilyCondition.checked = true;
     } else {
       checkBoxFamilyCondition.checked = false;
+    }
+  } catch (error) {
+    console.log("aww");
+  }
+
+  // -------------------------------
+  try {
+    if (
+      e.target.closest(".button-tab-next").classList.contains("button-tab-next")
+    ) {
+      for (let i = 0; i < tabsName.length; i++) {
+        let target = 0;
+
+        if (i == 3) {
+          target = -1;
+        } else {
+          target = i;
+        }
+
+        if (setOfTabSet.querySelector(`#${tabsName[i]}`).checked) {
+          setOfTabSet.querySelector(`#${tabsName[i]}`).checked = false;
+          console.log(target);
+          setOfTabSet.querySelector(`#${tabsName[target + 1]}`).checked = true;
+          break;
+        }
+      }
     }
   } catch (error) {
     console.log("aww");

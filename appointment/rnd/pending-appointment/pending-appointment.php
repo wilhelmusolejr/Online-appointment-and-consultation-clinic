@@ -45,11 +45,12 @@
         <section class="pending-appoint-parent sizing-secondary text-center">
 
           <div class="pending-appoint-container flex-center grid-container">
-            <table>
+            <table id="example" class="display">
               <thead>
                 <tr class="text-uppercase">
                   <th>Appointment number</th>
                   <th>Nutrional Concern</th>
+                  <th>Sex</th>
                   <th>Appointment date</th>
                   <th>Action</th>
                 </tr>

@@ -117,6 +117,7 @@ function generatePendingMarkUp(data) {
     markUp += `<tr>
           <td class="appointment-number">#${appoint.transact_id}</td>
           <td>${appoint.chief_complaint}</td>
+          <td>${appoint.gender == 1 ? "Male" : "Female"}</td>
           <td>${appoint.appoint_date} ${appoint.appoint_time}</td>
           <td>
               <div class="button-parent flex-center">
@@ -138,6 +139,8 @@ function getPendingAppoint() {
     dataType: "json",
     async: false,
     success: function (data) {
+      console.log(data);
+
       document.querySelector("tbody").innerHTML = generatePendingMarkUp(data);
     },
     error: function () {
@@ -150,3 +153,7 @@ function getPendingAppoint() {
 }
 
 getPendingAppoint();
+
+$(document).ready(function () {
+  $("#example").DataTable();
+});

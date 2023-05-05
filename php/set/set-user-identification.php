@@ -2,8 +2,14 @@
 $path = "../../";
 
 require_once $path.'classes/user.class.php';
+require_once $path.'classes/notification.class.php';
+require_once $path.'classes/email.class.php';
 
 session_start();
+
+$mail = new mail;
+$user = new user;
+$notification = new notification;
 
 $result = array("response"=> 1,"message" => null);
 
@@ -39,7 +45,6 @@ if($result['response'] == 0) {
   exit();
 }
 
-$user = new user;
 $user -> user_id = $_SESSION['user_loggedIn']['user_id'];
 $user -> id_image = $fileName;
 $user -> id_status = "PENDING";
@@ -54,6 +59,31 @@ if($isExist) {
 } else {
   $res = $user -> setUploadId();
 }
+
+$userData = $_SESSION['user_loggedIn'];
+
+// EMAIL 
+$mail -> receiver = $userData['email'];
+$mail -> subject = "WMSU Dietitian | ID Verification Submitted";
+$mail -> content = "<div class='container-message-parent'>
+<br>
+<p>Dear Mr/Ms ".$userData['last_name'].",</p>
+<p>We have received your ID verification request.
+Please wait for further updates regarding the
+verification process.</p>
+<br>
+</div>";
+$mail -> body = $mail -> finalTemplate();
+
+$mail -> sendingEmail();
+
+
+// IN-APP NOTIFICATION
+$notification -> user_id = $_SESSION['user_loggedIn']['user_id'];
+$notification -> message = "We have received your ID Verification request.";
+$notification -> link = "profile/profile.php?profile-id=".$_SESSION['user_loggedIn']['user_id'];   
+$notification -> sendNotification();
+
 
 echo json_encode($result);
 exit();
