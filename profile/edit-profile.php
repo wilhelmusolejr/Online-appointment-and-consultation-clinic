@@ -67,6 +67,11 @@
             </div>
             <?php } ?>
 
+
+
+
+
+
             <!-- Profile image -->
             <div class="form-input-box profile-image input-one">
               <label for="account-type" class="text-capital">Profile image</label>
@@ -74,6 +79,17 @@
               <p class="form-error-message"></p>
             </div>
           </div>
+
+          <?php if($_SESSION['user_loggedIn']['user_privilege'] == "rnd") { ?>
+          <!-- account type -->
+          <div class="form-input-box profile-image input-one">
+            <label for="profile_image">Communication link </label>
+            <input type="text" id="communication_link" name="communication_link"
+              placeholder="https://meet.google.com/uiz-mywk-ghb" value="https://meet.google.com/uiz-mywk-ghb">
+          </div>
+          <?php } ?>
+
+
         </div>
 
         <!-- Personal Info -->

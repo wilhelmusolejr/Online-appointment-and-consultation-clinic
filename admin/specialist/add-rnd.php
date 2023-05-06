@@ -114,9 +114,9 @@
     <i class='bx bx-menu'></i>
     <span class="text">MANAGE INSTRUCTOR</span>
 
-    <div class="modal-parent">
+    <div class="modal-parents">
       <!-- modal container -->
-      <div class="modal-container">
+      <div class="modal-containers">
         <!-- modal header -->
         <div class="modal-header text-uppercase">
           <h2>Add instructor</h2>

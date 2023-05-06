@@ -997,7 +997,7 @@ $(".form-request-monitor").on("submit", function (e) {
     type: "POST", //hide url
     url: `../../../php/set/set-request-monitoring.php`, //your form validation url
     data: $(".form-request-monitor").serialize(),
-    // dataType: "json",
+    dataType: "json",
     success: function (data) {
       if (data) {
         console.log(data);

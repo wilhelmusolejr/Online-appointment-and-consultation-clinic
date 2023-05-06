@@ -102,7 +102,6 @@
           $isExisting = array('client_status' => "BLANK");
         }
       }
-
     }
 
     // getConsultInfo()
@@ -681,6 +680,7 @@
             <!-- middle -->
             <div>
 
+
               <?php switch($isExisting['client_status']) {
                 case "BLANK":
                   $target = "Request for monitoring";
@@ -690,6 +690,9 @@
                   break;
                 case "PENDING":
                   $target = "Pending monitoring";
+                  break;
+                case "DECLINED":
+                  $target = "Declined monitoring";
                   break;
               } ?>
 
