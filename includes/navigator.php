@@ -69,7 +69,7 @@
         </li>
       </ul>
 
-      <div class="notif-show-all text-center hidden">
+      <div class="notif-show-all text-center hiddens">
         <a class='text-uppercase' href="<?php echo $path."notification/notification.php" ?>">See all</a>
       </div>
     </div>

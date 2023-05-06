@@ -1447,6 +1447,7 @@ td {
 }
 
 .notif-item .isRead {
+  display: block;
   width: 15px;
   height: 15px;
 
@@ -1457,4 +1458,18 @@ td {
 
 .button-small {
   padding: 5px 10px;
+}
+
+.notif-show-all {
+  position: sticky;
+  width: 100%;
+  bottom: 0;
+}
+
+.notification-page-container .isRead {
+  position: absolute;
+  top: 50%;
+  right: 5%;
+
+  transform: translateY(-50%);
 }
