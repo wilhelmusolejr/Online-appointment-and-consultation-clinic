@@ -1,6 +1,6 @@
 "use strict";
 
-const { Chart } = require("chart.js");
+// const { Chart } = require("chart.js");
 
 let path = "../";
 

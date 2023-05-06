@@ -1,4 +1,6 @@
 <?php
+    date_default_timezone_set('Asia/Manila');
+
     // navigator variable
     $page_title = "";
     $home = "";

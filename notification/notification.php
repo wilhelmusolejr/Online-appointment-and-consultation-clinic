@@ -38,7 +38,13 @@
       <h2 class="text-uppercase">Notification</h2>
     </div>
 
+
     <div class="notification-page-container flex-center grid-container">
+
+      <div class="markreadall text-right">
+        <a class="text-uppercase" href="<?php echo $path."php/update/upd-mark-all-notif.php" ?>">Mark read as all</a>
+      </div>
+
       <ul class="notif-list">
         <?php foreach($notification as $notif) { ?>
         <li class="notif-item"><a href="<?php echo $path.$notif['link'] ?>">

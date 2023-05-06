@@ -1461,7 +1461,7 @@ td {
 }
 
 .notif-show-all {
-  position: sticky;
+  position: absolute;
   width: 100%;
   bottom: 0;
 }
@@ -1472,4 +1472,17 @@ td {
   right: 5%;
 
   transform: translateY(-50%);
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+.markreadall {
+  width: 80%;
+}
+
+.markreadall a {
+  color: black;
+  text-decoration: underline;
 }

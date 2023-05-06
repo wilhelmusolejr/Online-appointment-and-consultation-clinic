@@ -29,6 +29,18 @@ Class notification{
     return false;
   }
 
+  function markAllNotifRead() {
+    $sql = "UPDATE tbl_notification SET is_read = 1 WHERE user_id = :user_id";
+    $query = $this->db->connect()->prepare($sql);
+
+    $query->bindParam(':user_id', $this-> user_id);
+
+    if($query -> execute()) {
+      return true;
+    }
+    return false;
+  }
+
   function getLink() {
     $sql = "SELECT * FROM tbl_notification WHERE tbl_notif_id = :tbl_notif_id";
     $query=$this->db->connect()->prepare($sql);
