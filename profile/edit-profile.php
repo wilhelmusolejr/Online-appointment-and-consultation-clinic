@@ -19,6 +19,8 @@
   if(isset($_GET['profile-id'])) {
     $user -> user_id = $_GET['profile-id'];
     $userData = $user -> getUserData();
+
+    $link = $user -> getCommunicationLink();
   }
 
   // print_r($userData);
@@ -67,11 +69,6 @@
             </div>
             <?php } ?>
 
-
-
-
-
-
             <!-- Profile image -->
             <div class="form-input-box profile-image input-one">
               <label for="account-type" class="text-capital">Profile image</label>
@@ -85,7 +82,7 @@
           <div class="form-input-box profile-image input-one">
             <label for="profile_image">Communication link </label>
             <input type="text" id="communication_link" name="communication_link"
-              placeholder="https://meet.google.com/uiz-mywk-ghb" value="https://meet.google.com/uiz-mywk-ghb">
+              placeholder="https://meet.google.com/uiz-mywk-ghb" value="<?php echo $link['videocall_link'] ?>">
           </div>
           <?php } ?>
 

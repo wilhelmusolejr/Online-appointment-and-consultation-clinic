@@ -67,6 +67,9 @@ require_once $path.'../classes/appoint.class.php';
               <tr>
                 <th>APPOINTMENT NUMBER</th>
                 <th>NUTRIONAL CONCERN</th>
+                <th>FULL NAME</th>
+                <th>Sex</th>
+                <th>Age</th>
                 <th>APPOINTMENT DATE</th>
                 <th>REFERRAL FORM</th>
                 <th>MEDICAL FORM</th>

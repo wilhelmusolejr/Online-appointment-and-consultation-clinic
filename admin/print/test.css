@@ -1,0 +1,31 @@
+table,
+td,
+th {
+  border: 1px solid;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+td {
+  padding: 10px;
+}
+
+thead td {
+  text-align: center;
+
+  padding: 10px 0;
+}
+
+.client-pic {
+  max-width: 100%;
+  height: 300px;
+
+  border-radius: 20px;
+}
+
+.client-pic-parent {
+  text-align: center;
+}

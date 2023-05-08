@@ -582,6 +582,7 @@ Class appoint{
         INNER JOIN tbl_transact_appoint ON tbl_transact.transact_id = tbl_transact_appoint.transact_id 
         INNER JOIN tbl_transact_appoint_consult as appoint_consult ON tbl_transact_appoint.appoint_id = appoint_consult.appoint_id 
         INNER JOIN tbl_transact_appoint_checkpoint_appoint_status as ck_pending_appoint ON tbl_transact.transact_id = ck_pending_appoint.transact_id 
+        INNER JOIN tbl_user_profile ON tbl_user_profile.user_id = tbl_transact.user_id 
         WHERE ck_pending_appoint.appoint_status = 'PENDING' ORDER BY tbl_transact.transact_id DESC;";
         $query=$this->db->connect()->prepare($sql);
 

@@ -65,6 +65,10 @@ document.querySelector("#example").addEventListener("click", function (e) {
         modalClient.querySelector(".modal-body tbody").innerHTML =
           generateMarkUpRow(approvedAppoint);
 
+        modalClient.querySelector(
+          ".print-button"
+        ).href = `${path}admin/print/rnd.php?user_id=${targetId}`;
+
         let appointStatChart = document.querySelector("#stat");
 
         let statusConfig = {

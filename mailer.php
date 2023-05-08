@@ -2,14 +2,17 @@
 $path = "";
 require_once "classes/email.class.php";
 require_once "classes/notification.class.php";
+require_once "classes/user.class.php";
 
 session_start();
 
+$user = new user;
+$user -> user_id = 3;
+$result = $user -> getCommunicationLink();
 
-$notification = new notification;
+print_r($result); 
 
-$notification -> user_id = 1;
-$notification -> message = "Your RND requested a monitoring for the appointment #".$_SESSION['transact_id'];
-$notification -> link = $path."homepage/consultation/consultation.php?transact_id=".$_SESSION['transact_id'];   
-$notification -> sendNotification();
+
+
+
 ?>

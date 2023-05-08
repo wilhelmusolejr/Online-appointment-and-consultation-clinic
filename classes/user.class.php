@@ -34,6 +34,8 @@ Class user{
 
     public $transact_id;
 
+    public $videocall_link;
+
     public $receiveNotifEmail;
 
 
@@ -539,6 +541,47 @@ Class user{
             return true;
         }
         return false;
+    }
+
+    function setCommunicationLink() {
+        $sql = "INSERT INTO `tbl_user_videocall` (`videocall_id`, `user_id`, `videocall_link`) 
+        VALUES (NULL, :user_id, :videocall_link)";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':user_id', $this-> user_id);
+        $query->bindParam(':videocall_link', $this-> videocall_link);
+
+        if($query -> execute()) {
+            return true;
+        }
+        return false;
+    }
+
+    function updateCommunicationLink() {
+        $sql = "UPDATE `tbl_user_videocall` 
+        SET `videocall_link` = :videocall_link 
+        WHERE `tbl_user_videocall`.`user_id` = :user_id;";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':user_id', $this-> user_id);
+        $query->bindParam(':videocall_link', $this-> videocall_link);
+
+        if($query -> execute()) {
+            return true;
+        }
+        return false;
+    }
+
+    function getCommunicationLink() {
+        $sql = "SELECT * FROM tbl_user_videocall WHERE user_id = :user_id";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':user_id', $this-> user_id);
+
+        if($query->execute()){
+            $data = $query->fetch();
+        }
+        return $data;
     }
 }
 

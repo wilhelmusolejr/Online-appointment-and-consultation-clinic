@@ -16,7 +16,6 @@
   $fileError = ['response' => 1, "message" => null];
   $emailError = ['response' => 1, "message" => null];
 
-
   $isRegistered = 0;
   if(isset($_POST['submit'])) {
     $target = "profile_image";
@@ -56,6 +55,8 @@
       $user -> contact = $_POST['phone_num'];
       $user -> gender = $_POST['gender'];
       $user -> birthdate = $_POST['birthdate'];
+
+      $user -> videocall_link = $_POST['communication_link'];
       
       $user -> email = $_POST['email_add'];
       $user -> pass = $_POST['password'];
@@ -64,6 +65,8 @@
       $resultOne = $user -> register();
 
       if($resultOne) {
+          $user -> setCommunicationLink();
+
         // good
           $firstName = $_SESSION['user_loggedIn']['first_name'];
           $lastName = $_SESSION['user_loggedIn']['last_name'];
@@ -171,11 +174,11 @@
             <div class="input-parent radio-parent">
               <label for="gender">Gender <span>*</span></label>
               <div>
-                <input type="radio" id="gender_male" name="gender" value="male" checked required>
+                <input type="radio" id="gender_male" name="gender" value="1" checked required>
                 <label for="gender_male">Male</label><br>
               </div>
               <div>
-                <input type="radio" id="gender_female" name="gender" value="femail" required>
+                <input type="radio" id="gender_female" name="gender" value="2" required>
                 <label for="gender_female">Female</label><br>
               </div>
             </div>

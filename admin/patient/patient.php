@@ -140,6 +140,11 @@
           </tbody>
         </table>
       </div>
+
+
+      <div class="print-button-parent">
+        <a target="_blank" class="button button-primary print-button" href="#">PRINT</a>
+      </div>
     </div>
   </div>
 

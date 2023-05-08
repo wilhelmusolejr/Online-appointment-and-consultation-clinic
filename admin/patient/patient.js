@@ -103,6 +103,11 @@ document.querySelector("#example").addEventListener("click", function (e) {
           </tbody>
         </table>
     `;
+
+        modalClient.querySelector(
+          ".print-button"
+        ).href = `${path}admin/print/client.php?user_id=${targetId}`;
+
         modalClient.querySelector(".modal-body tbody").innerHTML =
           generateMarkUpRow(appointData);
 
@@ -169,7 +174,7 @@ document.querySelector("#example").addEventListener("click", function (e) {
 
         $("#client_table").DataTable();
 
-        new Chart(appointStatChart, statConfig);
+        new Chart(appointStatChart, wstatConfig);
         new Chart(appointStatusChart, statusConfig);
       },
       error: function () {
