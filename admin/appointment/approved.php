@@ -55,26 +55,30 @@
             <th>CHIEF COMPLAINT</th>
             <th>APPOINTMENT DATE</th>
             <th>PATIENT NAME</th>
-            <th>DOCTOR NAME</th>
+            <th>RND NAME</th>
             <th>Status</th>
           </tr>
         </thead>
         <tbody>
-          <?php foreach($approvedAppoint as $appoint) { 
-              
-              // $img = $patient['profile_img'] == null ? "dummy_user.jpg" : $patient['profile_img'];
-              // $idStatus = $patient['id_status'] == null ? "UNVERIFIED" : $patient['id_status'];
-              
+          <?php foreach($approvedAppoint as $item) { 
+            $appoint -> transact_id = $item['transact_id'];
+            $result = $appoint -> getRndFromTransactId();
+
+            if(!isset($result['first_name'])) {
+              $result['first_name'] = "UNAVAILABLE";
+              $result['last_name'] = "";
+            }
+
               ?>
           <tr class="hiddens">
             <td class="table-id">
-              <p>#<?php echo $appoint['transact_id'] ?></p>
+              <p>#<?php echo $item['transact_id'] ?></p>
             </td>
-            <td><?php echo $appoint['chief_complaint'] ?></td>
-            <td><?php echo $appoint['appoint_date_submitted'] ?></td>
-            <td><?php echo $appoint['first_name']." ".$appoint['last_name'] ?></td>
-            <td><?php echo $appoint['contact'] ?></td>
-            <td><?php echo $appoint['board_page'] == 5 ? "Completed" : "Ongoing" ?></td>
+            <td><?php echo $item['chief_complaint'] ?></td>
+            <td><?php echo $item['appoint_date_submitted'] ?></td>
+            <td><?php echo $item['first_name']." ".$item['last_name'] ?></td>
+            <td><?php echo $result['first_name']." ".$result['last_name'] ?></td>
+            <td><?php echo $item['board_page'] == 5 ? "Completed" : "Ongoing" ?></td>
           </tr>
           <?php } ?>
 

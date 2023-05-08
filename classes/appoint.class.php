@@ -814,6 +814,21 @@ Class appoint{
         }
         return false;
     }
+
+    function getRndFromTransactId() {
+        $sql = "SELECT * FROM `tbl_transact` 
+        INNER JOIN tbl_transact_consult ON tbl_transact_consult.transact_id = tbl_transact.transact_id 
+        INNER JOIN tbl_user_profile ON tbl_user_profile.user_id = tbl_transact_consult.rnd_id 
+        WHERE tbl_transact.transact_id = :transact_id;";
+        $query=$this->db->connect()->prepare($sql);
+
+        $query->bindParam(':transact_id', $this-> transact_id);
+
+        if($query->execute()){
+            $result = $query->fetch();
+        }
+        return $result;
+    }
 }
 
 ?>
