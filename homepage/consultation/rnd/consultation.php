@@ -421,8 +421,7 @@
               <div class="form-input-box virtual-room-container">
                 <div class="container-header text-center flex-center text-uppercase">
                   <p>in virtual room</p>
-                  <a href="https://www.youtube.com/watch?v=vvFSVIy1Nqs" target="_blank"
-                    class="button button-join mini-button">JOIN</a>
+                  <a href="#" target="_blank" class="button button-join mini-button">JOIN</a>
                 </div>
                 <div class="list-schedule">
                   <ul>
