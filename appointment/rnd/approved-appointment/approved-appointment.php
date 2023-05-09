@@ -10,7 +10,7 @@
   require_once $path.'classes/consult.class.php';
 
   require_once $path.'tools/variables.php';
-  $page_title = "Pending appointment";
+  $page_title = "Approved Appointment";
   
   $approved = "active";
 

@@ -6,7 +6,7 @@
 
     require_once $path."classes/user.class.php";
     require_once $path.'tools/variables.php';
-    $page_title = "Consultation";
+    $page_title = "Medical Professionals";
     $rnds = 'nav-current';
 
     require_once $path.'includes/starterOne.php';

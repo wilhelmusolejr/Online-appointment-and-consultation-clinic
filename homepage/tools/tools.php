@@ -3,7 +3,7 @@
 
 
     require_once '../../tools/variables.php';
-    $page_title = "Consultation";
+    $page_title = "Tools";
     $tools = 'nav-current';
     $path = "../../"  ;
 

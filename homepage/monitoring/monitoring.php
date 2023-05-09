@@ -58,6 +58,8 @@
     // print_r($monitoringData['desirable_body_weight']);
   }
 
+  $page_title = $_SESSION['user_loggedIn']['first_name']." | #".$monitor -> monitor_id." Monitoring";
+
   require_once $path.'includes/starterOne.php';
 ?>
 <link rel="stylesheet" href="<?php echo $path."homepage/index.css"?>" />

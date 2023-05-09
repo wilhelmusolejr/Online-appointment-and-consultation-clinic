@@ -11,7 +11,7 @@
   require_once $path.'classes/monitor.class.php';
 
   require_once $path.'tools/variables.php';
-  $page_title = "Pending appointment";
+  $page_title = "Approved Monitoring History";
 
   $approved = "active";
 

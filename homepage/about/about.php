@@ -3,7 +3,7 @@
 
     $path = "../../";
     require_once $path.'tools/variables.php';
-    $page_title = "Homepage";
+    $page_title = "About Us";
     $about = "nav-current";
 
     require_once $path.'includes/starterOne.php';
