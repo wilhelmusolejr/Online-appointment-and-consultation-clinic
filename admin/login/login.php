@@ -7,8 +7,8 @@
         //creating an array for list of users can login to the system
         $accounts = array(
             "user1" => array(
-                "username" => 'wilhelmus',
-                "password" => 'wilhelmus'
+                "username" => 'admin',
+                "password" => 'admin'
             ),
             "user2" => array(
                 "username" => 'charity',

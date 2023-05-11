@@ -94,8 +94,8 @@
               <div class="form-input-box">
                 <label for="account-type" class="text-capital">Account type<span>*</span></label>
                 <select id="account-type" required name="account-type">
-                  <option value="">--</option>
-                  <option value="Student" selected>Student</option>
+                  <option value="none" selected>--</option>
+                  <option value="Student">Student</option>
                   <option value="Faculty">Faculty</option>
                   <option value="Guest">Guest</option>
                   <option value="Alumni">Alumni</option>
@@ -136,12 +136,12 @@
                 <label for="gender" class="text-capital">Gender <span>*</span></label>
                 <div class="gender-con radio-box flex-center">
                   <div>
-                    <input type="radio" id="reg-male" name="gender" required value="Male"
+                    <input type="radio" id="reg-male" name="gender" required value="1"
                       <?php echo isset($userData['gender']) == "male" ? "checked":""?>>
                     <label for="reg-male">Male</label>
                   </div>
                   <div>
-                    <input type="radio" id="reg-female" name="gender" required checked value="Female"
+                    <input type="radio" id="reg-female" name="gender" required value="2"
                       <?php echo isset($userData['gender']) == "female" ? "checked":""?>>
                     <label for="reg-female">Female</label>
                   </div>
@@ -151,8 +151,7 @@
               <!-- birth date -->
               <div class="form-input-box">
                 <label for="birthdate" class="text-capital">Birthdate <span>*</span></label>
-                <input type="date" name="birthdate" required value="2001-01-01" id="birthdate"
-                  max="<?php echo date("Y-m-d") ?>">
+                <input type="date" name="birthdate" required id="birthdate" max="<?php echo date("Y-m-d") ?>">
                 <p class="form-error-message hidden">Error</p>
               </div>
             </div>
@@ -167,8 +166,7 @@
               <!-- Mobile -->
               <div class="form-input-box">
                 <label for="reg-mob" class="text-capital">Mobile number <span>*</span></label>
-                <input type="text" name="reg-mob" value="099999999" id="reg-mob" required
-                  placeholder="Enter your mobile number">
+                <input type="text" name="reg-mob" id="reg-mob" required placeholder="Enter your mobile number">
                 <p class="form-error-message hidden">Error</p>
               </div>
               <!-- Email -->
@@ -190,8 +188,7 @@
               <!-- first name -->
               <div class="password form-input-box">
                 <label for="reg-pass" class="text-capital">Password <span>*</span></label>
-                <input type="password" name="reg-pass" id="reg-pass" value="Qw09058222!" required
-                  placeholder="Enter your password">
+                <input type="password" name="reg-pass" id="reg-pass" required placeholder="Enter your password">
                 <p class="form-error-message"></p>
 
               </div>
@@ -199,7 +196,7 @@
               <div class="confirm-password form-input-box">
                 <label for="reg-pass-confirm" class="text-capital">Confirm Password <span>*</span></label>
                 <input type="password" name="reg-pass-confirm" id="reg-pass-confirm" required
-                  placeholder="Confirm your password" value="Qw09058222!">
+                  placeholder="Confirm your password">
                 <p class="form-error-message"></p>
               </div>
             </div>

@@ -73,20 +73,20 @@ foodTabParent.addEventListener("click", function (e) {
       <!-- time -->
       <div class="form-input-box input-two ">
         <label for="food-bf-time">Time <span>*</span></label>
-        <input type='time' name="food-bf-time[]" value="02:00">
+        <input type='time' name="food-bf-time[]" >
       </div>
 
       <!-- food consumed -->
       <div class="form-input-box input-two ">
         <label for="food-bf-consume">Food consumed <span>*</span></label>
-        <input type='text' name="food-bf-consume[]" value="food consume test 1">
+        <input type='text' name="food-bf-consume[]" >
         <p class="form-error-message hidden">Error</p>
       </div>
 
       <!-- Amount -->
       <div class="form-input-box input-two ">
         <label for="food-amount">Amount <span>*</span></label>
-        <input type="text" name="food-amount[]" value="1">
+        <input type="text" name="food-amount[]" >
         <p class="form-error-message hidden">Error</p>
       </div>
 
@@ -105,7 +105,7 @@ foodTabParent.addEventListener("click", function (e) {
       <!-- Method of preparation -->
       <div class="form-input-box input-two ">
         <label for="food-time">Method of preparation <span>*</span></label>
-        <input type='text' name="food-bf-method[]" id="food-time" value="method test">
+        <input type='text' name="food-bf-method[]" id="food-time">
         <p class="form-error-message hidden">Error</p>
       </div>
 

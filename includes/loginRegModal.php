@@ -146,8 +146,8 @@
               <div class="form-input-box">
                 <label for="account-type" class="text-capital">Account type<span>*</span></label>
                 <select id="account-type" required name="account-type">
-                  <option value="">--</option>
-                  <option value="Student" selected>Student</option>
+                  <option value="none" selected>--</option>
+                  <option value="Student">Student</option>
                   <option value="Faculty">Faculty</option>
                   <option value="Guest">Guest</option>
                   <option value="Alumni">Alumni</option>
@@ -166,8 +166,7 @@
               <!-- first name -->
               <div class="form-input-box">
                 <label for="firstname" class="text-capital">First name <span>*</span></label>
-                <input type="text" name="firstname" id="firstname" required placeholder="Enter your first name"
-                  value="<?php echo rand(10,1000) ?>">
+                <input type="text" name="firstname" id="firstname" required placeholder="Enter your first name">
                 <!-- <p class="form-error-message hidden">Error</p> -->
               </div>
               <!-- middle name -->
@@ -179,8 +178,7 @@
               <!-- last name -->
               <div class="form-input-box">
                 <label for="lastname" class="text-capital">Last name <span>*</span></label>
-                <input type="text" name="lastname" id="lastname" required placeholder="Enter your last name"
-                  value="Tame">
+                <input type="text" name="lastname" id="lastname" required placeholder="Enter your last name">
                 <!-- <p class="form-error-message hidden">Error</p> -->
               </div>
               <!-- gender -->
@@ -188,11 +186,11 @@
                 <label for="gender" class="text-capital">Sex <span>*</span></label>
                 <div class="gender-con radio-box flex-center">
                   <div>
-                    <input type="radio" id="reg-male" name="gender" checked required value="Male" checked>
+                    <input type="radio" id="reg-male" name="gender" checked required value="1">
                     <label for="reg-male">Male</label>
                   </div>
                   <div>
-                    <input type="radio" id="reg-female" name="gender" required value="Female">
+                    <input type="radio" id="reg-female" name="gender" required value="2">
                     <label for="reg-female">Female</label>
                   </div>
                 </div>
@@ -201,8 +199,7 @@
               <!-- birth date -->
               <div class="form-input-box">
                 <label for="birthdate" class="text-capital">Birthdate <span>*</span></label>
-                <input type="date" name="birthdate" required id="birthdate" max="<?php echo date("Y-m-d") ?>"
-                  value="<?php echo rand(1980, 2010) ?>-05-02">
+                <input type="date" name="birthdate" required id="birthdate" max="<?php echo date("Y-m-d") ?>">
                 <!-- <p class="form-error-message hidden">Error</p> -->
               </div>
             </div>
@@ -217,15 +214,13 @@
               <!-- Mobile -->
               <div class="form-input-box">
                 <label for="reg-mob" class="text-capital">Mobile number <span>*</span></label>
-                <input type="text" name="reg-mob" id="reg-mob" value="093434343" required
-                  placeholder="Enter your mobile number">
+                <input type="text" name="reg-mob" id="reg-mob" required placeholder="Enter your mobile number">
                 <p class="form-error-message hidden">Error</p>
               </div>
               <!-- Email -->
               <div class="form-input-box">
                 <label for="reg-email" class="text-capital">Email address <span>*</span></label>
-                <input type="email" name="reg-email" id="reg-email" value="<?php echo rand(15,355)."@testdummy.com"?> "
-                  required placeholder="Enter your middle name">
+                <input type="email" name="reg-email" id="reg-email" required placeholder="Enter your middle name">
                 <p class="form-error-message"></p>
               </div>
             </div>
@@ -240,14 +235,13 @@
               <!-- first name -->
               <div class="password form-input-box">
                 <label for="reg-pass" class="text-capital">Password <span>*</span></label>
-                <input type="password" name="reg-pass" id="reg-pass" value="Qw0905!Dummy" required
-                  placeholder="Enter your password">
+                <input type="password" name="reg-pass" id="reg-pass" required placeholder="Enter your password">
                 <p class="form-error-message"></p>
               </div>
               <!-- middle name -->
               <div class="confirm-password form-input-box">
                 <label for="reg-pass-confirm" class="text-capital">Confirm Password <span>*</span></label>
-                <input type="password" name="reg-pass-confirm" value="Qw0905!Dummy" id="reg-pass-confirm" required
+                <input type="password" name="reg-pass-confirm" id="reg-pass-confirm" required
                   placeholder="Confirm your password">
                 <p class="form-error-message"></p>
               </div>
@@ -257,7 +251,7 @@
           <!-- remember me baby -->
           <div class="remember-form form-group">
             <div class="form-input-parent">
-              <input type="checkbox" name="reg-terms" id="reg-terms" checked required>
+              <input type="checkbox" name="reg-terms" id="reg-terms" required>
               <label for="reg-terms" class="cursor-pointer">I agree to the <a target="_blank" class="hiddens"
                   href="<?php echo $path."terms-condition.php" ?>">Terms of
                   Services and Privacy Policy</a>.</label>

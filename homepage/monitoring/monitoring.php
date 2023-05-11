@@ -1096,7 +1096,7 @@
                       <div class="form-input-box input-two">
                         <label for="current_body_weight">Current Body Weight <span>*</span></label>
                         <input type='number' name="current_body_weight" id="current_body_weight"
-                          placeholder="Enter your desirable body weight" value="10" required>
+                          placeholder="Enter your desirable body weight" value="<?php echo $inputWeight ?>" required>
                         <p class="form-error-message hidden">Error</p>
                       </div>
                     </div>
@@ -1145,20 +1145,20 @@
                               <!-- time -->
                               <div class="form-input-box input-two ">
                                 <label for="food-bf-time">Time <span>*</span></label>
-                                <input type='time' name="food-bf-time[]" value="09:00">
+                                <input type='time' name="food-bf-time[]" ">
                               </div>
 
                               <!-- food consumed -->
-                              <div class="form-input-box input-two ">
-                                <label for="food-bf-consume">Food consumed <span>*</span></label>
-                                <input type='text' name="food-bf-consume[]" value="food consume test 1">
+                              <div class=" form-input-box input-two ">
+                                <label for=" food-bf-consume">Food consumed <span>*</span></label>
+                                <input type='text' name="food-bf-consume[]">
                                 <p class="form-error-message hidden">Error</p>
                               </div>
 
                               <!-- Amount -->
                               <div class="form-input-box input-two ">
                                 <label for="food-amount">Amount <span>*</span></label>
-                                <input type="text" name="food-amount[]" value="1">
+                                <input type="text" name="food-amount[]">
                                 <p class="form-error-message hidden">Error</p>
                               </div>
 
@@ -1177,7 +1177,7 @@
                               <!-- Method of preparation -->
                               <div class="form-input-box input-two ">
                                 <label for="food-time">Method of preparation <span>*</span></label>
-                                <input type='text' name="food-bf-method[]" id="food-time" value="method test">
+                                <input type='text' name="food-bf-method[]" id="food-time">
                                 <p class="form-error-message hidden">Error</p>
                               </div>
 
@@ -1484,8 +1484,7 @@
 
                           <!-- Endomorph -->
                           <div>
-                            <input type="radio" checked id="body-type-endomorph" name="physical_action"
-                              value="sedentary">
+                            <input type="radio" id="body-type-endomorph" name="physical_action" value="sedentary">
                             <label for="body-type-endomorph">Sedentary</label>
                           </div>
                           <!-- Ectomorph -->
@@ -1629,7 +1628,7 @@
                         <label for="supplement_name">Are you taking any nutrional supplements?
                           <span>*</span></label>
                         <input type="text" name="supplement_name" id="supplement_name" placeholder="E.g Ascorbic Acid"
-                          value="supplement test">
+                          value="<?php echo $sampleText  ?>">
                         <p class="form-error-message hidden">Error</p>
                       </div>
                     </div>

@@ -14,17 +14,19 @@
 
     $page_name = "WMSU Dietitian Consult";
 
+    // 
+    $isWithValue = false;
+
     // iputs 
-    $multipleInputSample = "Test1, test2";
-    $isSelected = true;
-    $isRadio = true;
-    $sampleText = "Test";
-    $randomDate = "2023-10-10";
-    $randomTime = "10:10:00";
+    $multipleInputSample = $isWithValue ? "Test1, test2" : "";
+    $isSelected = $isWithValue ? true : false;
+    $isRadio = $isWithValue ? true : false;
+    $sampleText = $isWithValue ? "Test" : "";
+    $randomDate = $isWithValue ? "2023-10-10" : "";
+    $randomTime = $isWithValue ? "10:10:00" : "";
 
-    $inputWeight = 90;
-    $inputHeight = 150;
-
+    $inputWeight = $isWithValue ? 90 : "";
+    $inputHeight = $isWithValue ? 150 : "";
     
     $multipleInputMessage = "Put comma in between for multiple inputs. Eg. \"Example1, Example2\".";
     $tootTipWeight = "Weight in kilogram";
